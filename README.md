@@ -1,13 +1,26 @@
 # APB UART UVM 功能验证
 
+[![UART verification](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/workflows/verification.yml/badge.svg)](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/workflows/verification.yml)
+
 基于 PULP Platform 开源 APB UART，自建双 Agent 验证环境、独立参考模型、功能覆盖率和自动回归，并维护单独的 RTL 缺陷修复版。
 
-**已执行真实 UVM 仿真，修复版最终回归 45/45 通过。** 实测工具为 Verilator 5.054、Accellera UVM 2020.3.1、Ubuntu 24.04 WSL2。Questa/VCS 入口已提供；没有把它们列为已运行工具。
+**已执行真实 UVM 仿真：核心回归 45/45、RAL 专项 3/3 通过。** 实测工具为 Verilator 5.054、Accellera UVM 2020.3.1、Ubuntu 24.04 WSL2。Questa/VCS 入口已提供；没有把它们列为已运行工具。
+
+本项目可直接演示的特色：
+
+- **DLAB 感知的 RAL**：普通/分频双 map，frontdoor 锁住多拍 APB 切换并恢复真实 LCR；显式 predictor 按观测到的 bank 更新 mirror。覆盖复位、随机读写、并发访问与地址镜像，见 [RAL 实现](tb/ral/README.md)。
+- **实测检查器负向对照**：4 类运行时故障全部触发预期 checker，6 次注入前/后干净控制均通过；不修改第三方 RTL，也不把超时或崩溃算作检出。
+- **可审阅的缺陷闭环**：原版严格需求失败与修复版通过并列保存；独立双向引脚比对、周期级 FIFO 模型、coverage.dat 和源码摘要均可核对。
+- **真实开源工具 CI**：固定官方工具与 Action 提交，运行核心回归、故障检出和 RAL，保存原始产物。徽章连接实际 workflow 状态。
+
+[开源项目对标](docs/industry_benchmark.md) · [广州岗位与面试演示](docs/guangzhou_interview.md) · [GitHub Actions](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions)
 
 | 最终修复版指标 | 实测值 |
 | --- | ---: |
 | 测试场景 × seed | 15 × 3（1、2、3） |
 | UVM 回归 | 45/45 PASS，ERROR/FATAL 均为 0 |
+| RAL 追加专项 | 3/3 PASS，4 个存储寄存器、每 seed 12 轮随机访问 |
+| 检查器受控故障 | 4/4 检出，6/6 干净对照通过 |
 | Scoreboard TX / RX 比对 | 1,039 / 1,216 帧，合计 2,255 帧 |
 | 功能 bins 未加权命中率 | 272/277，98.19% |
 | 帧格式 × 波特周期交叉 | 96/96，100% |
