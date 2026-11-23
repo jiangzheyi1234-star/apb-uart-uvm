@@ -1,2 +1,7 @@
+* text=auto eol=lf
+*.png binary
+*.zip binary
+*.dat binary
+docs/evidence/** -text
 rtl/*.sv text eol=lf
 third_party/apb_uart_sv/* text eol=lf
