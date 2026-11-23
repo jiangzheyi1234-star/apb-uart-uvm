@@ -1,0 +1,7 @@
+COMMAND ["/var/tmp/apb-uart-uvm-workspace/.tools/verilator/bin/verilator", "--binary", "--timing", "--assert", "--top-module", "tb_top", "--timescale", "1ns/1ps", "--Mdir", "/var/tmp/apb-uart-uvm-build-fixed/obj_dir", "-o", "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top", "-j", "2", "-Wno-fatal", "+define+UVM_NO_DPI", "+define+UVM_REGEX_NO_DPI", "+incdir+/var/tmp/apb-uart-uvm-workspace/tb", "+incdir+/var/tmp/apb-uart-uvm-workspace/tb/apb_agent", "+incdir+/var/tmp/apb-uart-uvm-workspace/tb/uart_agent", "+incdir+/var/tmp/apb-uart-uvm-workspace/tb/scoreboard", "+incdir+/var/tmp/apb-uart-uvm-workspace/tb/coverage", "+incdir+/var/tmp/apb-uart-uvm-workspace/tb/env", "+incdir+/var/tmp/apb-uart-uvm-workspace/tb/seq", "+incdir+/var/tmp/apb-uart-uvm-workspace/tb/test", "+incdir+/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src", "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/uvm_pkg.sv", "-f", "/var/tmp/apb-uart-uvm-workspace/sim/files_fixed.f", "--coverage", "--trace"]
+make: Entering directory '/var/tmp/apb-uart-uvm-build-fixed/obj_dir'
+make: Nothing to be done for 'default'.
+make: Leaving directory '/var/tmp/apb-uart-uvm-build-fixed/obj_dir'
+- V e r i l a t i o n   R e p o r t: Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123
+- Verilator: Built from 0.000 MB sources in 0 modules, into 0.000 MB in 0 C++ files needing 0.000 MB
+- Verilator: Walltime 0.301 s (elab=0.000, cvt=0.000, bld=0.201); cpu 0.082 s on 2 threads; allocated 8.875 MB

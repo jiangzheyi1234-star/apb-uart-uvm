@@ -1,0 +1,1479 @@
+[
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\report.json",
+    "role": "regression_report",
+    "sha256": "6fac7026514751907b3e32c1246bd6cddaad63a0c060dd500079b5d580ae3cbb",
+    "bytes": 265609,
+    "bundled_path": "inputs/000_report.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\source_snapshot.json",
+    "role": "build_time_source_manifest",
+    "sha256": "bd7d5297a7924fd4ffaf06a1c8b2dc731d5a97391dce154024233acbb5d54245",
+    "bytes": 33291,
+    "bundled_path": "inputs/001_source_snapshot.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\stage_origin.json",
+    "role": "verified_ascii_stage_origin_map",
+    "sha256": "3441243e617427018f657e1645fa6f75015ff671c52a85282def70cdd7412749",
+    "bytes": 149548,
+    "bundled_path": "inputs/002_stage_origin.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\build\\build_0.log",
+    "role": "build_log",
+    "sha256": "ecbe85e329247e5794cf4fc242b51b7d5383f520ee7c9cb3a1c85795a666fb3f",
+    "bytes": 1477,
+    "bundled_path": "inputs/003_build_0.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\build\\version.log",
+    "role": "simulator_version_log",
+    "sha256": "e4625df101052a2f71783d582dfda52a149e0d3e01464f5b5dd24a82bb53cc98",
+    "bytes": 142,
+    "bundled_path": "inputs/004_version.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_smoke_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "adef74147583afab5d1fbee66849d359ac6e7c7f8d9526c2ed797cfe63d51864",
+    "bytes": 3191,
+    "bundled_path": "inputs/005_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_smoke_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "e74c4d3e5647790f82dcafe545acb07ef7eaf4f16589ea20caf88373e2201e7f",
+    "bytes": 899090,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_smoke_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "4d92c10a7e7a7a7fde4bf7a32167cb9b372aa68c61f277ff1af28c121b943fc1",
+    "bytes": 3191,
+    "bundled_path": "inputs/007_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_smoke_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "6fb218a0fa93059b5aeb3323f813c0ab00f77c166e9c8c5a06fab6177dfd7c5c",
+    "bytes": 899936,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_smoke_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "bc992da7d41ffbed4d4a464271725b1ee5ff119e570985e360aed699432ac093",
+    "bytes": 3191,
+    "bundled_path": "inputs/009_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_smoke_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "7784485efc6a27812118dc5c102ca46482bd509fbde9e6ea3134042f845758db",
+    "bytes": 899593,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_fifo_boundary_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "4540249b4e9132eb33525f1c110d771e497903f3f64c793148dbcc8b8c125f68",
+    "bytes": 3234,
+    "bundled_path": "inputs/011_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_fifo_boundary_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "3382c9cc05ef0888727758603cc74d1b0bf33be01661b4ec966cab588c48aeeb",
+    "bytes": 1428083,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_fifo_boundary_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "f8459ff5857555f39e7a9e56edb608d061e3f11521a0c229d3c4190ec8e9f331",
+    "bytes": 3234,
+    "bundled_path": "inputs/013_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_fifo_boundary_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "ac86b8a39f103083d5cac3ecef978e15a67f56ca90295edfb8ba6b768d2da06f",
+    "bytes": 1428201,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_fifo_boundary_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "90ea4fdeb7677b10fb85fc030f6c306f070b75c6cb300a1805d6cf011623315d",
+    "bytes": 3234,
+    "bundled_path": "inputs/015_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_fifo_boundary_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "79e57a295b973e7035778a614728f6287b688b6f5a0bba920c07a7a0c403af1d",
+    "bytes": 1428242,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "72e1aa7e9aa0d5ba390ec546519ca045bf6929eb14125320f532c38c6759d014",
+    "bytes": 3182,
+    "bundled_path": "inputs/017_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "4a62f9a88c148e95fc247cc1366a5f0de2550255bf77bd0b8d9f76bf669bcf79",
+    "bytes": 90900,
+    "bundled_path": "inputs/018_waves.vcd"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "c60897a6cadff22078c0fc4c2b6553d6cfad1c791fb94e0339cca7b9d7137252",
+    "bytes": 3182,
+    "bundled_path": "inputs/019_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "889904c3eaf41f42c89104e3b6bedd68c93978ae730b57a79a261f5e4ffd239d",
+    "bytes": 90900,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "d9f6108d3b97063102b05c8cf8bad0be77e45c8e5b6a07dd53a0ef9eb5d83ca1",
+    "bytes": 3182,
+    "bundled_path": "inputs/021_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "0229c2b5c8b9228b8a3c028bb06655e87f30c8b8babe9aaf77d04d69ca6a8d45",
+    "bytes": 90900,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_reset_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "31b6e7aca66c6b6fd3fb411c1a6f7b01c868f3428967a91c1cdfcafbb13dea5a",
+    "bytes": 3177,
+    "bundled_path": "inputs/023_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_reset_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "d77a589751b3bdba475a501be7883c3e85efa9831884118c5972460351070870",
+    "bytes": 55407,
+    "bundled_path": "inputs/024_waves.vcd"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_reset_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "ca43cf0538b53646f3d10d51bb05a1e7c841acb273959b93578562c82fef5766",
+    "bytes": 3177,
+    "bundled_path": "inputs/025_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_reset_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "d3706433b143bc83db6fad862418947d7aa3489411bf5f0d64992e42da803830",
+    "bytes": 55407,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_reset_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "4f077638b12e8965cfce132fd7125a73143affb5db0d608125b4945c98e966dd",
+    "bytes": 3177,
+    "bundled_path": "inputs/027_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_reset_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "8b2a1e34b03a92fae7a4a5087dbe01f13cce03682bcc0ad9a4e8f94ede614304",
+    "bytes": 55407,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_tx_overflow_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "e8a5626a8897e09527689b9163f5a2d82b69993a3abe60568120f01fe50d5732",
+    "bytes": 3222,
+    "bundled_path": "inputs/029_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_tx_overflow_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "86d661aace571a100d1b45ac26df3d553afbb08bb616935a9746b090c4f56555",
+    "bytes": 1980327,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_tx_overflow_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "11c2631ecafbd410e304a28e941fa01a3081d00dc0e5135b447c31441fd7e513",
+    "bytes": 3222,
+    "bundled_path": "inputs/031_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_tx_overflow_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "4ba2c3af2435662306cc67107f85c57c9837d63218269e85f035893a203839a0",
+    "bytes": 1980327,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_tx_overflow_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "911f1a4b7ee8bdf12c7820d1c695913431b5d2f7bcd3e93ee188ab52b27b62b7",
+    "bytes": 3222,
+    "bundled_path": "inputs/033_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_tx_overflow_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "62faeed88fc4a587b71399bf83e44b854ee5a18d041a3769c5ca3fc2fb164707",
+    "bytes": 1980327,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_rx_retention_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "fd683b4cae5a0ee53aa3f62b85be03e9258a63ee085be6327c2a5c18253e3aa3",
+    "bytes": 3220,
+    "bundled_path": "inputs/035_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_rx_retention_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "3cb4b6c186e092959157eda0ce55acdc651e5ef2719090808126edf2f4b8b62a",
+    "bytes": 423048,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_rx_retention_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "b9dfc21d087110dfeece16ff9e4f5281129b9fc5607eb3d7b6111c15b76b8147",
+    "bytes": 3220,
+    "bundled_path": "inputs/037_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_rx_retention_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "c40f7463b409ebf3a1e3dc223f5f93a4996a7aa475e7cece53c348443a043bb6",
+    "bytes": 423048,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_rx_retention_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "d57df4cfdf83f6748bc4141fc42f41abc5fa2ff411018d0bfe35616e2fc3fe32",
+    "bytes": 3220,
+    "bundled_path": "inputs/039_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_rx_retention_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "68a98366622c71a42a16c8cf7880f16808b4295f2631af934e967f83ea732484",
+    "bytes": 423048,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_empty_read_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "75520a0e5557e1ff01cc20a7dbd451e2ae26703df428c802866307fd805139d2",
+    "bytes": 3207,
+    "bundled_path": "inputs/041_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_empty_read_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "ea6a8cce9f497ca6de1dbd33b6a8668b540bec74cc00cecec8c8ce7898c334e9",
+    "bytes": 85380,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_empty_read_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "0fc758253f42942fd0d24dd7c4d3cdee9a58da1a103d6542367a116eb2d44eac",
+    "bytes": 3207,
+    "bundled_path": "inputs/043_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_empty_read_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "9e954a6b9c238b14043f1c83d9eb33ee06a08d85c1ca2ce8af4ab6d1a0c02945",
+    "bytes": 85380,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_empty_read_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "b27d8d28d4e5a16575a3abbb5a6bff6321d67ca9d2051166657087bb16956f55",
+    "bytes": 3207,
+    "bundled_path": "inputs/045_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_empty_read_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "bbb59714efa2e03c6d3cb2578a867f7f12fab68d3fe66a1cbccbceece71e3029",
+    "bytes": 85380,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_address_mirror_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "c3b7a28f89fd021b463e53b555c20f36dccee9bb72d61b6562d600a306cf1cca",
+    "bytes": 3222,
+    "bundled_path": "inputs/047_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_address_mirror_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "01bf7af86e6b61896ed545e03869ac07832953e8f43ec8e96e1d838964d48a8f",
+    "bytes": 71083,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_address_mirror_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "5641f970b426e91c08c9bdd8c2c5536fbfff2c0d96bac8b01456727d18370d10",
+    "bytes": 3222,
+    "bundled_path": "inputs/049_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_address_mirror_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "cf4c1a1b7cf4b794a0a9c08d697352afda9ffcc9c976e430cb758c1fefdd51ae",
+    "bytes": 71083,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_address_mirror_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "ef7d6ff13c7d088dd7cecd7702ebc83f31903f2d4cadf890f1464fd95dbc5fc0",
+    "bytes": 3222,
+    "bundled_path": "inputs/051_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_address_mirror_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "9c5d4a049b10d6c55571c4faba3c69b62f164c87a3a9ebcd385fc078e1594e34",
+    "bytes": 71083,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_parity_requirement_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "baad52cc7a3dc55c96ec21ec89048489596372d2865116dc1d2ec48b3cffa496",
+    "bytes": 3243,
+    "bundled_path": "inputs/053_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_parity_requirement_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "cddde223fb63bc0c0a272ba0eefa56fb08aaa022076985e71a2e88986bfc7487",
+    "bytes": 69624,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_parity_requirement_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "5a1cf2b41b31cf658c00b3f1f8dcb122ed18282f246dcf935821f1f4527d9b29",
+    "bytes": 3243,
+    "bundled_path": "inputs/055_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_parity_requirement_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "f6a0df1bd2f8ddac9c975223de6794b23fdb07b4af81c414729bcc65d3bdcd70",
+    "bytes": 69624,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_parity_requirement_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "946d7b64316bbe2b2ddd5c3e9399d1f56bba7dfdbd2af44ce1f67bdecc755349",
+    "bytes": 3243,
+    "bundled_path": "inputs/057_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_parity_requirement_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "4f8692a9d90bd031136199119df222d6ca20aa867a9d8409b8721b53f7404ca1",
+    "bytes": 69624,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_framing_requirement_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "16a86cd8ac8daaf67dc6592fc6043ee12fe5284f37ce5419826f1b51da75726f",
+    "bytes": 3247,
+    "bundled_path": "inputs/059_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_framing_requirement_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "18a0e711b724654c338d0a52f1ba39eebdc318284d3b365ce62f4e0fae86430f",
+    "bytes": 63591,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_framing_requirement_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "2cdcebb22e8f0767047621929613b4c59e939a24d70d44b93074fe53786fd07c",
+    "bytes": 3247,
+    "bundled_path": "inputs/061_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_framing_requirement_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "a312d693abab18a4b294d39997d7a04449d0ea2cfad66b4888959058b9c429ed",
+    "bytes": 63591,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_framing_requirement_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "0c53e55e74370375c6c9f340dcd006a0f62db174f06a684209b320a3fe35e34b",
+    "bytes": 3247,
+    "bundled_path": "inputs/063_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_framing_requirement_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "2db3e0b9b8c172e0bd32427a830f41a4817d2163b1587a74e08000b37b1d4edf",
+    "bytes": 63591,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_association_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "dd72e6de66e75fb147226f70e61d6aed2f27e882ba5b61130c3046d01220762b",
+    "bytes": 3242,
+    "bundled_path": "inputs/065_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_association_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "651eb26426f7fc568853bbd8242965fabd6a9af377de7ddb4aff3bb9c56e9081",
+    "bytes": 110976,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_association_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "8e3bddb4fb99da3a3c6a97d1b7fd1c43fa96e8d635ed51a1e1f35a906e09f76e",
+    "bytes": 3242,
+    "bundled_path": "inputs/067_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_association_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "84ab5114fbe50d3ca355b2b7266c1f979bcc063614912ed0c0a73aa21041848c",
+    "bytes": 110976,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_association_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "2ba23a2ed0140c6241112cca628cbbbc4c0525d03091c50e906d88dc04cd7fd0",
+    "bytes": 3242,
+    "bundled_path": "inputs/069_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_association_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "737d5e110c8f2b9f9a8cdf4acb5ac30cb5f94dbd0be4563803d4fd694f806af5",
+    "bytes": 110976,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "bf597730e65126191cb38b3aad72aaccff0fde270e17b0cb3a302c1149bb11c0",
+    "bytes": 3180,
+    "bundled_path": "inputs/071_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "1f1579ccd1eb6633af1b84ae846ca8f2a5630552bada229b6d8cca2c4008e53e",
+    "bytes": 892056,
+    "bundled_path": "inputs/072_waves.vcd"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "2be891193354b3cc0fcbc775e0e399549d16f429e38630131c0abb87b5b8267b",
+    "bytes": 3180,
+    "bundled_path": "inputs/073_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "7227706c961506683ac14dd3b91d475fbfffe35439400a685f942bb0fdbb8e8d",
+    "bytes": 892056,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "f86a094cf45bf2f31f407137344bcb864fd1b6089124717e1180aeb80fd90b13",
+    "bytes": 3180,
+    "bundled_path": "inputs/075_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "c5deb7fcab41845543006dd4798721363972e9f30fc77c2551c5c9ee463f26ed",
+    "bytes": 892056,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_requirement_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "98ac3f6dec6295b6b3cfe681183298ac4f2bafd8d9e09ce2bff16f045da5e559",
+    "bytes": 3240,
+    "bundled_path": "inputs/077_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_requirement_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "1f1579ccd1eb6633af1b84ae846ca8f2a5630552bada229b6d8cca2c4008e53e",
+    "bytes": 892056,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_requirement_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "f96b5da244beb7a5a10094e6956e57bc19995da85119f726cddae1d2d19b12af",
+    "bytes": 3240,
+    "bundled_path": "inputs/079_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_requirement_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "7227706c961506683ac14dd3b91d475fbfffe35439400a685f942bb0fdbb8e8d",
+    "bytes": 892056,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_requirement_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "cfd415f1ee601d9ac7136a0ff47f6876917b13accf03138a59f42ab4ab64c812",
+    "bytes": 3240,
+    "bundled_path": "inputs/081_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_requirement_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "c5deb7fcab41845543006dd4798721363972e9f30fc77c2551c5c9ee463f26ed",
+    "bytes": 892056,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_random_stress_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "806a604ac175316f3b0440d5ddaca2a5590ceeb125687b015b69fe2882669f01",
+    "bytes": 6244,
+    "bundled_path": "inputs/083_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_random_stress_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "233272053b35c68deb1f1344a052056f244f44aa359270c573484e70c2c44500",
+    "bytes": 6891858,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_random_stress_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "ef7df57b2098de7dfed78afe32e21ebd6c65f73d2704b96f04a007dceebdf733",
+    "bytes": 6252,
+    "bundled_path": "inputs/085_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_random_stress_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "12513ee8c4a5cc2bb149f54b617cae94e7fc375b8347c7cfe203efd9ebfaff8b",
+    "bytes": 7904750,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_random_stress_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "a0093ec832396d5b3b4a8afc0d7111944e34dee29f3e8d90086e6e95abe479d3",
+    "bytes": 6244,
+    "bundled_path": "inputs/087_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_random_stress_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "dec7581b3ccd57e5a94167ca74987db7ec3de5edd5a1f6e0f746e9590684d08f",
+    "bytes": 6411172,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_baud_sweep_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "f11db21a5e9d7a12ade2f547e82140abd1bdf6339385fbe8d9366e293ed8f5cb",
+    "bytes": 3216,
+    "bundled_path": "inputs/089_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_baud_sweep_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "4702548b04978f8d55540dda5f88b6a9c71f22270e1659f338c0c6fbf8d7c767",
+    "bytes": 1880804,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_baud_sweep_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "4af99b67c78a1bffb1d55714bb2bf4cfd8ac770df5d4fc9c34dd2d288feecec4",
+    "bytes": 3216,
+    "bundled_path": "inputs/091_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_baud_sweep_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "2f11a91f03021b45b06167b17f7b0e6464cab20c09d16f9c88881707ba35e8db",
+    "bytes": 1880804,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_baud_sweep_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "85bce07bb06ec0876f6c95d3e05eae08b78f55141dd553dab06a5dd7a68a8842",
+    "bytes": 3216,
+    "bundled_path": "inputs/093_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_baud_sweep_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "5d469e1e757b9890a4887083a73e6fcb0b5adf6827a0c888817921a51225ed62",
+    "bytes": 1880804,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\coverage\\coverage_summary.json",
+    "role": "measured_coverage_summary",
+    "sha256": "b5cd9cc5a54bed89d8136de566ab3a7c024595c8eace14a55cce69707307c4e7",
+    "bytes": 154103,
+    "bundled_path": "inputs/095_coverage_summary.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\coverage\\merged.dat",
+    "role": "coverage_merged_database",
+    "sha256": "6c674274cd1641edc8805a2dffbf9da620cb540bd0d68bd13c0e02f74f9ddcd0",
+    "bytes": 7558896,
+    "bundled_path": "inputs/096_merged.dat"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\coverage\\coverage.info",
+    "role": "coverage_lcov",
+    "sha256": "f5cd20bbd6c9af565fb0c485fc8ca75336181ab700cd06166b1378ad4893fdfa",
+    "bytes": 1464680,
+    "bundled_path": "inputs/097_coverage.info"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\report.json",
+    "role": "regression_report",
+    "sha256": "90811c9158daa8103781e5e05a40bf411bf6265263351393ec4552cc7d0fb095",
+    "bytes": 270291,
+    "bundled_path": "inputs/098_report.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\source_snapshot.json",
+    "role": "build_time_source_manifest",
+    "sha256": "67861eb2a8128b2fe8a176c479b5bfc1da7a75b9a30cbe3e1744da6bc8a20715",
+    "bytes": 33258,
+    "bundled_path": "inputs/099_source_snapshot.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\stage_origin.json",
+    "role": "verified_ascii_stage_origin_map",
+    "sha256": "44f976a02bf111dde6357294ce1bc45334da59dfa74e13d95484d97b5b708a4f",
+    "bytes": 149561,
+    "bundled_path": "inputs/100_stage_origin.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\build\\build_0.log",
+    "role": "build_log",
+    "sha256": "60f1f42a1a771fbbf1386d217446db6e9fe74240730208741825efbd4032b6ea",
+    "bytes": 307602,
+    "bundled_path": "inputs/101_build_0.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\build\\version.log",
+    "role": "simulator_version_log",
+    "sha256": "e4625df101052a2f71783d582dfda52a149e0d3e01464f5b5dd24a82bb53cc98",
+    "bytes": 142,
+    "bundled_path": "inputs/102_version.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_smoke_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "03cede43e074faef15a782aad18afab30d161a3cd511b1a93473c66dea032c26",
+    "bytes": 3184,
+    "bundled_path": "inputs/103_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_smoke_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "3f75948343f04aa3e91a3151f0987c992f6021f236187f38a6082260892bbcc3",
+    "bytes": 913179,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_smoke_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "59fbfb55b98d2f1ad169aa3a2fec50335805d1956fcbf525b31434f7accf2309",
+    "bytes": 3184,
+    "bundled_path": "inputs/105_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_smoke_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "27a739dadfd932ac80c2233f88a2ffa52c5aa7afef89feb1224894d0f1a21ab3",
+    "bytes": 914047,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_smoke_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "c836af920b3d3efcae3e172de9fe69f2cd39d7467e65f64e334fe35bf885dc0e",
+    "bytes": 3184,
+    "bundled_path": "inputs/107_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_smoke_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "5b51d08a451056a29f546598b983296cf1fa3824c6c5727e815bbacda9bd6817",
+    "bytes": 913680,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_fifo_boundary_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "992ea0a2fec75a1eadddb96eeee8e80e78360d653416679ea483493d68aea54c",
+    "bytes": 3227,
+    "bundled_path": "inputs/109_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_fifo_boundary_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "634a51653f291484dbd430e4c15469e5d27ce0b416634b4620bbe8fa2ff45fea",
+    "bytes": 1439423,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_fifo_boundary_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "4c11a68c2d12852710e2f6defd772794eb7db9b0125c764c795e9f5b42ab9605",
+    "bytes": 3227,
+    "bundled_path": "inputs/111_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_fifo_boundary_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "e692a5abf662048b5a2ae23ca5253456afc88c06e351a2b3862b56d7ad4c8855",
+    "bytes": 1439590,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_fifo_boundary_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "f118e36d8430cd69c09f5f21e93741045716459d39d7c9f87a587f3f8ca82049",
+    "bytes": 3227,
+    "bundled_path": "inputs/113_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_fifo_boundary_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "e62e173f6f41755763e0228d6b2148abfa857db549189fddde6a881623d6f9f5",
+    "bytes": 1439711,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "a86c9f1ea38b4b8b041d955c528c3a80789a2a1e868077cfc11edcb20aa898c9",
+    "bytes": 3396,
+    "bundled_path": "inputs/115_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "85491a317f027ecd11096dae672a2086ff6b1e9182d54f66487c7e9654108694",
+    "bytes": 92582,
+    "bundled_path": "inputs/116_waves.vcd"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "9f68e53a93f00f004c911c50aca40ff731e831f4aba7f50d5b601cf5a3da0222",
+    "bytes": 3396,
+    "bundled_path": "inputs/117_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "b122b82f3fbb9e5aedb39c5c4f74bfc292cd949b64ce21a9791f8544abd3eee2",
+    "bytes": 92582,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "3dda5e8fd02df0ce2a36060993c44ddd88ecc99b105f44430760f40ff4a7f2e2",
+    "bytes": 3396,
+    "bundled_path": "inputs/119_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "59fb453d563c4023e636a84be54dd15df48199fca7778ab2a12d1e6a640ec378",
+    "bytes": 92582,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_reset_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "b60b68e5c258822d971b39c25b74ead4f7835c3aefc4699bca1874d4a496acd1",
+    "bytes": 3170,
+    "bundled_path": "inputs/121_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_reset_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "afa42234d7c27f8b24b2aa54d90d02b0b63384c7acaa9c86a6b940b6fe9af829",
+    "bytes": 56178,
+    "bundled_path": "inputs/122_waves.vcd"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_reset_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "2d0c79a951617046dfbc4a732cb003c9c7063ce4a8bfcd03ebfd5183a313cf4b",
+    "bytes": 3170,
+    "bundled_path": "inputs/123_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_reset_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "2eff885a9e25e131d8d338518feb9ad39c9ad1bd9463dfa8d50cb4b6ffab974c",
+    "bytes": 56178,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_reset_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "358ded9c5a6d361dd21b60bf9a5a717b76e956981b231d520efa2245e0ac714b",
+    "bytes": 3170,
+    "bundled_path": "inputs/125_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_reset_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "f582a2c3a4a98e4214ea20cb1cac1e0b509f8fc306a07ac527fa41d592ef3bf1",
+    "bytes": 56178,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_tx_overflow_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "b95ca515fa7b41854ab325051b5c471c383a4f3aab1926b88dbe13df013caa6f",
+    "bytes": 3215,
+    "bundled_path": "inputs/127_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_tx_overflow_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "c6be57e16f318f26bc3ad16c1fe3c2329ee375ca1914954207bc9cf0cc1b6d6d",
+    "bytes": 1981835,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_tx_overflow_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "c0be86ed60a4ac215aa2ddf66a7ebc4b5e4d2b11dd88017826e55a12243cf27d",
+    "bytes": 3215,
+    "bundled_path": "inputs/129_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_tx_overflow_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "cd5250b495fcd4a40dc83ae177b29f999e160c0676f082928ed83b29a911255d",
+    "bytes": 1981835,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_tx_overflow_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "bf0f4e8bc801c4b2b5752e36411014cf24031523f0866ffd3395f84be92e959b",
+    "bytes": 3215,
+    "bundled_path": "inputs/131_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_tx_overflow_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "c94cb709eb71ba7dd4e48779436e49d1a2486101d9b1916e0eaaff6e6317944f",
+    "bytes": 1981835,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_rx_retention_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "e4eafbb0353c77aa251b174307086452250fbd509dca80e5e643e8654cece7c9",
+    "bytes": 3213,
+    "bundled_path": "inputs/133_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_rx_retention_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "40fb259ffb5d39a5111f612bda098e2efbd3b480755eca4249f8a7e8d47418fb",
+    "bytes": 433424,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_rx_retention_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "3b5afea8d04aa347455beadacd0648cf0dc84874d1579f069eb4267d9da521d6",
+    "bytes": 3213,
+    "bundled_path": "inputs/135_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_rx_retention_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "0cfc79c58f2b2a27f080b6b9870df332362ac0571fe794819b685b77c38eef37",
+    "bytes": 433424,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_rx_retention_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "7b473c70983fa11a2efb6634af796521bcb95eff1e1afd7b6a2069fdb9b991b3",
+    "bytes": 3213,
+    "bundled_path": "inputs/137_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_rx_retention_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "53db21773adf77ef757c49f1635b86e29e74aca28ca59bdf955b32ae3bee233f",
+    "bytes": 433424,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_empty_read_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "2b4fdf57526c022fe386316f892e7b966c299a5e193cfe0a8295e3dea923df5a",
+    "bytes": 3200,
+    "bundled_path": "inputs/139_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_empty_read_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "bd64d19ba99cc31fce019e1edc1eaf9f98f25bddda29ff9f260da18cb3512bec",
+    "bytes": 87034,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_empty_read_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "0e17d52e303e425ff6cdf8480f4b6287fb6b049d1155506c655a725a36731c14",
+    "bytes": 3200,
+    "bundled_path": "inputs/141_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_empty_read_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "d05e9dd1de374f89c19e160c2f5af67819d8ff8da38c89b848165d2379d1c8e9",
+    "bytes": 87034,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_empty_read_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "391c982623a8a72817ce3e1177e35d6e13f658f669caaa4492235c59889262ee",
+    "bytes": 3200,
+    "bundled_path": "inputs/143_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_empty_read_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "00c524686a1e7e4125d83b7b1dd7b1f67f81219a0fd8bb76dfcbb7dd5260f8be",
+    "bytes": 87034,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_address_mirror_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "24c59701d3d56d8cfefb128e57c713a3f098b15295241701d7e444eeecb83725",
+    "bytes": 3215,
+    "bundled_path": "inputs/145_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_address_mirror_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "ce576f914f58bf698fb5dfefafca9acdc700258bc57b1a2502e07c95ed629516",
+    "bytes": 71992,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_address_mirror_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "f012962355dca4c4ca999f12e67c8d249c656560ec81d10e1533a3941a77d271",
+    "bytes": 3215,
+    "bundled_path": "inputs/147_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_address_mirror_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "8cab9b993cf2fa50537da3f1d197092cea8b33110cc2b4fe89b6c0d496bd76bf",
+    "bytes": 71992,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_address_mirror_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "c16277937115f64ddc225a34b5270f52883470b306e8adda57851eb5a9d54662",
+    "bytes": 3215,
+    "bundled_path": "inputs/149_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_address_mirror_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "796bea91ee59f9693415d075841bc91f54a675a1a7cf2992f7ce46387d4b9d5b",
+    "bytes": 71992,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_parity_requirement_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "e6babc584aaf979728d93f160157cd3091ea571c571935e4a94dadfca4cb5450",
+    "bytes": 3207,
+    "bundled_path": "inputs/151_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_parity_requirement_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "c0c49709d6ac93c32355208c73c3ffa5be53d4fed0fbe3093f540925c48b5d3c",
+    "bytes": 70857,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_parity_requirement_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "f2c8c7b4da0475d95e41926510cde2c77a097bf657d8e101baae68d6dd7b53c2",
+    "bytes": 3207,
+    "bundled_path": "inputs/153_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_parity_requirement_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "1b88b41e86d8f207934e4b72c7ca97674396720707cbf14fdcfe517a3ceab289",
+    "bytes": 70857,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_parity_requirement_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "80ae4a445ca1ae34c1fe9d4afa8b21dd7d73813378d27e40fea91a2e4b970adb",
+    "bytes": 3207,
+    "bundled_path": "inputs/155_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_parity_requirement_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "b7ee4ffff54297d3f40dbc027466de09c5258df8765cea33207d396086af56d8",
+    "bytes": 70857,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_framing_requirement_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "38da51d2f1eee89764fa2b26de0157188ec6a345d94475aa3c7836a1cb15109c",
+    "bytes": 3210,
+    "bundled_path": "inputs/157_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_framing_requirement_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "d729652acdec44ee7fe02a3f6e05266669223caf140fa544921c67a61f20e1af",
+    "bytes": 64761,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_framing_requirement_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "31d14acf70053a090fae3cd3b456154ef3f13d848eb2677e040edbe2071f2417",
+    "bytes": 3210,
+    "bundled_path": "inputs/159_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_framing_requirement_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "678f600955ffc1641b377c2f1a7e4d7c572f21f0bf5aaf3ed81a32b674fa6c3d",
+    "bytes": 64761,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_framing_requirement_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "a4b6d5c3dc0f51d26f337bc21cbb1de82a350512d5699fdb56ea5e28c11993fd",
+    "bytes": 3210,
+    "bundled_path": "inputs/161_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_framing_requirement_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "dcac9b7714a671caaade2301df07a77564ab5a52b1f4558396413e33fc557141",
+    "bytes": 64761,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_association_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "167409429edf5eab2f563a243140c2bad3c0865ea8525770ff9f852b4de0a94c",
+    "bytes": 3207,
+    "bundled_path": "inputs/163_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_association_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "3aeaa6a49359e93e59a1b3e794458bb6531e2dc6fe262944d8ab7c0b7e13df7a",
+    "bytes": 112869,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_association_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "280c768d2bc071fb34874a8edcf3a8ce357bc8f346d390131488a7fd7736b0a7",
+    "bytes": 3207,
+    "bundled_path": "inputs/165_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_association_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "589591d6c7ba6b828da96378aac4ff674b7afdb5400005659b6d3c4438ff9228",
+    "bytes": 112869,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_association_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "499a7ef89fa12beeb1261b5795d5f3714fbb4b1fdf204ab41cab223b5ea32b15",
+    "bytes": 3207,
+    "bundled_path": "inputs/167_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_association_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "6ae86c678d2936997b5ac2b5dd091bad46b213a259b172c3e017fdd41796bad3",
+    "bytes": 112869,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "0da9a9d99449043c98202391c20f0f38d7861bacaf842e68bbc01e3971d2058c",
+    "bytes": 3412,
+    "bundled_path": "inputs/169_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "b123e5d959dbe21936fecb8d76188fa214e0ad44cfaa39e23f3b3cfa44bef350",
+    "bytes": 47624,
+    "bundled_path": "inputs/170_waves.vcd"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "1c286fc7a1b3187d5397eccf7eb590f57181b920b02e834a28a86af77b35db46",
+    "bytes": 3412,
+    "bundled_path": "inputs/171_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "387ab04f04f636253fa385010dc721b313c610da3c1987f6d398b75be2a2fba2",
+    "bytes": 47624,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "979df5bd207491726bfb51a3f4ccce007b37d6795a9210b517b830c959abc2ba",
+    "bytes": 3412,
+    "bundled_path": "inputs/173_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "997226365f8906e34406406a86e6550bcbd8251438e0c130643fb67c3eda56b8",
+    "bytes": 47624,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_requirement_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "04072fd45bc4b3ac7e04f9987873caecad477c964261ac504b71863016f1bbbd",
+    "bytes": 12082,
+    "bundled_path": "inputs/175_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_requirement_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "a89c96c09cd31cc57bbb50cbe3d194993901f4ccbac53fc055c5fb77f5559130",
+    "bytes": 910930,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_requirement_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "b74824325d6ad36599dc7c316fa827e8fc036e6a523a269bedf1630944631ec8",
+    "bytes": 12082,
+    "bundled_path": "inputs/177_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_requirement_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "de02ccb580343d30b0742384ec54ed42c4c7567d7f870cb14cc5c98b0519403b",
+    "bytes": 910930,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_requirement_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "f32a2b18d440523a68478fcf656db42c589ff57570daacf3901d23efdfdd78e5",
+    "bytes": 12082,
+    "bundled_path": "inputs/179_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_requirement_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "2e3c8913a72a8a93ade634f56d637f6617a3565c61d8b53e2b80d053bc8cf9f3",
+    "bytes": 910930,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_random_stress_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "fb8c8d6cd3e75e44d0e84787802ed4c5aa5644c005d55fa62f85522371ae04c4",
+    "bytes": 6237,
+    "bundled_path": "inputs/181_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_random_stress_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "77c8b15456dd610496f7c58740b6fdd17214cb52add0db96ee3aad6b24c0ee9a",
+    "bytes": 6963241,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_random_stress_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "2355ed407a94d259b579fe3d71c2c75c6a1634d047f97e69f61f4c86efc2420a",
+    "bytes": 6245,
+    "bundled_path": "inputs/183_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_random_stress_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "6fa7efe1a63d9fd7257ff98fb2c9ae354d0b0afc0005f268ac6e211f5bb26511",
+    "bytes": 7979511,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_random_stress_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "7aceb01b60748429ae1e0ff948a333579d49e8235b21367e2d8d318204413d43",
+    "bytes": 6237,
+    "bundled_path": "inputs/185_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_random_stress_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "ec23a1e352be20cdb909d9a2ae8a81e7566900e69a5d677d0fc9f194ba911e39",
+    "bytes": 6476412,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_baud_sweep_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "6ba6a528e30c11b0e14c24a3977d7504892e7222d6bbca3bbabea33696b64792",
+    "bytes": 3209,
+    "bundled_path": "inputs/187_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_baud_sweep_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "62e1ceba2e13120bfd92364db5e538f0eb711c2146c76daf9addddafba9a568f",
+    "bytes": 1901047,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_baud_sweep_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "9b85f916fdf968fc4fd4665cb958a96f54465b8b3bfab90838d94a6145cb0d4f",
+    "bytes": 3209,
+    "bundled_path": "inputs/189_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_baud_sweep_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "d96ec221977b1c07e16cf6c442639405e391136fe5e5b621dc0ddd5904d96660",
+    "bytes": 1901047,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_baud_sweep_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "39219d4ca3584c4485e07326b654499fcedb0c7f618168d98f09de8b29143c40",
+    "bytes": 3209,
+    "bundled_path": "inputs/191_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_baud_sweep_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "920e7d7ddaea6d47358207c5b959a6aa8fef364bc51d277ddc46451e7438dd47",
+    "bytes": 1901047,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\coverage\\coverage_summary.json",
+    "role": "measured_coverage_summary",
+    "sha256": "8f9fa6b973dbf9d7f1d92ea4e7ccf5ea9225fdcdde66815ee0bf1fa8200a27b1",
+    "bytes": 162368,
+    "bundled_path": "inputs/193_coverage_summary.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\coverage\\merged.dat",
+    "role": "coverage_merged_database",
+    "sha256": "9528cc7518022f06b4bc7bb90b2f3e7f295078cf216f3a4066ffac237ca05f12",
+    "bytes": 7544662,
+    "bundled_path": "inputs/194_merged.dat"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\coverage\\coverage.info",
+    "role": "coverage_lcov",
+    "sha256": "caaba007ff0f9d57a8bf706a8e6f210a6a1a0c06f0098999eec63479f840613e",
+    "bytes": 1462940,
+    "bundled_path": "inputs/195_coverage.info"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\report.json",
+    "role": "regression_report",
+    "sha256": "23a792cedd82fb26bb5cae114b4b243c4ccca51a3de5a0bb73a53b0ac96777e8",
+    "bytes": 297519,
+    "bundled_path": "inputs/196_report.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\source_snapshot.json",
+    "role": "build_time_source_manifest",
+    "sha256": "4afad51fc3c2e4d7283318bb8e90ef185bfcdc2711e386d60dfb646486b181ae",
+    "bytes": 33291,
+    "bundled_path": "inputs/197_source_snapshot.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\stage_origin.json",
+    "role": "verified_ascii_stage_origin_map",
+    "sha256": "59b9281a044ceb696513d2c2d47deeaea180951913987aaa6a2a7c3b9bf52901",
+    "bytes": 148916,
+    "bundled_path": "inputs/198_stage_origin.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\build\\build_0.log",
+    "role": "build_log",
+    "sha256": "3e8f85a9ec4eab60a6f32f7d0bb6f7c660106d1ec4da2c3d54757540f5f08c3e",
+    "bytes": 1477,
+    "bundled_path": "inputs/199_build_0.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\build\\version.log",
+    "role": "simulator_version_log",
+    "sha256": "e4625df101052a2f71783d582dfda52a149e0d3e01464f5b5dd24a82bb53cc98",
+    "bytes": 142,
+    "bundled_path": "inputs/200_version.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_1\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "57c1778c3a5ad588fe705648fd007b8d278c3109799c8d2da7ba9f9865510636",
+    "bytes": 4158,
+    "bundled_path": "inputs/201_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_1\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "f7bac32dd154c085db20fbe7233f66a9ace4170d604c0601d6e0435aafc94c71",
+    "bytes": 145007,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_2\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "4fbed1d243fd58baf946f71b36c0c80f5f3394995a625fd1bf82df58f778f423",
+    "bytes": 4158,
+    "bundled_path": "inputs/203_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_2\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "2eb7d734c005c0791f6469e8f43299c42f268dace31d79dfc14057bf53b6e882",
+    "bytes": 145474,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_3\\simulation.log",
+    "role": "simulation_log",
+    "sha256": "ee8a5dfdf10aaff1b021a87c4354c163768acf753a83c3f7da1c1d580f0543a4",
+    "bytes": 4158,
+    "bundled_path": "inputs/205_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_3\\waves.vcd",
+    "role": "vcd_waveform",
+    "sha256": "a1e27a69feabefef765e93de66b4c1cff2ce0066f6cf083a34be7e6a94de028f",
+    "bytes": 145790,
+    "bundled_path": null
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\coverage\\coverage_summary.json",
+    "role": "measured_coverage_summary",
+    "sha256": "a3f948d1e91f4a7d14df8860d21da50b8e17f52fb13efe41a9f1eb23e9d04289",
+    "bytes": 239364,
+    "bundled_path": "inputs/207_coverage_summary.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\coverage\\merged.dat",
+    "role": "coverage_merged_database",
+    "sha256": "6c0c3a22f263f1d546cc1d17bc531244eca75dcf4fda04cdc1fab80b6d3cacb2",
+    "bytes": 7549529,
+    "bundled_path": "inputs/208_merged.dat"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\coverage\\coverage.info",
+    "role": "coverage_lcov",
+    "sha256": "2ae1a62bf95b7794a3cdce7cc5dc6065440764c50cac820602f1b1c4c43de4ef",
+    "bytes": 1445489,
+    "bundled_path": "inputs/209_coverage.info"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\third_party\\apb_uart_sv\\manifest.json",
+    "role": "source_manifest",
+    "sha256": "a6771562d41ee3b30fca8b7970b65022061dc0d2845176d045eb85e3170cc709",
+    "bytes": 1519,
+    "bundled_path": "inputs/210_manifest.json"
+  }
+]

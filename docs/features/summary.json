@@ -1,0 +1,321 @@
+{
+  "status": "PASS",
+  "generated_utc": "2026-11-23T15:33:54.127326+00:00",
+  "scope": "Audited RAL and four selected checker controls; no exhaustive verification claim",
+  "RAL": {
+    "raw_report": "inputs/007_report.json",
+    "raw_report_sha256": "23a792cedd82fb26bb5cae114b4b243c4ccca51a3de5a0bb73a53b0ac96777e8",
+    "raw_status": "PASS",
+    "provenance": {
+      "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
+      "version_log": "inputs/002_version.log",
+      "binary_sha256_at_execution": "ac747b5eaf2de0acdd560d02d2a9648c207a0025d2e48b346d777775e8ef712c",
+      "binary_bytes": 31239600,
+      "source_snapshot_sha256": "e3c709aea165361daee898ecafa51bdd88d4c089337800133797ca9ab5bff946",
+      "snapshot_input": "inputs/001_source_snapshot.json",
+      "origin_map_input": "inputs/003_stage_origin.json",
+      "build_logs": [
+        "inputs/000_build_0.log"
+      ],
+      "uvm_version": "1800.2 2020.3.1",
+      "upstream": {
+        "repository": "https://github.com/pulp-platform/apb_uart_sv",
+        "commit": "dfad6e04d19cc9481d3cd2750b45b970dc61271b",
+        "manifest_sha256": "a6771562d41ee3b30fca8b7970b65022061dc0d2845176d045eb85e3170cc709"
+      },
+      "uvm_archives": [
+        {
+          "path": "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1.tar.gz",
+          "sha256": "f55bdbc02cc500d4a2f41b31bad127653289eb2073f806ce156fb82662b362b8",
+          "bytes": 729501
+        }
+      ]
+    },
+    "runs": [
+      {
+        "test": "uart_ral_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "uvm": {
+          "error": 0,
+          "fatal": 0
+        },
+        "statistics": {
+          "registers": 4,
+          "random_iterations": 12,
+          "RAL_writes": 56,
+          "mirror_reads": 97,
+          "predicted_normal": 157,
+          "predicted_banked": 187,
+          "resets": 2
+        },
+        "transcript": "inputs/004_simulation.log",
+        "transcript_sha256": "57c1778c3a5ad588fe705648fd007b8d278c3109799c8d2da7ba9f9865510636"
+      },
+      {
+        "test": "uart_ral_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "uvm": {
+          "error": 0,
+          "fatal": 0
+        },
+        "statistics": {
+          "registers": 4,
+          "random_iterations": 12,
+          "RAL_writes": 56,
+          "mirror_reads": 97,
+          "predicted_normal": 157,
+          "predicted_banked": 187,
+          "resets": 2
+        },
+        "transcript": "inputs/005_simulation.log",
+        "transcript_sha256": "4fbed1d243fd58baf946f71b36c0c80f5f3394995a625fd1bf82df58f778f423"
+      },
+      {
+        "test": "uart_ral_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "uvm": {
+          "error": 0,
+          "fatal": 0
+        },
+        "statistics": {
+          "registers": 4,
+          "random_iterations": 12,
+          "RAL_writes": 56,
+          "mirror_reads": 97,
+          "predicted_normal": 157,
+          "predicted_banked": 187,
+          "resets": 2
+        },
+        "transcript": "inputs/006_simulation.log",
+        "transcript_sha256": "ee8a5dfdf10aaff1b021a87c4354c163768acf753a83c3f7da1c1d580f0543a4"
+      }
+    ],
+    "metrics": {
+      "pass_runs": 3,
+      "runs": 3,
+      "configuration_registers": 4,
+      "total_recorded_RAL_writes": 168,
+      "total_recorded_mirror_reads": 291
+    }
+  },
+  "checker_sensitivity": {
+    "raw_report": "inputs/026_mutation_report.json",
+    "raw_report_sha256": "03fd0dca9d6e655628bedc37f2933aa61d0476203be1c69533f0ff5566878cf4",
+    "baseline_raw_report": "inputs/027_report.json",
+    "baseline_raw_report_sha256": "bc7bd5598b4d243acadb1d4dd80e461ef531c258a353f43d1d136329b4917f26",
+    "baseline_logs": [
+      {
+        "test": "uart_smoke_test",
+        "seed": 1,
+        "transcript": "inputs/012_simulation.log",
+        "sha256": "53b7db36c650d2729ed2a2270b704e78dcee61790abbc8304bd2824cdb160f28"
+      },
+      {
+        "test": "uart_parity_requirement_test",
+        "seed": 1,
+        "transcript": "inputs/013_simulation.log",
+        "sha256": "8314c9499caf9b1d3f001d6b94dcd23e2115ee57e14d8b20fdf5624a79aa9de6"
+      },
+      {
+        "test": "uart_irq_requirement_test",
+        "seed": 1,
+        "transcript": "inputs/014_simulation.log",
+        "sha256": "ab9da10a594c53cdd1b70bc071868271ed71dbb0e2508bc2a7ee42c5060c33cc"
+      },
+      {
+        "test": "uart_ral_test",
+        "seed": 1,
+        "transcript": "inputs/015_simulation.log",
+        "sha256": "739572d72462c40d85d48075440b624b7eab448586ebf3faca1024d1bb5841bb"
+      }
+    ],
+    "baseline_provenance": {
+      "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
+      "version_log": "inputs/010_version.log",
+      "binary_sha256_at_execution": "ac747b5eaf2de0acdd560d02d2a9648c207a0025d2e48b346d777775e8ef712c",
+      "binary_bytes": 31239600,
+      "source_snapshot_sha256": "e3c709aea165361daee898ecafa51bdd88d4c089337800133797ca9ab5bff946",
+      "snapshot_input": "inputs/009_source_snapshot.json",
+      "origin_map_input": "inputs/011_stage_origin.json",
+      "build_logs": [
+        "inputs/008_build_0.log"
+      ],
+      "uvm_version": "1800.2 2020.3.1",
+      "upstream": {
+        "repository": "https://github.com/pulp-platform/apb_uart_sv",
+        "commit": "dfad6e04d19cc9481d3cd2750b45b970dc61271b",
+        "manifest_sha256": "a6771562d41ee3b30fca8b7970b65022061dc0d2845176d045eb85e3170cc709"
+      },
+      "uvm_archives": [
+        {
+          "path": "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1.tar.gz",
+          "sha256": "f55bdbc02cc500d4a2f41b31bad127653289eb2073f806ce156fb82662b362b8",
+          "bytes": 729501
+        }
+      ]
+    },
+    "metrics": {
+      "clean_control_passes": 6,
+      "clean_control_total": 6,
+      "mutations_detected": 4,
+      "mutations_total": 4,
+      "mutation_score_percent": 100.0
+    },
+    "runs": [
+      {
+        "phase": "control_before",
+        "test": "uart_smoke_test",
+        "seed": 1,
+        "mutation": null,
+        "raw_simulation_status": "PASS",
+        "classification": "PASS",
+        "intended_checker": null,
+        "uvm": {
+          "error": 0,
+          "fatal": 0
+        },
+        "transcript": "inputs/016_simulation.log",
+        "transcript_sha256": "47def8212bbaac43c29d5aeee97352fb823ea4cc77a5263418ce809bc8ad0d46"
+      },
+      {
+        "phase": "control_before",
+        "test": "uart_parity_requirement_test",
+        "seed": 1,
+        "mutation": null,
+        "raw_simulation_status": "PASS",
+        "classification": "PASS",
+        "intended_checker": null,
+        "uvm": {
+          "error": 0,
+          "fatal": 0
+        },
+        "transcript": "inputs/017_simulation.log",
+        "transcript_sha256": "3d5f70d6e8ebd688babb841a4bd359244f85fbebae4f5873ffc81ae7413f0d1a"
+      },
+      {
+        "phase": "control_before",
+        "test": "uart_irq_requirement_test",
+        "seed": 1,
+        "mutation": null,
+        "raw_simulation_status": "PASS",
+        "classification": "PASS",
+        "intended_checker": null,
+        "uvm": {
+          "error": 0,
+          "fatal": 0
+        },
+        "transcript": "inputs/018_simulation.log",
+        "transcript_sha256": "7a933f52c5575e21ae09766821564cf99a3fb1237ac8e38062a04adffa75acdd"
+      },
+      {
+        "phase": "mutation",
+        "test": "uart_smoke_test",
+        "seed": 1,
+        "mutation": "tx_data_xor",
+        "raw_simulation_status": "FAIL",
+        "classification": "DETECTED",
+        "intended_checker": "TX_MISMATCH",
+        "uvm": {
+          "error": 34,
+          "fatal": 0
+        },
+        "transcript": "inputs/019_simulation.log",
+        "transcript_sha256": "542b50bffc9dff27d4fdaedfd04fe07622871458abe1723d296eb96d62eba799"
+      },
+      {
+        "phase": "mutation",
+        "test": "uart_smoke_test",
+        "seed": 1,
+        "mutation": "rx_data_xor",
+        "raw_simulation_status": "FAIL",
+        "classification": "DETECTED",
+        "intended_checker": "RX_MISMATCH",
+        "uvm": {
+          "error": 34,
+          "fatal": 0
+        },
+        "transcript": "inputs/020_simulation.log",
+        "transcript_sha256": "0b22b8ae819367325101f836834e590cc9a38680b20fe5cf1f9417c93e3afddb"
+      },
+      {
+        "phase": "mutation",
+        "test": "uart_parity_requirement_test",
+        "seed": 1,
+        "mutation": "parity_mask",
+        "raw_simulation_status": "FAIL",
+        "classification": "DETECTED",
+        "intended_checker": "STATUS",
+        "uvm": {
+          "error": 1,
+          "fatal": 0
+        },
+        "transcript": "inputs/021_simulation.log",
+        "transcript_sha256": "9ac4d8e65240e572f7eb16ef88e31904976a71e8ca4940653747a6d2f7f97348"
+      },
+      {
+        "phase": "mutation",
+        "test": "uart_irq_requirement_test",
+        "seed": 1,
+        "mutation": "irq_stuck_low",
+        "raw_simulation_status": "FAIL",
+        "classification": "DETECTED",
+        "intended_checker": "IRQ",
+        "uvm": {
+          "error": 35,
+          "fatal": 0
+        },
+        "transcript": "inputs/022_simulation.log",
+        "transcript_sha256": "dcadbb20a566a97bcdb08551ba58da5db3626a4c7b6a41b9f4960d1f7b8081d3"
+      },
+      {
+        "phase": "control_after",
+        "test": "uart_smoke_test",
+        "seed": 1,
+        "mutation": null,
+        "raw_simulation_status": "PASS",
+        "classification": "PASS",
+        "intended_checker": null,
+        "uvm": {
+          "error": 0,
+          "fatal": 0
+        },
+        "transcript": "inputs/023_simulation.log",
+        "transcript_sha256": "c69249d1a070dc272e899022aaa70df45cf837e4a5786a43ff2486d2fe393e97"
+      },
+      {
+        "phase": "control_after",
+        "test": "uart_parity_requirement_test",
+        "seed": 1,
+        "mutation": null,
+        "raw_simulation_status": "PASS",
+        "classification": "PASS",
+        "intended_checker": null,
+        "uvm": {
+          "error": 0,
+          "fatal": 0
+        },
+        "transcript": "inputs/024_simulation.log",
+        "transcript_sha256": "09fa3def14127c7d2f8233467c3d14dee5e8960b4df66f8119588646599b3c84"
+      },
+      {
+        "phase": "control_after",
+        "test": "uart_irq_requirement_test",
+        "seed": 1,
+        "mutation": null,
+        "raw_simulation_status": "PASS",
+        "classification": "PASS",
+        "intended_checker": null,
+        "uvm": {
+          "error": 0,
+          "fatal": 0
+        },
+        "transcript": "inputs/025_simulation.log",
+        "transcript_sha256": "06497fd8ff490884f81dda2540720d91a6c3750d8cd6eb2be001f49d9b430cb8"
+      }
+    ],
+    "scope": "Four selected testbench-to-DUT boundary faults, not exhaustive RTL mutation coverage or additional discovered RTL bugs"
+  }
+}

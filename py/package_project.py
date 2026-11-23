@@ -20,9 +20,9 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_DIRECTORIES = (
-    "rtl", "rtl_fixed", "tb", "sim", "py", "tests", "docs", "scripts", "third_party"
+    "rtl", "rtl_fixed", "tb", "sim", "py", "tests", "docs", "scripts", "third_party", ".github"
 )
-ROOT_FILES = ("README.md", ".gitignore", ".gitattributes")
+ROOT_FILES = ("README.md", "README.en.md", "LICENSE", "NOTICE.md", "CONTRIBUTING.md", ".gitignore", ".gitattributes")
 EXCLUDED_DIRECTORIES = frozenset({
     ".git", ".hg", ".svn", ".tools", "results", "dist", "build", "builds",
     "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".cache",

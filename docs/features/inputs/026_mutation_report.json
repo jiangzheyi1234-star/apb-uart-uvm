@@ -1,0 +1,294 @@
+{
+  "status": "PASS",
+  "started_utc": "2026-11-23T15:24:59.820865+00:00",
+  "scope": "Actual same-binary runtime mutation controls; raw regression outcomes remain unchanged",
+  "runs": [
+    {
+      "phase": "control_before",
+      "test": "uart_smoke_test",
+      "seed": 1,
+      "mutation": null,
+      "command": [
+        "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+        "+UVM_TESTNAME=uart_smoke_test",
+        "+verilator+seed+1",
+        "+RTL_FIXED=1",
+        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/checker_mutations_01/00_control_before_uart_smoke_test/coverage.dat"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.83,
+      "log": "/mnt/c/研究生/ic项目/results/checker_mutations_01/00_control_before_uart_smoke_test/simulation.log",
+      "status": "PASS",
+      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "uvm_errors": 0,
+      "uvm_fatals": 0,
+      "raw_simulation_status": "PASS",
+      "log_sha256": "47def8212bbaac43c29d5aeee97352fb823ea4cc77a5263418ce809bc8ad0d46"
+    },
+    {
+      "phase": "control_before",
+      "test": "uart_parity_requirement_test",
+      "seed": 1,
+      "mutation": null,
+      "command": [
+        "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+        "+UVM_TESTNAME=uart_parity_requirement_test",
+        "+verilator+seed+1",
+        "+RTL_FIXED=1",
+        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/checker_mutations_01/01_control_before_uart_parity_requirement_test/coverage.dat"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.523,
+      "log": "/mnt/c/研究生/ic项目/results/checker_mutations_01/01_control_before_uart_parity_requirement_test/simulation.log",
+      "status": "PASS",
+      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "uvm_errors": 0,
+      "uvm_fatals": 0,
+      "raw_simulation_status": "PASS",
+      "log_sha256": "3d5f70d6e8ebd688babb841a4bd359244f85fbebae4f5873ffc81ae7413f0d1a"
+    },
+    {
+      "phase": "control_before",
+      "test": "uart_irq_requirement_test",
+      "seed": 1,
+      "mutation": null,
+      "command": [
+        "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+        "+UVM_TESTNAME=uart_irq_requirement_test",
+        "+verilator+seed+1",
+        "+RTL_FIXED=1",
+        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/checker_mutations_01/02_control_before_uart_irq_requirement_test/coverage.dat"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.773,
+      "log": "/mnt/c/研究生/ic项目/results/checker_mutations_01/02_control_before_uart_irq_requirement_test/simulation.log",
+      "status": "PASS",
+      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "uvm_errors": 0,
+      "uvm_fatals": 0,
+      "raw_simulation_status": "PASS",
+      "log_sha256": "7a933f52c5575e21ae09766821564cf99a3fb1237ac8e38062a04adffa75acdd"
+    },
+    {
+      "phase": "mutation",
+      "test": "uart_smoke_test",
+      "seed": 1,
+      "mutation": "tx_data_xor",
+      "command": [
+        "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+        "+UVM_TESTNAME=uart_smoke_test",
+        "+verilator+seed+1",
+        "+RTL_FIXED=1",
+        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/checker_mutations_01/03_tx_data_xor/coverage.dat",
+        "+MUTATION=tx_data_xor"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.773,
+      "log": "/mnt/c/研究生/ic项目/results/checker_mutations_01/03_tx_data_xor/simulation.log",
+      "status": "DETECTED",
+      "reason": "The activated fault reached its intended functional checker; normal exit and zero fatals",
+      "raw_simulation_status": "FAIL",
+      "uvm_errors": 34,
+      "uvm_fatals": 0,
+      "expected_error_id": "TX_MISMATCH",
+      "observed_error_ids": [
+        "TX_MISMATCH"
+      ],
+      "log_sha256": "542b50bffc9dff27d4fdaedfd04fe07622871458abe1723d296eb96d62eba799"
+    },
+    {
+      "phase": "mutation",
+      "test": "uart_smoke_test",
+      "seed": 1,
+      "mutation": "rx_data_xor",
+      "command": [
+        "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+        "+UVM_TESTNAME=uart_smoke_test",
+        "+verilator+seed+1",
+        "+RTL_FIXED=1",
+        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/checker_mutations_01/04_rx_data_xor/coverage.dat",
+        "+MUTATION=rx_data_xor"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.723,
+      "log": "/mnt/c/研究生/ic项目/results/checker_mutations_01/04_rx_data_xor/simulation.log",
+      "status": "DETECTED",
+      "reason": "The activated fault reached its intended functional checker; normal exit and zero fatals",
+      "raw_simulation_status": "FAIL",
+      "uvm_errors": 34,
+      "uvm_fatals": 0,
+      "expected_error_id": "RX_MISMATCH",
+      "observed_error_ids": [
+        "RX_MISMATCH"
+      ],
+      "log_sha256": "0b22b8ae819367325101f836834e590cc9a38680b20fe5cf1f9417c93e3afddb"
+    },
+    {
+      "phase": "mutation",
+      "test": "uart_parity_requirement_test",
+      "seed": 1,
+      "mutation": "parity_mask",
+      "command": [
+        "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+        "+UVM_TESTNAME=uart_parity_requirement_test",
+        "+verilator+seed+1",
+        "+RTL_FIXED=1",
+        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/checker_mutations_01/05_parity_mask/coverage.dat",
+        "+MUTATION=parity_mask"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.521,
+      "log": "/mnt/c/研究生/ic项目/results/checker_mutations_01/05_parity_mask/simulation.log",
+      "status": "DETECTED",
+      "reason": "The activated fault reached its intended functional checker; normal exit and zero fatals",
+      "raw_simulation_status": "FAIL",
+      "uvm_errors": 1,
+      "uvm_fatals": 0,
+      "expected_error_id": "STATUS",
+      "observed_error_ids": [
+        "STATUS"
+      ],
+      "log_sha256": "9ac4d8e65240e572f7eb16ef88e31904976a71e8ca4940653747a6d2f7f97348"
+    },
+    {
+      "phase": "mutation",
+      "test": "uart_irq_requirement_test",
+      "seed": 1,
+      "mutation": "irq_stuck_low",
+      "command": [
+        "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+        "+UVM_TESTNAME=uart_irq_requirement_test",
+        "+verilator+seed+1",
+        "+RTL_FIXED=1",
+        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/checker_mutations_01/06_irq_stuck_low/coverage.dat",
+        "+MUTATION=irq_stuck_low"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.774,
+      "log": "/mnt/c/研究生/ic项目/results/checker_mutations_01/06_irq_stuck_low/simulation.log",
+      "status": "DETECTED",
+      "reason": "The activated fault reached its intended functional checker; normal exit and zero fatals",
+      "raw_simulation_status": "FAIL",
+      "uvm_errors": 35,
+      "uvm_fatals": 0,
+      "expected_error_id": "IRQ",
+      "observed_error_ids": [
+        "IRQ"
+      ],
+      "log_sha256": "dcadbb20a566a97bcdb08551ba58da5db3626a4c7b6a41b9f4960d1f7b8081d3"
+    },
+    {
+      "phase": "control_after",
+      "test": "uart_smoke_test",
+      "seed": 1,
+      "mutation": null,
+      "command": [
+        "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+        "+UVM_TESTNAME=uart_smoke_test",
+        "+verilator+seed+1",
+        "+RTL_FIXED=1",
+        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/checker_mutations_01/07_control_after_uart_smoke_test/coverage.dat"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.723,
+      "log": "/mnt/c/研究生/ic项目/results/checker_mutations_01/07_control_after_uart_smoke_test/simulation.log",
+      "status": "PASS",
+      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "uvm_errors": 0,
+      "uvm_fatals": 0,
+      "raw_simulation_status": "PASS",
+      "log_sha256": "c69249d1a070dc272e899022aaa70df45cf837e4a5786a43ff2486d2fe393e97"
+    },
+    {
+      "phase": "control_after",
+      "test": "uart_parity_requirement_test",
+      "seed": 1,
+      "mutation": null,
+      "command": [
+        "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+        "+UVM_TESTNAME=uart_parity_requirement_test",
+        "+verilator+seed+1",
+        "+RTL_FIXED=1",
+        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/checker_mutations_01/08_control_after_uart_parity_requirement_test/coverage.dat"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.523,
+      "log": "/mnt/c/研究生/ic项目/results/checker_mutations_01/08_control_after_uart_parity_requirement_test/simulation.log",
+      "status": "PASS",
+      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "uvm_errors": 0,
+      "uvm_fatals": 0,
+      "raw_simulation_status": "PASS",
+      "log_sha256": "09fa3def14127c7d2f8233467c3d14dee5e8960b4df66f8119588646599b3c84"
+    },
+    {
+      "phase": "control_after",
+      "test": "uart_irq_requirement_test",
+      "seed": 1,
+      "mutation": null,
+      "command": [
+        "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+        "+UVM_TESTNAME=uart_irq_requirement_test",
+        "+verilator+seed+1",
+        "+RTL_FIXED=1",
+        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/checker_mutations_01/09_control_after_uart_irq_requirement_test/coverage.dat"
+      ],
+      "returncode": 0,
+      "timed_out": false,
+      "elapsed_seconds": 0.772,
+      "log": "/mnt/c/研究生/ic项目/results/checker_mutations_01/09_control_after_uart_irq_requirement_test/simulation.log",
+      "status": "PASS",
+      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "uvm_errors": 0,
+      "uvm_fatals": 0,
+      "raw_simulation_status": "PASS",
+      "log_sha256": "06497fd8ff490884f81dda2540720d91a6c3750d8cd6eb2be001f49d9b430cb8"
+    }
+  ],
+  "baseline": {
+    "report": "/mnt/c/研究生/ic项目/results/optimization_features_01/report.json",
+    "report_sha256": "bc7bd5598b4d243acadb1d4dd80e461ef531c258a353f43d1d136329b4917f26",
+    "binary": "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
+    "binary_sha256": "ac747b5eaf2de0acdd560d02d2a9648c207a0025d2e48b346d777775e8ef712c",
+    "binary_bytes": 31239600,
+    "source_snapshot_sha256": "e3c709aea165361daee898ecafa51bdd88d4c089337800133797ca9ab5bff946",
+    "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
+    "validated_baseline_tests": [
+      {
+        "test": "uart_smoke_test",
+        "seed": 1,
+        "log": "/mnt/c/研究生/ic项目/results/optimization_features_01/uart_smoke_test_seed_1/simulation.log",
+        "log_sha256": "53b7db36c650d2729ed2a2270b704e78dcee61790abbc8304bd2824cdb160f28"
+      },
+      {
+        "test": "uart_parity_requirement_test",
+        "seed": 1,
+        "log": "/mnt/c/研究生/ic项目/results/optimization_features_01/uart_parity_requirement_test_seed_1/simulation.log",
+        "log_sha256": "8314c9499caf9b1d3f001d6b94dcd23e2115ee57e14d8b20fdf5624a79aa9de6"
+      },
+      {
+        "test": "uart_irq_requirement_test",
+        "seed": 1,
+        "log": "/mnt/c/研究生/ic项目/results/optimization_features_01/uart_irq_requirement_test_seed_1/simulation.log",
+        "log_sha256": "ab9da10a594c53cdd1b70bc071868271ed71dbb0e2508bc2a7ee42c5060c33cc"
+      }
+    ]
+  },
+  "binary_unchanged_after_controls": true,
+  "metrics": {
+    "clean_control_passes": 6,
+    "clean_control_total": 6,
+    "mutations_detected": 4,
+    "mutations_total": 4,
+    "mutation_score_percent": 100.0
+  }
+}

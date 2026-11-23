@@ -1,0 +1,198 @@
+[
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\build\\build_0.log",
+    "role": "compiler_log",
+    "sha256": "3e8f85a9ec4eab60a6f32f7d0bb6f7c660106d1ec4da2c3d54757540f5f08c3e",
+    "bytes": 1477,
+    "bundled_path": "inputs/000_build_0.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\source_snapshot.json",
+    "role": "build_time_source_snapshot",
+    "sha256": "4afad51fc3c2e4d7283318bb8e90ef185bfcdc2711e386d60dfb646486b181ae",
+    "bytes": 33291,
+    "bundled_path": "inputs/001_source_snapshot.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\build\\version.log",
+    "role": "simulator_version_log",
+    "sha256": "e4625df101052a2f71783d582dfda52a149e0d3e01464f5b5dd24a82bb53cc98",
+    "bytes": 142,
+    "bundled_path": "inputs/002_version.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\stage_origin.json",
+    "role": "verified_stage_origin_map",
+    "sha256": "59b9281a044ceb696513d2c2d47deeaea180951913987aaa6a2a7c3b9bf52901",
+    "bytes": 148916,
+    "bundled_path": "inputs/003_stage_origin.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_1\\simulation.log",
+    "role": "RAL_simulation_log",
+    "sha256": "57c1778c3a5ad588fe705648fd007b8d278c3109799c8d2da7ba9f9865510636",
+    "bytes": 4158,
+    "bundled_path": "inputs/004_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_2\\simulation.log",
+    "role": "RAL_simulation_log",
+    "sha256": "4fbed1d243fd58baf946f71b36c0c80f5f3394995a625fd1bf82df58f778f423",
+    "bytes": 4158,
+    "bundled_path": "inputs/005_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_3\\simulation.log",
+    "role": "RAL_simulation_log",
+    "sha256": "ee8a5dfdf10aaff1b021a87c4354c163768acf753a83c3f7da1c1d580f0543a4",
+    "bytes": 4158,
+    "bundled_path": "inputs/006_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\report.json",
+    "role": "RAL_raw_report",
+    "sha256": "23a792cedd82fb26bb5cae114b4b243c4ccca51a3de5a0bb73a53b0ac96777e8",
+    "bytes": 297519,
+    "bundled_path": "inputs/007_report.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_features_01\\build\\build_0.log",
+    "role": "compiler_log",
+    "sha256": "ae308c5f01b73cdad05da7a6da1303a7d60d849830bcfd86051e8d4d30627870",
+    "bytes": 307099,
+    "bundled_path": "inputs/008_build_0.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_features_01\\source_snapshot.json",
+    "role": "build_time_source_snapshot",
+    "sha256": "389193a4b7115e891a4263fc848429766400fecd022910108d447baae01a1719",
+    "bytes": 33291,
+    "bundled_path": "inputs/009_source_snapshot.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_features_01\\build\\version.log",
+    "role": "simulator_version_log",
+    "sha256": "e4625df101052a2f71783d582dfda52a149e0d3e01464f5b5dd24a82bb53cc98",
+    "bytes": 142,
+    "bundled_path": "inputs/010_version.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_features_01\\stage_origin.json",
+    "role": "verified_stage_origin_map",
+    "sha256": "29e62727397670b3cb0adff86edaf5378dc49995cedc0a28c1d11f5912b83927",
+    "bytes": 149038,
+    "bundled_path": "inputs/011_stage_origin.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_features_01\\uart_smoke_test_seed_1\\simulation.log",
+    "role": "mutation_baseline_clean_log",
+    "sha256": "53b7db36c650d2729ed2a2270b704e78dcee61790abbc8304bd2824cdb160f28",
+    "bytes": 3213,
+    "bundled_path": "inputs/012_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_features_01\\uart_parity_requirement_test_seed_1\\simulation.log",
+    "role": "mutation_baseline_clean_log",
+    "sha256": "8314c9499caf9b1d3f001d6b94dcd23e2115ee57e14d8b20fdf5624a79aa9de6",
+    "bytes": 3265,
+    "bundled_path": "inputs/013_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_features_01\\uart_irq_requirement_test_seed_1\\simulation.log",
+    "role": "mutation_baseline_clean_log",
+    "sha256": "ab9da10a594c53cdd1b70bc071868271ed71dbb0e2508bc2a7ee42c5060c33cc",
+    "bytes": 3262,
+    "bundled_path": "inputs/014_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_features_01\\uart_ral_test_seed_1\\simulation.log",
+    "role": "mutation_baseline_clean_log",
+    "sha256": "739572d72462c40d85d48075440b624b7eab448586ebf3faca1024d1bb5841bb",
+    "bytes": 4168,
+    "bundled_path": "inputs/015_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\00_control_before_uart_smoke_test\\simulation.log",
+    "role": "checker_sensitivity_log",
+    "sha256": "47def8212bbaac43c29d5aeee97352fb823ea4cc77a5263418ce809bc8ad0d46",
+    "bytes": 3105,
+    "bundled_path": "inputs/016_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\01_control_before_uart_parity_requirement_test\\simulation.log",
+    "role": "checker_sensitivity_log",
+    "sha256": "3d5f70d6e8ebd688babb841a4bd359244f85fbebae4f5873ffc81ae7413f0d1a",
+    "bytes": 3144,
+    "bundled_path": "inputs/017_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\02_control_before_uart_irq_requirement_test\\simulation.log",
+    "role": "checker_sensitivity_log",
+    "sha256": "7a933f52c5575e21ae09766821564cf99a3fb1237ac8e38062a04adffa75acdd",
+    "bytes": 3144,
+    "bundled_path": "inputs/018_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\03_tx_data_xor\\simulation.log",
+    "role": "checker_sensitivity_log",
+    "sha256": "542b50bffc9dff27d4fdaedfd04fe07622871458abe1723d296eb96d62eba799",
+    "bytes": 8754,
+    "bundled_path": "inputs/019_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\04_rx_data_xor\\simulation.log",
+    "role": "checker_sensitivity_log",
+    "sha256": "0b22b8ae819367325101f836834e590cc9a38680b20fe5cf1f9417c93e3afddb",
+    "bytes": 8414,
+    "bundled_path": "inputs/020_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\05_parity_mask\\simulation.log",
+    "role": "checker_sensitivity_log",
+    "sha256": "9ac4d8e65240e572f7eb16ef88e31904976a71e8ca4940653747a6d2f7f97348",
+    "bytes": 3202,
+    "bundled_path": "inputs/021_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\06_irq_stuck_low\\simulation.log",
+    "role": "checker_sensitivity_log",
+    "sha256": "dcadbb20a566a97bcdb08551ba58da5db3626a4c7b6a41b9f4960d1f7b8081d3",
+    "bytes": 7343,
+    "bundled_path": "inputs/022_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\07_control_after_uart_smoke_test\\simulation.log",
+    "role": "checker_sensitivity_log",
+    "sha256": "c69249d1a070dc272e899022aaa70df45cf837e4a5786a43ff2486d2fe393e97",
+    "bytes": 3104,
+    "bundled_path": "inputs/023_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\08_control_after_uart_parity_requirement_test\\simulation.log",
+    "role": "checker_sensitivity_log",
+    "sha256": "09fa3def14127c7d2f8233467c3d14dee5e8960b4df66f8119588646599b3c84",
+    "bytes": 3143,
+    "bundled_path": "inputs/024_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\09_control_after_uart_irq_requirement_test\\simulation.log",
+    "role": "checker_sensitivity_log",
+    "sha256": "06497fd8ff490884f81dda2540720d91a6c3750d8cd6eb2be001f49d9b430cb8",
+    "bytes": 3143,
+    "bundled_path": "inputs/025_simulation.log"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\checker_mutations_01\\mutation_report.json",
+    "role": "mutation_raw_report",
+    "sha256": "03fd0dca9d6e655628bedc37f2933aa61d0476203be1c69533f0ff5566878cf4",
+    "bytes": 11654,
+    "bundled_path": "inputs/026_mutation_report.json"
+  },
+  {
+    "original_path": "C:\\研究生\\ic项目\\results\\optimization_features_01\\report.json",
+    "role": "mutation_baseline_raw_report",
+    "sha256": "bc7bd5598b4d243acadb1d4dd80e461ef531c258a353f43d1d136329b4917f26",
+    "bytes": 250389,
+    "bundled_path": "inputs/027_report.json"
+  }
+]

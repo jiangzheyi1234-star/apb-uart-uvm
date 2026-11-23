@@ -2,6 +2,8 @@
 
 [![UART verification](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/workflows/verification.yml/badge.svg)](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/workflows/verification.yml)
 
+[English](README.en.md) · [在线证据](https://jiangzheyi1234-star.github.io/apb-uart-uvm/) · [五轮优化记录](docs/optimization_rounds.md)
+
 基于 PULP Platform 开源 APB UART，自建双 Agent 验证环境、独立参考模型、功能覆盖率和自动回归，并维护单独的 RTL 缺陷修复版。
 
 **已执行真实 UVM 仿真：核心回归 45/45、RAL 专项 3/3 通过。** 实测工具为 Verilator 5.054、Accellera UVM 2020.3.1、Ubuntu 24.04 WSL2。Questa/VCS 入口已提供；没有把它们列为已运行工具。
@@ -17,17 +19,19 @@
 
 | 最终修复版指标 | 实测值 |
 | --- | ---: |
-| 测试场景 × seed | 15 × 3（1、2、3） |
-| UVM 回归 | 45/45 PASS，ERROR/FATAL 均为 0 |
+| 核心测试场景 × seed | 15 × 3（1、2、3） |
+| 核心 UVM 回归 | 45/45 PASS，ERROR/FATAL 均为 0 |
 | RAL 追加专项 | 3/3 PASS，4 个存储寄存器、每 seed 12 轮随机访问 |
 | 检查器受控故障 | 4/4 检出，6/6 干净对照通过 |
-| Scoreboard TX / RX 比对 | 1,039 / 1,216 帧，合计 2,255 帧 |
-| 功能 bins 未加权命中率 | 272/277，98.19% |
+| 核心 Scoreboard TX / RX 比对 | 1,039 / 1,216 帧，合计 2,255 帧 |
+| 核心功能 bins 未加权命中率 | 272/277，98.19% |
 | 帧格式 × 波特周期交叉 | 96/96，100% |
 | RTL LCOV 行命中率 | 453/474，95.57% |
 | RTL LCOV 分支命中率 | 1,670/2,120，78.77% |
 
-[可复核的结果报告](docs/evidence/index.html) · [验收记录](docs/validation.md) · [覆盖缺口分析](docs/coverage_analysis.md) · [面试讲解](docs/interview_guide.md)
+核心与 RAL 合计 **16 类场景、48/48 通过、2,261 帧双向数据比对**（核心 45 次/2,255 帧 + RAL 3 次/6 帧）；RAL 专项累计 168 次写和 291 次 mirror 读。另有 10 次检查器实验：4 次预期的原始 FAIL、6 次干净对照 PASS，不计入 48 次分母。覆盖率指标来自核心 45 次。
+
+[可复核的结果报告](https://jiangzheyi1234-star.github.io/apb-uart-uvm/release/) · [RAL 与检查器证据](https://jiangzheyi1234-star.github.io/apb-uart-uvm/features/) · [验收记录](docs/validation.md) · [覆盖缺口分析](docs/coverage_analysis.md) · [面试讲解](docs/interview_guide.md)
 
 功能 bin 比例与代码行覆盖率分别计量。5 个未命中 bin 是修复版不应产生的无效中断编码诊断项，未通过修改覆盖组或排除这些项来提高数字。代码覆盖率按 Verilator 的原生计数器导出 LCOV，工具与统计口径均在证据中保留。
 
@@ -55,7 +59,8 @@ tb/
   uart_agent/           RX 驱动与 TX/RX 独立引脚监视器
   scoreboard/           双向数据预测、周期级 TX 容量模型、复位清理
   coverage/             总线、格式、分频、错误、复位、中断覆盖
-  env/ seq/ test/       环境连接、可复用访问序列、15 项场景
+  ral/                  DLAB 感知双 map、APB adapter、互斥 frontdoor、显式 predictor
+  env/ seq/ test/       环境连接、可复用访问序列、15 项核心场景 + RAL 专项
 sim/                    原版/修复版文件列表、Makefile
 py/                     回归、原生覆盖分析、证据、验收、打包
 scripts/                固定工具版本安装与完整回归入口
@@ -109,6 +114,7 @@ APB 在下降沿驱动、上升沿采样，包含 Setup/Access 稳定性断言�
 | `uart_irq_requirement_test` | 始终强制正确中断需求 |
 | `uart_random_stress_test` | 16 批随机全双工流，每 seed 每方向超过 100 字节，保存刺激摘要 |
 | `uart_baud_sweep_test` | 48 组格式与分频组合，96 个双向交叉 bin |
+| `uart_ral_test` | 四寄存器随机读写、DLAB 恢复、并发 frontdoor、复位与被动预测 |
 
 原版严格需求测试产生的 FAIL 保留原始状态，用于证明检查器能发现缺陷；不把缺陷特征测试的通过当作设计功能正确。
 
@@ -147,7 +153,7 @@ RTL_VARIANT=upstream bash scripts/run_full_regression.sh --out results/my_upstre
 ```bash
 sudo apt-get update
 sudo apt-get install -y --no-install-recommends build-essential autoconf \
-  flex bison libfl-dev zlib1g-dev help2man ca-certificates
+  flex bison libfl-dev zlib1g-dev help2man ca-certificates z3
 bash scripts/bootstrap_verilator.sh
 bash scripts/run_full_regression.sh --out results/first_run
 ```
@@ -156,13 +162,13 @@ bash scripts/run_full_regression.sh --out results/first_run
 
 ## 报告与验收
 
-原始结果位于 `results/fixed_final/` 和 `results/upstream_final/`；可分享的精选证据在 `docs/evidence/`。源码包包含实际报告、日志、原生合并覆盖数据库、关键波形与 SHA-256 清单。
+本轮原始结果位于 `results/release_fixed/` 和 `results/release_upstream/`；当前精选证据在 `docs/release/`，RAL 和检查器负向对照在 `docs/features/`。`docs/evidence/` 保留加入 RAL 前的历史基线。源码包包含实际报告、日志、原生合并覆盖数据库、关键波形与 SHA-256 清单。
 
 ```bash
 python3 py/validate_acceptance.py \
-  --fixed results/fixed_final/report.json \
-  --upstream results/upstream_final/report.json \
-  --out results/acceptance.json
+  --fixed results/release_fixed/report.json \
+  --upstream results/release_upstream/report.json \
+  --out results/release_acceptance.json
 ```
 
 验收检查两套相同测试源码、完整测试/seed 矩阵、真实日志和双向计数、不同 seed 刺激差异、原版严格需求失败以及实际覆盖数据。指标定义和剩余覆盖项见验证记录。

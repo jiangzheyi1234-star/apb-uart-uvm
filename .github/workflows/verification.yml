@@ -2,7 +2,15 @@ name: UART verification
 
 on:
   push:
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+      - 'LICENSE'
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+      - 'LICENSE'
   workflow_dispatch:
     inputs:
       full_regression:

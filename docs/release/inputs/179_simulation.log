@@ -1,0 +1,113 @@
+COMMAND ["/var/tmp/apb-uart-uvm-build-upstream/Vtb_top", "+UVM_TESTNAME=uart_irq_requirement_test", "+verilator+seed+3", "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_3/coverage.dat", "+TRACE", "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_3/waves.vcd"]
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh(476) @ 0: reporter [UVM/RELNOTES] 
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  This implementation of the UVM Library deviates from the 1800.2-2020
+  standard.  See the DEVIATIONS.md file contained in the release
+  for more details.
+
+----------------------------------------------------------------
+Accellera:1800.2:UVM:2020.3.1
+
+All copyright owners for this kit are listed in NOTICE.txt
+All Rights Reserved Worldwide
+----------------------------------------------------------------
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_WARNING /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh(549) @ 0: reporter [NO_DPI_USED] We are thinking of removing support for UVM_NO_DPI.  Please try this test without it and evaluate the impact
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh(552) @ 0: reporter [NO_DPI_TSTNAME] UVM_NO_DPI defined--getting UVM_TESTNAME directly, without DPI
+UVM_INFO @ 0: reporter [RNTST] Running test uart_irq_requirement_test...
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_traversal.svh(345) @ 0: reporter [UVM/COMP/NAMECHECK] This implementation of the component name checks requires DPI to be enabled
+UVM_WARNING /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_traversal.svh(314) @ 0: reporter [NO_VISIT_CHECK] Because UVM_REGEX_NO_DPI is defined, no uvm component name constraints will be checked
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 4840000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 4870000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 4910000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 12260000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 12580000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 12610000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 23240000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 30590000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 31090000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 31120000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 55870000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 63220000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 63960000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 63990000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 109920000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 117270000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 121830000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 121860000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 122140000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 125840000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 125910000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 126050000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 130460000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000cc actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 130530000: uvm_test_top [STATUS] addr=005 mask=00000004 expected=00000004 actual=00000061
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 130770000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c4 actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 130810000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 138610000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000cc actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 138640000: uvm_test_top [STATUS] addr=005 mask=0000000c expected=00000008 actual=00000061
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 138680000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 138780000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000cc actual=000000c0
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 138810000: uvm_test_top [STATUS] addr=005 mask=0000000c expected=00000004 actual=00000061
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 138880000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 139150000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c4 actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 139190000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 139250000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 139430000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 139460000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 139500000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 139560000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c8
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 139810000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 139870000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c4
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 140120000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 144070000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000cc actual=000000c4
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 144100000: uvm_test_top [STATUS] addr=005 mask=00000004 expected=00000004 actual=00000061
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 144140000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 144380000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 144410000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c0
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 144660000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 148610000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000cc actual=000000c4
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 148640000: uvm_test_top [STATUS] addr=005 mask=00000004 expected=00000004 actual=00000061
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 148680000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 148920000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 148950000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c0
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 149200000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 153150000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000cc actual=000000c4
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 153180000: uvm_test_top [STATUS] addr=005 mask=00000004 expected=00000004 actual=00000061
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 153220000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 153460000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 153490000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c0
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 153740000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 157690000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000cc actual=000000c4
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 157720000: uvm_test_top [STATUS] addr=005 mask=00000004 expected=00000004 actual=00000061
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 157760000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(42) @ 158000000: uvm_test_top [IRQ] expected IRQ=0 actual=1
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(37) @ 158030000: uvm_test_top [STATUS] addr=002 mask=000000ff expected=000000c1 actual=000000c0
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(199) @ 158540000: uvm_test_top.env.sb [SB_COUNTS] TX=2 RX=40 resets=1 max_tx=1 max_rx=15
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(200) @ 158540000: uvm_test_top.env.sb [SB_BOUNDARIES] TX accepted=2 dropped=0 empty_RBR_reads=0
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_report_server.svh(1009) @ 158540000: reporter [UVM/REPORT/SERVER] 
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :    6
+UVM_WARNING :    2
+UVM_ERROR :   65
+UVM_FATAL :    0
+** Report counts by id
+[IRQ]    36
+[NO_DPI_TSTNAME]     1
+[NO_DPI_USED]     1
+[NO_VISIT_CHECK]     1
+[RNTST]     1
+[SB_BOUNDARIES]     1
+[SB_COUNTS]     1
+[STATUS]    29
+[UVM/COMP/NAMECHECK]     1
+[UVM/RELNOTES]     1
+
+- /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh:633: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.054 2026-11-01
+- Verilator: $finish at 159us; walltime 0.610 s; speed 260.074 us/s
+- Verilator: cpu 0.463 s on 1 threads; allocated 55 MB

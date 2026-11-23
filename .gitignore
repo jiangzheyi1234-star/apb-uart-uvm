@@ -11,6 +11,7 @@ dist/
 *.wlf
 *.vcd
 !docs/evidence/inputs/*.vcd
+!docs/release/inputs/*.vcd
 *.ucdb
 *.vdb/
 transcript
