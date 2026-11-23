@@ -24,7 +24,7 @@
 | --- | --- | --- |
 | 已完成 | **DLAB 感知 RAL**：IER/LCR/DLL/DLM 建立存储寄存器模型；普通与分频 bank 分开；frontdoor 通过 sequencer 锁保持切 bank、目标访问与恢复的互斥 | 3 个 seed 全部通过；每 seed 12 轮随机访问、56 次 RAL 写和 97 次 mirror 读，并检查地址镜像、复位、被动预测与并发访问。FIFO 口、IIR/FCR 等有副作用的对象继续由事务检查负责。见 [RAL 说明](../tb/ral/README.md) 和 [专项证据](features/index.html)。 |
 | 已完成 | **检查器负向对照**：分别让 TX/RX 数据、PE 读回和 IRQ 路径出现受控错误 | 4/4 选定故障触发对应 checker；同一仿真产物的 6/6 注入前后正常对照通过。原始故障运行保持 FAIL，超时或崩溃不算检出；这证明对所选故障的敏感性，不代表穷尽所有故障。见 [专项证据](features/index.html)。 |
-| 已完成 | **真实 CI**：固定 Verilator/UVM 下载摘要和 Action 提交，执行源码校验、Python 工具测试、核心回归、故障对照与 RAL | 默认远端运行已 [成功](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45206296552)，包含核心 45 次、RAL 3 次与检查器对照 10 次。上游 45 次及严格 90 矩阵审计属于手动 `full_regression=true` 的额外入口，本次成功记录不包含该项。 |
+| 已完成 | **真实 CI**：固定 Verilator/UVM 下载摘要和 Action 提交，执行源码校验、Python 工具测试、核心回归、故障对照与 RAL | 默认远端运行已 [成功](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45206296552)，包含核心 45 次、RAL 3 次与检查器对照 10 次。随后 [完整手动运行](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45209690986) 启用 `full_regression=true` 也已成功，额外完成上游 45 次和严格 90 矩阵的 100 项审计；原始失败保留。 |
 | 后续 P1 | **移植检查**：在有授权环境运行 Questa/VCS；记录版本、命令与结果 | UVM 1.2 静态编译兼容记录继续保留。当前实际动态工具是 Verilator/UVM 2020.3.1，不把脚本入口算作商业仿真器运行经验。 |
 | 后续 P1 | **补充协议检查器测试**：为可复用 APB driver/monitor 单独提供带等待的测试从设备 | 检查等待期间地址/控制稳定、超时与 reset-abort；当前 DUT 的 PREADY 恒 1，现有真实 UART 回归无法证明等待状态覆盖。 |
 | 后续 P2 | **明确范围的扩展**：波特率失配、短毛刺、活跃 TX 清 FIFO、持续 RX 超载 | 先确定规格与模型，再新增检查和覆盖；不把 DUT 未实现的 break、字符超时或完整 16550 行为加入“已完成”清单。 |

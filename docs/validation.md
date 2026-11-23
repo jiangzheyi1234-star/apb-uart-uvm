@@ -86,7 +86,7 @@
 
 [GitHub Actions 运行 45206296552](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45206296552) 的两个 job 均已真实 `success`：Python 工具/上游字节校验，以及实际 UVM 仿真。默认仿真 job 执行修复版核心 45 次、独立 RAL 3 次及敏感性实验 10 次（6 次干净控制、4 次原始 FAIL 的指定故障检出），并上传原始报告、日志与覆盖率证据。
 
-该次默认运行的“上游缺陷基线与双 45 次矩阵验收”步骤为 `skipped`。上游结果及 100 项验收已经在本地通过独立核验；包含该步骤的下一轮 `full_regression=true` 手动 dispatch 尚待验证，不计入已完成的远端 CI 成绩。
+该次默认运行的“上游缺陷基线与双 45 次矩阵验收”步骤为 `skipped`。随后在提交 `93decf3` 上执行的 [完整手动运行 45209690986](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45209690986) 也已真实成功：启用 `full_regression=true`，上述步骤实际执行并通过。上游严格需求的原始 FAIL 不改判，远端 100 项验收全部通过；[运行元数据快照](ci/full_run.json) 保留提交、时间及每个步骤结论。后续仅追加证据与发布文档，未修改被测 SV。
 
 ## 复跑
 

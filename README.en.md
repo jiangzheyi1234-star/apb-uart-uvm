@@ -32,6 +32,8 @@ The 48 runs comprise core 45 (2,255 frames) plus RAL 3 (6 frames). The separate 
 
 The CI badge links to the observed remote workflow status. Questa/VCS entry points and UVM 1.2 static compatibility are provided, but no commercial-simulator dynamic results are claimed.
 
+The [completed full GitHub run](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45209690986) also reproduces the upstream 45-run baseline and passes the 100-check acceptance audit. Its upstream and injected-fault raw failures remain FAIL.
+
 ## Quick start on Linux or WSL
 
 ```bash

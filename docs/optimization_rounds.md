@@ -8,7 +8,7 @@
 | 2：补齐寄存器验证 | DLAB 复用地址会使普通线性 RAL 混淆 DLL/THR、DLM/IER。新增四寄存器双 map、APB adapter、锁住 sequencer 的 frontdoor、真实 LCR 保存/恢复和被动 bank predictor。 | [实现及范围](../tb/ral/README.md)；3/3 seed，168 次写、291 次 mirror 读；提交 `2e196a8`。 |
 | 3：验证检查器本身 | 正常流通过不足以证明 checker 会报错。对 TX 数据、RX 读回、PE、IRQ 做四类边界受控故障；同一编译产物前后各跑三次干净控制，必须命中指定错误 ID。 | [负向对照原理](checker_sensitivity.md)、[17 份实测日志与报告](features/index.html)；4/4 检出、6/6 干净通过；提交 `cccf401`。 |
 | 4：建立远端复现 | 本地工具缓存可能隐藏环境依赖。GitHub Ubuntu runner 从固定官方源码准备工具，跑核心 45 次、RAL 3 次和故障/控制 10 次；保存源码身份与原始覆盖数据库。Action 固定到提交。 | [首个实际成功的 CI](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45206296552)、[workflow](../.github/workflows/verification.yml)；实现提交 `f4cc49b`。 |
-| 5：独立复核与展示 | 在包含新 RAL/受控故障开关的当前 TB 上重新运行原版与修复版核心 90 次，100 项验收全部通过；补充中英文说明、可离线审计的证据页、五分钟演示和带真实链接的简历表述。 | [当前 93 次正常/原版运行证据](release/index.html)、[100 项验收 JSON](release/acceptance.json)、[本页演示流程](#五分钟介绍顺序)。 |
+| 5：独立复核与展示 | 在包含新 RAL/受控故障开关的当前 TB 上重新运行原版与修复版核心 90 次，100 项验收全部通过；补充中英文说明、可离线审计的证据页、五分钟演示和带真实链接的简历表述。另在 GitHub 完整复现原版对照与验收。 | [当前 93 次正常/原版运行证据](release/index.html)、[100 项验收 JSON](release/acceptance.json)、[实际成功的完整 CI](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45209690986)、[本页演示流程](#五分钟介绍顺序)。 |
 
 ## 五分钟介绍顺序
 

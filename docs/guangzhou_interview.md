@@ -26,7 +26,7 @@
 
 面试时使用统一口径：**48/48 功能回归 = 核心 45 次 + RAL 3 次**，对应 16 类场景和 2,261 帧比对（核心 2,255 + RAL 6）。检查器对照另外执行 **10 次 = 4 次故障原始 FAIL + 6 次正常 PASS**；4/4 指指定故障均被 checker 检出，全部 10 次均不计入功能回归的 48 次或 2,261 帧。功能 bin 272/277（98.19%）和 RTL 行 453/474（95.57%）属于核心 45 次的覆盖结果。
 
-本次默认 CI 验证核心 45 次、RAL 3 次和检查器对照 10 次；上游 45 次及严格 90 矩阵审计需要单独启用手动入口，不能用本次默认 CI 成功代表。演示入口见 [README](../README.md)，本地依据见 [发布回归](release/index.html)、[专项证据](features/index.html) 和 [验收](validation.md)。
+默认 CI 验证核心 45 次、RAL 3 次和检查器对照 10 次；上游 45 次及严格 90 矩阵审计属于完整手动入口。两者已有独立成功记录：[默认 CI](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45206296552)、[完整 CI](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45209690986)，演示时按各自范围说明。入口见 [README](../README.md)，本地依据见 [发布回归](release/index.html)、[专项证据](features/index.html) 和 [验收](validation.md)。
 
 ## 十四个应能结合代码回答的问题
 

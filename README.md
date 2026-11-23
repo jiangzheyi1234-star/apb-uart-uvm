@@ -17,6 +17,8 @@
 
 [开源项目对标](docs/industry_benchmark.md) · [广州岗位与面试演示](docs/guangzhou_interview.md) · [GitHub Actions](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions)
 
+[完整远端验收已通过](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45209690986)：核心 45 次、RAL 3 次、检查器实验 10 次，以及原版 45 次缺陷对照与 100 项验收。原版和故障运行的原始 FAIL 均保留。
+
 | 最终修复版指标 | 实测值 |
 | --- | ---: |
 | 核心测试场景 × seed | 15 × 3（1、2、3） |
