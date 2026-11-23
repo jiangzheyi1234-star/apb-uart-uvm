@@ -1,0 +1,133 @@
+name: UART verification
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      full_regression:
+        description: Also run the upstream defect baseline and the strict 90-run acceptance audit
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: uart-verification-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python-and-source:
+    name: Python tools and pinned RTL integrity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: '3.12'
+      - name: Verify the original RTL bytes
+        run: python3 py/verify_rtl.py
+      - name: Test result parsing, process failures and negative controls
+        run: python3 -m unittest discover -s tests -v
+
+  uvm:
+    name: Real UVM regression, checker mutations and register model
+    needs: python-and-source
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    env:
+      BUILD_JOBS: '2'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: '3.12'
+      - name: Install build tools and the randomization solver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential autoconf flex bison libfl-dev zlib1g-dev help2man ca-certificates z3
+      - name: Restore pinned Verilator and UVM tools
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: |
+            .tools/verilator
+            .tools/uvm-core-2020.3.1
+            .tools/uvm-core-2020.3.1.tar.gz
+            .tools/verilator-v5.054.tar.gz
+          key: uart-tools-${{ runner.os }}-${{ runner.arch }}-v5.054-uvm2020.3.1-${{ hashFiles('scripts/bootstrap_verilator.sh') }}
+      - name: Verify source archives and build the pinned real simulator
+        run: bash scripts/bootstrap_verilator.sh
+      - name: Run all 45 fixed-RTL test and seed combinations
+        run: bash scripts/run_full_regression.sh --out results/ci_fixed
+      - name: Prove checker sensitivity with four real runtime faults
+        run: |
+          python3 py/run_mutation.py --baseline-report results/ci_fixed/report.json --out results/ci_mutations
+      - name: Exercise the UVM register model at three seeds
+        run: |
+          python3 py/run_linux_regression.py --rtl fixed --test uart_ral_test --seeds 1 2 3 \
+            --coverage --trace --jobs 2 --build-timeout 1800 --out results/ci_ral
+      - name: Reproduce upstream failures and audit both 45-run matrices
+        if: github.event_name == 'workflow_dispatch' && inputs.full_regression
+        run: |
+          upstream_exit=0
+          RTL_VARIANT=upstream bash scripts/run_full_regression.sh --out results/ci_upstream || upstream_exit=$?
+          if [ "$upstream_exit" -ne 1 ]; then
+            echo "Expected the actual upstream regression to exit 1 with its functional failures; got $upstream_exit"
+            exit 1
+          fi
+          python3 py/validate_acceptance.py --fixed results/ci_fixed/report.json \
+            --upstream results/ci_upstream/report.json --out results/ci_acceptance.json
+      - name: Record the actual CI commit and observed result summary
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          result = Path('results')
+          result.mkdir(exist_ok=True)
+          context = {key: os.environ.get(key) for key in (
+              'GITHUB_SHA', 'GITHUB_REPOSITORY', 'GITHUB_REF', 'GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT', 'RUNNER_OS', 'RUNNER_ARCH')}
+          (result / 'ci_context.json').write_text(json.dumps(context, indent=2) + '\n')
+          lines = ['## Actual UART verification results', '', '| Report | Stored status | Actual runs |', '| --- | --- | ---: |']
+          for name, filename in (
+              ('Fixed RTL', 'ci_fixed/report.json'), ('Checker mutations', 'ci_mutations/mutation_report.json'),
+              ('UVM register model', 'ci_ral/report.json'), ('Upstream RTL', 'ci_upstream/report.json'),
+              ('Strict acceptance', 'ci_acceptance.json')):
+              source = result / filename
+              if source.is_file():
+                  report = json.loads(source.read_text())
+                  lines.append(f"| {name} | {report.get('status')} | {len(report.get('runs', []))} |")
+          lines += ['', 'Statuses above come from generated reports. Upstream functional failures remain FAIL in their raw report.']
+          with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a') as summary:
+              summary.write('\n'.join(lines) + '\n')
+          PY
+      - name: Preserve independently auditable logs, source snapshots and measured coverage
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: uart-verification-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 14
+          if-no-files-found: error
+          compression-level: 6
+          path: |
+            results/ci_context.json
+            results/ci_acceptance.json
+            results/**/report.json
+            results/**/report.md
+            results/**/mutation_report.json
+            results/**/mutation_report.md
+            results/**/source_snapshot.json
+            results/**/stage_origin.json
+            results/**/simulation.log
+            results/**/build/*.log
+            results/**/coverage/coverage_summary.json
+            results/**/coverage/coverage_summary.md
+            results/**/coverage/coverage.info
+            results/**/coverage/merged.dat
