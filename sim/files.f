@@ -1,0 +1,10 @@
++incdir+tb
+rtl/io_generic_fifo.sv
+rtl/uart_tx.sv
+rtl/uart_rx.sv
+rtl/uart_interrupt.sv
+rtl/apb_uart.sv
+tb/apb_if.sv
+tb/uart_if.sv
+tb/apb_uart_pkg.sv
+tb/tb_top.sv

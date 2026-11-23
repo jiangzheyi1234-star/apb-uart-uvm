@@ -1,0 +1,2 @@
+rtl/*.sv text eol=lf
+third_party/apb_uart_sv/* text eol=lf

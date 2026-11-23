@@ -1,0 +1,17 @@
+.tools/
+.resume_work/
+apb-uart-uvm/
+__pycache__/
+*.pyc
+sim/out/
+sim/work/
+reports/
+results/
+dist/
+*.wlf
+*.vcd
+!docs/evidence/inputs/*.vcd
+*.ucdb
+*.vdb/
+transcript
+vsim.wlf

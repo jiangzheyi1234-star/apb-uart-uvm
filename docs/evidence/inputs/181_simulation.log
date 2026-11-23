@@ -1,0 +1,67 @@
+COMMAND ["/var/tmp/apb-uart-uvm-build-fixed/Vtb_top", "+UVM_TESTNAME=uart_random_stress_test", "+verilator+seed+1", "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/upstream_final/uart_random_stress_test_seed_1/coverage.dat", "+TRACE", "+VCD_FILE=/mnt/c/研究生/ic项目/results/upstream_final/uart_random_stress_test_seed_1/waves.vcd"]
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh(476) @ 0: reporter [UVM/RELNOTES] 
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  This implementation of the UVM Library deviates from the 1800.2-2020
+  standard.  See the DEVIATIONS.md file contained in the release
+  for more details.
+
+----------------------------------------------------------------
+Accellera:1800.2:UVM:2020.3.1
+
+All copyright owners for this kit are listed in NOTICE.txt
+All Rights Reserved Worldwide
+----------------------------------------------------------------
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_WARNING /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh(549) @ 0: reporter [NO_DPI_USED] We are thinking of removing support for UVM_NO_DPI.  Please try this test without it and evaluate the impact
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh(552) @ 0: reporter [NO_DPI_TSTNAME] UVM_NO_DPI defined--getting UVM_TESTNAME directly, without DPI
+UVM_INFO @ 0: reporter [RNTST] Running test uart_random_stress_test...
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_traversal.svh(345) @ 0: reporter [UVM/COMP/NAMECHECK] This implementation of the component name checks requires DPI to be enabled
+UVM_WARNING /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_traversal.svh(314) @ 0: reporter [NO_VISIT_CHECK] Because UVM_REGEX_NO_DPI is defined, no uvm component name constraints will be checked
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 45350000: uvm_test_top [STRESS_BATCH] batch=0 bits=6 parity=0 stops=1 divisor=47 TX=9 RX=10
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 85030000: uvm_test_top [STRESS_BATCH] batch=1 bits=8 parity=1 stops=1 divisor=31 TX=11 RX=8
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 118510000: uvm_test_top [STRESS_BATCH] batch=2 bits=5 parity=1 stops=2 divisor=31 TX=8 RX=10
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 163350000: uvm_test_top [STRESS_BATCH] batch=3 bits=5 parity=0 stops=2 divisor=47 TX=10 RX=10
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 213180000: uvm_test_top [STRESS_BATCH] batch=4 bits=5 parity=1 stops=2 divisor=31 TX=8 RX=15
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 257400000: uvm_test_top [STRESS_BATCH] batch=5 bits=5 parity=1 stops=2 divisor=31 TX=15 RX=9
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 331390000: uvm_test_top [STRESS_BATCH] batch=6 bits=7 parity=0 stops=1 divisor=47 TX=15 RX=15
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 384490000: uvm_test_top [STRESS_BATCH] batch=7 bits=5 parity=1 stops=2 divisor=31 TX=8 RX=16
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 459590000: uvm_test_top [STRESS_BATCH] batch=8 bits=7 parity=1 stops=2 divisor=47 TX=14 RX=12
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 542150000: uvm_test_top [STRESS_BATCH] batch=9 bits=8 parity=1 stops=1 divisor=47 TX=15 RX=14
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 629900000: uvm_test_top [STRESS_BATCH] batch=10 bits=7 parity=0 stops=1 divisor=63 TX=15 RX=11
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 743910000: uvm_test_top [STRESS_BATCH] batch=11 bits=7 parity=1 stops=2 divisor=63 TX=16 RX=8
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 826740000: uvm_test_top [STRESS_BATCH] batch=12 bits=7 parity=1 stops=1 divisor=47 TX=17 RX=14
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 904800000: uvm_test_top [STRESS_BATCH] batch=13 bits=8 parity=1 stops=2 divisor=63 TX=10 RX=8
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 978790000: uvm_test_top [STRESS_BATCH] batch=14 bits=6 parity=1 stops=1 divisor=47 TX=9 RX=15
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(281) @ 1027810000: uvm_test_top [STRESS_BATCH] batch=15 bits=7 parity=0 stops=2 divisor=31 TX=15 RX=12
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/uart_extended_tests.sv(286) @ 1027810000: uvm_test_top [STRESS_STATS] batches=16 TX=195 RX=187 tx_hash=21680b6e rx_hash=09835eb8 format_hash=0b55c745
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(199) @ 1028320000: uvm_test_top.env.sb [SB_COUNTS] TX=195 RX=187 resets=1 max_tx=17 max_rx=16
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(200) @ 1028320000: uvm_test_top.env.sb [SB_BOUNDARIES] TX accepted=195 dropped=0 empty_RBR_reads=0
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/test/base_test.sv(101) @ 1028320000: uvm_test_top [UART_UVM_TEST_PASS] uart_random_stress_test completed with scoreboard checks
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_report_server.svh(1009) @ 1028320000: reporter [UVM/REPORT/SERVER] 
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :   24
+UVM_WARNING :    2
+UVM_ERROR :    0
+UVM_FATAL :    0
+** Report counts by id
+[NO_DPI_TSTNAME]     1
+[NO_DPI_USED]     1
+[NO_VISIT_CHECK]     1
+[RNTST]     1
+[SB_BOUNDARIES]     1
+[SB_COUNTS]     1
+[STRESS_BATCH]    16
+[STRESS_STATS]     1
+[UART_UVM_TEST_PASS]     1
+[UVM/COMP/NAMECHECK]     1
+[UVM/RELNOTES]     1
+
+- /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh:633: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.054 2026-11-01
+- Verilator: $finish at 1ms; walltime 2.725 s; speed 377.386 us/s
+- Verilator: cpu 2.532 s on 1 threads; allocated 137 MB

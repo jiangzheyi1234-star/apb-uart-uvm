@@ -1,0 +1,2703 @@
+{
+  "status": "PASS",
+  "checked_utc": "2026-11-23T15:01:56.649176+00:00",
+  "scope": "Acceptance of recorded regression evidence; raw simulation statuses are never rewritten",
+  "inputs": {
+    "fixed": "C:\\研究生\\ic项目\\results\\fixed_final\\report.json",
+    "upstream": "C:\\研究生\\ic项目\\results\\upstream_final\\report.json"
+  },
+  "requirements": {
+    "tests": [
+      "uart_smoke_test",
+      "uart_fifo_boundary_test",
+      "uart_error_test",
+      "uart_reset_test",
+      "uart_tx_overflow_test",
+      "uart_rx_retention_test",
+      "uart_empty_read_test",
+      "uart_address_mirror_test",
+      "uart_parity_requirement_test",
+      "uart_framing_requirement_test",
+      "uart_error_association_test",
+      "uart_irq_test",
+      "uart_irq_requirement_test",
+      "uart_random_stress_test",
+      "uart_baud_sweep_test"
+    ],
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "fixed_PASS": 45,
+    "upstream_PASS": 33,
+    "upstream_functional_FAIL": 12,
+    "minimum_functional_bin_hit_percent": 95,
+    "minimum_RTL_line_percent": 95,
+    "baud_format_bins_required": 96
+  },
+  "metrics": {
+    "fixed": {
+      "raw_report_status": "PASS",
+      "verified_runs": 45,
+      "raw_status_counts": {
+        "PASS": 45
+      },
+      "TX_compared_in_actual_PASS_runs": 1039,
+      "RX_compared_in_actual_PASS_runs": 1216
+    },
+    "upstream": {
+      "raw_report_status": "FAIL",
+      "verified_runs": 45,
+      "raw_status_counts": {
+        "PASS": 33,
+        "FAIL": 12
+      },
+      "TX_compared_in_actual_PASS_runs": 1021,
+      "RX_compared_in_actual_PASS_runs": 955
+    },
+    "coverage": {
+      "functional_bins_hit": 272,
+      "functional_bins_total": 277,
+      "functional_bin_hit_percent": 98.19,
+      "baud_format_bins_hit": 96,
+      "baud_format_bins_total": 96,
+      "RTL_lines_hit": 453,
+      "RTL_lines_total": 474,
+      "RTL_line_percent": 95.57,
+      "remaining_uncovered_bins": [
+        {
+          "file": "/var/tmp/apb-uart-uvm-workspace/tb/coverage/apb_uart_coverage.sv",
+          "line": "28",
+          "hierarchy": "apb_uart_pkg::apb_uart_coverage::interrupt_cg.source.invalid_pending",
+          "name": "invalid_pending",
+          "point": "",
+          "cross": "",
+          "hits": 0,
+          "at_least": 1,
+          "covered": false
+        },
+        {
+          "file": "/var/tmp/apb-uart-uvm-workspace/tb/coverage/apb_uart_coverage.sv",
+          "line": "32",
+          "hierarchy": "apb_uart_pkg::apb_uart_coverage::interrupt_cg.receive_threshold.<invalid_pending,auto_0>",
+          "name": "<invalid_pending,auto_0>",
+          "point": "",
+          "cross": "1",
+          "hits": 0,
+          "at_least": 1,
+          "covered": false
+        },
+        {
+          "file": "/var/tmp/apb-uart-uvm-workspace/tb/coverage/apb_uart_coverage.sv",
+          "line": "32",
+          "hierarchy": "apb_uart_pkg::apb_uart_coverage::interrupt_cg.receive_threshold.<invalid_pending,auto_1>",
+          "name": "<invalid_pending,auto_1>",
+          "point": "",
+          "cross": "1",
+          "hits": 0,
+          "at_least": 1,
+          "covered": false
+        },
+        {
+          "file": "/var/tmp/apb-uart-uvm-workspace/tb/coverage/apb_uart_coverage.sv",
+          "line": "32",
+          "hierarchy": "apb_uart_pkg::apb_uart_coverage::interrupt_cg.receive_threshold.<invalid_pending,auto_2>",
+          "name": "<invalid_pending,auto_2>",
+          "point": "",
+          "cross": "1",
+          "hits": 0,
+          "at_least": 1,
+          "covered": false
+        },
+        {
+          "file": "/var/tmp/apb-uart-uvm-workspace/tb/coverage/apb_uart_coverage.sv",
+          "line": "32",
+          "hierarchy": "apb_uart_pkg::apb_uart_coverage::interrupt_cg.receive_threshold.<invalid_pending,auto_3>",
+          "name": "<invalid_pending,auto_3>",
+          "point": "",
+          "cross": "1",
+          "hits": 0,
+          "at_least": 1,
+          "covered": false
+        }
+      ],
+      "database": "C:\\研究生\\ic项目\\results\\fixed_final\\coverage\\merged.dat",
+      "database_sha256": "4849521b2e91d0cb3aee896e74b92658b6b33b4d7507589774a812155d8cd250",
+      "lcov": "C:\\研究生\\ic项目\\results\\fixed_final\\coverage\\coverage.info"
+    }
+  },
+  "checks": [
+    {
+      "check": "fixed.report_readable",
+      "status": "PASS",
+      "actual": {
+        "path": "C:\\研究生\\ic项目\\results\\fixed_final\\report.json",
+        "sha256": "9bfdbf6f032a26e608e1b04292a3baa685fe5b67b99ee948198d0b01e693782d"
+      }
+    },
+    {
+      "check": "upstream.report_readable",
+      "status": "PASS",
+      "actual": {
+        "path": "C:\\研究生\\ic项目\\results\\upstream_final\\report.json",
+        "sha256": "23a23b3cb3b1a88747a261b520c616b87fc2fa9c3b339c5281decd77c11d49c1"
+      }
+    },
+    {
+      "check": "fixed.completed_build",
+      "status": "PASS",
+      "actual": {
+        "build_processes": 1,
+        "raw_report_status": "PASS",
+        "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
+        "binary_sha256": "3fe9b548a05c6f400c15cccea4212c96194e7d39641419de804dbabe94b76166"
+      }
+    },
+    {
+      "check": "fixed.exact_test_seed_matrix",
+      "status": "PASS",
+      "actual": {
+        "tests": 15,
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "runs": 45
+      }
+    },
+    {
+      "check": "fixed.uart_address_mirror_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_address_mirror_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_address_mirror_test_seed_1\\simulation.log",
+        "log_sha256": "71fbbedb4f968ddd378716003c4981a01e5cc2ae53d90c4891ae9f0396abd7aa",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_address_mirror_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_address_mirror_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_address_mirror_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_address_mirror_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_address_mirror_test_seed_2\\simulation.log",
+        "log_sha256": "ddac5b15eb07abeda8b0c8768b7bc77691246a3590e675c9268adac7f5dc5da3",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_address_mirror_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_address_mirror_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_address_mirror_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_address_mirror_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_address_mirror_test_seed_3\\simulation.log",
+        "log_sha256": "0d5941860ceb2814b6434ccf09222e6123f1889358f25c5643f8b14ae267a660",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_address_mirror_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_address_mirror_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_baud_sweep_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_baud_sweep_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 48,
+        "RX_checked": 48,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_baud_sweep_test_seed_1\\simulation.log",
+        "log_sha256": "4aae89e6b9b63a3ab73abc4193fdbafafffe6c87f24f14d030805ff2009a9954",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_baud_sweep_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_baud_sweep_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_baud_sweep_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_baud_sweep_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 48,
+        "RX_checked": 48,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_baud_sweep_test_seed_2\\simulation.log",
+        "log_sha256": "bad594e40d4ef2bfdd73a1514ac4d6836c904ba1ccae98e61fa9d74dd5d3dc7b",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_baud_sweep_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_baud_sweep_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_baud_sweep_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_baud_sweep_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 48,
+        "RX_checked": 48,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_baud_sweep_test_seed_3\\simulation.log",
+        "log_sha256": "2eb9ed9d83e9b0f64dbc0066accedf33e813ad75fb21f9b664e9b5efdedf6a5e",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_baud_sweep_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_baud_sweep_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_empty_read_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_empty_read_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_empty_read_test_seed_1\\simulation.log",
+        "log_sha256": "019d1c17693c4ee34013066389e4343373a61131a35ff2e8fce552902a3f44f2",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_empty_read_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_empty_read_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_empty_read_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_empty_read_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_empty_read_test_seed_2\\simulation.log",
+        "log_sha256": "9331207af4eaff96cb85f58279e162304aa595d999c4ecff6593aa1c5772bf9b",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_empty_read_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_empty_read_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_empty_read_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_empty_read_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_empty_read_test_seed_3\\simulation.log",
+        "log_sha256": "05e11cc4bbf3ec23ef02b00dfa46383a1a6c245e9aae32cb9d04381d398e6a8b",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_empty_read_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_empty_read_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_error_association_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_association_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 4,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 3,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_association_test_seed_1\\simulation.log",
+        "log_sha256": "49dbe4a2949cab16ce6a713c0b4176c88d247e93a3e4fce18bd1db8cb7cb94c2",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_association_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_association_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_error_association_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_association_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 4,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 3,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_association_test_seed_2\\simulation.log",
+        "log_sha256": "f04d72f07ffeec9fbbdc65dea6fcea7c105b41e39037842959635778926b013a",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_association_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_association_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_error_association_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_association_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 4,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 3,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_association_test_seed_3\\simulation.log",
+        "log_sha256": "2b2c43ac14559d599db34102d5b1bbe4b1be550122af14f6fd8274bb0b6a693e",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_association_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_association_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_error_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 3,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_test_seed_1\\simulation.log",
+        "log_sha256": "ba3a449ff40baf227581d2385af44697370ab6cf6c358320b590429c7168ad20",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_error_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 3,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_test_seed_2\\simulation.log",
+        "log_sha256": "9f1e582ff9ff0b6a613f6d11fc31003fb4795950a70d55ef4554990f3ca4cfba",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_error_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 3,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_test_seed_3\\simulation.log",
+        "log_sha256": "38a1aad39ab262f169a4b5c7a4b46fd4da1ba2ad1c805503c33567d7b9865131",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_error_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_fifo_boundary_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_fifo_boundary_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 35,
+        "RX_checked": 19,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 16,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_fifo_boundary_test_seed_1\\simulation.log",
+        "log_sha256": "2bc288f53e8f9f4143f5b09c95a35282f42c622a69491ab1418c29524e3823d9",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_fifo_boundary_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_fifo_boundary_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_fifo_boundary_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_fifo_boundary_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 35,
+        "RX_checked": 19,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 16,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_fifo_boundary_test_seed_2\\simulation.log",
+        "log_sha256": "d5e559b86a96e359850c3815b49eae176ae077736af4ad37b8e9b2ae894da1e6",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_fifo_boundary_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_fifo_boundary_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_fifo_boundary_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_fifo_boundary_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 35,
+        "RX_checked": 19,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 16,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_fifo_boundary_test_seed_3\\simulation.log",
+        "log_sha256": "15ef99fb5463782c20382c1a9ecb335228487d2396a5ea14567a4c72a1339a64",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_fifo_boundary_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_fifo_boundary_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_framing_requirement_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_framing_requirement_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_framing_requirement_test_seed_1\\simulation.log",
+        "log_sha256": "86f229353b363a11373867d5f1f2fa2243e924f0fcd682121e887a3435f211bd",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_framing_requirement_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_framing_requirement_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_framing_requirement_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_framing_requirement_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_framing_requirement_test_seed_2\\simulation.log",
+        "log_sha256": "a0abc3d43b40eaf03b3f9d9ad1cb5fc1ab2557075e9aff8dabfdeaa26a53e34f",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_framing_requirement_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_framing_requirement_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_framing_requirement_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_framing_requirement_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_framing_requirement_test_seed_3\\simulation.log",
+        "log_sha256": "b893287928eb6717e87b23fab1f12396cb97f1c163b06a83465c4ce46d2ddeed",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_framing_requirement_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_framing_requirement_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_irq_requirement_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_requirement_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 2,
+        "RX_checked": 40,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_requirement_test_seed_1\\simulation.log",
+        "log_sha256": "d6dbb951dc3f0e508b7378e5ea7884a21b6bdd58818e550cf5775a0da7af5e20",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_requirement_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_requirement_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_irq_requirement_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_requirement_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 2,
+        "RX_checked": 40,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_requirement_test_seed_2\\simulation.log",
+        "log_sha256": "1b4908c8729d8a8ab867813f5a996d511db0f0b3355bfff6f0d286d184c55edb",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_requirement_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_requirement_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_irq_requirement_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_requirement_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 2,
+        "RX_checked": 40,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_requirement_test_seed_3\\simulation.log",
+        "log_sha256": "81d8da898fd6d15ced38edc82ae9d49e6478462e470f29bde1d34f5da0f10cd3",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_requirement_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_requirement_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_irq_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 2,
+        "RX_checked": 40,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_test_seed_1\\simulation.log",
+        "log_sha256": "1c4365046db36c1119ccd4ef536f1638c6d8c08fbe114cec6034615ead17c3f3",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_irq_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 2,
+        "RX_checked": 40,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_test_seed_2\\simulation.log",
+        "log_sha256": "a80fc028cf183d8be280ee83a1b3c3321117c1c1ae2378e27f96020550b3ece6",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_irq_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 2,
+        "RX_checked": 40,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_test_seed_3\\simulation.log",
+        "log_sha256": "c61ae88d7550c891bb46113d0492a3c2745bfa1bb9d67071f283d69ed3bbf120",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_irq_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_parity_requirement_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_parity_requirement_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_parity_requirement_test_seed_1\\simulation.log",
+        "log_sha256": "cbcc06c1c81e571ec5f44d151a820a168f424ab103b47e8f8963c836b622593b",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_parity_requirement_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_parity_requirement_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_parity_requirement_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_parity_requirement_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_parity_requirement_test_seed_2\\simulation.log",
+        "log_sha256": "c828343bd680d5a554969868028a981c6c50c8482a3ce47172a80bd24bbfde3c",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_parity_requirement_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_parity_requirement_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_parity_requirement_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_parity_requirement_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_parity_requirement_test_seed_3\\simulation.log",
+        "log_sha256": "d98685843015f9ab198da9c152c0fa5a3a590c372c25e00869654f82c2a33935",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_parity_requirement_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_parity_requirement_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_random_stress_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_random_stress_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 195,
+        "RX_checked": 187,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 16,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_random_stress_test_seed_1\\simulation.log",
+        "log_sha256": "6c995e9adc5281be14a8684ae08fe36663a5c053b3c962252c0820f49033aed7",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_random_stress_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_random_stress_test_seed_1\\waves.vcd"
+        },
+        "stress": {
+          "batches": 16,
+          "TX": 195,
+          "RX": 187,
+          "tx_hash": "21680b6e",
+          "rx_hash": "09835eb8",
+          "format_hash": "0b55c745"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_random_stress_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_random_stress_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 217,
+        "RX_checked": 198,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 16,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_random_stress_test_seed_2\\simulation.log",
+        "log_sha256": "62be19441c1689d259295e75711a2c68ef39a0b660835742d63644853bf12fe5",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_random_stress_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_random_stress_test_seed_2\\waves.vcd"
+        },
+        "stress": {
+          "batches": 16,
+          "TX": 217,
+          "RX": 198,
+          "tx_hash": "2c0bfb7b",
+          "rx_hash": "6039de23",
+          "format_hash": "ed028ff5"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_random_stress_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_random_stress_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 186,
+        "RX_checked": 177,
+        "resets": 1,
+        "max_tx_pending": 16,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_random_stress_test_seed_3\\simulation.log",
+        "log_sha256": "8daed9b4edbacf6a96af3a4c1653203789be16284424c1d7ab07a83bfcbef182",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_random_stress_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_random_stress_test_seed_3\\waves.vcd"
+        },
+        "stress": {
+          "batches": 16,
+          "TX": 186,
+          "RX": 177,
+          "tx_hash": "2c70286b",
+          "rx_hash": "1d13d3ee",
+          "format_hash": "bed85a75"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_reset_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_reset_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 2,
+        "max_tx_pending": 3,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_reset_test_seed_1\\simulation.log",
+        "log_sha256": "9f7ae99447448e1f40602a03d928d7e6b01e96d4d384234d771b05e594977d81",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_reset_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_reset_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_reset_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_reset_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 2,
+        "max_tx_pending": 3,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_reset_test_seed_2\\simulation.log",
+        "log_sha256": "7da1d4ad30a33f4b094888be6d7dc5ab4699a7bd70b9780f4f1cc12dab45faa0",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_reset_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_reset_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_reset_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_reset_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 2,
+        "max_tx_pending": 3,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_reset_test_seed_3\\simulation.log",
+        "log_sha256": "b4969ef483f02cb73fa085d4160ba8341aa88d0a2f6407ff8e74db21b6d46e52",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_reset_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_reset_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_rx_retention_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_rx_retention_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 21,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 17,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_rx_retention_test_seed_1\\simulation.log",
+        "log_sha256": "0424d4d1e33ecf6850522bc0279b6b5acce8cd9f5f616a28505aab854036e753",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_rx_retention_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_rx_retention_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_rx_retention_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_rx_retention_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 21,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 17,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_rx_retention_test_seed_2\\simulation.log",
+        "log_sha256": "473654e7e84d1b45ef4e617a51b5944b994cb13168263e6171dd46da121a5870",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_rx_retention_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_rx_retention_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_rx_retention_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_rx_retention_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 21,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 17,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_rx_retention_test_seed_3\\simulation.log",
+        "log_sha256": "fd65e7008cc8491ab5564983c61682592d116098c9928b2c1bd16ecb284bc5b7",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_rx_retention_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_rx_retention_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_smoke_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_smoke_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 34,
+        "RX_checked": 34,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_smoke_test_seed_1\\simulation.log",
+        "log_sha256": "1b6ecf896e710a7ae9ead1f6b6b33cedc97b7fb7612d142311bed777f62d94f9",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_smoke_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_smoke_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_smoke_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_smoke_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 34,
+        "RX_checked": 34,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_smoke_test_seed_2\\simulation.log",
+        "log_sha256": "08d9b0d1f241ca808a0c15c0f02d34d0ab9ddf6e7544e527b0065dfcb95aae92",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_smoke_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_smoke_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_smoke_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_smoke_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 34,
+        "RX_checked": 34,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_smoke_test_seed_3\\simulation.log",
+        "log_sha256": "68d3288ccebc081a755453649e97e05bff3a78e50e7c1406345fddac831547bc",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_smoke_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_smoke_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_tx_overflow_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_tx_overflow_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 18,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_tx_overflow_test_seed_1\\simulation.log",
+        "log_sha256": "e35cbd38aba10a14c8d070b3e9659b226188d8f1458a44324c6d5059ce032679",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_tx_overflow_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_tx_overflow_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_tx_overflow_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_tx_overflow_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 18,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_tx_overflow_test_seed_2\\simulation.log",
+        "log_sha256": "9aa4233638dee4457f7d635c47c29747a4bfef2f394badb816aa771f52969c78",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_tx_overflow_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_tx_overflow_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "fixed.uart_tx_overflow_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_tx_overflow_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 18,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_tx_overflow_test_seed_3\\simulation.log",
+        "log_sha256": "fca4896a9edfcabff08b53185c38a55b6d3cab4ace2d0386f39594c5bc30af05",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_tx_overflow_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\fixed_final\\uart_tx_overflow_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.completed_build",
+      "status": "PASS",
+      "actual": {
+        "build_processes": 1,
+        "raw_report_status": "FAIL",
+        "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
+        "binary_sha256": "db9cd8a1f2b0ca75d619a83a2395f1db655abc16895ff2e175d0e5d172febc60"
+      }
+    },
+    {
+      "check": "upstream.exact_test_seed_matrix",
+      "status": "PASS",
+      "actual": {
+        "tests": 15,
+        "seeds": [
+          1,
+          2,
+          3
+        ],
+        "runs": 45
+      }
+    },
+    {
+      "check": "upstream.uart_address_mirror_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_address_mirror_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_address_mirror_test_seed_1\\simulation.log",
+        "log_sha256": "9db0ef3a809e27160250c97e14cd98767d36e3d0769960fc37a974f1fa465302",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_address_mirror_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_address_mirror_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_address_mirror_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_address_mirror_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_address_mirror_test_seed_2\\simulation.log",
+        "log_sha256": "c077dcdb4505b32aeaf23a9ee45fd0a445a1583c719a960e83fe82975bc0afab",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_address_mirror_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_address_mirror_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_address_mirror_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_address_mirror_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_address_mirror_test_seed_3\\simulation.log",
+        "log_sha256": "1058faf046de57761b8252111221d51b6384c27932b125ef7c3a5cafe81b388b",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_address_mirror_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_address_mirror_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_baud_sweep_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_baud_sweep_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 48,
+        "RX_checked": 48,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_baud_sweep_test_seed_1\\simulation.log",
+        "log_sha256": "0d6d7ff7053b07f20ca9ba804731eb1840ffd5949ae69aced9a347add1b13916",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_baud_sweep_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_baud_sweep_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_baud_sweep_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_baud_sweep_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 48,
+        "RX_checked": 48,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_baud_sweep_test_seed_2\\simulation.log",
+        "log_sha256": "6d751fbe325af9b7d34a40855addeb1d90fe34bcdfda21e5909820f5aa96eec7",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_baud_sweep_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_baud_sweep_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_baud_sweep_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_baud_sweep_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 48,
+        "RX_checked": 48,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_baud_sweep_test_seed_3\\simulation.log",
+        "log_sha256": "2e1801ded31d76cc1a1f727e28c40480edb75229102a33539069e6c401751a04",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_baud_sweep_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_baud_sweep_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_empty_read_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_empty_read_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_empty_read_test_seed_1\\simulation.log",
+        "log_sha256": "c0e11cfa2301a44cf37635ed250d9acbb6da80dcd3554e1b97476744672b5edd",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_empty_read_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_empty_read_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_empty_read_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_empty_read_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_empty_read_test_seed_2\\simulation.log",
+        "log_sha256": "715283ef98029c728bb8d0840b1f28b58615969c790033035fb0dda5e49ae802",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_empty_read_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_empty_read_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_empty_read_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_empty_read_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_empty_read_test_seed_3\\simulation.log",
+        "log_sha256": "b5d78e72a3005274da1353858220be3dbbefdabe89db3ba5dd1d6dd5c5dd11bb",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_empty_read_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_empty_read_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_error_association_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_association_test",
+        "seed": 1,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 1,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 4,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 3,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_1\\simulation.log",
+        "log_sha256": "a133544f3341f45e579a17c517a97864a6850135e6ef8ac65291a5ad852ac987",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_error_association_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_association_test",
+        "seed": 2,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 1,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 4,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 3,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_2\\simulation.log",
+        "log_sha256": "ea7db3a240e733e9fa48f6d9ff8d73e589535407739cf81ad28ee905c570e776",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_error_association_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_association_test",
+        "seed": 3,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 1,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 4,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 3,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_3\\simulation.log",
+        "log_sha256": "27dc0f9862f979c1792b4e795296d497663176f1a43497d5dffa1d8b1be5cccb",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_error_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 3,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_test_seed_1\\simulation.log",
+        "log_sha256": "019d78ed15d1b3ae13d90414a5c6d20f5ed97bd37f389c29b5bdcc8665b817de",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_error_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 3,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_test_seed_2\\simulation.log",
+        "log_sha256": "00054b3512a2c91403c88bd78c7030e59cf2f99851e50130fd81fb8678982828",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_error_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_error_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 3,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_test_seed_3\\simulation.log",
+        "log_sha256": "60973bb285cd99d469c4947398dd7b82277aa5b30b42bba8f3bcc3c768d839c5",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_fifo_boundary_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_fifo_boundary_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 35,
+        "RX_checked": 19,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 16,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_fifo_boundary_test_seed_1\\simulation.log",
+        "log_sha256": "0cb94091cb1ee9ea985c8d2462428a0a1353282254244ad166ed35419dd987f4",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_fifo_boundary_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_fifo_boundary_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_fifo_boundary_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_fifo_boundary_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 35,
+        "RX_checked": 19,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 16,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_fifo_boundary_test_seed_2\\simulation.log",
+        "log_sha256": "c23329dc0d4b706bf9ec8727001427a154920b568afc9f58fba9ac06571deda1",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_fifo_boundary_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_fifo_boundary_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_fifo_boundary_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_fifo_boundary_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 35,
+        "RX_checked": 19,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 16,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_fifo_boundary_test_seed_3\\simulation.log",
+        "log_sha256": "2d2302fd45d90a97ec6562f799ae20944dfa34a4950c8d638eec4787086d5f11",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_fifo_boundary_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_fifo_boundary_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_framing_requirement_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_framing_requirement_test",
+        "seed": 1,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 1,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_1\\simulation.log",
+        "log_sha256": "a1d576f89a5008b00593b5e39b11a0d601188da20479bac4eb2a95e917d33a94",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_framing_requirement_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_framing_requirement_test",
+        "seed": 2,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 1,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_2\\simulation.log",
+        "log_sha256": "09852b29696c4a5dc1a1f0bbb3046332d282c8611abcb0f8787cd5be4f86c5d2",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_framing_requirement_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_framing_requirement_test",
+        "seed": 3,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 1,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_3\\simulation.log",
+        "log_sha256": "7e4e9db40ad9bc130c130e39c162e6374a91b6873a607c610d435cd324866dbb",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_irq_requirement_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_requirement_test",
+        "seed": 1,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 65,
+        "uvm_fatals": 0,
+        "TX_checked": 2,
+        "RX_checked": 40,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_1\\simulation.log",
+        "log_sha256": "020f74c6052b6b3f9ab584cb541a8b495cd385622bca8cd33a51746b0785be8d",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_irq_requirement_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_requirement_test",
+        "seed": 2,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 65,
+        "uvm_fatals": 0,
+        "TX_checked": 2,
+        "RX_checked": 40,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_2\\simulation.log",
+        "log_sha256": "5ba7bd2b5090f0a46f416798bff938fbb8eeb1aab873019a8105239288123f5d",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_irq_requirement_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_requirement_test",
+        "seed": 3,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 65,
+        "uvm_fatals": 0,
+        "TX_checked": 2,
+        "RX_checked": 40,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_3\\simulation.log",
+        "log_sha256": "532028f169d59385d28a8af3666f4104dc4a561ff109ab3e8660974ba7bfd089",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_irq_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_test_seed_1\\simulation.log",
+        "log_sha256": "3c05554c82824484cc146a51d1168a58e1b44484f4fa347211e4a91eb3003b30",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_irq_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_test_seed_2\\simulation.log",
+        "log_sha256": "1fdb1bc9c43068618fd98301d47ab9264c80ed6792207386f9d5fd5c7577c976",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_irq_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_irq_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_test_seed_3\\simulation.log",
+        "log_sha256": "3039dc5c96363241156b5607c70b294cde23fead5f57f553533e9b6ed72d81a3",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_parity_requirement_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_parity_requirement_test",
+        "seed": 1,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 1,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_1\\simulation.log",
+        "log_sha256": "0f969966c49ca91beb602b29b93181382bf6368b71f903b500ca3ce10d549460",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_parity_requirement_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_parity_requirement_test",
+        "seed": 2,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 1,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_2\\simulation.log",
+        "log_sha256": "5ef7b76613d37d16eb267c42aaa78d07ed26b0c4f3be58574d26b5492b324f9e",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_parity_requirement_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_parity_requirement_test",
+        "seed": 3,
+        "raw_status": "FAIL",
+        "expected_behavior": "functional_failure",
+        "uvm_errors": 1,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 2,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_3\\simulation.log",
+        "log_sha256": "49e7cc82797764127f66dfa485e685076aed80f52e88a96dab288a9f3f1afb90",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_random_stress_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_random_stress_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 195,
+        "RX_checked": 187,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 16,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_random_stress_test_seed_1\\simulation.log",
+        "log_sha256": "ccf4b7e04f47b1a26efc84857dde57afe6b59a969fdd1156e57093266f8f67a4",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_random_stress_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_random_stress_test_seed_1\\waves.vcd"
+        },
+        "stress": {
+          "batches": 16,
+          "TX": 195,
+          "RX": 187,
+          "tx_hash": "21680b6e",
+          "rx_hash": "09835eb8",
+          "format_hash": "0b55c745"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_random_stress_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_random_stress_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 217,
+        "RX_checked": 198,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 16,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_random_stress_test_seed_2\\simulation.log",
+        "log_sha256": "06bba2beb58c061b13ccb6ce46a908ebc5c2c17012a0dc26f34cef25dcdb179e",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_random_stress_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_random_stress_test_seed_2\\waves.vcd"
+        },
+        "stress": {
+          "batches": 16,
+          "TX": 217,
+          "RX": 198,
+          "tx_hash": "2c0bfb7b",
+          "rx_hash": "6039de23",
+          "format_hash": "ed028ff5"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_random_stress_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_random_stress_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 186,
+        "RX_checked": 177,
+        "resets": 1,
+        "max_tx_pending": 16,
+        "max_rx_pending": 15,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_random_stress_test_seed_3\\simulation.log",
+        "log_sha256": "869a575e9234829264aa27faf1f735e33b542bb6d40fb969e7d5d8916f52ecef",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_random_stress_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_random_stress_test_seed_3\\waves.vcd"
+        },
+        "stress": {
+          "batches": 16,
+          "TX": 186,
+          "RX": 177,
+          "tx_hash": "2c70286b",
+          "rx_hash": "1d13d3ee",
+          "format_hash": "bed85a75"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_reset_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_reset_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 2,
+        "max_tx_pending": 3,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_reset_test_seed_1\\simulation.log",
+        "log_sha256": "7845ff264ce481e919ff2d3f30f376b726be13b09c9ef3b3b9c50bbd35fb281a",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_reset_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_reset_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_reset_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_reset_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 2,
+        "max_tx_pending": 3,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_reset_test_seed_2\\simulation.log",
+        "log_sha256": "c433ad8bc95eabef730eb4edb53b7500af42aa3f2296e218284a308bb24cc587",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_reset_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_reset_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_reset_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_reset_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 1,
+        "resets": 2,
+        "max_tx_pending": 3,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_reset_test_seed_3\\simulation.log",
+        "log_sha256": "71f2af7b13e5d24413c485b3f514bbfa7ba93b2fe7a20a811b45e0129c219b2a",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_reset_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_reset_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_rx_retention_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_rx_retention_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 21,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 17,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_rx_retention_test_seed_1\\simulation.log",
+        "log_sha256": "ebdc0c283d45643959b0b9195384e87387e52177673cf7d99fbf3d7377492074",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_rx_retention_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_rx_retention_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_rx_retention_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_rx_retention_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 21,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 17,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_rx_retention_test_seed_2\\simulation.log",
+        "log_sha256": "9790f39137db7be3771822124852f574d807d7ccc99a0ba7dada5dc9be74598d",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_rx_retention_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_rx_retention_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_rx_retention_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_rx_retention_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 1,
+        "RX_checked": 21,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 17,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_rx_retention_test_seed_3\\simulation.log",
+        "log_sha256": "485ca9d9836f0f620511c9d1b40070fbdfc9a86beb142fe8215a2e85cff73d70",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_rx_retention_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_rx_retention_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_smoke_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_smoke_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 34,
+        "RX_checked": 34,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_smoke_test_seed_1\\simulation.log",
+        "log_sha256": "cb9ce0efe93578dac2f665e6e9a6bba14e16234f4a0cec9b2f35402fbab60e83",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_smoke_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_smoke_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_smoke_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_smoke_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 34,
+        "RX_checked": 34,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_smoke_test_seed_2\\simulation.log",
+        "log_sha256": "14a2b16348fdcf6eec7200c1c8a2f86b15ec346b2fb056d481370df2c8e8099e",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_smoke_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_smoke_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_smoke_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_smoke_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 34,
+        "RX_checked": 34,
+        "resets": 1,
+        "max_tx_pending": 1,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_smoke_test_seed_3\\simulation.log",
+        "log_sha256": "e913159a89b1248d21ef3ef8622a9258588efa537d592ab95f38b38c7bd8018b",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_smoke_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_smoke_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_tx_overflow_test.seed_1",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_tx_overflow_test",
+        "seed": 1,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 18,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_tx_overflow_test_seed_1\\simulation.log",
+        "log_sha256": "ae2197498bb4efed9e8cc6bbd95149a1b996af55caff29852be83bf6ae9731a6",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_tx_overflow_test_seed_1\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_tx_overflow_test_seed_1\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_tx_overflow_test.seed_2",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_tx_overflow_test",
+        "seed": 2,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 18,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_tx_overflow_test_seed_2\\simulation.log",
+        "log_sha256": "782bba354f02aea16e0d86c72ad49c0347aaf497519951e056a58374862b5060",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_tx_overflow_test_seed_2\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_tx_overflow_test_seed_2\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "upstream.uart_tx_overflow_test.seed_3",
+      "status": "PASS",
+      "actual": {
+        "test": "uart_tx_overflow_test",
+        "seed": 3,
+        "raw_status": "PASS",
+        "expected_behavior": "pass",
+        "uvm_errors": 0,
+        "uvm_fatals": 0,
+        "TX_checked": 18,
+        "RX_checked": 1,
+        "resets": 1,
+        "max_tx_pending": 17,
+        "max_rx_pending": 1,
+        "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_tx_overflow_test_seed_3\\simulation.log",
+        "log_sha256": "0b32cc51c96882d6505098905832b93f8e24d90fe26353a3b5f352e4e5992079",
+        "artifacts": {
+          "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_tx_overflow_test_seed_3\\coverage.dat",
+          "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_tx_overflow_test_seed_3\\waves.vcd"
+        }
+      }
+    },
+    {
+      "check": "random_stimulus_seed_diversity_and_replay",
+      "status": "PASS",
+      "actual": {
+        "fixed": {
+          "1": {
+            "batches": 16,
+            "TX": 195,
+            "RX": 187,
+            "tx_hash": "21680b6e",
+            "rx_hash": "09835eb8",
+            "format_hash": "0b55c745"
+          },
+          "2": {
+            "batches": 16,
+            "TX": 217,
+            "RX": 198,
+            "tx_hash": "2c0bfb7b",
+            "rx_hash": "6039de23",
+            "format_hash": "ed028ff5"
+          },
+          "3": {
+            "batches": 16,
+            "TX": 186,
+            "RX": 177,
+            "tx_hash": "2c70286b",
+            "rx_hash": "1d13d3ee",
+            "format_hash": "bed85a75"
+          }
+        },
+        "upstream": {
+          "1": {
+            "batches": 16,
+            "TX": 195,
+            "RX": 187,
+            "tx_hash": "21680b6e",
+            "rx_hash": "09835eb8",
+            "format_hash": "0b55c745"
+          },
+          "2": {
+            "batches": 16,
+            "TX": 217,
+            "RX": 198,
+            "tx_hash": "2c0bfb7b",
+            "rx_hash": "6039de23",
+            "format_hash": "ed028ff5"
+          },
+          "3": {
+            "batches": 16,
+            "TX": 186,
+            "RX": 177,
+            "tx_hash": "2c70286b",
+            "rx_hash": "1d13d3ee",
+            "format_hash": "bed85a75"
+          }
+        }
+      }
+    },
+    {
+      "check": "source_and_pinned_integrity",
+      "status": "PASS",
+      "actual": {
+        "identical_TB_files": 22,
+        "identical_UVM_files": 170,
+        "pinned_files_verified": 8,
+        "pinned_commit": "dfad6e04d19cc9481d3cd2750b45b970dc61271b",
+        "snapshot_sha256": {
+          "fixed": "c025195b71c98e40fd5c2b124148ab6db7fa56834e53a8162067079ec459d7ed",
+          "upstream": "c646bfb99a3a8b7ec6a314bdf5326d598298a5135359acb6b5dd4e142e79f159"
+        }
+      }
+    },
+    {
+      "check": "fixed.native_coverage",
+      "status": "PASS",
+      "actual": {
+        "functional_bins_hit": 272,
+        "functional_bins_total": 277,
+        "functional_bin_hit_percent": 98.19,
+        "baud_format_bins_hit": 96,
+        "baud_format_bins_total": 96,
+        "RTL_lines_hit": 453,
+        "RTL_lines_total": 474,
+        "RTL_line_percent": 95.57,
+        "remaining_uncovered_bins": [
+          {
+            "file": "/var/tmp/apb-uart-uvm-workspace/tb/coverage/apb_uart_coverage.sv",
+            "line": "28",
+            "hierarchy": "apb_uart_pkg::apb_uart_coverage::interrupt_cg.source.invalid_pending",
+            "name": "invalid_pending",
+            "point": "",
+            "cross": "",
+            "hits": 0,
+            "at_least": 1,
+            "covered": false
+          },
+          {
+            "file": "/var/tmp/apb-uart-uvm-workspace/tb/coverage/apb_uart_coverage.sv",
+            "line": "32",
+            "hierarchy": "apb_uart_pkg::apb_uart_coverage::interrupt_cg.receive_threshold.<invalid_pending,auto_0>",
+            "name": "<invalid_pending,auto_0>",
+            "point": "",
+            "cross": "1",
+            "hits": 0,
+            "at_least": 1,
+            "covered": false
+          },
+          {
+            "file": "/var/tmp/apb-uart-uvm-workspace/tb/coverage/apb_uart_coverage.sv",
+            "line": "32",
+            "hierarchy": "apb_uart_pkg::apb_uart_coverage::interrupt_cg.receive_threshold.<invalid_pending,auto_1>",
+            "name": "<invalid_pending,auto_1>",
+            "point": "",
+            "cross": "1",
+            "hits": 0,
+            "at_least": 1,
+            "covered": false
+          },
+          {
+            "file": "/var/tmp/apb-uart-uvm-workspace/tb/coverage/apb_uart_coverage.sv",
+            "line": "32",
+            "hierarchy": "apb_uart_pkg::apb_uart_coverage::interrupt_cg.receive_threshold.<invalid_pending,auto_2>",
+            "name": "<invalid_pending,auto_2>",
+            "point": "",
+            "cross": "1",
+            "hits": 0,
+            "at_least": 1,
+            "covered": false
+          },
+          {
+            "file": "/var/tmp/apb-uart-uvm-workspace/tb/coverage/apb_uart_coverage.sv",
+            "line": "32",
+            "hierarchy": "apb_uart_pkg::apb_uart_coverage::interrupt_cg.receive_threshold.<invalid_pending,auto_3>",
+            "name": "<invalid_pending,auto_3>",
+            "point": "",
+            "cross": "1",
+            "hits": 0,
+            "at_least": 1,
+            "covered": false
+          }
+        ],
+        "database": "C:\\研究生\\ic项目\\results\\fixed_final\\coverage\\merged.dat",
+        "database_sha256": "4849521b2e91d0cb3aee896e74b92658b6b33b4d7507589774a812155d8cd250",
+        "lcov": "C:\\研究生\\ic项目\\results\\fixed_final\\coverage\\coverage.info"
+      }
+    },
+    {
+      "check": "upstream.expected_functional_failures_preserved",
+      "status": "PASS",
+      "actual": {
+        "count": 12,
+        "tests": [
+          "uart_error_association_test",
+          "uart_framing_requirement_test",
+          "uart_irq_requirement_test",
+          "uart_parity_requirement_test"
+        ],
+        "raw_status": "FAIL"
+      }
+    }
+  ],
+  "failed_checks": 0,
+  "expected_failures": [
+    {
+      "test": "uart_error_association_test",
+      "seed": 1,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 1,
+      "uvm_fatals": 0,
+      "TX_checked": 1,
+      "RX_checked": 4,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 3,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_1\\simulation.log",
+      "log_sha256": "a133544f3341f45e579a17c517a97864a6850135e6ef8ac65291a5ad852ac987",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_1\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_1\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_error_association_test",
+      "seed": 2,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 1,
+      "uvm_fatals": 0,
+      "TX_checked": 1,
+      "RX_checked": 4,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 3,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_2\\simulation.log",
+      "log_sha256": "ea7db3a240e733e9fa48f6d9ff8d73e589535407739cf81ad28ee905c570e776",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_2\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_2\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_error_association_test",
+      "seed": 3,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 1,
+      "uvm_fatals": 0,
+      "TX_checked": 1,
+      "RX_checked": 4,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 3,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_3\\simulation.log",
+      "log_sha256": "27dc0f9862f979c1792b4e795296d497663176f1a43497d5dffa1d8b1be5cccb",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_3\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_error_association_test_seed_3\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_framing_requirement_test",
+      "seed": 1,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 1,
+      "uvm_fatals": 0,
+      "TX_checked": 1,
+      "RX_checked": 2,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 1,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_1\\simulation.log",
+      "log_sha256": "a1d576f89a5008b00593b5e39b11a0d601188da20479bac4eb2a95e917d33a94",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_1\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_1\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_framing_requirement_test",
+      "seed": 2,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 1,
+      "uvm_fatals": 0,
+      "TX_checked": 1,
+      "RX_checked": 2,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 1,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_2\\simulation.log",
+      "log_sha256": "09852b29696c4a5dc1a1f0bbb3046332d282c8611abcb0f8787cd5be4f86c5d2",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_2\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_2\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_framing_requirement_test",
+      "seed": 3,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 1,
+      "uvm_fatals": 0,
+      "TX_checked": 1,
+      "RX_checked": 2,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 1,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_3\\simulation.log",
+      "log_sha256": "7e4e9db40ad9bc130c130e39c162e6374a91b6873a607c610d435cd324866dbb",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_3\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_framing_requirement_test_seed_3\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_irq_requirement_test",
+      "seed": 1,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 65,
+      "uvm_fatals": 0,
+      "TX_checked": 2,
+      "RX_checked": 40,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 15,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_1\\simulation.log",
+      "log_sha256": "020f74c6052b6b3f9ab584cb541a8b495cd385622bca8cd33a51746b0785be8d",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_1\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_1\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_irq_requirement_test",
+      "seed": 2,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 65,
+      "uvm_fatals": 0,
+      "TX_checked": 2,
+      "RX_checked": 40,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 15,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_2\\simulation.log",
+      "log_sha256": "5ba7bd2b5090f0a46f416798bff938fbb8eeb1aab873019a8105239288123f5d",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_2\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_2\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_irq_requirement_test",
+      "seed": 3,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 65,
+      "uvm_fatals": 0,
+      "TX_checked": 2,
+      "RX_checked": 40,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 15,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_3\\simulation.log",
+      "log_sha256": "532028f169d59385d28a8af3666f4104dc4a561ff109ab3e8660974ba7bfd089",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_3\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_irq_requirement_test_seed_3\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_parity_requirement_test",
+      "seed": 1,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 1,
+      "uvm_fatals": 0,
+      "TX_checked": 1,
+      "RX_checked": 2,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 1,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_1\\simulation.log",
+      "log_sha256": "0f969966c49ca91beb602b29b93181382bf6368b71f903b500ca3ce10d549460",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_1\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_1\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_parity_requirement_test",
+      "seed": 2,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 1,
+      "uvm_fatals": 0,
+      "TX_checked": 1,
+      "RX_checked": 2,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 1,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_2\\simulation.log",
+      "log_sha256": "5ef7b76613d37d16eb267c42aaa78d07ed26b0c4f3be58574d26b5492b324f9e",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_2\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_2\\waves.vcd"
+      }
+    },
+    {
+      "test": "uart_parity_requirement_test",
+      "seed": 3,
+      "raw_status": "FAIL",
+      "expected_behavior": "functional_failure",
+      "uvm_errors": 1,
+      "uvm_fatals": 0,
+      "TX_checked": 1,
+      "RX_checked": 2,
+      "resets": 1,
+      "max_tx_pending": 1,
+      "max_rx_pending": 1,
+      "log": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_3\\simulation.log",
+      "log_sha256": "49e7cc82797764127f66dfa485e685076aed80f52e88a96dab288a9f3f1afb90",
+      "artifacts": {
+        "coverage_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_3\\coverage.dat",
+        "waveform_file": "C:\\研究生\\ic项目\\results\\upstream_final\\uart_parity_requirement_test_seed_3\\waves.vcd"
+      }
+    }
+  ]
+}
