@@ -26,4 +26,9 @@ package apb_uart_pkg;
   `include "test/base_test.sv"
   `include "test/uart_tests.sv"
   `include "test/uart_extended_tests.sv"
+  `include "ral/uart_apb_reg_adapter.sv"
+  `include "ral/uart_dlab_frontdoor.sv"
+  `include "ral/uart_reg_block.sv"
+  `include "ral/uart_bank_predictor.sv"
+  `include "test/uart_ral_test.sv"
 endpackage

@@ -8,11 +8,46 @@ module tb_top;
   apb_if apb(clk);
   uart_if uart(clk);
   assign uart.rst_n=apb.rst_n;
+  // Optional negative controls exercise the real checking paths. With no
+  // MUTATION plusarg all connections are transparent; vendored RTL is intact.
+  string mutation_mode="";
+  bit mutate_tx_data,mutate_rx_data,mutate_parity,mutate_irq;
+  logic observed_dlab;
+  logic [31:0] dut_pwdata,dut_prdata;
+  logic dut_irq;
+  initial begin : mutation_control
+    if($value$plusargs("MUTATION=%s",mutation_mode)) begin
+      case(mutation_mode)
+        "tx_data_xor": mutate_tx_data=1;
+        "rx_data_xor": mutate_rx_data=1;
+        "parity_mask": mutate_parity=1;
+        "irq_stuck_low": mutate_irq=1;
+        default: `uvm_fatal("UNKNOWN_MUTATION",$sformatf("Unknown mutation %s",mutation_mode))
+      endcase
+      `uvm_info("MUTATION_ACTIVE",mutation_mode,UVM_NONE)
+    end
+  end
+  always_ff @(posedge clk or negedge apb.rst_n) begin
+    if(!apb.rst_n) observed_dlab<=0;
+    else if(apb.psel && apb.penable && apb.pready && apb.pwrite && apb.paddr[2:0]==3)
+      observed_dlab<=apb.pwdata[7];
+  end
+  always_comb begin
+    dut_pwdata=apb.pwdata;
+    if(mutate_tx_data && apb.pwrite && apb.paddr[2:0]==0 && !observed_dlab)
+      dut_pwdata[0]=~apb.pwdata[0];
+    apb.prdata=dut_prdata;
+    if(mutate_rx_data && !apb.pwrite && apb.paddr[2:0]==0 && !observed_dlab)
+      apb.prdata[0]=~dut_prdata[0];
+    if(mutate_parity && !apb.pwrite && apb.paddr[2:0]==5)
+      apb.prdata[2]=0;
+  end
+  assign uart.irq=mutate_irq?1'b0:dut_irq;
   apb_uart_sv #(.APB_ADDR_WIDTH(12)) dut (
-    .CLK(clk),.RSTN(apb.rst_n),.PADDR(apb.paddr),.PWDATA(apb.pwdata),
+    .CLK(clk),.RSTN(apb.rst_n),.PADDR(apb.paddr),.PWDATA(dut_pwdata),
     .PWRITE(apb.pwrite),.PSEL(apb.psel),.PENABLE(apb.penable),
-    .PRDATA(apb.prdata),.PREADY(apb.pready),.PSLVERR(apb.pslverr),
-    .rx_i(uart.rx),.tx_o(uart.tx),.event_o(uart.irq)
+    .PRDATA(dut_prdata),.PREADY(apb.pready),.PSLVERR(apb.pslverr),
+    .rx_i(uart.rx),.tx_o(uart.tx),.event_o(dut_irq)
   );
   initial begin
     apb.rst_n=0;

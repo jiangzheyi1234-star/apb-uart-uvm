@@ -1,0 +1,47 @@
+# Scoped APB UART register model
+
+This independently authored SystemVerilog RAL model covers the implemented
+stored RW registers **IER, LCR, DLL and DLM**. It does not claim a complete UART
+register model or full register coverage.
+
+| Map | Register | Byte offset | Required DLAB |
+| --- | --- | ---: | ---: |
+| normal_map | IER | 1 | 0 |
+| normal_map | LCR | 3 | either |
+| banked_map | DLL | 0 | 1 |
+| banked_map | DLM | 1 | 1 |
+| banked_map | LCR | 3 | either |
+
+IER/DLL/DLM have a custom frontdoor that locks the APB sequencer, reads the
+actual LCR, changes only DLAB if needed, performs the target access, and restores
+the exact previous LCR before unlocking. LCR itself uses the normal map adapter.
+Each register has its own frontdoor object so independent accesses can contend
+without sharing a mutable frontdoor operation.
+
+`uart_bank_predictor` extends the UVM explicit predictor. It tracks DLAB from
+observed, completed APB transactions, canonicalizes high address aliases, selects
+exactly one map, and resets mirrors on hardware reset. Both maps have
+auto-prediction disabled. Thus mirror assertions cannot pass merely because a
+RAL write predicted itself.
+
+RBR/THR FIFO ports, FCR/IIR read/write aliases, LSR status and the unimplemented
+MCR/MSR/SCR registers are outside automatic mirroring. The existing agents and
+transaction scoreboard retain responsibility for their side effects. The model
+has no HDL backdoor and no new covergroups; the existing 277-bin coverage plan
+remains unchanged. Reset is exercised while RAL operations are idle; cancellation
+and restart of an active RAL sequence during reset are not claimed here.
+
+`uart_ral_test` checks reset mirrors, 12 randomized RW iterations in alternating
+DLAB states, exact bank/format restoration, concurrent normal/banked accesses,
+raw APB prediction including high aliases, and a final bidirectional data exchange.
+
+Include these declarations after the APB classes, in this order:
+
+1. `ral/uart_apb_reg_adapter.sv`
+2. `ral/uart_dlab_frontdoor.sv`
+3. `ral/uart_reg_block.sv`
+4. `ral/uart_bank_predictor.sv`
+
+Include `test/uart_ral_test.sv` after `test/base_test.sv`. The optional test builds
+and connects its own register model/predictor; existing test and environment
+classes need no changes.
