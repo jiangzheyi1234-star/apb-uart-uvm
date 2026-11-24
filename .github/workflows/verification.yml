@@ -42,6 +42,10 @@ jobs:
         run: python3 py/verify_rtl.py
       - name: Test result parsing, process failures and negative controls
         run: python3 -m unittest discover -s tests -v
+      - name: Build separate source and evidence distributions
+        run: |
+          python3 py/package_project.py --profile source --out dist/ci-source.zip
+          python3 py/package_project.py --profile evidence --out dist/ci-evidence.zip
 
   uvm:
     name: Real UVM regression, checker mutations and register model

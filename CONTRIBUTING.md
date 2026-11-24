@@ -8,4 +8,4 @@ Retain raw FAIL results for negative controls and upstream defect reproductions.
 
 Changes to register handling should exercise both DLAB banks, preserve LCR framing bits, and test passive mirror prediction. Changes to checkers should include a passing control and a measured injected-fault detection case.
 
-The public repository does not contain personal resumes, tool installation caches, simulator build caches, account credentials, or unrelated workspace files. Keep those outside tracked paths.
+Keep downloaded tools, simulator build caches, credentials and unrelated files outside tracked source paths. Distribution contents and release checks are defined in [RELEASE.md](RELEASE.md).

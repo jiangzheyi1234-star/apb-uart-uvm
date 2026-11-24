@@ -1,5 +1,6 @@
 .tools/
 .resume_work/
+.private/
 apb-uart-uvm/
 __pycache__/
 *.pyc

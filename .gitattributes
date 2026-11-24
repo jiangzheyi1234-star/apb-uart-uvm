@@ -2,8 +2,6 @@
 *.png binary
 *.zip binary
 *.dat binary
-docs/evidence/** -text
-docs/evidence/** linguist-generated=true
 docs/release/** -text linguist-generated=true
 docs/features/** -text linguist-generated=true
 rtl/** linguist-vendored=true

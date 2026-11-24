@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Create a reproducible source/evidence ZIP with an internal SHA-256 manifest.
+"""Create separate reproducible source and verification-evidence distributions.
 
-Run from any directory: python py/package_project.py --out dist/apb-uart-uvm.zip
-Only the project source/documentation allowlist is included. Downloaded tools,
-simulator output directories, unrelated workspaces, Git internals and caches
-are excluded. Curated evidence saved under docs/ is included.
+The default source profile contains implementation, tools, tests and explicitly
+selected technical documentation. The evidence profile contains only curated
+current evidence, its HTML entry point and licensing. Their distinct manifests
+allow both archives to be extracted into the same directory.
 """
 
 from __future__ import annotations
@@ -13,6 +13,7 @@ import argparse
 import hashlib
 import os
 from pathlib import Path
+import re
 import sys
 import tempfile
 import zipfile
@@ -20,17 +21,41 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_DIRECTORIES = (
-    "rtl", "rtl_fixed", "tb", "sim", "py", "tests", "docs", "scripts", "third_party", ".github"
+    "rtl", "rtl_fixed", "tb", "sim", "py", "tests", "scripts", "third_party", ".github"
 )
-ROOT_FILES = ("README.md", "README.en.md", "LICENSE", "NOTICE.md", "CONTRIBUTING.md", ".gitignore", ".gitattributes")
+ROOT_FILES = (
+    "README.md", "README.en.md", "LICENSE", "NOTICE", "NOTICE.md",
+    "CONTRIBUTING", "CONTRIBUTING.md", "CHANGELOG", "CHANGELOG.md",
+    "RELEASE.md", ".gitignore", ".gitattributes",
+)
+SOURCE_DOCUMENTS = (
+    "docs/README.md", "docs/architecture.md", "docs/registers.md",
+    "docs/verification_plan.md", "docs/rtl_findings.md", "docs/rtl_fixes.md",
+    "docs/coverage_analysis.md", "docs/checker_sensitivity.md", "docs/validation.md",
+)
+EVIDENCE_DIRECTORIES = ("docs/release", "docs/features", "docs/ci")
+EVIDENCE_FILES = ("docs/index.html", "docs/.nojekyll", "LICENSE", "NOTICE", "NOTICE.md", "third_party/apb_uart_sv/LICENSE")
+PROFILES = ("source", "evidence")
 EXCLUDED_DIRECTORIES = frozenset({
     ".git", ".hg", ".svn", ".tools", "results", "dist", "build", "builds",
     "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".cache",
     "cache", "node_modules", ".venv", "venv", "obj_dir", "work", "csrc",
-    "simv.daidir", "apb-uart-uvm",
+    "simv.daidir", "apb-uart-uvm", ".private", "private", ".resume_work",
+    "resume", "career", "personal", ".aws", ".codex", ".agents",
 })
 EXCLUDED_SUFFIXES = frozenset({".pyc", ".pyo", ".tmp", ".swp", ".swo"})
-MANIFEST_NAME = "MANIFEST.sha256"
+SOURCE_GENERATED_SUFFIXES = frozenset({
+    ".log", ".vcd", ".fst", ".wlf", ".ucdb", ".vdb", ".dat",
+    ".o", ".obj", ".a", ".lib", ".so", ".dll", ".exe", ".zip", ".gz", ".tgz",
+})
+NON_ENGINEERING_NAMES = frozenset({
+    "industry_benchmark.md", "guangzhou_interview.md", "interview_guide.md", "optimization_rounds.md",
+})
+NON_ENGINEERING_NAME = re.compile(
+    r"resume|interview|career|job[_ -]?search|optimization[_ -]?round|求职|面试|简历|优化轮次|(?:^|[._ -])cv(?:[._ -]|$)",
+    re.IGNORECASE,
+)
+MANIFEST_NAMES = {"source": "MANIFEST.source.sha256", "evidence": "MANIFEST.evidence.sha256"}
 ZIP_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
 
 
@@ -39,14 +64,31 @@ def is_link(path: Path) -> bool:
     return path.is_symlink() or (hasattr(path, "is_junction") and path.is_junction())
 
 
-def collect_files(root: Path, output: Path) -> list[Path]:
+def collect_files(root: Path, output: Path, profile: str = "source") -> list[Path]:
+    if profile not in PROFILES:
+        raise ValueError(f"Unknown distribution profile: {profile}")
     root = root.resolve()
     output = output.resolve()
     selected: dict[str, Path] = {}
 
+    def allowed_path(path: Path) -> bool:
+        # Check ancestors as well as the file itself: explicit documentation
+        # paths must not bypass a linked docs/ directory or Windows junction.
+        current = root
+        for component in path.relative_to(root).parts:
+            current /= component
+            if (component.casefold() in EXCLUDED_DIRECTORIES
+                    or NON_ENGINEERING_NAME.search(component) or is_link(current)):
+                return False
+        return True
+
     def add(path: Path) -> None:
-        if (path.name.casefold() in EXCLUDED_DIRECTORIES or is_link(path)
+        if (not allowed_path(path)
                 or not path.is_file() or path.suffix.lower() in EXCLUDED_SUFFIXES):
+            return
+        if path.name.casefold() in NON_ENGINEERING_NAMES or NON_ENGINEERING_NAME.search(path.name):
+            return
+        if profile == "source" and path.suffix.lower() in SOURCE_GENERATED_SUFFIXES:
             return
         resolved = path.resolve()
         if resolved == output or not resolved.is_relative_to(root):
@@ -54,11 +96,13 @@ def collect_files(root: Path, output: Path) -> list[Path]:
         relative = path.relative_to(root).as_posix()
         selected[relative] = path
 
-    for filename in ROOT_FILES:
+    files = ROOT_FILES + SOURCE_DOCUMENTS if profile == "source" else EVIDENCE_FILES
+    directories_to_collect = SOURCE_DIRECTORIES if profile == "source" else EVIDENCE_DIRECTORIES
+    for filename in files:
         add(root / filename)
-    for directory in SOURCE_DIRECTORIES:
+    for directory in directories_to_collect:
         starting_path = root / directory
-        if is_link(starting_path) or not starting_path.is_dir():
+        if not allowed_path(starting_path) or not starting_path.is_dir():
             continue
         for current, directories, filenames in os.walk(starting_path, topdown=True, followlinks=False):
             current_path = Path(current)
@@ -79,21 +123,22 @@ def zip_info(name: str) -> zipfile.ZipInfo:
     return info
 
 
-def package_project(root: Path, output: Path) -> dict[str, int | str]:
+def package_project(root: Path, output: Path, profile: str = "source") -> dict[str, int | str]:
     root, output = root.resolve(), output.resolve()
     # Reject accidental replacement of a source file even though output itself
     # is omitted from collection. Normal archives use a .zip filename.
     if output.suffix.casefold() != ".zip":
         raise ValueError("--out must name a .zip file")
-    paths = collect_files(root, output)
+    paths = collect_files(root, output, profile)
     if not paths:
-        raise ValueError("No project source files were found")
+        raise ValueError(f"No {profile} distribution files were found")
     output.parent.mkdir(parents=True, exist_ok=True)
     payloads = [(path.relative_to(root).as_posix(), path.read_bytes()) for path in paths]
     manifest = "".join(
         f"{hashlib.sha256(data).hexdigest()}  {name}\n" for name, data in payloads
     ).encode("utf-8")
-    entries = sorted(payloads + [(MANIFEST_NAME, manifest)])
+    manifest_name = MANIFEST_NAMES[profile]
+    entries = sorted(payloads + [(manifest_name, manifest)])
     temporary_path: Path | None = None
     try:
         with tempfile.NamedTemporaryFile(prefix=output.name + ".", suffix=".tmp", dir=output.parent, delete=False) as temporary:
@@ -115,6 +160,10 @@ def package_project(root: Path, output: Path) -> dict[str, int | str]:
             temporary_path.unlink(missing_ok=True)
     return {
         "archive": str(output),
+        "profile": profile,
+        "manifest": manifest_name,
+        "packaged_files": len(payloads),
+        # Retained for callers of the original source-packaging API.
         "source_files": len(payloads),
         "archive_entries": len(entries),
         "uncompressed_bytes": sum(len(data) for _, data in entries),
@@ -125,15 +174,17 @@ def package_project(root: Path, output: Path) -> dict[str, int | str]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--out", type=Path, default=Path("dist/apb-uart-uvm.zip"))
+    parser.add_argument("--profile", choices=PROFILES, default="source")
+    parser.add_argument("--out", type=Path, help="Output ZIP; defaults to dist/apb-uart-uvm-<profile>.zip")
     args = parser.parse_args(argv)
-    output = args.out if args.out.is_absolute() else ROOT / args.out
+    requested = args.out or Path(f"dist/apb-uart-uvm-{args.profile}.zip")
+    output = requested if requested.is_absolute() else ROOT / requested
     try:
-        result = package_project(ROOT, output)
+        result = package_project(ROOT, output, args.profile)
     except (OSError, ValueError, zipfile.BadZipFile) as error:
         print(f"PACKAGE_ERROR: {error}", file=sys.stderr)
         return 1
-    print(f"PACKAGE_PASS: {result['source_files']} source/evidence files + SHA-256 manifest = {result['archive_entries']} ZIP entries")
+    print(f"PACKAGE_PASS: {result['packaged_files']} {result['profile']} files + {result['manifest']} = {result['archive_entries']} ZIP entries")
     print(f"Archive: {result['archive']}")
     print(f"Bytes: {result['zip_bytes']}; SHA256: {result['sha256']}")
     return 0
