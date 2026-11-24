@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Show the matched upstream/fixed FIFO error association case on the overview, with measured LSR/RBR values and direct links to the corresponding read transactions.
+- Use the full width for waveforms and show selectable APB transaction intervals, a separate time cursor, and signal values next to their labels.
+- Prioritize test results and evidence links in narrow regression cards, with run details available on demand.
 - Open raw failures, the APB timeout trace and core coverage gaps directly from the dashboard overview.
 - Jump to recorded APB wait or exception events. Open the matching run, log and report from a trace, and return to the previous regression filters and page.
 - Fit all six navigation entries on narrow screens.

@@ -154,13 +154,84 @@
     if(!hasId(run.id))return;
     showRuns({runId:run.id,suite:String(run.suite_id??"__missing__"),variant:String(run.variant??"__missing__"),test:String(run.test??"__missing__"),seed:String(run.seed??"__missing__"),phase:run.phase?String(run.phase):""});
   }
-  function showWave(id) {
+  function showWave(id, eventId = null) {
     state.waveReturn = state.tab === "regressions" ? {...state.reg} : null;
     state.waveId = id;
+    state.waveFocusEventId = eventId;
     setView("waveforms", true);
   }
   function intro(message) { root.append(el("div",{className:"view-intro"},el("p",{},message))); }
   function evidenceLinks(items) { return el("div",{className:"evidence-links"},list(items).map(item=>link(text(item.label),item.url))); }
+
+  function uartAssociationCase() {
+    const test = "uart_error_association_test";
+    const payloads = [0x10, 0x96, 0x20];
+    const readValue = event => {
+      const value = event?.read_data;
+      return typeof value === "string" && /^0x[0-9a-f]{1,8}$/i.test(value) ? Number(value) : null;
+    };
+    const isRead = (event, register) => event?.write === false && event?.register === register &&
+      event?.status === "OK" && finite(event.end) && readValue(event) !== null;
+    function extract(run) {
+      if (!run) return null;
+      const trace = waves.find(wave => wave.run_id === run.id && wave.unit === "ns");
+      const events = list(trace?.apb_events);
+      // Match the complete LSR/RBR sequence from the strict requirement test.
+      for (let start = 0; start + 6 <= events.length; start++) {
+        const reads = payloads.map((payload, index) => {
+          const lsr = events[start + index * 2];
+          const rbr = events[start + index * 2 + 1];
+          if (!isRead(lsr, "LSR") || !isRead(rbr, "RBR") || readValue(rbr) !== payload || lsr.end >= rbr.end) return null;
+          const value = readValue(lsr);
+          return {payload, lsr: value, parityError: (value & 4) !== 0, event: lsr};
+        });
+        if (reads.every(Boolean)) return {run, trace, reads};
+      }
+      return null;
+    }
+    const candidates = runs.filter(run => run.suite_id === "uart_core" && run.test === test);
+    for (const fixedRun of candidates.filter(run => run.variant === "fixed" && run.raw_status === "PASS")) {
+      const upstream = extract(candidates.find(run => run.variant === "upstream" && run.seed === fixedRun.seed &&
+        run.raw_status === "FAIL" && run.expected === true));
+      const fixed = extract(fixedRun);
+      if (upstream && fixed && upstream.reads.every(read => !read.parityError) &&
+          fixed.reads.every((read, index) => read.parityError === (index === 1))) return {upstream, fixed};
+    }
+    return null;
+  }
+
+  function renderAssociationCase() {
+    const comparison = uartAssociationCase();
+    if (!comparison) return null;
+    const {upstream, fixed} = comparison;
+    const hex = value => `0x${value.toString(16).toUpperCase().padStart(2, "0")}`;
+    const showTrace = record => showWave(record.trace.id, record.reads[1].event.id);
+    const stateRow = (record, label, tone) => el("tr", {},
+      el("th", {scope:"row"}, el("strong", {}, label), badge(record.run.raw_status, tone)),
+      record.reads.map((reading, i) => el("td", {className:i === 1 ? "case-byte-target" : ""},
+        el("code", {className:"case-lsr"}, hex(reading.lsr)),
+        el("span", {className:`case-bit${reading.parityError ? " case-bit-set" : ""}`}, `PE=${Number(reading.parityError)}`))));
+    const difference = fixed.reads[1];
+    return el("section", {className:"association-case", "aria-labelledby":"case-title"},
+      el("div", {className:"case-intro"},
+        el("p", {className:"case-scope"}, `UART 缺陷对照 · seed ${text(fixed.run.seed)}`),
+        el("h2", {id:"case-title"}, "校验错误跟随哪个字节？"),
+        el("p", {}, `依次读取三个 FIFO 队首字节。读取 ${hex(difference.payload)} 前，修复版的 LSR 报告 PE=1，原版的 PE 仍为 0。`),
+        el("div", {className:"button-group"},
+          button("查看修复版波形", () => showTrace(fixed), {className:"button case-primary"}),
+          button("查看原版波形", () => showTrace(upstream), {className:"button case-secondary"}))),
+      el("div", {className:"case-evidence"},
+        el("table", {className:"case-matrix"},
+          el("caption", {}, "FIFO 队首的 APB 读值"),
+          el("thead", {}, el("tr", {}, el("th", {scope:"col"}, "RBR 字节"),
+            fixed.reads.map((reading, index) => el("th", {scope:"col", className:index === 1 ? "case-byte-target" : ""},
+              el("code", {}, hex(reading.payload)), index === 1 ? el("span", {}, "坏校验") : null)))),
+          el("tbody", {}, stateRow(upstream, "原版 LSR", "fail"), stateRow(fixed, "修复版 LSR", "pass"))),
+        el("div", {className:"case-evidence-footer"},
+          el("span", {}, `差异所在的 LSR 读完成于 ${time(difference.event.end)} ns`),
+          el("div", {className:"case-log-links"},
+            link("原版日志", upstream.run.log_url), link("修复版日志", fixed.run.log_url)))));
+  }
 
   function renderOverview() {
     const project=data.project||{};
@@ -171,12 +242,14 @@
     const passing=headlineRuns.filter(run=>run.raw_status==="PASS");
     const tx=sumComplete(passing,"tx"),rx=sumComplete(passing,"rx");
     const core=coverage.find(item=>item.suite_id===headlineIds[0]&&item.variant===headline.variant);
+    const associationCase = renderAssociationCase();
+    if (associationCase) root.append(associationCase);
     const card=(label,value,detail)=>el("article",{className:"metric-card"},el("span",{className:"metric-label"},label),el("strong",{className:`metric-number${String(value).length>15 ? " small-value" : ""}`},value),el("div",{className:"metric-detail"},detail));
-    root.append(el("div",{className:"metrics-grid"},
-      card("修复版 UART · 核心 + RAL",headlineRuns.length?`${h.pass} / ${h.total}`:missing,"原始 PASS / 已记录运行；不含协议及故障对照"),
-      card("UART 成功比对帧",finite(tx)&&finite(rx)?number(tx+rx):missing,finite(tx)&&finite(rx)?`TX ${number(tx)} · RX ${number(rx)}；仅上述 PASS` : "需有完整的 TX / RX 计数"),
+    root.append(el("div",{className:"metrics-grid overview-metrics", "aria-label":"UART 验证结果"},
+      card("修复版 UART 回归",headlineRuns.length?`${h.pass} / ${h.total}`:missing,"PASS · 核心与 RAL"),
+      card("UART 成功比对帧",finite(tx)&&finite(rx)?number(tx+rx):missing,finite(tx)&&finite(rx)?`TX ${number(tx)} · RX ${number(rx)}` : "需有完整的 TX / RX 计数"),
       card("核心功能 bins · 未加权",metricText(core?.metrics?.functional_bins),percent(core?.metrics?.functional_bins)),
-      card("核心 RTL 代码行",metricText(core?.metrics?.rtl_lines),`${percent(core?.metrics?.rtl_lines)} · LCOV 独立口径`)));
+      card("核心 RTL 代码行",metricText(core?.metrics?.rtl_lines),`${percent(core?.metrics?.rtl_lines)} · LCOV`)));
     const failures = counts(runs).fail;
     const timeoutWave = waves.find(wave => {
       const run = runsById.get(wave.run_id);
@@ -202,16 +275,6 @@
       root.append(el("section", {className: "debug-entry-section", "aria-label": "常用调试入口"},
         el("h2", {}, "常用调试入口"), el("div", {className: "debug-entry-grid"}, debugEntries)));
     }
-    const separate=suites.filter(suite=>suite.id==="apb_protocol"||suite.id==="fault_control"||["protocol","negative_control","fault_control"].includes(suite.kind));
-    if(separate.length) {
-      root.append(el("div",{className:"card-grid"},separate.map(suite=>{
-        const rows=runs.filter(run=>run.suite_id===suite.id);const c=counts(rows);
-        const positive=rows.filter(run=>run.phase==="positive").length;
-        const recovery=rows.filter(run=>run.phase==="recovery").length;
-        const phaseLine=positive||recovery?`其中正向 ${positive} · 故障后恢复 ${recovery}`:"注入前后的干净对照单独保留";
-        return el("section",{className:"panel"},el("h2",{},text(suite.title)),el("p",{className:"secondary"},text(suite.scope||suite.note)),el("div",{className:"scope-counts"},el("div",{className:"scope-count"},"正常运行",el("strong",{},`${c.pass} PASS`)),el("div",{className:"scope-count"},"指定负向控制",el("strong",{},`${c.detected} DETECTED`))),el("p",{className:"inline-note"},`${phaseLine}；原始 FAIL ${c.fail}。`),suite.note?el("p",{className:"inline-note"},suite.note):null,button("查看这组运行",()=>showRuns({suite:suite.id}),{className:"button small"}));
-      })));
-    }
     const scopeRows=[];
     for(const suite of suites) {
       const variants=[...new Set(runs.filter(run=>run.suite_id===suite.id).map(run=>run.variant))];
@@ -220,7 +283,7 @@
         scopeRows.push(el("tr",{},el("td",{},button(text(suite.title),()=>showRuns({suite:suite.id,variant:variant??""}),{className:"link-button"}),el("span",{className:"row-secondary"},text(suite.scope))),el("td",{},variantName(variant)),el("td",{},number(c.total)),el("td",{},badge("PASS","pass"),el("span",{className:"row-secondary"},number(c.pass))),el("td",{},badge("FAIL","fail"),el("span",{className:"row-secondary"},number(c.fail))),el("td",{},`${c.detected} DETECTED`,el("span",{className:"row-secondary"},`预期失败 ${c.expected}${c.other?` · 其他状态 ${c.other}`:""}`))));
       }
     }
-    root.append(panel("按证据范围核对", "raw FAIL 不会因为属于预期或已检出而改成 PASS。",scopeRows.length?table(["测试范围","版本","运行数","原始 PASS","原始 FAIL","独立分类"],scopeRows):empty("没有范围记录","数据中尚未提供可分组的运行。")));
+    root.append(panel("验证范围与结果", "每行对应一组套件与 RTL。DETECTED 记录负向检查结果。",scopeRows.length?table(["测试范围","版本","运行数","原始 PASS","原始 FAIL","独立分类"],scopeRows):empty("没有范围记录","数据中尚未提供可分组的运行。")));
     const chain=list(project.toolchain);
     const chainLabels=chain.length?chain.map(item=>typeof item==="string"?item:[item?.name,item?.version].filter(Boolean).join(" ")):typeof project.toolchain==="string"?[project.toolchain]:project.toolchain&&typeof project.toolchain==="object"?Object.entries(project.toolchain).map(([key,value])=>`${key} ${text(value)}`):[];
     const provenance=panel("来源与实现边界","输入哈希用于复核记录；不同源码快照与覆盖统计范围分别保留。",
@@ -285,10 +348,37 @@
       else {
         const body=rows.slice(start,start+state.reg.size).map(run=>{
           const associated=hasId(run.id)?waves.find(wave=>hasId(wave.run_id)&&wave.run_id===run.id):null;
-          const actions=el("div",{className:"row-actions"},run.log_url?link("日志",run.log_url):null,run.report_url?link("原始报告",run.report_url):null,associated?button("查看波形",()=>showWave(associated.id),{className:"link-button"}):null);
-          return el("tr",{},el("td",{},el("code",{},text(run.test)),el("span",{className:"row-secondary"},suiteTitle(run.suite_id))),el("td",{},variantName(run.variant)),el("td",{className:"mono"},text(run.seed)),el("td",{},run.phase?badge(phaseName(run.phase),"phase"):el("span",{className:"secondary"},missing)),el("td",{},resultBadges(run)),el("td",{},countersFor(run)),el("td",{className:"nowrap mono"},`${number(run.metrics?.errors)} / ${number(run.metrics?.fatals)}`,el("span",{className:"row-secondary"},finite(run.metrics?.duration_s)?`${number(run.metrics.duration_s)} s`:"用时未记录")),el("td",{},actions));
+          const actions=el("div",{className:"row-actions"},run.log_url?link("原始日志",run.log_url):null,run.report_url?link("原始报告",run.report_url):null,associated?button("查看波形",()=>showWave(associated.id),{className:"link-button"}):null);
+          const diagnostics=`${number(run.metrics?.errors)} / ${number(run.metrics?.fatals)}`;
+          const duration=finite(run.metrics?.duration_s)?`${number(run.metrics.duration_s)} s`:"用时未记录";
+          const more=el("details",{className:"regression-more"},el("summary",{},"更多运行信息"),
+            el("dl",{className:"detail-list"},
+              el("dt",{},"版本"),el("dd",{},variantName(run.variant)),
+              el("dt",{},"运行阶段"),el("dd",{},run.phase?phaseName(run.phase):missing),
+              el("dt",{},"比对 / 总线计数"),el("dd",{},countersFor(run)),
+              el("dt",{},"ERROR / FATAL"),el("dd",{className:"mono"},diagnostics),
+              el("dt",{},"用时"),el("dd",{},duration)));
+          return el("tr",{className:"regression-row"},
+            el("td",{className:"reg-col-test","data-label":"测试 / 范围"},el("code",{},text(run.test)),el("span",{className:"row-secondary"},suiteTitle(run.suite_id))),
+            el("td",{className:"reg-col-variant","data-label":"版本"},variantName(run.variant)),
+            el("td",{className:"reg-col-seed mono","data-label":"Seed"},text(run.seed)),
+            el("td",{className:"reg-col-phase","data-label":"阶段"},run.phase?badge(phaseName(run.phase),"phase"):el("span",{className:"secondary"},missing)),
+            el("td",{className:"reg-col-status","data-label":"原始状态 / 分类"},resultBadges(run)),
+            el("td",{className:"reg-col-counts","data-label":"日志比对或总线计数"},countersFor(run)),
+            el("td",{className:"reg-col-diagnostics nowrap mono","data-label":"ERROR / FATAL"},diagnostics,el("span",{className:"row-secondary"},duration)),
+            el("td",{className:"reg-col-evidence","data-label":"证据"},actions,more));
         });
-        resultPanel.append(table(["测试 / 范围","版本","Seed","阶段","原始状态 / 分类","日志比对或总线计数","ERROR / FATAL","证据"],body));
+        const regressionTable=table(["测试 / 范围","版本","Seed","阶段","原始状态 / 分类","日志比对或总线计数","ERROR / FATAL","证据"],body,{className:"table-scroll regression-table"});
+        const columns=["test","variant","seed","phase","status","counts","diagnostics","evidence"];
+        regressionTable.querySelector("table").setAttribute("role","table");
+        regressionTable.querySelectorAll("thead,tbody").forEach(node=>node.setAttribute("role","rowgroup"));
+        regressionTable.querySelectorAll("tr").forEach(node=>node.setAttribute("role","row"));
+        regressionTable.querySelectorAll("th").forEach((node,index)=>{
+          node.setAttribute("role","columnheader");
+          node.classList.add(`reg-col-${columns[index]}`);
+        });
+        regressionTable.querySelectorAll("td").forEach(node=>node.setAttribute("role","cell"));
+        resultPanel.append(regressionTable);
         resultPanel.append(el("div",{className:"pagination"},el("span",{},`第 ${start+1}–${Math.min(start+state.reg.size,rows.length)} 条，共 ${rows.length} 条`),el("div",{className:"button-group"},button("上一页",()=>{state.reg.page--;updateResults();},{disabled:state.reg.page<=1,className:"button small"}),el("span",{},`${state.reg.page} / ${pages}`),button("下一页",()=>{state.reg.page++;updateResults();},{disabled:state.reg.page>=pages,className:"button small"}))));
       }
       resultPanel.append(el("p",{className:"table-note"},"TX/RX 为日志中的比对计数。成功帧汇总仅包含明确 UART 范围中的原始 PASS；APB completed、读写与等待周期单独呈现。未提供的计数显示“未记录”。"));
@@ -350,29 +440,33 @@
     return priority.map(name=>signals.find(signal=>matches(signal,name))).filter(Boolean).slice(0,9);
   }
   function renderWaveforms() {
-    intro("由原始 VCD 的真实离散事件绘制，窗口之外不补造状态。拖动平移、缩放并定位游标，随后用 APB 事件和原始文件核对时序。");
     if(!waves.length){root.append(empty("没有波形记录","尚未提供 VCD 采样事件。可从回归日志继续核对运行结果。"));return;}
     const source=waves.find(wave=>String(wave.id)===String(state.waveId))||waves[0];state.waveId=source.id;
     const wave=prepareWave(source);
     if(!validRange(wave.range)){root.append(empty("波形时间范围未记录","需要有效的 range:[start,end] 才能显示真实时间轴。"));return;}
     const domain=wave.range, domainSpan=domain[1]-domain[0], minSpan=Math.max(domainSpan/100000,0.001);
     const defaults = defaultWaveSignals(wave.signals);
-    const orderedSignals = defaults.concat(wave.signals.filter(signal => !defaults.includes(signal)));
+    const signalMatches=(signal,name)=>[signal.id,signal.label].some(value=>typeof value==="string"&&(value===name||value.endsWith("."+name)||(name==="apb.rst_n"&&value==="rst_n")));
+    const priority=["apb.rst_n","apb.psel","apb.penable","apb.pready","apb.pwrite","uart.rx","uart.tx","uart.irq"];
+    const firstSignals=priority.map(name=>wave.signals.find(signal=>signalMatches(signal,name))).filter(Boolean);
+    const orderedSignals=firstSignals.concat(wave.signals.filter(signal=>!firstSignals.includes(signal)));
     let ws=state.waveState.get(wave.id);
-    if(!ws){const initial=validRange(wave.default_window)?[Math.max(domain[0],wave.default_window[0]),Math.min(domain[1],wave.default_window[1])]:domain.slice();const window=validRange(initial)?initial:domain.slice();ws={start:window[0],end:window[1],cursor:(window[0]+window[1])/2,selected:new Set(defaults.map(signal=>signal.id)),eventId:null,eventPage:1,eventsInView:true,eventKind:"all",eventQuery:""};state.waveState.set(wave.id,ws);}
+    if(!ws){const initial=validRange(wave.default_window)?[Math.max(domain[0],wave.default_window[0]),Math.min(domain[1],wave.default_window[1])]:domain.slice();const window=validRange(initial)?initial:domain.slice();ws={start:window[0],end:window[1],cursor:(window[0]+window[1])/2,selected:new Set(defaults.map(signal=>signal.id)),eventId:null,eventPage:1,eventsInView:true,eventKind:"all",eventQuery:"",density:"compact"};state.waveState.set(wave.id,ws);}
+    if(!["compact","comfortable"].includes(ws.density))ws.density="compact";
     const waveformPanel=el("section",{className:"panel"});
     const picker=makeSelect(waves.map(item=>({value:String(item.id),label:text(item.title)})),String(wave.id),id=>{state.waveId=id;setView("waveforms");},{"aria-label":"选择真实波形"});
     const controls=el("div",{className:"wave-controls"});
     waveformPanel.append(el("div",{className:"wave-select-bar"},makeField("波形记录",picker),controls));
     const related=hasId(wave.run_id)?runsById.get(wave.run_id):null;
     if(related||state.waveReturn)waveformPanel.append(el("div",{className:"wave-run-context"},
-      related?el("div",{className:"legend legend-inline"},el("span",{},el("code",{},text(related.test)),` · seed ${text(related.seed)} · ${variantName(related.variant)}`),resultBadges(related),el("span",{},suiteTitle(related.suite_id),related.phase?` · ${phaseName(related.phase)}`:"")):null,
-      el("div",{className:"evidence-links"},related?.log_url?link("同次运行日志",related.log_url):null,related?.report_url?link("同次原始报告",related.report_url):null,
+      related?el("div",{className:"legend wave-run-identity"},el("span",{},el("code",{},text(related.test)),` · seed ${text(related.seed)} · ${variantName(related.variant)}`),resultBadges(related),el("span",{},suiteTitle(related.suite_id),related.phase?` · ${phaseName(related.phase)}`:"")):null,
+      el("div",{className:"evidence-links wave-run-links"},related?.log_url?link("同次运行日志",related.log_url):null,related?.report_url?link("同次原始报告",related.report_url):null,
         related?button("查看此运行",()=>showRun(related),{className:"button small"}):null,
         state.waveReturn?button("返回筛选结果",()=>{Object.assign(state.reg,state.waveReturn);setView("regressions",true);},{className:"button small"}):null)));
-    const signalPanel=el("aside",{className:"signal-panel","aria-label":"信号选择"},el("h3",{},"显示信号"));
+    const signalCount=el("span",{className:"wave-signal-count"});
+    const signalPanel=el("details",{className:"signal-panel wave-signal-picker"},el("summary",{},"显示信号",signalCount));
     const signalList=el("div",{className:"signal-list"});
-    const svg=svgEl("svg",{class:"wave-chart",tabindex:"0",role:"img","aria-label":"可操作的真实波形：左右键移动游标，加减键缩放，Shift 加左右键平移，Home 查看全程"});
+    const svg=svgEl("svg",{class:"wave-chart",tabindex:"0",role:"group","aria-label":"真实波形与 APB 事务轨：左右键移动游标，加减键缩放，Shift 加左右键平移，Home 查看全程"});
     const chartFrame=el("div",{className:"wave-chart-frame"},svg);
     const values=el("div",{className:"cursor-values"});
     const status=el("p",{className:"wave-status",role:"status"});
@@ -380,8 +474,10 @@
     const endInput=el("input",{type:"number",step:"any","aria-label":`窗口终点 ${wave.unit||"ns"}`});
     const cursorInput=el("input",{type:"number",step:"any","aria-label":`时间游标 ${wave.unit||"ns"}`});
     const windowForm=el("form",{className:"wave-window-form",onSubmit:event=>{event.preventDefault();applyWindow();}},makeField(`窗口起点 (${wave.unit||"ns"})`,startInput),makeField(`窗口终点 (${wave.unit||"ns"})`,endInput),button("应用范围",applyWindow,{className:"button small"}),makeField(`游标 (${wave.unit||"ns"})`,cursorInput),button("定位",()=>{const t=inputNumber(cursorInput);if(!finite(t)||t<domain[0]||t>domain[1]){invalid("请输入记录范围内的游标时间。");return;}ws.cursor=t;centerCursor();},{className:"button small"}));
-    const waveMain=el("div",{className:"wave-main"},chartFrame,el("p",{className:"wave-help"},"滚轮以指针为中心缩放；拖动背景平移；点击设置游标，拖动红色手柄移动。键盘：左右键移动游标，+ / − 缩放，Shift + 左右键平移，Home 全程。"),windowForm,status,values);
-    waveformPanel.append(el("div",{className:"wave-layout"},signalPanel,waveMain));
+    const density=makeSelect([{value:"compact",label:"紧凑"},{value:"comfortable",label:"舒展"}],ws.density,value=>{ws.density=value;scheduleDraw();},{"aria-label":"波形行密度"});
+    const viewOptions=el("div",{className:"wave-view-options"},el("div",{className:"wave-chart-legend"},el("span",{},el("i",{className:"wave-key--transaction","aria-hidden":"true"}),"事务范围"),el("span",{},el("i",{className:"wave-key--cursor","aria-hidden":"true"}),"时间游标")),el("label",{className:"wave-density"},el("span",{},"行密度"),density));
+    const waveMain=el("div",{className:"wave-main"},viewOptions,chartFrame,signalPanel,el("p",{className:"wave-help"},"点击事务轨选中事务；滚轮缩放、拖动平移。← → 移动游标，+ / − 缩放，Shift + ← → 平移，Home 全程。"),windowForm,status);
+    waveformPanel.append(el("div",{className:"wave-layout wave-layout--full"},waveMain));
     if(wave.source)waveformPanel.append(el("div",{className:"provenance"},wave.source.url?link("打开原始 VCD",wave.source.url):el("span",{className:"secondary"},"原始 VCD 链接未记录"),wave.source.sha256?el("p",{className:"hash",style:{marginTop:"8px"}},"SHA-256 ",wave.source.sha256):null,wave.source.note?el("p",{className:"secondary"},wave.source.note):null));
     root.append(waveformPanel);
     const eventResults=el("div",{}),allEvents=list(wave.apb_events),waitEvents=allEvents.filter(eventHasWait),issueEvents=allEvents.filter(eventHasIssue);
@@ -393,8 +489,8 @@
       el("div",{className:"toolbar wave-event-tools"},makeField("事件类型",eventKind),makeField("搜索事件",eventSearch),el("label",{className:"check-field"},inView,"仅当前窗口")),
       el("p",{className:"inline-note"},"快捷定位扫描整份波形，并清除事件搜索条件。异常记录包括非 OK 状态或 PSLVERR；复位中止、未完成及未知记录需结合日志判断。"),eventResults));
     eventSearch.addEventListener("input",()=>{ws.eventQuery=eventSearch.value;ws.eventPage=1;renderEvents();});
-    signalPanel.append(el("div",{className:"button-group"},button("全选",()=>{ws.selected=new Set(wave.signals.map(signal=>signal.id));refreshSignals();scheduleDraw(true);},{className:"button small"}),button("清空",()=>{ws.selected.clear();refreshSignals();scheduleDraw(true);},{className:"button small"})),signalList);
-    function refreshSignals(){signalList.replaceChildren(...orderedSignals.map(signal=>el("label",{className:"signal-check"},el("input",{type:"checkbox",checked:ws.selected.has(signal.id),onChange:event=>{if(event.target.checked)ws.selected.add(signal.id);else ws.selected.delete(signal.id);scheduleDraw(true);}}),el("span",{},text(signal.label||signal.id),finite(signal.width)?el("small",{},`[${signal.width}]`):null))));}
+    signalPanel.append(el("div",{className:"button-group"},button("全选",()=>{ws.selected=new Set(wave.signals.map(signal=>signal.id));refreshSignals();scheduleDraw(true);},{className:"button small"}),button("清空",()=>{ws.selected.clear();refreshSignals();scheduleDraw(true);},{className:"button small"})),signalList,values);
+    function refreshSignals(){signalCount.textContent=`${ws.selected.size} / ${wave.signals.length}`;signalList.replaceChildren(...orderedSignals.map(signal=>el("label",{className:"signal-check"},el("input",{type:"checkbox",checked:ws.selected.has(signal.id),onChange:event=>{if(event.target.checked)ws.selected.add(signal.id);else ws.selected.delete(signal.id);signalCount.textContent=`${ws.selected.size} / ${wave.signals.length}`;scheduleDraw(true);}}),el("span",{},text(signal.label||signal.id),finite(signal.width)?el("small",{},`[${signal.width}]`):null))));}
     refreshSignals();
     let frame=null,pendingEvents=false,drag=null;
     function scheduleDraw(events=false){pendingEvents=pendingEvents||events;if(frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;draw();if(pendingEvents){pendingEvents=false;renderEvents();}});}
@@ -405,32 +501,52 @@
     function invalid(message){status.classList.add("invalid");status.textContent=message;}
     function applyWindow(){const start=inputNumber(startInput),end=inputNumber(endInput);if(!finite(start)||!finite(end)||end<=start||start<domain[0]||end>domain[1]){invalid("请填写有效起止时间；终点须大于起点，且窗口应位于记录范围内。");return;}setWindow(start,end);}
     controls.append(button("放大",()=>zoom(.5),{className:"button small"}),button("缩小",()=>zoom(2),{className:"button small"}),button("全程",()=>setWindow(...domain),{className:"button small"}),button("初始窗口",()=>setWindow(...(validRange(wave.default_window)?wave.default_window:domain)),{className:"button small"}),button("居中游标",centerCursor,{className:"button small"}));
-    const eventSummary = el("span", {className:"count-label"});
+    const eventSummary = el("div", {className:"wave-transaction-summary",role:"status"});
     function updateEventSummary(event) {
-      eventSummary.textContent = event ? `${text(event.status)} · ${number(event.wait_cycles)} 等待周期 · ${time(event.start)}–${time(event.end)} ${wave.unit || "ns"}` : "";
+      if(!event){const visible=allEvents.filter(item=>finite(item.start)&&item.start<=ws.end&&(finite(item.end)?item.end:item.start)>=ws.start);eventSummary.replaceChildren(el("div",{className:"wave-transaction-heading"},el("strong",{},"当前窗口"),el("span",{className:"secondary"},Array.isArray(wave.apb_events)?`${visible.length} 条 APB 记录 · ${visible.filter(eventHasWait).length} 条有等待 · ${visible.filter(eventHasIssue).length} 条异常记录`:"未附加 APB 记录")));return;}
+      const direction=event.write===true?"WRITE":event.write===false?"READ":missing;
+      const data=event.write===true?event.write_data:event.write===false?event.read_data:null;
+      const duration=finite(event.start)&&finite(event.end)&&event.end>=event.start?`${time(event.end-event.start)} ${wave.unit||"ns"}`:missing;
+      eventSummary.replaceChildren(
+        el("div",{className:"wave-transaction-heading"},el("strong",{},"选中事务"),badge(direction,"phase"),el("code",{},formatBus(event.address)),el("span",{className:`wave-event-status${eventHasIssue(event)?" is-issue":""}`},text(event.status)),button("取消选择",()=>{ws.eventId=null;updateEventSummary(null);scheduleDraw(true);},{className:"link-button"})),
+        el("div",{className:"wave-transaction-details"},el("span",{},"数据 ",el("code",{},formatBus(data))),el("span",{},`等待 ${number(event.wait_cycles)} 周期`),el("span",{},`区间 ${time(event.start)}–${time(event.end)} ${wave.unit||"ns"}`),el("span",{},`持续 ${duration}`)));
     }
     updateEventSummary(ws.eventId === null ? null : allEvents.find(event => event.id === ws.eventId));
     const jumpControls = el("div", {className:"button-group wave-jump-controls", "aria-label":"APB 事件定位"},
-      button("下一个等待", () => jumpEvent("wait"), {className:"button small", disabled:!waitEvents.some(locatable)}),
-      button("下一个异常", () => jumpEvent("issue"), {className:"button small", disabled:!issueEvents.some(locatable)}),
-      eventSummary);
-    waveformPanel.insertBefore(jumpControls, waveformPanel.querySelector(".wave-layout"));
-    function dimensions(){const width=Math.max(260,chartFrame.clientWidth-2);const left=width<500?108:148;return {width,left,right:14,plot:Math.max(80,width-left-14)};}
-    function pointerTime(event){const d=dimensions(),rect=svg.getBoundingClientRect();return ws.start+(Math.max(0,Math.min(d.plot,event.clientX-rect.left-d.left))/d.plot)*(ws.end-ws.start);}
+      waitEvents.some(locatable)?button("下一个等待", () => jumpEvent("wait"), {className:"button small"}):null,
+      issueEvents.some(locatable)?button("下一个异常", () => jumpEvent("issue"), {className:"button small"}):null);
+    waveformPanel.insertBefore(el("div",{className:"wave-focus-bar"},eventSummary,jumpControls), waveformPanel.querySelector(".wave-layout"));
+    function dimensions(){const width=Math.max(260,chartFrame.clientWidth-2);const left=width<500?116:174;return {width,left,right:14,plot:Math.max(80,width-left-14)};}
+    function pointerX(event){const d=dimensions(),rect=svg.getBoundingClientRect();return (event.clientX-rect.left)*d.width/Math.max(1,rect.width);}
+    function pointerTime(event){const d=dimensions();return ws.start+(Math.max(0,Math.min(d.plot,pointerX(event)-d.left))/d.plot)*(ws.end-ws.start);}
     function draw(){
-      const d=dimensions(),selected=orderedSignals.filter(signal=>ws.selected.has(signal.id)),axis=47,row=47,height=axis+Math.max(1,selected.length)*row+19,span=ws.end-ws.start;
+      const d=dimensions(),selected=orderedSignals.filter(signal=>ws.selected.has(signal.id)),axis=78,row=ws.density==="comfortable"?54:40,height=axis+Math.max(1,selected.length)*row+16,span=ws.end-ws.start;
       svg.setAttribute("viewBox",`0 0 ${d.width} ${height}`);svg.setAttribute("height",String(height));svg.replaceChildren();
-      svg.append(svgEl("rect",{x:0,y:0,width:d.width,height:height,fill:"#fcfeff"}),svgEl("rect",{x:0,y:0,width:d.left,height:height,fill:"#f0f5f8"}));
       const x=t=>d.left+(t-ws.start)/span*d.plot;
+      const fit=(value,pixels)=>{const string=String(value),limit=Math.max(0,Math.floor(pixels/8.5));return string.length<=limit?string:limit>=3?string.slice(0,limit-1)+"…":"";};
+      svg.append(svgEl("rect",{x:0,y:0,width:d.width,height:height,fill:"#fcfeff"}),svgEl("rect",{x:0,y:0,width:d.width,height:axis,fill:"#edf4f8"}));
+      for(let i=0;i<Math.max(1,selected.length);i++)svg.append(svgEl("rect",{x:d.left,y:axis+i*row,width:d.plot,height:row,fill:i%2?"#f2f7fa":"#fcfeff",class:`wave-lane${i%2?" wave-lane--alternate":""}`}));
+      svg.append(svgEl("rect",{x:0,y:axis,width:d.left,height:height-axis,fill:"#edf3f7"}),svgEl("line",{x1:d.left,y1:0,x2:d.left,y2:height,stroke:"#c7d8e2"}));
+      const activeEvent=allEvents.find(event=>event.id===ws.eventId);
+      if(!activeEvent)updateEventSummary(null);
+      if(activeEvent&&finite(activeEvent.start)&&finite(activeEvent.end)&&activeEvent.end>=ws.start&&activeEvent.start<=ws.end){const a=x(Math.max(ws.start,activeEvent.start)),b=x(Math.min(ws.end,activeEvent.end));svg.append(svgEl("rect",{x:a,y:axis-3,width:Math.max(1,b-a),height:height-axis-9,fill:"#0c8b88","fill-opacity":.09,class:"wave-selected-range"}));for(const t of [activeEvent.start,activeEvent.end])if(t>=ws.start&&t<=ws.end)svg.append(svgEl("line",{x1:x(t),y1:70,x2:x(t),y2:height-12,stroke:"#087f83","stroke-width":1.5,"stroke-dasharray":"3 3",class:"wave-selected-boundary"}));}
       const tickCount=Math.max(2,Math.floor(d.plot/115));
-      for(let i=0;i<=tickCount;i++){const t=ws.start+span*i/tickCount,px=x(t);svg.append(svgEl("line",{x1:px,y1:29,x2:px,y2:height-12,stroke:"#dce7ed","stroke-width":1}),svgEl("text",{x:px,y:20,"text-anchor":i===0?"start":i===tickCount?"end":"middle",class:"wave-axis"},time(t)));}
-      svg.append(svgEl("text",{x:12,y:20,class:"wave-axis"},wave.unit||"ns"));
-      for(const event of list(wave.apb_events)){if(!finite(event.start)||!finite(event.end)||event.end<ws.start||event.start>ws.end)continue;const a=Math.max(ws.start,event.start),b=Math.min(ws.end,event.end);svg.append(svgEl("rect",{x:x(a),y:33,width:Math.max(1,x(b)-x(a)),height:7,class:"event-band"}));}
+      for(let i=0;i<=tickCount;i++){const t=ws.start+span*i/tickCount,px=x(t);svg.append(svgEl("line",{x1:px,y1:24,x2:px,y2:height-12,stroke:"#d9e5ed","stroke-width":1}),svgEl("text",{x:px,y:18,"text-anchor":i===0?"start":i===tickCount?"end":"middle",class:"wave-axis"},time(t)));}
+      svg.append(svgEl("text",{x:12,y:18,class:"wave-axis"},"信号 / 游标值"),svgEl("text",{x:12,y:38,class:"wave-axis"},wave.unit||"ns"),svgEl("text",{x:12,y:65,class:"wave-axis"},"APB 事务"));
+      for(const event of allEvents){if(!finite(event.start)||!finite(event.end)||event.end<ws.start||event.start>ws.end)continue;const a=x(Math.max(ws.start,event.start)),b=x(Math.min(ws.end,event.end)),isSelected=event.id===ws.eventId,issue=eventHasIssue(event),direction=event.write===true?"W":event.write===false?"R":"?",label=`${direction} ${formatBus(event.address)}`,description=`${label} · ${text(event.status)} · 等待 ${number(event.wait_cycles)} 周期 · ${time(event.start)}–${time(event.end)} ${wave.unit||"ns"}`;
+        const group=svgEl("g",{class:"wave-event-track",tabindex:"0",role:"button","aria-label":description,"aria-pressed":isSelected?"true":"false","data-apb-event-id":String(event.id),style:"cursor:pointer"});
+        group.append(svgEl("rect",{x:a,y:51,width:Math.max(1,b-a),height:20,rx:3,fill:isSelected?"#0a7c80":issue?"#f5e3bd":event.write===true?"#d7eceb":"#dce9f7",stroke:isSelected?"#075d60":issue?"#a97727":event.write===true?"#71aaa6":"#87a8c7","stroke-width":isSelected?2:1,class:`wave-event-band wave-event-band--${issue?"issue":event.write===true?"write":"read"}${isSelected?" wave-event-band--selected":""}`}));
+        const display=fit(label,b-a-12);if(display)group.append(svgEl("text",{x:(a+b)/2,y:65,"text-anchor":"middle",fill:isSelected?"#ffffff":"#284c63","font-size":12,"font-family":"ui-monospace,Consolas,monospace",class:`wave-event-label${isSelected?" is-selected":""}`},display));
+        group.append(svgEl("title",{},description));group.addEventListener("pointerdown",event=>event.stopPropagation());group.addEventListener("click",click=>{click.stopPropagation();svg.focus({preventScroll:true});focusEvent(event);});group.addEventListener("keydown",key=>{if(key.key==="Enter"||key.key===" "){key.preventDefault();key.stopPropagation();svg.focus({preventScroll:true});focusEvent(event);}});svg.append(group);
+      }
       if(!selected.length)svg.append(svgEl("text",{x:d.left+12,y:axis+27,class:"wave-axis"},"请选择显示信号"));
       for(let i=0;i<selected.length;i++){
-        const signal=selected[i],top=axis+i*row,bottom=top+row;
-        const label=String(signal.label||signal.id),display=label.length>(d.width<500?12:18)?label.slice(0,d.width<500?11:17)+"…":label;
-        const labelNode=svgEl("text",{x:12,y:top+28,class:"wave-label"},display);labelNode.append(svgEl("title",{},label));svg.append(labelNode,svgEl("line",{x1:0,y1:bottom,x2:d.width,y2:bottom,stroke:"#e2ebf0","stroke-width":1}));
+        const signal=selected[i],top=axis+i*row,bottom=top+row,high=top+8,low=bottom-9,middle=(high+low)/2;
+        const label=String(signal.label||signal.id),cursorValue=formatBits(valueAt(signal,ws.cursor),signal.width),handshake=priority.slice(0,5).some(name=>signalMatches(signal,name));
+        const labelNode=svgEl("text",{x:12,y:top+16,class:`wave-label${handshake?" wave-label--handshake":""}`},fit(label,d.left-22));labelNode.append(svgEl("title",{},label));
+        const valueNode=svgEl("text",{x:12,y:top+32,fill:"#386077","font-size":13,"font-family":"ui-monospace,Consolas,monospace",class:"wave-inline-value"},fit(cursorValue,d.left-22));valueNode.append(svgEl("title",{},`${label} @ ${time(ws.cursor)} ${wave.unit||"ns"}: ${cursorValue}`));
+        if(handshake)svg.append(svgEl("rect",{x:0,y:top+5,width:3,height:row-10,rx:1,fill:"#218e90",class:"wave-handshake-accent"}));
+        svg.append(labelNode,valueNode,svgEl("line",{x1:0,y1:bottom,x2:d.width,y2:bottom,stroke:"#dce7ee","stroke-width":1}));
         const events=signal.events,index=valueIndex(events,ws.start);let j=index>=0?index:0;let t=ws.start;let value=index>=0?events[index][1]:null;
         const segments=[];
         if(index<0&&events.length&&events[0][0]>ws.start){segments.push([ws.start,Math.min(ws.end,events[0][0]),null]);t=events[0][0];value=events[0][1];j=0;}
@@ -438,11 +554,11 @@
         if(t<=ws.end)segments.push([Math.max(ws.start,t),ws.end,value]);
         if(!events.length)segments.splice(0,segments.length,[ws.start,ws.end,null]);
         if(signal.width===1){let path="",previousY=null;
-          for(const [a,b,v] of segments){if(b<ws.start||a>ws.end)continue;const pa=x(Math.max(a,ws.start)),pb=x(Math.min(b,ws.end));if(v===null||/[xz]/i.test(v)){svg.append(svgEl("line",{x1:pa,y1:top+24,x2:pb,y2:top+24,class:"wave-unknown"}));if(pb-pa>55)svg.append(svgEl("text",{x:(pa+pb)/2,y:top+19,"text-anchor":"middle",class:"wave-axis"},v===null?"未记录":v.toUpperCase()));previousY=null;continue;}const y=v.endsWith("1")?top+11:top+35;path+=(previousY===null?`M${pa},${y}`:`L${pa},${previousY}L${pa},${y}`)+`L${pb},${y}`;previousY=y;}
+          for(const [a,b,v] of segments){if(b<ws.start||a>ws.end)continue;const pa=x(Math.max(a,ws.start)),pb=x(Math.min(b,ws.end));if(v===null||/[xz]/i.test(v)){svg.append(svgEl("line",{x1:pa,y1:middle,x2:pb,y2:middle,class:"wave-unknown"}));if(pb-pa>55)svg.append(svgEl("text",{x:(pa+pb)/2,y:middle-5,"text-anchor":"middle",class:"wave-axis"},v===null?"未记录":v.toUpperCase()));previousY=null;continue;}const y=v.endsWith("1")?high:low;if(v.endsWith("1"))svg.append(svgEl("rect",{x:pa,y:high,width:Math.max(0,pb-pa),height:low-high,fill:"#1e9290","fill-opacity":.07,class:"wave-level-high"}));path+=(previousY===null?`M${pa},${y}`:`L${pa},${previousY}L${pa},${y}`)+`L${pb},${y}`;previousY=y;}
           if(path)svg.append(svgEl("path",{d:path,class:"wave-trace"}));
-        }else{for(const [a,b,v] of segments){if(b<ws.start||a>ws.end)continue;const pa=x(Math.max(a,ws.start)),pb=x(Math.min(b,ws.end)),cut=Math.min(4,Math.max(0,(pb-pa)/4));if(v===null){svg.append(svgEl("line",{x1:pa,y1:top+24,x2:pb,y2:top+24,class:"wave-unknown"}));continue;}svg.append(svgEl("path",{d:`M${pa},${top+24}L${pa+cut},${top+13}L${pb-cut},${top+13}L${pb},${top+24}L${pb-cut},${top+35}L${pa+cut},${top+35}Z`,class:"wave-bus"}));if(pb-pa>48)svg.append(svgEl("text",{x:(pa+pb)/2,y:top+29,"text-anchor":"middle",class:"wave-value"},formatBits(v,signal.width)));}}
+        }else{for(const [a,b,v] of segments){if(b<ws.start||a>ws.end)continue;const pa=x(Math.max(a,ws.start)),pb=x(Math.min(b,ws.end)),cut=Math.min(4,Math.max(0,(pb-pa)/4));if(v===null){svg.append(svgEl("line",{x1:pa,y1:middle,x2:pb,y2:middle,class:"wave-unknown"}));continue;}const busValue=formatBits(v,signal.width),shape=svgEl("path",{d:`M${pa},${middle}L${pa+cut},${high+2}L${pb-cut},${high+2}L${pb},${middle}L${pb-cut},${low-2}L${pa+cut},${low-2}Z`,class:`wave-bus${/[xz]/i.test(v)?" wave-bus--unknown":""}`});shape.append(svgEl("title",{},`${label}: ${busValue} · ${time(a)}–${time(b)} ${wave.unit||"ns"}`));svg.append(shape);const display=fit(busValue,pb-pa-16);if(display)svg.append(svgEl("text",{x:(pa+pb)/2,y:middle+5,"text-anchor":"middle",class:"wave-value"},display));}}
       }
-      if(ws.cursor>=ws.start&&ws.cursor<=ws.end){const px=x(ws.cursor);svg.append(svgEl("line",{x1:px,y1:29,x2:px,y2:height-11,class:"cursor-line"}),svgEl("path",{d:`M${px-7},24L${px+7},24L${px+7},32L${px},40L${px-7},32Z`,class:"cursor-handle","data-cursor-handle":"true"}),svgEl("rect",{x:px-9,y:22,width:18,height:height-30,fill:"transparent","data-cursor-handle":"true",style:"cursor:ew-resize"}));}
+      if(ws.cursor>=ws.start&&ws.cursor<=ws.end){const px=x(ws.cursor),label=`${time(ws.cursor)} ${wave.unit||"ns"}`,width=Math.min(d.plot,Math.max(78,label.length*8+18)),left=Math.max(d.left,Math.min(d.width-d.right-width,px-width/2));svg.append(svgEl("line",{x1:px,y1:44,x2:px,y2:height-11,class:"cursor-line"}),svgEl("rect",{x:left,y:26,width:width,height:19,rx:4,fill:"#b83c4d",class:"wave-cursor-label"}),svgEl("text",{x:left+width/2,y:40,"text-anchor":"middle",fill:"#ffffff","font-size":12,"font-family":"ui-monospace,Consolas,monospace",class:"wave-cursor-text"},fit(label,width-12)),svgEl("path",{d:`M${px-5},44L${px+5},44L${px},50Z`,class:"cursor-handle","data-cursor-handle":"true"}),svgEl("rect",{x:px-8,y:73,width:16,height:height-84,fill:"transparent","data-cursor-handle":"true",style:"cursor:ew-resize"}));}
       if(document.activeElement!==startInput)startInput.value=String(Number(ws.start.toFixed(6)));if(document.activeElement!==endInput)endInput.value=String(Number(ws.end.toFixed(6)));if(document.activeElement!==cursorInput)cursorInput.value=String(Number(ws.cursor.toFixed(6)));
       status.classList.remove("invalid");status.textContent=`窗口 ${time(ws.start)}–${time(ws.end)} ${wave.unit||"ns"} · 游标 ${time(ws.cursor)} ${wave.unit||"ns"} · ${selected.length}/${wave.signals.length} 个信号`;
       values.replaceChildren(...selected.map(signal=>el("div",{className:"cursor-value"},el("span",{},text(signal.label||signal.id)),el("code",{},formatBits(valueAt(signal,ws.cursor),signal.width)))));
@@ -459,14 +575,15 @@
       eventResults.replaceChildren(el("p",{className:"count-label"},`${events.length} 条事件 · 时间单位 ${wave.unit||"ns"}`),table(["时间起止（点击定位）","方向","地址","数据","等待周期","PSLVERR","记录状态"],rows,{className:"table-scroll apb-event-table"}),el("div",{className:"pagination"},el("span",{},`${offset+1}–${Math.min(offset+per,events.length)} / ${events.length}`),el("div",{className:"button-group"},button("上一页",()=>{ws.eventPage--;renderEvents();},{disabled:ws.eventPage<=1,className:"button small"}),el("span",{},`${ws.eventPage} / ${pages}`),button("下一页",()=>{ws.eventPage++;renderEvents();},{disabled:ws.eventPage>=pages,className:"button small"}))));
     }
     svg.addEventListener("wheel",event=>{event.preventDefault();zoom(event.deltaY<0?.7:1/.7,pointerTime(event));},{passive:false});
-    svg.addEventListener("pointerdown",event=>{if(event.button!==0)return;const d=dimensions(),rect=svg.getBoundingClientRect();if(event.clientX-rect.left<d.left)return;svg.focus({preventScroll:true});drag={x:event.clientX,start:ws.start,end:ws.end,plot:d.plot,mode:event.target.hasAttribute("data-cursor-handle")?"cursor":"pan",moved:false};svg.setPointerCapture(event.pointerId);svg.classList.add("dragging");});
-    svg.addEventListener("pointermove",event=>{if(!drag)return;const delta=event.clientX-drag.x;drag.moved=drag.moved||Math.abs(delta)>3;if(drag.mode==="cursor")ws.cursor=Math.max(domain[0],Math.min(domain[1],pointerTime(event)));else if(drag.moved){const shift=-delta/drag.plot*(drag.end-drag.start);[ws.start,ws.end]=clampWindow(drag.start+shift,drag.end+shift);pendingEvents=true;}scheduleDraw();});
+    svg.addEventListener("pointerdown",event=>{if(event.button!==0)return;const d=dimensions(),px=pointerX(event);if(px<d.left)return;svg.focus({preventScroll:true});drag={x:px,start:ws.start,end:ws.end,plot:d.plot,mode:event.target.hasAttribute("data-cursor-handle")?"cursor":"pan",moved:false};svg.setPointerCapture(event.pointerId);svg.classList.add("dragging");});
+    svg.addEventListener("pointermove",event=>{if(!drag)return;const delta=pointerX(event)-drag.x;drag.moved=drag.moved||Math.abs(delta)>3;if(drag.mode==="cursor")ws.cursor=Math.max(domain[0],Math.min(domain[1],pointerTime(event)));else if(drag.moved){const shift=-delta/drag.plot*(drag.end-drag.start);[ws.start,ws.end]=clampWindow(drag.start+shift,drag.end+shift);pendingEvents=true;}scheduleDraw();});
     function endDrag(event){if(!drag)return;if(!drag.moved&&drag.mode!=="cursor")ws.cursor=Math.max(domain[0],Math.min(domain[1],pointerTime(event)));drag=null;svg.classList.remove("dragging");try{svg.releasePointerCapture(event.pointerId);}catch(_){}scheduleDraw(true);}
     svg.addEventListener("pointerup",endDrag);svg.addEventListener("pointercancel",endDrag);
     svg.addEventListener("keydown",event=>{const span=ws.end-ws.start,step=span/100;let handled=true;if(event.key==="ArrowLeft"||event.key==="ArrowRight"){const direction=event.key==="ArrowRight"?1:-1;if(event.shiftKey)setWindow(ws.start+direction*span*.1,ws.end+direction*span*.1);else{ws.cursor=Math.max(domain[0],Math.min(domain[1],ws.cursor+direction*step));if(ws.cursor<ws.start||ws.cursor>ws.end)centerCursor();else scheduleDraw();}}else if(["+","="].includes(event.key))zoom(.5);else if(["-","−"].includes(event.key))zoom(2);else if(event.key==="Home")setWindow(...domain);else handled=false;if(handled){event.preventDefault();announce(`游标 ${time(ws.cursor)} ${wave.unit||"ns"}`);}});
     let observer=null;const onResize=()=>scheduleDraw();if(typeof ResizeObserver!=="undefined"){observer=new ResizeObserver(onResize);observer.observe(chartFrame);}else window.addEventListener("resize",onResize);
     cleanupView=()=>{if(frame!==null)cancelAnimationFrame(frame);if(observer)observer.disconnect();else window.removeEventListener("resize",onResize);};
     draw();renderEvents();
+    if(hasId(state.waveFocusEventId)){const event=allEvents.find(event=>event.id===state.waveFocusEventId);if(event){state.waveFocusEventId=null;focusEvent(event);}}
   }
 
   function renderArchitecture() {

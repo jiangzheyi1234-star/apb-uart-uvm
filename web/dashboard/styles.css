@@ -178,3 +178,287 @@
     display: none;
   }
 }
+
+/* A real comparison gives the overview a starting point for investigation. */
+.app-shell {
+  grid-template-columns: 208px minmax(0, 1fr);
+}
+
+.association-case {
+  display: grid;
+  grid-template-columns: minmax(220px, 4fr) minmax(0, 6fr);
+  align-items: center;
+  gap: clamp(18px, 2.5vw, 36px);
+  margin-bottom: 20px;
+  padding: clamp(18px, 2.5vw, 34px);
+  border: 1px solid #18394f;
+  border-radius: 13px;
+  color: #f6fbff;
+  background: #112b40;
+}
+
+.case-intro { min-width: 0; }
+
+.case-intro h2 {
+  margin: 0 0 12px;
+  font-size: clamp(1.5rem, 2.4vw, 2.125rem);
+  line-height: 1.27;
+  text-wrap: balance;
+}
+
+.case-intro p {
+  margin-bottom: 16px;
+  color: #d1e1ec;
+  font-size: .9375rem;
+}
+
+.case-intro .case-scope {
+  color: #a5ded8;
+  font-size: .875rem;
+  font-weight: 650;
+  margin-bottom: 10px;
+}
+
+.button.case-primary {
+  background: #b9f2e9;
+  border-color: #b9f2e9;
+  color: #102e36;
+  font-weight: 650;
+}
+
+.button.case-primary:hover { background: #ddf9f4; }
+
+.button.case-secondary {
+  background: transparent;
+  border-color: #5e7b8d;
+  color: #f6fbff;
+}
+
+.button.case-secondary:hover { background: #274558; }
+
+.case-evidence {
+  min-width: 0;
+  background: #0c2133;
+  border: 1px solid #315168;
+  border-radius: 9px;
+  padding: 12px 15px;
+}
+
+.case-matrix {
+  table-layout: fixed;
+  font-variant-numeric: tabular-nums;
+}
+
+.case-matrix caption {
+  color: #d1e1ec;
+  font-weight: 600;
+  padding: 0 0 9px;
+}
+
+.case-matrix th,
+.case-matrix td {
+  padding: 8px 6px;
+  border-color: #294458;
+  text-align: center;
+  vertical-align: middle;
+  background: transparent;
+  color: #dbe8ef;
+}
+
+.case-matrix th:first-child {
+  text-align: left;
+  width: 25%;
+  white-space: normal;
+}
+
+.case-matrix th strong,
+.case-matrix th span:not(.badge) { display: block; }
+.case-matrix th .badge { margin-top: 3px; }
+.case-matrix thead code { color: #f6fbff; font-size: 1.1rem; }
+.case-matrix thead span { color: #ffe0a9; font-weight: 500; }
+.case-matrix .case-byte-target { background: #193748; }
+.case-lsr { display: block; font-size: 1rem; color: #f6fbff; }
+.case-bit { color: #abc7d6; font: .875rem/1.6 ui-monospace, Consolas, monospace; }
+.case-bit-set { color: #b9f2e9; font-weight: 700; }
+.case-matrix tbody tr:last-child th { border-bottom: 0; }
+
+.case-evidence-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  border-top: 1px solid #294458;
+  padding-top: 10px;
+  color: #c1d6e1;
+  font-size: .875rem;
+}
+
+.case-log-links { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.case-log-links a { color: #c7f2ed; }
+
+.overview-metrics {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.overview-metrics .metric-card {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 13px 16px;
+  background: transparent;
+}
+
+.overview-metrics .metric-card + .metric-card { border-left: 1px solid var(--line); }
+.overview-metrics .metric-label { min-height: 0; }
+.overview-metrics .metric-number { margin: 3px 0; font-size: 1.5rem; }
+.debug-entry { min-height: 62px; background: #f9fcfd; }
+
+/* Keep the timing plot as a full-width instrument. */
+.wave-layout.wave-layout--full { grid-template-columns: minmax(0, 1fr); }
+.wave-select-bar { margin-bottom: 12px; }
+.wave-run-context { margin-bottom: 10px; }
+.wave-run-identity,
+.wave-run-links,
+.wave-view-options,
+.wave-chart-legend,
+.wave-transaction-heading,
+.wave-transaction-details {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+}
+.wave-run-links { font-size: .875rem; }
+.wave-run-context .wave-run-links { margin: 0; }
+.wave-run-context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 16px;
+}
+.wave-view-options { justify-content: space-between; margin: 8px 0; }
+.wave-chart-legend { font-size: .875rem; color: var(--muted); }
+.wave-chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.wave-chart-legend i { display: inline-block; width: 14px; height: 8px; border-radius: 1px; }
+.wave-key--transaction { background: #a3bdcd; }
+.wave-key--cursor { background: #ad3545; }
+.wave-density { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .875rem; }
+.wave-density select {
+  min-height: 34px;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid #b9cbd7;
+  border-radius: 6px;
+  padding: 3px 7px;
+}
+.wave-transaction-summary {
+  background: #eaf5f5;
+  border: 1px solid #c3dbdf;
+  border-radius: 7px;
+  margin: 8px 0 10px;
+  padding: 8px 12px;
+  font-size: .875rem;
+}
+.wave-focus-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.wave-focus-bar .wave-transaction-summary { flex: 1 1 380px; margin: 0; }
+.wave-focus-bar .wave-jump-controls { margin: 0; }
+.wave-transaction-heading { color: var(--teal-dark); }
+.wave-transaction-details { color: var(--ink); }
+.wave-event-status { color: var(--pass); font-weight: 650; }
+.wave-event-status.is-issue { color: var(--amber); }
+.wave-jump-controls { margin-bottom: 7px; }
+.wave-signal-picker { margin-top: 12px; }
+.wave-signal-picker summary { color: var(--teal-dark); }
+.wave-signal-count { margin-left: 8px; color: var(--muted); font-weight: 400; }
+.wave-signal-picker .signal-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(144px, 1fr));
+  margin-top: 8px;
+  gap: 4px 12px;
+}
+.wave-chart .wave-inline-value { font: 12px ui-monospace, Consolas, monospace; fill: #275e68; }
+.wave-chart .wave-selected-range { fill: #4ca6a4; fill-opacity: .13; }
+.wave-chart .wave-selected-boundary { stroke: #207d80; stroke-width: 1.4; }
+.wave-chart .wave-cursor-label { font: 12px ui-monospace, Consolas, monospace; fill: #a32b39; }
+
+.regression-more { display: none; }
+
+@media (max-width: 1130px) {
+  .association-case { grid-template-columns: minmax(0, 1fr); }
+  .case-intro h2 { text-wrap: initial; }
+  .wave-select-bar { grid-template-columns: 1fr; gap: 8px; }
+}
+
+@media (max-width: 720px) {
+  .sidebar { padding: 10px 14px 6px; }
+  .sidebar .brand { padding-bottom: 6px; }
+  .workspace-nav { gap: 4px; padding-block: 3px; }
+  .workspace-nav button { min-height: 40px; }
+  .topbar { min-height: 58px; padding-block: 10px; }
+  .association-case { padding: 14px; gap: 14px; }
+  .case-evidence { padding: 9px; }
+  .case-matrix th,
+  .case-matrix td { padding: 7px 3px; }
+  .case-matrix thead code { font-size: .95rem; }
+  .case-matrix th .badge { font-size: .75rem; padding: 2px 4px; }
+  .overview-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .overview-metrics .metric-card:nth-child(3) { border-left: 0; }
+  .overview-metrics .metric-card:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .overview-metrics .metric-card { padding: 10px 12px; }
+
+  .regression-table { border: 0; border-radius: 0; overflow: visible; }
+  .regression-table table,
+  .regression-table tbody { display: block; min-width: 0; }
+  .regression-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .regression-table .regression-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 8px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 11px 12px;
+    background: #f9fcfd;
+  }
+  .regression-table td {
+    display: block;
+    border: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  .regression-table .reg-col-test { grid-column: 1 / -1; }
+  .regression-table .reg-col-test code { font-weight: 650; }
+  .regression-table .reg-col-seed { grid-column: 1; grid-row: 2; }
+  .regression-table .reg-col-seed::before { content: attr(data-label) " "; color: var(--muted); }
+  .regression-table .reg-col-status { grid-column: 2; grid-row: 2; }
+  .regression-table .reg-col-status .stack { flex-direction: row; justify-content: end; }
+  .regression-table .reg-col-evidence { grid-column: 1 / -1; }
+  .regression-table .row-actions { min-width: 0; align-items: center; }
+  .regression-table .reg-col-variant,
+  .regression-table .reg-col-phase,
+  .regression-table .reg-col-counts,
+  .regression-table .reg-col-diagnostics { display: none; }
+  .regression-more { display: block; margin-top: 5px; color: var(--muted); }
+  .regression-more summary { color: var(--teal-dark); }
+  .regression-more p { margin: 4px 0; }
+}
