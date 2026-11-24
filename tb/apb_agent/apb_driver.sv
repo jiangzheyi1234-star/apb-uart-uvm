@@ -11,6 +11,9 @@ class apb_driver extends uvm_driver #(apb_seq_item);
     super.build_phase(phase);
     if (!uvm_config_db#(virtual apb_if)::get(this, "", "vif", vif))
       `uvm_fatal("APB_VIF", "APB virtual interface was not configured")
+    void'(uvm_config_db#(int unsigned)::get(this, "", "timeout_cycles", timeout_cycles));
+    if(timeout_cycles==0)
+      `uvm_fatal("APB_CONFIG", "timeout_cycles must be greater than zero")
   endfunction
 
   function void idle_bus();
@@ -21,12 +24,7 @@ class apb_driver extends uvm_driver #(apb_seq_item);
     vif.pwdata = '0;
   endfunction
 
-  task transfer(apb_seq_item item);
-    item.wait_cycles = 0;
-    item.slverr = 0;
-    item.aborted = 0;
-    item.rdata = '0;
-    wait (vif.rst_n === 1'b1);
+  task drive_access(apb_seq_item item);
     @(negedge vif.clk);
     if (vif.rst_n !== 1'b1) begin
       item.aborted = 1;
@@ -54,17 +52,46 @@ class apb_driver extends uvm_driver #(apb_seq_item);
       if (vif.pready === 1'b1) begin
         item.rdata = vif.prdata;
         item.slverr = (vif.pslverr !== 1'b0);
+        item.completed = 1;
         break;
       end
       item.wait_cycles++;
       if (item.wait_cycles >= timeout_cycles) begin
         item.aborted = 1;
+        item.timed_out = 1;
         `uvm_error("APB_TIMEOUT", $sformatf("No PREADY at address 0x%03h", item.addr))
         break;
       end
     end
     @(negedge vif.clk);
     idle_bus();
+  endtask
+
+  task transfer(apb_seq_item item);
+    item.wait_cycles=0;
+    item.slverr=0;
+    item.aborted=0;
+    item.completed=0;
+    item.timed_out=0;
+    item.rdata='0;
+    wait(vif.rst_n===1'b1);
+    // Reset must cancel a waiting transfer immediately, including a pulse
+    // between clock samples. A completed handshake remains completed if reset
+    // arrives during its final bus-idle cleanup half-cycle.
+    fork
+      begin
+        fork
+          drive_access(item);
+          begin
+            @(negedge vif.rst_n);
+            if(!item.completed) item.aborted=1;
+            idle_bus();
+          end
+        join_any
+        disable fork;
+      end
+    join
+    if(item.aborted || vif.rst_n!==1'b1) idle_bus();
   endtask
 
   task run_phase(uvm_phase phase);

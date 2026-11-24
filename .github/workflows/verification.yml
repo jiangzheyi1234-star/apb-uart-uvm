@@ -85,6 +85,9 @@ jobs:
         run: |
           python3 py/run_linux_regression.py --rtl fixed --test uart_ral_test --seeds 1 2 3 \
             --coverage --trace --jobs 2 --build-timeout 1800 --out results/ci_ral
+      - name: Qualify the reusable APB agent independently
+        run: |
+          python3 py/run_protocol_checks.py --out results/ci_protocol --trace --jobs 2 --build-timeout 1800
       - name: Reproduce upstream failures and audit both 45-run matrices
         if: github.event_name == 'workflow_dispatch' && inputs.full_regression
         run: |
@@ -96,6 +99,20 @@ jobs:
           fi
           python3 py/validate_acceptance.py --fixed results/ci_fixed/report.json \
             --upstream results/ci_upstream/report.json --out results/ci_acceptance.json
+      - name: Build source-linked diagnostic workbench from measured evidence
+        if: github.event_name == 'workflow_dispatch' && inputs.full_regression
+        run: |
+          python3 py/build_evidence.py --report results/ci_fixed/report.json \
+            --report results/ci_upstream/report.json --report results/ci_ral/report.json \
+            --expected-fail-report results/ci_upstream/report.json --out results/ci_dashboard/release \
+            --include-databases --waveform-test uart_reset_test --waveform-test uart_error_test \
+            --waveform-test uart_error_association_test --waveform-seed 1
+          python3 py/build_feature_evidence.py --ral-report results/ci_ral/report.json \
+            --mutation-report results/ci_mutations/mutation_report.json --out results/ci_dashboard/features
+          python3 py/build_protocol_evidence.py --report results/ci_protocol/protocol_report.json \
+            --out results/ci_dashboard/protocol
+          python3 py/build_dashboard.py --evidence-root results/ci_dashboard \
+            --out results/ci_dashboard --version 1.2.0 --commit "$GITHUB_SHA"
       - name: Record the actual CI commit and observed result summary
         if: always()
         run: |
@@ -111,6 +128,7 @@ jobs:
           for name, filename in (
               ('Fixed RTL', 'ci_fixed/report.json'), ('Checker mutations', 'ci_mutations/mutation_report.json'),
               ('UVM register model', 'ci_ral/report.json'), ('Upstream RTL', 'ci_upstream/report.json'),
+              ('APB agent qualification', 'ci_protocol/protocol_report.json'),
               ('Strict acceptance', 'ci_acceptance.json')):
               source = result / filename
               if source.is_file():
@@ -135,6 +153,8 @@ jobs:
             results/**/report.md
             results/**/mutation_report.json
             results/**/mutation_report.md
+            results/**/protocol_report.json
+            results/**/protocol_report.md
             results/**/source_snapshot.json
             results/**/stage_origin.json
             results/**/simulation.log
@@ -143,3 +163,4 @@ jobs:
             results/**/coverage/coverage_summary.md
             results/**/coverage/coverage.info
             results/**/coverage/merged.dat
+            results/ci_dashboard/**

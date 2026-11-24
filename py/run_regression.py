@@ -26,6 +26,10 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_TESTS = (
     "uart_smoke_test", "uart_fifo_boundary_test", "uart_error_test", "uart_reset_test"
 )
+DEFAULT_PROTOCOL_TESTS = (
+    "apb_wait_state_test", "apb_reset_abort_test", "apb_timeout_control_test"
+)
+SUITE_PASS_MARKERS = {"uart": "UART_UVM_TEST_PASS", "apb_protocol": "APB_AGENT_TEST_PASS"}
 PASS_MARKER = re.compile(
     r"^\s*(?:#\s*)?UVM_INFO\b[^\r\n]*\[UART_UVM_TEST_PASS\]", re.MULTILINE
 )
@@ -55,7 +59,8 @@ class ProcessResult:
     log: str
 
 
-def classify_log(text: str, returncode: int | None, timed_out: bool = False) -> Outcome:
+def classify_log(text: str, returncode: int | None, timed_out: bool = False,
+                 pass_marker: str = "UART_UVM_TEST_PASS") -> Outcome:
     """Reject empty, truncated, simulator-error and false-success transcripts."""
     counts: dict[str, int | None] = {}
     for severity in ("ERROR", "FATAL"):
@@ -75,9 +80,10 @@ def classify_log(text: str, returncode: int | None, timed_out: bool = False) -> 
         return Outcome("FAIL", "UVM reported an error or fatal", errors, fatals)
     if errors is None or fatals is None:
         return Outcome("FAIL", "Missing complete UVM severity summary", errors, fatals)
-    if not PASS_MARKER.search(text):
-        return Outcome("FAIL", "Missing scoreboard completion marker UART_UVM_TEST_PASS", errors, fatals)
-    return Outcome("PASS", "Scoreboard completed; UVM error/fatal counts are zero", errors, fatals)
+    completion = re.compile(r"^\s*(?:#\s*)?UVM_INFO\b[^\r\n]*\[" + re.escape(pass_marker) + r"\]", re.MULTILINE)
+    if not completion.search(text):
+        return Outcome("FAIL", f"Missing completion marker {pass_marker}", errors, fatals)
+    return Outcome("PASS", "Completion marker observed; UVM error/fatal counts are zero", errors, fatals)
 
 
 def run_process(command: list[str], cwd: Path, log: Path, timeout: float) -> ProcessResult:
@@ -160,6 +166,8 @@ def find_source_uvm(explicit: Path | None) -> Path | None:
 
 
 def source_list(args: argparse.Namespace) -> Path:
+    if getattr(args, "suite", "uart") == "apb_protocol":
+        return ROOT / "sim" / "files_protocol.f"
     return ROOT / "sim" / ("files_fixed.f" if args.rtl == "fixed" else "files.f")
 
 
@@ -173,18 +181,22 @@ def file_digest(path: Path) -> str:
 
 def capture_source_manifest(args: argparse.Namespace, uvm_src: Path | None) -> dict:
     """Capture the actual selected source contents immediately before compilation."""
-    selected_rtl = ROOT / ("rtl_fixed" if args.rtl == "fixed" else "rtl")
+    suite = getattr(args, "suite", "uart")
+    variant = args.rtl if suite == "uart" else None
+    directories = [ROOT / "tb"]
+    if suite == "uart":
+        directories.append(ROOT / ("rtl_fixed" if args.rtl == "fixed" else "rtl"))
     sources = {source_list(args)}
-    for directory in (selected_rtl, ROOT / "tb"):
+    for directory in directories:
         if directory.is_dir():
             sources.update(path for path in directory.rglob("*") if path.is_file() and path.suffix in (".sv", ".svh"))
     project_files = [{"path": path.relative_to(ROOT).as_posix(), "sha256": file_digest(path), "bytes": path.stat().st_size}
                      for path in sorted(sources)]
     snapshot = {"captured_utc": datetime.now(timezone.utc).isoformat(), "captured_before_compile": True,
-                "algorithm": "sha256", "rtl_variant": args.rtl, "project_files": project_files,
+                "algorithm": "sha256", "suite": suite, "rtl_variant": variant, "project_files": project_files,
                 "uvm_files": [], "uvm_archives": [], "uvm_version": None}
     upstream = ROOT / "third_party" / "apb_uart_sv" / "manifest.json"
-    if upstream.is_file():
+    if suite == "uart" and upstream.is_file():
         metadata = json.loads(read_log(upstream))
         snapshot["upstream"] = {"repository": metadata.get("repository"), "commit": metadata.get("commit"),
                                 "manifest_sha256": file_digest(upstream)}
@@ -211,7 +223,7 @@ def capture_source_manifest(args: argparse.Namespace, uvm_src: Path | None) -> d
                 snapshot["uvm_version_defines"] = defines
     else:
         snapshot["uvm_source_note"] = "Simulator bundled/precompiled UVM; source contents not available to the runner"
-    stable = {"project_files": snapshot["project_files"], "uvm_files": snapshot["uvm_files"], "rtl_variant": args.rtl}
+    stable = {"project_files": snapshot["project_files"], "uvm_files": snapshot["uvm_files"], "rtl_variant": variant}
     snapshot["snapshot_sha256"] = hashlib.sha256(json.dumps(stable, sort_keys=True).encode("utf-8")).hexdigest()
     return snapshot
 
@@ -268,7 +280,8 @@ def plans(args: argparse.Namespace, output: Path, uvm_src: Path | None) -> tuple
             *args.verilator_arg,
         ]]
     runs = []
-    for test in args.test or DEFAULT_TESTS:
+    defaults = DEFAULT_PROTOCOL_TESTS if getattr(args, "suite", "uart") == "apb_protocol" else DEFAULT_TESTS
+    for test in args.test or defaults:
         for seed in args.seeds:
             directory = output / f"{test}_seed_{seed}"
             if args.sim == "questa":
@@ -295,7 +308,7 @@ def plans(args: argparse.Namespace, output: Path, uvm_src: Path | None) -> tuple
                 coverage_path = directory / "coverage.dat"
                 command = [str(build / "Vtb_top"), f"+UVM_TESTNAME={test}", f"+verilator+seed+{seed}",
                            *([f"+verilator+coverage+file+{coverage_path}"] if args.coverage else [])]
-            if args.rtl == "fixed":
+            if getattr(args, "suite", "uart") == "uart" and args.rtl == "fixed":
                 command.append("+RTL_FIXED=1")
             if args.trace:
                 command.extend(["+TRACE", f"+VCD_FILE={directory / 'waves.vcd'}"])
@@ -370,7 +383,8 @@ def write_reports(output: Path, report: dict) -> None:
     output.mkdir(parents=True, exist_ok=True)
     (output / "report.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     lines = [
-        "# APB UART UVM regression", "", f"Status: **{report['status']}**", "",
+        "# " + ("APB agent protocol regression" if report.get("suite") == "apb_protocol" else "APB UART UVM regression"),
+        "", f"Status: **{report['status']}**", "",
         f"Simulator: {report['simulator']}", f"Started (UTC): {report['started_utc']}", "",
     ]
     if report.get("rtl_variant"):
@@ -394,7 +408,7 @@ def write_reports(output: Path, report: dict) -> None:
         for key in ("merged_database", "lcov", "annotated_sources", "reason"):
             if coverage.get(key):
                 lines.append(f"{key}: {coverage[key]}")
-    lines.extend(["", "PASS requires normal exit, the scoreboard completion marker and a clean UVM summary.",
+    lines.extend(["", "PASS requires normal exit, the selected suite's completion marker and a clean UVM summary.",
                   "DRY_RUN only lists commands; no RTL simulation or coverage measurement was performed.",
                   "Coverage databases, when requested, belong to individual runs and require the simulator's reporting tools.", ""])
     (output / "report.md").write_text("\n".join(lines), encoding="utf-8")
@@ -403,8 +417,9 @@ def write_reports(output: Path, report: dict) -> None:
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--sim", choices=("questa", "vcs", "verilator"), default="questa")
+    p.add_argument("--suite", choices=("uart", "apb_protocol"), default="uart", help="Select the UART DUT or independent APB agent protocol tests")
     p.add_argument("--rtl", choices=("upstream", "fixed"), default="upstream", help="Select original RTL or the documented local bug fixes")
-    p.add_argument("--test", action="append", help="UVM test class; repeat to select several (default: all four tests)")
+    p.add_argument("--test", action="append", help="UVM test class; repeat to select several (default: suite's positive tests)")
     p.add_argument("--seeds", type=int, nargs="+", default=[1], help="Positive seeds, one run per test and seed")
     p.add_argument("--out", type=Path, help="Fresh output directory; defaults to results/<UTC timestamp>")
     p.add_argument("--build-dir", type=Path, help="Optional persistent build directory (e.g. Linux /var/tmp/uart-build); the real build command still runs every time")
@@ -441,6 +456,8 @@ def main(argv: list[str] | None = None) -> int:
         arg_parser.error("test names must be SystemVerilog class identifiers")
     if args.compile_uvm_source and args.sim != "questa":
         arg_parser.error("--compile-uvm-source is only supported for Questa")
+    if args.suite == "apb_protocol" and args.coverage:
+        arg_parser.error("--coverage exports UART functional coverage; the protocol suite uses APB_AGENT_STATS and optional --trace")
     output = (args.out or ROOT / "results" / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ")).resolve()
     if output.exists() and (not output.is_dir() or any(output.iterdir())):
         arg_parser.error("--out must be an empty or new directory to prevent stale PASS logs or coverage")
@@ -448,7 +465,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.coverage and args.sim == "questa" and any(c in str(output) for c in "{}\r\n"):
         arg_parser.error("Questa coverage output paths cannot contain braces or newlines")
     output.mkdir(parents=True, exist_ok=True)
-    report = {"status": "ERROR", "simulator": args.sim, "rtl_variant": args.rtl,
+    report = {"status": "ERROR", "simulator": args.sim, "suite": args.suite,
+              "rtl_variant": args.rtl if args.suite == "uart" else None,
+              "completion_marker": SUITE_PASS_MARKERS[args.suite],
               "source_file_list": str(source_list(args)),
               "build_directory": str(args.build_dir or output / "build"),
               "started_utc": datetime.now(timezone.utc).isoformat(), "build": [], "runs": []}
@@ -516,7 +535,8 @@ def main(argv: list[str] | None = None) -> int:
             directory = Path(run["directory"])
             directory.mkdir()
             process = run_process(run["command"], directory, directory / "simulation.log", args.timeout)
-            outcome = classify_log(read_log(process.log), process.returncode, process.timed_out)
+            outcome = classify_log(read_log(process.log), process.returncode, process.timed_out,
+                                   SUITE_PASS_MARKERS[args.suite])
             result = {"test": run["test"], "seed": run["seed"], **asdict(process), **asdict(outcome)}
             missing_artifacts = []
             for key in ("coverage_file", "waveform_file"):

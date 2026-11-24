@@ -13,6 +13,7 @@ dist/
 *.vcd
 !docs/evidence/inputs/*.vcd
 !docs/release/inputs/*.vcd
+!docs/protocol/inputs/*.vcd
 *.ucdb
 *.vdb/
 transcript

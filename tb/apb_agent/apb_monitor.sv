@@ -29,6 +29,7 @@ class apb_monitor extends uvm_monitor;
         item.data = vif.pwdata;
         item.rdata = vif.prdata;
         item.slverr = (vif.pslverr !== 1'b0);
+        item.completed = 1;
         item.wait_cycles = wait_cycles;
         ap.write(item);
         wait_cycles = 0;

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="APB UART verification workbench: recorded regressions, coverage, waveform inspection and source-linked design evidence.">
+  <title>APB UART · 验证工作台</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="data/dashboard.js" defer></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">跳到工作区</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="验证工作台导航">
+      <a class="brand" href="#overview" aria-label="APB UART 验证总览">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><strong>APB UART</strong><span class="brand-subtitle">Verification workbench</span></span>
+      </a>
+      <p class="nav-label">工程证据</p>
+      <nav class="workspace-nav" id="workspace-nav" aria-label="工作区">
+        <button type="button" data-tab="overview" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">◫</span>总览</button>
+        <button type="button" data-tab="regressions" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">≡</span>回归记录</button>
+        <button type="button" data-tab="coverage" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">▥</span>覆盖与缺口</button>
+        <button type="button" data-tab="waveforms" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">⌁</span>波形与总线</button>
+        <button type="button" data-tab="architecture" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">▦</span>验证架构</button>
+        <button type="button" data-tab="defects" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">◇</span>缺陷对照</button>
+      </nav>
+      <div class="sidebar-footer"><span class="offline-label">离线数据 · 无外部依赖</span><p>所有数字来自记录的运行。原始结果、预期分类与统计范围分别呈现。</p></div>
+    </aside>
+    <div class="main-shell">
+      <header class="topbar">
+        <div><p class="eyebrow">SYSTEMVERILOG / UVM</p><h1 id="page-title">验证总览</h1></div>
+        <div id="project-meta" class="project-meta"></div>
+      </header>
+      <main id="workspace" class="workspace" tabindex="-1" aria-labelledby="page-title">
+        <div class="empty-state"><h2>正在读取本地证据</h2><p>请保留同版本证据包的目录结构。</p></div>
+      </main>
+      <footer class="page-footer"><span>原始 FAIL 保留；DETECTED 只表示指定负向控制被检查器发现。</span><span id="generated-at"></span></footer>
+    </div>
+  </div>
+  <noscript><div class="noscript">互动工作台需要 JavaScript。可直接阅读 <a href="release/index.html">原始回归报告</a> 或 <a href="features/index.html">专项证据</a>。</div></noscript>
+  <div id="live-message" class="sr-only" role="status" aria-live="polite"></div>
+</body>
+</html>

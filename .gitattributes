@@ -4,6 +4,8 @@
 *.dat binary
 docs/release/** -text linguist-generated=true
 docs/features/** -text linguist-generated=true
+docs/protocol/** -text linguist-generated=true
+docs/data/** -text linguist-generated=true
 rtl/** linguist-vendored=true
 third_party/** linguist-vendored=true
 rtl/*.sv text eol=lf

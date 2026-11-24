@@ -10,7 +10,9 @@ class uart_ral_test extends base_test;
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     regmodel=uart_reg_block::type_id::create("regmodel");
-    regmodel.configure(null,""); regmodel.build(); regmodel.lock_model();
+    regmodel.configure(null,""); regmodel.build();
+    // Finish the complete hierarchy/maps before querying mapping information.
+    regmodel.lock_model();
     reg_adapter=uart_apb_reg_adapter::type_id::create("reg_adapter");
     reg_predictor=uart_bank_predictor::type_id::create("reg_predictor",this);
     reg_predictor.regmodel=regmodel;
@@ -19,6 +21,12 @@ class uart_ral_test extends base_test;
   endfunction
   function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
+    if(!regmodel.is_locked())
+      `uvm_fatal("RAL_MODEL_CFG","Register block must be locked before connection")
+    if(regmodel.ier.get_frontdoor(regmodel.normal_map)!=regmodel.ier_frontdoor ||
+       regmodel.dll.get_frontdoor(regmodel.banked_map)!=regmodel.dll_frontdoor ||
+       regmodel.dlm.get_frontdoor(regmodel.banked_map)!=regmodel.dlm_frontdoor)
+      `uvm_fatal("RAL_MODEL_CFG","Banked registers require their configured frontdoors")
     regmodel.normal_map.set_sequencer(env.apb.sqr,reg_adapter);
     regmodel.banked_map.set_sequencer(env.apb.sqr,reg_adapter);
     regmodel.normal_map.set_check_on_read(1);
@@ -53,6 +61,7 @@ class uart_ral_test extends base_test;
 
   task scenario();
     bit[7:0] lcr_value, ier_value, dll_value, dlm_value;
+    logic[31:0] actual_lcr;
     // Reset when the bus/serial interfaces are idle. The predictor must reset
     // all four mirrors without receiving any register read or write first.
     vif.rst_n=0; clocks(8); vif.rst_n=1; clocks(8);
@@ -85,13 +94,20 @@ class uart_ral_test extends base_test;
 
     // Independent register sequences contend for the APB sequencer. Each bank
     // selection/target/restoration group must hold its lock across all beats.
-    write_checked(regmodel.lcr,8'h83,regmodel.normal_map);
+    // Include stored-but-unused format bits to check restoration of the whole
+    // LCR byte, not only DLAB. The active serial format remains 8N1.
+    write_checked(regmodel.lcr,8'hf3,regmodel.normal_map);
     fork
       write_checked(regmodel.ier,8'ha5,regmodel.normal_map);
       write_checked(regmodel.dll,8'h17,regmodel.banked_map);
       write_checked(regmodel.dlm,8'h02,regmodel.banked_map);
     join
-    expect_mirror(regmodel.lcr,8'h83);
+    // Read the actual bus value independently of the RAL mirror/check API.
+    // This catches a frontdoor that leaves the bank or format byte modified.
+    rd(12'h003,actual_lcr);
+    if(actual_lcr!==32'h000000f3)
+      `uvm_error("RAL_LCR_RESTORE",$sformatf("Concurrent frontdoors must restore LCR=f3, actual=%h",actual_lcr))
+    expect_mirror(regmodel.lcr,8'hf3);
     mirror_checked(regmodel.lcr,regmodel.normal_map);
     expect_mirror(regmodel.ier,8'ha5);
     expect_mirror(regmodel.dll,8'h17); expect_mirror(regmodel.dlm,8'h02);

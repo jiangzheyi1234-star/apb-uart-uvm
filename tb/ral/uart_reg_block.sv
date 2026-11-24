@@ -55,20 +55,21 @@ class uart_reg_block extends uvm_reg_block;
     normal_map=create_map("normal_map",0,4,UVM_LITTLE_ENDIAN,1);
     banked_map=create_map("banked_map",0,4,UVM_LITTLE_ENDIAN,1);
     default_map=normal_map;
-    normal_map.add_reg(ier,1,"RW");
-    normal_map.add_reg(lcr,3,"RW");
-    banked_map.add_reg(dll,0,"RW");
-    banked_map.add_reg(dlm,1,"RW");
-    banked_map.add_reg(lcr,3,"RW");
     ier_frontdoor=uart_dlab_frontdoor::type_id::create("ier_frontdoor");
     dll_frontdoor=uart_dlab_frontdoor::type_id::create("dll_frontdoor");
     dlm_frontdoor=uart_dlab_frontdoor::type_id::create("dlm_frontdoor");
     ier_frontdoor.required_dlab=0; ier_frontdoor.target_address=12'h001;
     dll_frontdoor.required_dlab=1; dll_frontdoor.target_address=12'h000;
     dlm_frontdoor.required_dlab=1; dlm_frontdoor.target_address=12'h001;
-    ier.set_frontdoor(ier_frontdoor,normal_map);
-    dll.set_frontdoor(dll_frontdoor,banked_map);
-    dlm.set_frontdoor(dlm_frontdoor,banked_map);
+    // Bind frontdoors while adding registers. set_frontdoor() queries map
+    // information that UVM initializes only when the top block is locked;
+    // calling it here would query an unfinished map and emit RegModel warnings.
+    // Keep unmapped=0: the passive predictor still needs these byte offsets.
+    normal_map.add_reg(ier,1,"RW",0,ier_frontdoor);
+    normal_map.add_reg(lcr,3,"RW");
+    banked_map.add_reg(dll,0,"RW",0,dll_frontdoor);
+    banked_map.add_reg(dlm,1,"RW",0,dlm_frontdoor);
+    banked_map.add_reg(lcr,3,"RW");
     normal_map.set_auto_predict(0); banked_map.set_auto_predict(0);
   endfunction
 endclass

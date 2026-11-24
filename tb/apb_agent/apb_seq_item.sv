@@ -5,6 +5,8 @@ class apb_seq_item extends uvm_sequence_item;
   logic [31:0] rdata;
   bit slverr;
   bit aborted;
+  bit completed;
+  bit timed_out;
   int unsigned wait_cycles;
 
   `uvm_object_utils_begin(apb_seq_item)
@@ -14,6 +16,8 @@ class apb_seq_item extends uvm_sequence_item;
     `uvm_field_int(rdata, UVM_DEFAULT | UVM_HEX)
     `uvm_field_int(slverr, UVM_DEFAULT)
     `uvm_field_int(aborted, UVM_DEFAULT)
+    `uvm_field_int(completed, UVM_DEFAULT)
+    `uvm_field_int(timed_out, UVM_DEFAULT)
     `uvm_field_int(wait_cycles, UVM_DEFAULT)
   `uvm_object_utils_end
 

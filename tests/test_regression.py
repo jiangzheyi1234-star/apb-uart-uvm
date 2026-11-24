@@ -59,6 +59,14 @@ class ParserTests(unittest.TestCase):
     def test_repeated_summary_must_all_be_clean(self):
         self.assertEqual(regression.classify_log("UVM_FATAL : 1\n" + CLEAN, 0).status, "FAIL")
 
+    def test_protocol_marker_must_be_selected_explicitly_and_cannot_use_uart_pass(self):
+        protocol = CLEAN.replace("UART_UVM_TEST_PASS", "APB_AGENT_TEST_PASS")
+        self.assertEqual(regression.classify_log(protocol, 0).status, "FAIL")
+        self.assertEqual(regression.classify_log(protocol, 0, pass_marker="APB_AGENT_TEST_PASS").status, "PASS")
+        self.assertEqual(regression.classify_log(CLEAN, 0, pass_marker="APB_AGENT_TEST_PASS").status, "FAIL")
+        self.assertEqual(regression.classify_log(protocol.replace("UVM_INFO", "COMMAND"), 0,
+                                                 pass_marker="APB_AGENT_TEST_PASS").status, "FAIL")
+
 
 class SubprocessTests(unittest.TestCase):
     def fixture_plans(self, directory, run_result="pass", build_result="pass"):
@@ -179,6 +187,65 @@ class SubprocessTests(unittest.TestCase):
 
 
 class CommandPlanTests(unittest.TestCase):
+    def test_protocol_suite_is_independent_for_every_simulator(self):
+        for simulator in ("questa", "vcs", "verilator"):
+            with self.subTest(simulator=simulator):
+                args = regression.parser().parse_args(["--suite", "apb_protocol", "--sim", simulator, "--rtl", "fixed"])
+                build, runs = regression.plans(args, Path("/tmp/protocol"), Path("/opt/uvm/src"))
+                self.assertTrue(any(part.endswith("files_protocol.f") for command in build for part in command))
+                self.assertFalse(any(part.endswith(("files_fixed.f", "files.f")) for command in build for part in command))
+                self.assertEqual({run["test"] for run in runs}, set(regression.DEFAULT_PROTOCOL_TESTS))
+                self.assertTrue(all("+RTL_FIXED=1" not in run["command"] for run in runs))
+                self.assertTrue(all(run["coverage_file"] is None for run in runs))
+
+    def test_protocol_dry_run_reports_suite_without_claiming_uart_rtl_or_pass(self):
+        with tempfile.TemporaryDirectory() as temp, contextlib.redirect_stdout(io.StringIO()):
+            output = Path(temp) / "protocol"
+            result = regression.main(["--suite", "apb_protocol", "--rtl", "fixed", "--sim", "verilator",
+                                      "--dry-run", "--seeds", "1", "2", "3", "--out", str(output)])
+            report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+            self.assertEqual(result, 0)
+            self.assertEqual(report["status"], "DRY_RUN")
+            self.assertEqual(report["suite"], "apb_protocol")
+            self.assertIsNone(report["rtl_variant"])
+            self.assertEqual(report["completion_marker"], "APB_AGENT_TEST_PASS")
+            self.assertEqual(len(report["runs"]), 9)
+            self.assertNotIn("coverage", report)
+            self.assertFalse(report["build"])
+
+    def test_protocol_cannot_export_uart_functional_coverage(self):
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as error:
+            regression.main(["--suite", "apb_protocol", "--coverage", "--dry-run"])
+        self.assertEqual(error.exception.code, 2)
+
+    def test_protocol_snapshot_has_no_uart_rtl_and_preserves_stable_hash_schema(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            for name in ("tb", "sim", "rtl", "rtl_fixed"):
+                (root / name).mkdir()
+            (root / "tb" / "protocol.sv").write_text("module tb_top; endmodule\n", encoding="utf-8")
+            (root / "sim" / "files_protocol.f").write_text("tb/protocol.sv\n", encoding="utf-8")
+            for variant in ("rtl", "rtl_fixed"):
+                (root / variant / "uart.sv").write_text("module uart; endmodule\n", encoding="utf-8")
+            args = regression.parser().parse_args(["--suite", "apb_protocol", "--rtl", "fixed"])
+            with patch.object(regression, "ROOT", root):
+                snapshot = regression.capture_source_manifest(args, None)
+            self.assertEqual(snapshot["suite"], "apb_protocol")
+            self.assertIsNone(snapshot["rtl_variant"])
+            self.assertEqual({entry["path"] for entry in snapshot["project_files"]}, {"tb/protocol.sv", "sim/files_protocol.f"})
+            import hashlib
+            stable = {key: snapshot[key] for key in ("project_files", "uvm_files", "rtl_variant")}
+            self.assertEqual(snapshot["snapshot_sha256"], hashlib.sha256(json.dumps(stable, sort_keys=True).encode()).hexdigest())
+
+    def test_linux_default_protocol_stage_and_build_are_separate_from_uart(self):
+        spec = importlib.util.spec_from_file_location("linux_protocol_stage", ROOT / "py" / "run_linux_regression.py")
+        stage = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(stage)
+        self.assertNotEqual(stage.default_stage_directory("uart"), stage.default_stage_directory("apb_protocol"))
+        for variant in ("upstream", "fixed"):
+            self.assertNotEqual(stage.default_build_directory("uart", variant), stage.default_build_directory("apb_protocol", variant))
+            self.assertTrue(str(stage.default_build_directory("apb_protocol", variant)).isascii())
+
     def test_questa_source_and_precompiled_modes(self):
         args = regression.parser().parse_args(["--test", "uart_smoke_test"])
         build, runs = regression.plans(args, Path("/tmp/uart"), Path("/opt/uvm/src"))

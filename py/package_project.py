@@ -21,7 +21,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_DIRECTORIES = (
-    "rtl", "rtl_fixed", "tb", "sim", "py", "tests", "scripts", "third_party", ".github"
+    "rtl", "rtl_fixed", "tb", "sim", "py", "tests", "scripts", "third_party", ".github", "web"
 )
 ROOT_FILES = (
     "README.md", "README.en.md", "LICENSE", "NOTICE", "NOTICE.md",
@@ -32,8 +32,9 @@ SOURCE_DOCUMENTS = (
     "docs/README.md", "docs/architecture.md", "docs/registers.md",
     "docs/verification_plan.md", "docs/rtl_findings.md", "docs/rtl_fixes.md",
     "docs/coverage_analysis.md", "docs/checker_sensitivity.md", "docs/validation.md",
+    "docs/apb_protocol.md", "docs/dashboard.md",
 )
-EVIDENCE_DIRECTORIES = ("docs/release", "docs/features", "docs/ci")
+EVIDENCE_DIRECTORIES = ("docs/release", "docs/features", "docs/ci", "docs/protocol", "docs/assets", "docs/data")
 EVIDENCE_FILES = ("docs/index.html", "docs/.nojekyll", "LICENSE", "NOTICE", "NOTICE.md", "third_party/apb_uart_sv/LICENSE")
 PROFILES = ("source", "evidence")
 EXCLUDED_DIRECTORIES = frozenset({

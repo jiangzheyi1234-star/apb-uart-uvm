@@ -128,17 +128,27 @@ def staged_path(raw: str | None, project: Path, stage: Path, default: Path) -> P
     return selected
 
 
+def default_stage_directory(suite: str) -> Path:
+    return Path("/var/tmp/apb-agent-protocol-workspace" if suite == "apb_protocol" else "/var/tmp/apb-uart-uvm-workspace")
+
+
+def default_build_directory(suite: str, variant: str) -> Path:
+    return Path("/var/tmp/apb-agent-protocol-build" if suite == "apb_protocol" else f"/var/tmp/apb-uart-uvm-build-{variant}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter,
                                      epilog="Other arguments are passed to run_regression.py. Use that script's --help for runner options.")
-    parser.add_argument("--stage-dir", type=Path, default=Path("/var/tmp/apb-uart-uvm-workspace"))
+    parser.add_argument("--stage-dir", type=Path)
+    parser.add_argument("--suite", choices=("uart", "apb_protocol"), default="uart")
     parser.add_argument("--source-root", type=Path, default=ROOT)
     args, forwarded = parser.parse_known_args()
     if forwarded[:1] == ["--"]:
         forwarded = forwarded[1:]
     if os.name == "nt":
         parser.error("Invoke this helper with Linux/WSL python3, not Windows Python")
-    project, stage = args.source_root.resolve(), args.stage_dir.resolve()
+    project = args.source_root.resolve()
+    stage = (args.stage_dir or default_stage_directory(args.suite)).resolve()
     if not str(stage).isascii() or stage == Path("/") or stage == project or stage.is_relative_to(project) or project.is_relative_to(stage):
         parser.error("--stage-dir must be a separate, non-root ASCII directory outside the original project")
     try:
@@ -155,7 +165,7 @@ def main() -> int:
         if output.exists() and (not output.is_dir() or any(output.iterdir())):
             raise ValueError("--out must be a new or empty directory")
         forwarded, build_value = take_option(forwarded, "--build-dir")
-        build = Path(build_value).resolve() if build_value else Path("/var/tmp") / f"apb-uart-uvm-build-{variant}"
+        build = Path(build_value).resolve() if build_value else default_build_directory(args.suite, variant)
         if not str(build).isascii():
             raise ValueError("--build-dir must be an ASCII Linux path")
         forwarded, verilator_value = take_option(forwarded, "--verilator")
@@ -171,7 +181,7 @@ def main() -> int:
         for required in (verilator, coverage, uvm / "uvm_pkg.sv", uvm / "uvm_macros.svh", verilator_root / "include" / "verilated.mk"):
             if not required.is_file():
                 raise FileNotFoundError(f"Required staged tool/source is missing: {required}")
-        command = [sys.executable, str(stage / "py" / "run_regression.py"), "--sim", "verilator", "--rtl", variant,
+        command = [sys.executable, str(stage / "py" / "run_regression.py"), "--sim", "verilator", "--suite", args.suite, "--rtl", variant,
                    "--out", str(output), "--build-dir", str(build), "--verilator", str(verilator),
                    "--verilator-coverage", str(coverage), "--uvm-home", str(uvm), *forwarded]
         environment = os.environ.copy()
@@ -181,6 +191,7 @@ def main() -> int:
         manifest["runner_command"] = command
         manifest["environment_overrides"] = {name: environment[name] for name in ("VERILATOR_ROOT", "UVM_HOME")}
         manifest["build_directory"] = str(build)
+        manifest["suite"] = args.suite
         print(f"STAGE_VERIFIED: {manifest['verified_files']} byte-equal files; {manifest['copied_files']} copied to {stage}", flush=True)
         print("RUNNER_COMMAND " + json.dumps(command, ensure_ascii=False), flush=True)
         returncode = subprocess.run(command, cwd=stage, env=environment, stdin=subprocess.DEVNULL, shell=False).returncode
