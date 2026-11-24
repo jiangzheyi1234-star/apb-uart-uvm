@@ -300,6 +300,13 @@
   }
   function formatBus(value) {return finite(value)?"0x"+Math.trunc(value).toString(16).toUpperCase():text(value);}
   function validRange(range) {return Array.isArray(range)&&finite(range[0])&&finite(range[1])&&range[1]>range[0];}
+  function defaultWaveSignals(signals) {
+    const matches=(signal,name)=>[signal.id,signal.label].some(value=>typeof value==="string"&&(value===name||value.endsWith("."+name)||(name==="apb.rst_n"&&value==="rst_n")));
+    const hasUART=signals.some(signal=>["uart.rx","uart.tx","uart.irq"].some(name=>matches(signal,name)));
+    const priority=hasUART?["apb.rst_n","uart.rx","uart.tx","uart.irq","apb.psel","apb.penable","apb.pready","apb.pwrite","apb.prdata"]:
+      ["apb.rst_n","apb.psel","apb.penable","apb.pready","apb.pwrite","apb.paddr","apb.pwdata","apb.prdata","apb.pslverr"];
+    return priority.map(name=>signals.find(signal=>matches(signal,name))).filter(Boolean).slice(0,9);
+  }
   function renderWaveforms() {
     intro("由原始 VCD 的真实离散事件绘制，窗口之外不补造状态。拖动平移、缩放并定位游标，随后用 APB 事件和原始文件核对时序。");
     if(!waves.length){root.append(empty("没有波形记录","尚未提供 VCD 采样事件。可从回归日志继续核对运行结果。"));return;}
@@ -308,7 +315,7 @@
     if(!validRange(wave.range)){root.append(empty("波形时间范围未记录","需要有效的 range:[start,end] 才能显示真实时间轴。"));return;}
     const domain=wave.range, domainSpan=domain[1]-domain[0], minSpan=Math.max(domainSpan/100000,0.001);
     let ws=state.waveState.get(wave.id);
-    if(!ws){const initial=validRange(wave.default_window)?[Math.max(domain[0],wave.default_window[0]),Math.min(domain[1],wave.default_window[1])]:domain.slice();const window=validRange(initial)?initial:domain.slice();const defaults=wave.signals.filter(signal=>!/(^|[._])clk($|[._\[])/i.test(String(signal.id)+"."+String(signal.label))).slice(0,8);ws={start:window[0],end:window[1],cursor:(window[0]+window[1])/2,selected:new Set(defaults.map(signal=>signal.id)),eventId:null,eventPage:1,eventsInView:true};state.waveState.set(wave.id,ws);}
+    if(!ws){const initial=validRange(wave.default_window)?[Math.max(domain[0],wave.default_window[0]),Math.min(domain[1],wave.default_window[1])]:domain.slice();const window=validRange(initial)?initial:domain.slice();const defaults=defaultWaveSignals(wave.signals);ws={start:window[0],end:window[1],cursor:(window[0]+window[1])/2,selected:new Set(defaults.map(signal=>signal.id)),eventId:null,eventPage:1,eventsInView:true};state.waveState.set(wave.id,ws);}
     const waveformPanel=el("section",{className:"panel"});
     const picker=makeSelect(waves.map(item=>({value:String(item.id),label:text(item.title)})),String(wave.id),id=>{state.waveId=id;setView("waveforms");},{"aria-label":"选择真实波形"});
     const controls=el("div",{className:"wave-controls"});
@@ -421,9 +428,12 @@
     intro("把未修改上游行为、局部修复和对应严格需求放在一起核对。受控故障用于检查器敏感性，不增加真实 DUT 缺陷的数量。");
     const defects=list(data.defects);
     if(!defects.length){root.append(empty("没有缺陷对照记录","数据中尚未提供可核对的原版 / 修复版条目。"));return;}
-    for(const defect of defects){const testNames=list(defect.test_ids),related=runs.filter(run=>testNames.includes(run.test));
+    for(const defect of defects){
+      const testNames=list(defect.test_ids),declaredSuites=[...new Set(list(defect.suite_ids).filter(hasId))];
+      const scopeSuites=declaredSuites.length?declaredSuites:["uart_core"];
+      const related=runs.filter(run=>scopeSuites.includes(run.suite_id)&&testNames.includes(run.test));
       const card=el("article",{className:"panel defect-card"},el("div",{className:"panel-heading"},el("div",{},el("h2",{},text(defect.title)),defect.summary?el("p",{},defect.summary):null),defect.id?el("code",{className:"meta-chip"},defect.id):null),el("div",{className:"defect-grid"},el("section",{className:"defect-side upstream"},el("h3",{},"未修改上游"),el("p",{},defect.upstream?.description||missing),defect.upstream?.source_url?link("上游源码依据",defect.upstream.source_url):null),el("section",{className:"defect-side fixed"},el("h3",{},"本地修复"),el("p",{},defect.fixed?.description||missing),defect.fixed?.source_url?link("修复源码",defect.fixed.source_url):null)));
-      if(testNames.length)card.append(el("div",{className:"test-links"},testNames.map(test=>button(`查看 ${test}`,()=>showRuns({test}),{className:"button small"}))));
+      if(testNames.length)card.append(el("div",{className:"test-links"},testNames.flatMap(test=>scopeSuites.map(suite=>button(scopeSuites.length>1?`${suiteTitle(suite)} / ${test}`:`查看 ${test}`,()=>showRuns({test,suite}),{className:"button small"})))));
       const variants=[...new Set(related.map(run=>run.variant))];
       if(related.length)card.append(el("div",{className:"defect-counts"},variants.map(variant=>{const c=counts(related.filter(run=>run.variant===variant));return `${variantName(variant)}：原始 PASS ${c.pass} / FAIL ${c.fail}`;}).join("；")));
       if(list(defect.evidence_urls).length)card.append(evidenceLinks(defect.evidence_urls));root.append(card);

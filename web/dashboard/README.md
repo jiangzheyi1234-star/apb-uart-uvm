@@ -19,9 +19,11 @@ docs/data/dashboard.js      ← 由实际证据生成的数据
 - `coverage`：id、title、suite_id、variant、scope、note；metrics 分为 functional_bins、rtl_lines、rtl_branches，分别提供 `{hit,total}`。groups 提供相同计数，gaps 保留 bin、hits、at_least 与已记录原因。
 - `waveforms`：id、title、run_id、unit、range、可选 default_window；signals 提供 id、label、width 以及有序 `[time,"binary bitvector"]` events，允许 `x/z`；apb_events 提供 start/end、address、write、write_data/read_data、status，按需提供 wait_cycles/slverr；source 提供原始 VCD URL、SHA-256 和采样说明。
 - `architecture`：nodes 提供 id、label、detail、x/y、可选 width/height 和 source_url；edges 提供 from/to/label。坐标按 SVG 视图提供。
-- `defects`：id、title、summary、test_ids、upstream/fixed 的 description/source_url、evidence_urls。test_ids 关联 run.test。
+- `defects`：id、title、summary、test_ids、suite_ids、upstream/fixed 的 description/source_url、evidence_urls。test_ids 关联 run.test，suite_ids 明确缺陷统计和回归跳转范围；缺省采用 `uart_core`，同名的故障控制和协议运行不混入 DUT 缺陷对照。
 - `inputs`：path、sha256、bytes；`limitations`：实现范围字符串。
 
 未知值使用 `null` 或缺字段，UI 显示“未记录”，不会补成零或 PASS。所有 URL 相对 `docs/` 根目录，或为明确的 HTTP(S) 源码/证据地址。数据文本通过 DOM 文本节点插入；图形直接使用原生 SVG。
 
 波形：滚轮缩放，背景拖拽平移，单击设置游标，红色手柄拖动游标；聚焦波形后可用左右键移动游标、`+/-` 缩放、`Shift+左右` 平移、`Home` 查看全程。APB 事件时间可点击定位。只绘制当前窗口内的记录区间，首个事件之前保留“未记录”。
+
+首次打开含 UART 的波形时，优先显示 reset、RX/TX/IRQ，再补充 APB 控制和读值；独立协议波形优先显示 reset、APB 控制、地址和读写值，默认最多九个已有信号。之后保留该波形的用户选择，全部信号仍可勾选。

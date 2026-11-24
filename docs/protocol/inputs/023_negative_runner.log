@@ -1,0 +1,7 @@
+COMMAND ["/opt/hostedtoolcache/Python/3.12.16/x64/bin/python3", "/home/runner/work/apb-uart-uvm/apb-uart-uvm/py/run_linux_regression.py", "--suite", "apb_protocol", "--out", "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_protocol/negative", "--seeds", "1", "2", "3", "--timeout", "120", "--build-timeout", "1800.0", "--jobs", "2", "--test", "apb_timeout_requirement_test", "--trace"]
+STAGE_VERIFIED: 534 byte-equal files; 0 copied to /var/tmp/apb-agent-protocol-workspace
+RUNNER_COMMAND ["/opt/hostedtoolcache/Python/3.12.16/x64/bin/python3", "/var/tmp/apb-agent-protocol-workspace/py/run_regression.py", "--sim", "verilator", "--suite", "apb_protocol", "--rtl", "upstream", "--out", "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_protocol/negative", "--build-dir", "/var/tmp/apb-agent-protocol-build", "--verilator", "/var/tmp/apb-agent-protocol-workspace/.tools/verilator/bin/verilator", "--verilator-coverage", "/var/tmp/apb-agent-protocol-workspace/.tools/verilator/bin/verilator_coverage", "--uvm-home", "/var/tmp/apb-agent-protocol-workspace/.tools/uvm-core-2020.3.1/src", "--seeds", "1", "2", "3", "--timeout", "120", "--build-timeout", "1800.0", "--jobs", "2", "--test", "apb_timeout_requirement_test", "--trace"]
+FAIL: apb_timeout_requirement_test seed=1 (UVM reported an error or fatal)
+FAIL: apb_timeout_requirement_test seed=2 (UVM reported an error or fatal)
+FAIL: apb_timeout_requirement_test seed=3 (UVM reported an error or fatal)
+FAIL: report at /home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_protocol/negative/report.md

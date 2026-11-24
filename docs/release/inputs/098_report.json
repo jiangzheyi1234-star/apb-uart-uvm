@@ -1,10 +1,12 @@
 {
   "status": "FAIL",
   "simulator": "verilator",
+  "suite": "uart",
   "rtl_variant": "upstream",
+  "completion_marker": "UART_UVM_TEST_PASS",
   "source_file_list": "/var/tmp/apb-uart-uvm-workspace/sim/files.f",
   "build_directory": "/var/tmp/apb-uart-uvm-build-upstream",
-  "started_utc": "2026-11-23T15:33:26.047706+00:00",
+  "started_utc": "2026-11-24T03:51:41.173117+00:00",
   "build": [
     {
       "command": [
@@ -42,8 +44,8 @@
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 206.005,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/build/build_0.log"
+      "elapsed_seconds": 127.77,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/build/build_0.log"
     }
   ],
   "runs": [
@@ -54,20 +56,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_smoke_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.795,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.465,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_smoke_test",
@@ -76,20 +78,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_smoke_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.771,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.465,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_smoke_test",
@@ -98,20 +100,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_smoke_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.772,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.465,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_fifo_boundary_test",
@@ -120,20 +122,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_fifo_boundary_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 1.279,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.716,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_fifo_boundary_test",
@@ -142,20 +144,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_fifo_boundary_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 1.282,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.715,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_fifo_boundary_test",
@@ -164,20 +166,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_fifo_boundary_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 1.278,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.715,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_error_test",
@@ -186,20 +188,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_error_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.527,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_error_test",
@@ -208,20 +210,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_error_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.575,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_error_test",
@@ -230,20 +232,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_error_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.572,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_reset_test",
@@ -252,20 +254,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_reset_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.573,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_reset_test",
@@ -274,20 +276,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_reset_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.521,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_reset_test",
@@ -296,20 +298,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_reset_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.676,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_tx_overflow_test",
@@ -318,20 +320,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_tx_overflow_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 1.875,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.966,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_tx_overflow_test",
@@ -340,20 +342,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_tx_overflow_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 1.926,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.966,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_tx_overflow_test",
@@ -362,20 +364,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_tx_overflow_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 1.876,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.966,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_rx_retention_test",
@@ -384,20 +386,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_rx_retention_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.672,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.365,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_rx_retention_test",
@@ -406,20 +408,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_rx_retention_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.673,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.365,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_rx_retention_test",
@@ -428,20 +430,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_rx_retention_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.674,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.365,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_empty_read_test",
@@ -450,20 +452,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_empty_read_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.572,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_empty_read_test",
@@ -472,20 +474,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_empty_read_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.572,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.315,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_empty_read_test",
@@ -494,20 +496,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_empty_read_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.572,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_address_mirror_test",
@@ -516,20 +518,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_address_mirror_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.572,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_address_mirror_test",
@@ -538,20 +540,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_address_mirror_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.571,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_address_mirror_test",
@@ -560,20 +562,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_address_mirror_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.521,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_parity_requirement_test",
@@ -582,20 +584,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_parity_requirement_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.572,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 1,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_parity_requirement_test",
@@ -604,20 +606,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_parity_requirement_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.572,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.315,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 1,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_parity_requirement_test",
@@ -626,20 +628,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_parity_requirement_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.572,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.315,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 1,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_parity_requirement_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_framing_requirement_test",
@@ -648,20 +650,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_framing_requirement_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.571,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.315,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 1,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_framing_requirement_test",
@@ -670,20 +672,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_framing_requirement_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.571,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 1,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_framing_requirement_test",
@@ -692,20 +694,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_framing_requirement_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.571,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 1,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_framing_requirement_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_error_association_test",
@@ -714,20 +716,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_error_association_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.521,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 1,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_error_association_test",
@@ -736,20 +738,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_error_association_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.571,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 1,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_error_association_test",
@@ -758,20 +760,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_error_association_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.572,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 1,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_association_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_irq_test",
@@ -780,20 +782,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_irq_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.521,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_irq_test",
@@ -802,20 +804,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_irq_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.521,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.314,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_irq_test",
@@ -824,20 +826,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_irq_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.521,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.315,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_irq_requirement_test",
@@ -846,20 +848,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_irq_requirement_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.772,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.515,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 65,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_irq_requirement_test",
@@ -868,20 +870,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_irq_requirement_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.822,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.515,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 65,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_irq_requirement_test",
@@ -890,20 +892,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_irq_requirement_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 0.773,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.515,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/simulation.log",
       "status": "FAIL",
       "reason": "UVM reported an error or fatal",
       "uvm_errors": 65,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_requirement_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_random_stress_test",
@@ -912,20 +914,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_random_stress_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 2.728,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_1/simulation.log",
+      "elapsed_seconds": 1.818,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_random_stress_test",
@@ -934,20 +936,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_random_stress_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 2.938,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_2/simulation.log",
+      "elapsed_seconds": 1.918,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_random_stress_test",
@@ -956,20 +958,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_random_stress_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 2.586,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_3/simulation.log",
+      "elapsed_seconds": 1.668,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/waves.vcd"
     },
     {
       "test": "uart_baud_sweep_test",
@@ -978,20 +980,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_baud_sweep_test",
         "+verilator+seed+1",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_1/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 1.126,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_1/simulation.log",
+      "elapsed_seconds": 0.665,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_1/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/waves.vcd"
     },
     {
       "test": "uart_baud_sweep_test",
@@ -1000,20 +1002,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_baud_sweep_test",
         "+verilator+seed+2",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_2/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 1.074,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_2/simulation.log",
+      "elapsed_seconds": 0.665,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_2/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/waves.vcd"
     },
     {
       "test": "uart_baud_sweep_test",
@@ -1022,20 +1024,20 @@
         "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
         "+UVM_TESTNAME=uart_baud_sweep_test",
         "+verilator+seed+3",
-        "+verilator+coverage+file+/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_3/coverage.dat",
+        "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/coverage.dat",
         "+TRACE",
-        "+VCD_FILE=/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_3/waves.vcd"
+        "+VCD_FILE=/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/waves.vcd"
       ],
       "returncode": 0,
       "timed_out": false,
-      "elapsed_seconds": 1.072,
-      "log": "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_3/simulation.log",
+      "elapsed_seconds": 0.665,
+      "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/simulation.log",
       "status": "PASS",
-      "reason": "Scoreboard completed; UVM error/fatal counts are zero",
+      "reason": "Completion marker observed; UVM error/fatal counts are zero",
       "uvm_errors": 0,
       "uvm_fatals": 0,
-      "coverage_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_3/coverage.dat",
-      "waveform_file": "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_3/waves.vcd"
+      "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/coverage.dat",
+      "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/waves.vcd"
     }
   ],
   "uvm_source": "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src",
@@ -1075,7 +1077,7 @@
     ]
   ],
   "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
-  "tool_version_log": "/mnt/c/研究生/ic项目/results/release_upstream/build/version.log",
+  "tool_version_log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/build/version.log",
   "tool_version_process": {
     "command": [
       "/var/tmp/apb-uart-uvm-workspace/.tools/verilator/bin/verilator",
@@ -1083,13 +1085,14 @@
     ],
     "returncode": 0,
     "timed_out": false,
-    "elapsed_seconds": 0.122,
-    "log": "/mnt/c/研究生/ic项目/results/release_upstream/build/version.log"
+    "elapsed_seconds": 0.064,
+    "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/build/version.log"
   },
   "source_manifest": {
-    "captured_utc": "2026-11-23T15:33:26.180006+00:00",
+    "captured_utc": "2026-11-24T03:51:41.240378+00:00",
     "captured_before_compile": true,
     "algorithm": "sha256",
+    "suite": "uart",
     "rtl_variant": "upstream",
     "project_files": [
       {
@@ -1129,18 +1132,18 @@
       },
       {
         "path": "tb/apb_agent/apb_driver.sv",
-        "sha256": "757235f5ceb2587ee08ab42d2ce68dbd1a273a2c3d6936b73db2f24d2502d7d3",
-        "bytes": 1948
+        "sha256": "852c5d024d875aeaf102c016239cdb48f1ba269e78fb6bc919dd0ef2634e3016",
+        "bytes": 2805
       },
       {
         "path": "tb/apb_agent/apb_monitor.sv",
-        "sha256": "7a56496110927a285ec90ddc58c0cd12bdd5dff6d5143275d95d68bab71b76dc",
-        "bytes": 1170
+        "sha256": "22f413ae76af35a31d193f602d22039e5a00ba0d8bfee7d004d003ffc0aee30f",
+        "bytes": 1198
       },
       {
         "path": "tb/apb_agent/apb_seq_item.sv",
-        "sha256": "888774201775664161a86e90c753ebf4c022a94e67c54def91bbb4230823b42e",
-        "bytes": 657
+        "sha256": "01ba9bdf79eb391d433a47dd83011a8dd3000877a5d5ea182bc5f8d1f0c478f0",
+        "bytes": 777
       },
       {
         "path": "tb/apb_agent/apb_sequencer.sv",
@@ -1168,6 +1171,36 @@
         "bytes": 893
       },
       {
+        "path": "tb/protocol/apb_programmable_slave.sv",
+        "sha256": "ba02a79b3e5696ec713433f76b2b3caea9ae64c8f9549e9abc7f4730c354fae6",
+        "bytes": 1944
+      },
+      {
+        "path": "tb/protocol/apb_protocol_checker.sv",
+        "sha256": "06c486d39977d7e1ef51a2e109299cf0a6387696a4c821c63aaf965071bbddd1",
+        "bytes": 3979
+      },
+      {
+        "path": "tb/protocol/apb_protocol_control_if.sv",
+        "sha256": "49cea2af30cbb9c75dcba974d1b1202d345f9d57cd39480e57656673afc86059",
+        "bytes": 348
+      },
+      {
+        "path": "tb/protocol/apb_protocol_pkg.sv",
+        "sha256": "7c2537aa8293e7df9e1ee13d1ff9d4922b435b4ca87ce36772150abbea9f9115",
+        "bytes": 403
+      },
+      {
+        "path": "tb/protocol/apb_protocol_tests.sv",
+        "sha256": "c8d85df9ea5da1222c6c394b3dec536f0b237c1c8fd7a1f59510d286bd1a0bb2",
+        "bytes": 9141
+      },
+      {
+        "path": "tb/protocol/tb_protocol_top.sv",
+        "sha256": "b83f23c23fbae2d7fa3a260710fef58bf4dce97ddcc6210daa5f4c62b1ee51a5",
+        "bytes": 928
+      },
+      {
         "path": "tb/ral/uart_apb_reg_adapter.sv",
         "sha256": "7d1ef14a7f74c6faf07885d419804a09b72ea7589167f16c6063f4954887df7d",
         "bytes": 1234
@@ -1184,8 +1217,8 @@
       },
       {
         "path": "tb/ral/uart_reg_block.sv",
-        "sha256": "f44b7a1a446ef2812befaaee169ce31d9bde3f0ac76feeb43786706f3d984865",
-        "bytes": 3385
+        "sha256": "0922ae49d25ae951d5eacdee06168b37c36e49af933d1618ebe6c1d8fb079a88",
+        "bytes": 3595
       },
       {
         "path": "tb/scoreboard/apb_uart_scoreboard.sv",
@@ -1214,8 +1247,8 @@
       },
       {
         "path": "tb/test/uart_ral_test.sv",
-        "sha256": "973e49f6749a536e80d4e52693e4cda2fc984ec21de1c2c5a38dcb65c2c486cd",
-        "bytes": 6294
+        "sha256": "a2859e1145df5f2eafa453ddf123c3eacbf2f303c56a4931be95bbbbd72e7c97",
+        "bytes": 7330
       },
       {
         "path": "tb/test/uart_tests.sv",
@@ -2124,173 +2157,173 @@
       "manifest_sha256": "a6771562d41ee3b30fca8b7970b65022061dc0d2845176d045eb85e3170cc709"
     },
     "uvm_source_root": "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src",
-    "snapshot_sha256": "aa98124858b8735b524228a89b988b5e6a7fdc7ef294e24518fc229405238d85"
+    "snapshot_sha256": "ae30bca9a9253be7f01a487af7272333a953088b4d479a8ccaafd41ee0772b1f"
   },
-  "source_manifest_file": "/mnt/c/研究生/ic项目/results/release_upstream/source_snapshot.json",
+  "source_manifest_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/source_snapshot.json",
   "compiled_binary": {
     "path": "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
-    "sha256": "2a1226c3b6b92a8e82ef8cc59c07065b6a6bba6bd1e85ae6bfb88b08563004e7",
-    "bytes": 31247880
+    "sha256": "6394f41d144d8083347becb8af64fa21af7ca83ae52fe577710900957895dfe0",
+    "bytes": 31758832
   },
   "coverage": {
     "status": "EXPORTED",
     "inputs": [
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_3/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_3/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_3/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_3/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_3/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_3/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_3/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_3/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
-      "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_3/coverage.dat"
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/coverage.dat"
     ],
     "commands": [
       {
         "command": [
           "/var/tmp/apb-uart-uvm-workspace/.tools/verilator/bin/verilator_coverage",
           "--write",
-          "/mnt/c/研究生/ic项目/results/release_upstream/coverage/merged.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_3/coverage.dat"
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/merged.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/coverage.dat"
         ],
         "returncode": 0,
         "timed_out": false,
-        "elapsed_seconds": 6.234,
-        "log": "/mnt/c/研究生/ic项目/results/release_upstream/coverage/export_0.log"
+        "elapsed_seconds": 0.465,
+        "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/export_0.log"
       },
       {
         "command": [
           "/var/tmp/apb-uart-uvm-workspace/.tools/verilator/bin/verilator_coverage",
           "--write-info",
-          "/mnt/c/研究生/ic项目/results/release_upstream/coverage/coverage.info",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_smoke_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_error_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_reset_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_rx_retention_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_empty_read_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_address_mirror_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_irq_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_random_stress_test_seed_3/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
-          "/mnt/c/研究生/ic项目/results/release_upstream/uart_baud_sweep_test_seed_3/coverage.dat"
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/coverage.info",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/coverage.dat"
         ],
         "returncode": 0,
         "timed_out": false,
-        "elapsed_seconds": 5.634,
-        "log": "/mnt/c/研究生/ic项目/results/release_upstream/coverage/export_1.log"
+        "elapsed_seconds": 0.515,
+        "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/export_1.log"
       },
       {
         "command": [
           "/var/tmp/apb-uart-uvm-workspace/.tools/verilator/bin/verilator_coverage",
           "--annotate",
-          "/mnt/c/研究生/ic项目/results/release_upstream/coverage/annotated",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/annotated",
           "--annotate-points",
-          "/mnt/c/研究生/ic项目/results/release_upstream/coverage/merged.dat"
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/merged.dat"
         ],
         "returncode": 0,
         "timed_out": false,
-        "elapsed_seconds": 1.023,
-        "log": "/mnt/c/研究生/ic项目/results/release_upstream/coverage/export_2.log"
+        "elapsed_seconds": 0.214,
+        "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/export_2.log"
       },
       {
         "command": [
-          "/usr/bin/python3",
+          "/opt/hostedtoolcache/Python/3.12.16/x64/bin/python3",
           "/var/tmp/apb-uart-uvm-workspace/py/report_coverage.py",
-          "/mnt/c/研究生/ic项目/results/release_upstream/coverage/merged.dat",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/merged.dat",
           "--lcov",
-          "/mnt/c/研究生/ic项目/results/release_upstream/coverage/coverage.info",
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/coverage.info",
           "--out",
-          "/mnt/c/研究生/ic项目/results/release_upstream/coverage"
+          "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage"
         ],
         "returncode": 0,
         "timed_out": false,
-        "elapsed_seconds": 0.423,
-        "log": "/mnt/c/研究生/ic项目/results/release_upstream/coverage/export_3.log"
+        "elapsed_seconds": 0.264,
+        "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/export_3.log"
       }
     ],
     "scope": "Only PASS runs contribute to merged coverage",
-    "merged_database": "/mnt/c/研究生/ic项目/results/release_upstream/coverage/merged.dat",
-    "lcov": "/mnt/c/研究生/ic项目/results/release_upstream/coverage/coverage.info",
-    "annotated_sources": "/mnt/c/研究生/ic项目/results/release_upstream/coverage/annotated",
+    "merged_database": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/merged.dat",
+    "lcov": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/coverage.info",
+    "annotated_sources": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/annotated",
     "code_summary": {
       "files": {
         "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_barrier.svh": {
@@ -2352,15 +2385,15 @@
         "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_config_db.svh": {
           "lines_hit": 26,
           "lines_total": 45,
-          "branches_hit": 59,
-          "branches_total": 284,
+          "branches_hit": 63,
+          "branches_total": 311,
           "line_percent": 57.78
         },
         "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_config_db_implementation.svh": {
           "lines_hit": 81,
           "lines_total": 178,
-          "branches_hit": 293,
-          "branches_total": 2160,
+          "branches_hit": 326,
+          "branches_total": 2376,
           "line_percent": 45.51
         },
         "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_copier.svh": {
@@ -2500,7 +2533,7 @@
           "lines_hit": 13,
           "lines_total": 99,
           "branches_hit": 42,
-          "branches_total": 1476,
+          "branches_total": 1552,
           "line_percent": 13.13
         },
         "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_port_base.svh": {
@@ -2548,8 +2581,8 @@
         "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_registry.svh": {
           "lines_hit": 100,
           "lines_total": 180,
-          "branches_hit": 8620,
-          "branches_total": 22708,
+          "branches_hit": 8817,
+          "branches_total": 23227,
           "line_percent": 55.56
         },
         "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_report_catcher.svh": {
@@ -2590,7 +2623,7 @@
         "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_resource.svh": {
           "lines_hit": 39,
           "lines_total": 90,
-          "branches_hit": 254,
+          "branches_hit": 266,
           "branches_total": 1824,
           "line_percent": 43.33
         },
@@ -2605,14 +2638,14 @@
           "lines_hit": 0,
           "lines_total": 52,
           "branches_hit": 0,
-          "branches_total": 624,
+          "branches_total": 676,
           "line_percent": 0.0
         },
         "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_resource_db_implementation.svh": {
           "lines_hit": 0,
           "lines_total": 161,
           "branches_hit": 0,
-          "branches_total": 2340,
+          "branches_total": 2535,
           "line_percent": 0.0
         },
         "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_resource_db_options.svh": {
@@ -3148,25 +3181,25 @@
           "line_percent": 100.0
         },
         "/var/tmp/apb-uart-uvm-workspace/tb/apb_agent/apb_driver.sv": {
-          "lines_hit": 37,
-          "lines_total": 57,
-          "branches_hit": 7,
-          "branches_total": 26,
-          "line_percent": 64.91
+          "lines_hit": 51,
+          "lines_total": 75,
+          "branches_hit": 9,
+          "branches_total": 35,
+          "line_percent": 68.0
         },
         "/var/tmp/apb-uart-uvm-workspace/tb/apb_agent/apb_monitor.sv": {
-          "lines_hit": 21,
-          "lines_total": 26,
+          "lines_hit": 22,
+          "lines_total": 27,
           "branches_hit": 9,
           "branches_total": 18,
-          "line_percent": 80.77
+          "line_percent": 81.48
         },
         "/var/tmp/apb-uart-uvm-workspace/tb/apb_agent/apb_seq_item.sv": {
           "lines_hit": 3,
-          "lines_total": 11,
+          "lines_total": 13,
           "branches_hit": 2,
-          "branches_total": 219,
-          "line_percent": 27.27
+          "branches_total": 275,
+          "line_percent": 23.08
         },
         "/var/tmp/apb-uart-uvm-workspace/tb/apb_agent/apb_sequencer.sv": {
           "lines_hit": 3,
@@ -3212,7 +3245,7 @@
         },
         "/var/tmp/apb-uart-uvm-workspace/tb/ral/uart_reg_block.sv": {
           "lines_hit": 0,
-          "lines_total": 46,
+          "lines_total": 43,
           "branches_hit": 0,
           "branches_total": 27,
           "line_percent": 0.0
@@ -3247,9 +3280,9 @@
         },
         "/var/tmp/apb-uart-uvm-workspace/tb/test/uart_ral_test.sv": {
           "lines_hit": 0,
-          "lines_total": 91,
+          "lines_total": 100,
           "branches_hit": 0,
-          "branches_total": 29,
+          "branches_total": 44,
           "line_percent": 0.0
         },
         "/var/tmp/apb-uart-uvm-workspace/tb/test/uart_tests.sv": {
@@ -3367,7 +3400,7 @@
       },
       "scope": "LCOV code lines and branches; functional covergroup bins are in coverage.dat"
     },
-    "native_summary": "/mnt/c/研究生/ic项目/results/release_upstream/coverage/coverage_summary.json",
+    "native_summary": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/coverage/coverage_summary.json",
     "functional_bins": {
       "status": "MEASURED",
       "metric": "Unweighted eligible bin-hit ratio; not the weighted SystemVerilog covergroup API percentage",
@@ -6898,22 +6931,24 @@
       ]
     }
   },
-  "source_origin_map": "/mnt/c/研究生/ic项目/results/release_upstream/stage_origin.json",
+  "source_origin_map": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/stage_origin.json",
   "source_origin": {
-    "original_project_root": "/mnt/c/研究生/ic项目",
+    "original_project_root": "/home/runner/work/apb-uart-uvm/apb-uart-uvm",
     "staged_project_root": "/var/tmp/apb-uart-uvm-workspace",
     "all_staged_files_byte_equal": true,
-    "verified_files": 516,
-    "origin_map_sha256": "44f976a02bf111dde6357294ce1bc45334da59dfa74e13d95484d97b5b708a4f",
+    "verified_files": 534,
+    "origin_map_sha256": "ee9dc4d751140059dfce38104d9461c68892f82ae218a4cbdc5c79cf4b48d046",
     "runner_command": [
-      "/usr/bin/python3",
+      "/opt/hostedtoolcache/Python/3.12.16/x64/bin/python3",
       "/var/tmp/apb-uart-uvm-workspace/py/run_regression.py",
       "--sim",
       "verilator",
+      "--suite",
+      "uart",
       "--rtl",
       "upstream",
       "--out",
-      "/mnt/c/研究生/ic项目/results/release_upstream",
+      "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream",
       "--build-dir",
       "/var/tmp/apb-uart-uvm-build-upstream",
       "--verilator",

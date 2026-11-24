@@ -1,0 +1,83 @@
+COMMAND ["/var/tmp/apb-uart-uvm-build-fixed/Vtb_top", "+UVM_TESTNAME=uart_smoke_test", "+verilator+seed+1", "+RTL_FIXED=1", "+verilator+coverage+file+/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_mutations/04_rx_data_xor/coverage.dat", "+MUTATION=rx_data_xor"]
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh(476) @ 0: reporter [UVM/RELNOTES] 
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  This implementation of the UVM Library deviates from the 1800.2-2020
+  standard.  See the DEVIATIONS.md file contained in the release
+  for more details.
+
+----------------------------------------------------------------
+Accellera:1800.2:UVM:2020.3.1
+
+All copyright owners for this kit are listed in NOTICE.txt
+All Rights Reserved Worldwide
+----------------------------------------------------------------
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO tb/tb_top.sv(27) @ 0: reporter [MUTATION_ACTIVE] rx_data_xor
+UVM_WARNING /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh(549) @ 0: reporter [NO_DPI_USED] We are thinking of removing support for UVM_NO_DPI.  Please try this test without it and evaluate the impact
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh(552) @ 0: reporter [NO_DPI_TSTNAME] UVM_NO_DPI defined--getting UVM_TESTNAME directly, without DPI
+UVM_INFO @ 0: reporter [RNTST] Running test uart_smoke_test...
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_traversal.svh(345) @ 0: reporter [UVM/COMP/NAMECHECK] This implementation of the component name checks requires DPI to be enabled
+UVM_WARNING /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_traversal.svh(314) @ 0: reporter [NO_VISIT_CHECK] Because UVM_REGEX_NO_DPI is defined, no uvm component name constraints will be checked
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 3835000: uvm_test_top.env.sb [RX_MISMATCH] expected=0a actual=0000000b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 6895000: uvm_test_top.env.sb [RX_MISMATCH] expected=00 actual=00000001
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 10625000: uvm_test_top.env.sb [RX_MISMATCH] expected=0a actual=0000000b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 14005000: uvm_test_top.env.sb [RX_MISMATCH] expected=16 actual=00000017
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 17735000: uvm_test_top.env.sb [RX_MISMATCH] expected=0a actual=0000000b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 21115000: uvm_test_top.env.sb [RX_MISMATCH] expected=01 actual=00000000
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 25165000: uvm_test_top.env.sb [RX_MISMATCH] expected=0a actual=0000000b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 28865000: uvm_test_top.env.sb [RX_MISMATCH] expected=04 actual=00000005
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 32595000: uvm_test_top.env.sb [RX_MISMATCH] expected=2a actual=0000002b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 35975000: uvm_test_top.env.sb [RX_MISMATCH] expected=37 actual=00000036
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 40025000: uvm_test_top.env.sb [RX_MISMATCH] expected=2a actual=0000002b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 43725000: uvm_test_top.env.sb [RX_MISMATCH] expected=17 actual=00000016
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 47775000: uvm_test_top.env.sb [RX_MISMATCH] expected=2a actual=0000002b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 51475000: uvm_test_top.env.sb [RX_MISMATCH] expected=16 actual=00000017
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 55845000: uvm_test_top.env.sb [RX_MISMATCH] expected=2a actual=0000002b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 59865000: uvm_test_top.env.sb [RX_MISMATCH] expected=2c actual=0000002d
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 63915000: uvm_test_top.env.sb [RX_MISMATCH] expected=2a actual=0000002b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 67615000: uvm_test_top.env.sb [RX_MISMATCH] expected=19 actual=00000018
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 71985000: uvm_test_top.env.sb [RX_MISMATCH] expected=2a actual=0000002b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 76005000: uvm_test_top.env.sb [RX_MISMATCH] expected=27 actual=00000026
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 80375000: uvm_test_top.env.sb [RX_MISMATCH] expected=2a actual=0000002b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 84395000: uvm_test_top.env.sb [RX_MISMATCH] expected=31 actual=00000030
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 89085000: uvm_test_top.env.sb [RX_MISMATCH] expected=2a actual=0000002b
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 93425000: uvm_test_top.env.sb [RX_MISMATCH] expected=19 actual=00000018
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 97795000: uvm_test_top.env.sb [RX_MISMATCH] expected=aa actual=000000ab
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 101815000: uvm_test_top.env.sb [RX_MISMATCH] expected=16 actual=00000017
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 106505000: uvm_test_top.env.sb [RX_MISMATCH] expected=aa actual=000000ab
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 110845000: uvm_test_top.env.sb [RX_MISMATCH] expected=1f actual=0000001e
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 115535000: uvm_test_top.env.sb [RX_MISMATCH] expected=aa actual=000000ab
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 119875000: uvm_test_top.env.sb [RX_MISMATCH] expected=c5 actual=000000c4
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 124885000: uvm_test_top.env.sb [RX_MISMATCH] expected=aa actual=000000ab
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 129545000: uvm_test_top.env.sb [RX_MISMATCH] expected=0d actual=0000000c
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 133915000: uvm_test_top.env.sb [RX_MISMATCH] expected=ff actual=000000fe
+UVM_ERROR /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(161) @ 137935000: uvm_test_top.env.sb [RX_MISMATCH] expected=00 actual=00000001
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(199) @ 139060000: uvm_test_top.env.sb [SB_COUNTS] TX=34 RX=34 resets=1 max_tx=1 max_rx=1
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv(200) @ 139060000: uvm_test_top.env.sb [SB_BOUNDARIES] TX accepted=34 dropped=0 empty_RBR_reads=0
+UVM_INFO /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_report_server.svh(1009) @ 139060000: reporter [UVM/REPORT/SERVER] 
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :    7
+UVM_WARNING :    2
+UVM_ERROR :   34
+UVM_FATAL :    0
+** Report counts by id
+[MUTATION_ACTIVE]     1
+[NO_DPI_TSTNAME]     1
+[NO_DPI_USED]     1
+[NO_VISIT_CHECK]     1
+[RNTST]     1
+[RX_MISMATCH]    34
+[SB_BOUNDARIES]     1
+[SB_COUNTS]     1
+[UVM/COMP/NAMECHECK]     1
+[UVM/RELNOTES]     1
+
+- /var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_root.svh:633: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.054 2026-11-01
+- Verilator: $finish at 139us; walltime 0.300 s; speed 463.925 us/s
+- Verilator: cpu 0.300 s on 1 threads; allocated 57 MB

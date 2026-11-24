@@ -43,14 +43,19 @@ class PackagingTests(unittest.TestCase):
             "tb/ral/README.md", "sim/files.f", "py/run.py", "tests/test_example.py",
             "scripts/bootstrap.sh", "third_party/manifest.json", ".github/workflows/verification.yml",
             "docs/README.md", "docs/architecture.md", "docs/registers.md",
+            "docs/dashboard.md", "docs/apb_protocol.md", "web/dashboard/app.js",
+            "web/dashboard/styles.css", "web/dashboard/index.html",
             "docs/release/inputs/run.log", "docs/release/inputs/coverage.dat",
             "docs/features/plot.svg", "docs/ci/acceptance.json",
+            "docs/protocol/inputs/waves.vcd", "docs/assets/app.js",
+            "docs/assets/styles.css", "docs/data/dashboard.js", "docs/data/dashboard.json",
         ):
             self.write(root, name)
         self.write(root, "docs/.nojekyll", "")
-        self.write(root, "docs/index.html", '<a href="release/index.html">core</a><a href="features/index.html">features</a><a href="README.md">source guide</a>')
+        self.write(root, "docs/index.html", '<link href="assets/styles.css"><script src="data/dashboard.js"></script><script src="assets/app.js"></script><a href="release/index.html">core</a><a href="features/index.html">features</a><a href="protocol/index.html">protocol</a><a href="README.md">source guide</a>')
         self.write(root, "docs/release/index.html", '<a href="inputs/run.log">log</a><a href="../../README.md">source</a>')
         self.write(root, "docs/features/index.html", '<img src="plot.svg"><a href="../ci/acceptance.json">CI</a>')
+        self.write(root, "docs/protocol/index.html", '<a href="inputs/waves.vcd">actual trace</a>')
         for name in (
             "docs/interview_guide.md", "docs/guangzhou_interview.md", "docs/industry_benchmark.md",
             "docs/optimization_rounds.md", "docs/resume.md", "docs/求职说明.md",
@@ -90,8 +95,9 @@ class PackagingTests(unittest.TestCase):
             self.assertEqual(result["profile"], "source")
             self.assertTrue({"rtl/uart.sv", "tb/ral/README.md", "tests/test_example.py",
                              "docs/README.md", "docs/architecture.md", "docs/registers.md",
+                             "docs/dashboard.md", "docs/apb_protocol.md", "web/dashboard/app.js",
                              "RELEASE.md", "CHANGELOG.md"}.issubset(names))
-            self.assertFalse(any(name.startswith(("docs/release/", "docs/features/", "docs/ci/", "docs/evidence/")) for name in names))
+            self.assertFalse(any(name.startswith(("docs/release/", "docs/features/", "docs/ci/", "docs/evidence/", "docs/protocol/", "docs/assets/", "docs/data/")) for name in names))
             self.assertNotIn("docs/index.html", names)
             self.assertNotIn("docs/.nojekyll", names)
             self.assertFalse(any(word in name.lower() for name in names for word in ("interview", "resume", "career", "private", "optimization_round", "industry_benchmark")))
@@ -109,8 +115,10 @@ class PackagingTests(unittest.TestCase):
             names = self.assert_manifest(output, "MANIFEST.evidence.sha256")
             self.assertTrue({"docs/index.html", "docs/.nojekyll", "docs/release/inputs/run.log",
                              "docs/release/inputs/coverage.dat", "docs/features/plot.svg",
+                             "docs/protocol/inputs/waves.vcd", "docs/assets/app.js",
+                             "docs/assets/styles.css", "docs/data/dashboard.js", "docs/data/dashboard.json",
                              "docs/ci/acceptance.json", "LICENSE"}.issubset(names))
-            self.assertFalse(any(name.startswith(("rtl/", "rtl_fixed/", "tb/", "sim/", "py/", "tests/", "docs/evidence/")) for name in names))
+            self.assertFalse(any(name.startswith(("rtl/", "rtl_fixed/", "tb/", "sim/", "py/", "tests/", "web/", "docs/evidence/")) for name in names))
             self.assertNotIn("README.md", names)
             self.assertNotIn("docs/README.md", names)
             self.assertFalse(any(word in name.lower() for name in names for word in ("interview", "career", "private")))
@@ -128,7 +136,7 @@ class PackagingTests(unittest.TestCase):
                     archive.extractall(delivery)
             self.assertTrue((delivery / "MANIFEST.source.sha256").is_file())
             self.assertTrue((delivery / "MANIFEST.evidence.sha256").is_file())
-            for name in ("docs/index.html", "docs/release/index.html", "docs/features/index.html"):
+            for name in ("docs/index.html", "docs/release/index.html", "docs/features/index.html", "docs/protocol/index.html"):
                 page = delivery / name
                 parser = LocalLinks()
                 parser.feed(page.read_text(encoding="utf-8"))

@@ -49,5 +49,67 @@ missing activation/completion, or unrelated errors do not count as detection.
 
 The file list is `sim/files_protocol.f`, with independent top `tb_top` in
 `tb/protocol/tb_protocol_top.sv`. The runtime UART-fixed plusarg is not used.
-Actual measured results must be taken from the protocol runner's generated
-report and logs; this document does not assert an unexecuted PASS.
+
+## Executed results
+
+[Complete CI run 45321619200](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45321619200)
+executed the suite on GitHub Ubuntu 24.04 using Verilator 5.054 and Accellera
+UVM 2020.3.1, at source revision
+`127f21e0d695cd0e6aa32b46541b158196058679`.
+
+| Phase | Test/seed matrix | Raw simulation result | Independent audit |
+| --- | --- | --- | --- |
+| Positive | The three positive classes, seeds 1/2/3 | 9 PASS, zero errors/fatals | 9/9 PASS |
+| Negative | `apb_timeout_requirement_test`, seeds 1/2/3 | 3 FAIL, exactly one APB_TIMEOUT each, zero fatals, normal exit | 3/3 DETECTED |
+| Recovery control | `apb_wait_state_test`, seeds 1/2/3 | 3 PASS, zero errors/fatals | 3/3 PASS |
+
+The fifteen simulations recorded 93 completed APB transfers in total: 51 in
+the positive matrix, 9 after the three negative timeouts, and 33 in the clean
+recovery controls. Reset/timeout cancellations were recorded separately and
+did not become false completions. All phases used the same recorded binary
+and source-snapshot identity; the audit rechecked current source bytes and
+the binary after the controls.
+
+`protocol_report.json` has audit status PASS while the three negative runs
+retain raw FAIL. These 15 processes are separate from the UART's **48/48**
+normal core/RAL runs and its 2,261 checked frames. The complete CI contained
+118 simulation processes across the UART variants, RAL, fault controls and
+this protocol suite. See [verification results](validation.md), the
+[protocol report](protocol/index.html) and [machine-readable evidence](protocol/summary.json).
+
+## Reproduce and inspect
+
+From Linux/WSL with the pinned project tools installed:
+
+```bash
+python3 py/run_protocol_checks.py --trace --out results/protocol_new
+python3 py/build_protocol_evidence.py \
+  --report results/protocol_new/protocol_report.json --out results/protocol_evidence_new
+```
+
+Both output directories must be new or empty. The runner selects
+`--suite apb_protocol`, uses a separate ASCII stage/build cache, and invokes
+the compiler for each profile with incremental reuse allowed. The audit
+requires unchanged binary and source identities across the profiles. It
+rejects missing markers, unrelated errors, abnormal exits and incomplete
+recovery. UART functional coverage export is disabled for this suite.
+
+The evidence packager copies raw reports, source snapshots, stage-equality
+maps, build/version logs and all 15 simulation logs without changing their
+bytes. Three seed-1 VCDs cover wait states, reset cancellation and the timeout
+negative. Packaging rechecks transcripts and recorded provenance; it does
+not require the Linux executable to remain available on another computer.
+The [offline workbench](dashboard.md) reconstructs diagnostic APB observations
+from real pre-edge VCD values and links back to these original inputs.
+
+## Limits
+
+The suite qualifies selected agent behaviors against this peripheral model;
+it does not establish wait-state behavior inside the UART, which always has
+PREADY high. Error writes without side effects are the test peripheral's
+contract, not a universal requirement on APB slaves. Timeout is a driver
+diagnostic and requires reset before cancelling a stalled transfer; it is
+not a successful APB completion. No claim is made for every wait length,
+reset phase, arbitration combination, APB extension or four-state/X-propagation
+case. Functional bins and UART RTL line/branch coverage remain separately
+scoped, as documented in [coverage analysis](coverage_analysis.md).

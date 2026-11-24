@@ -1,12 +1,46 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>APB UART UVM · Verification reports</title>
-<style>
-:root{color-scheme:light;font:16px/1.7 system-ui,"Microsoft YaHei",sans-serif;color:#122135;background:#f4f7fb}*{box-sizing:border-box}body{margin:0}header{background:#10243a;color:#fff;padding:72px max(24px,calc((100vw - 1056px)/2)) 56px}header p{color:#d0dcec;max-width:760px}h1{font-size:clamp(30px,5vw,48px);line-height:1.2;margin:14px 0 22px}h2{font-size:23px;margin:0 0 12px}p{margin:8px 0 16px}.eyebrow{font-size:13px;letter-spacing:.12em;color:#9fd7dc}main{max-width:1104px;margin:auto;padding:32px 24px 64px}a{color:#126479;text-underline-offset:3px}header a{color:#c1eff4}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}.metric,article,section{background:#fff;border:1px solid #dce4ef;border-radius:12px;padding:24px}.metric b{font-size:30px;display:block;color:#0f6170}.metric span,.note{font-size:14px;color:#52647b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}section{margin-top:24px}ul{padding-left:20px}li{margin:9px 0}.links{display:flex;gap:22px;flex-wrap:wrap}.tag{display:inline-block;border:1px solid #4c677c;padding:4px 10px;border-radius:4px;font-size:13px}footer{margin-top:28px;color:#52647b;font-size:13px}@media(max-width:720px){header{padding-top:44px}.metrics,.grid{grid-template-columns:1fr 1fr}.grid article{grid-column:1/-1}.metric{padding:18px}.metric b{font-size:26px}}
-</style></head>
-<body><header><div class="eyebrow">SYSTEMVERILOG · UVM · APB / UART</div><h1>APB UART UVM</h1><p>固定版本的 PULP APB UART，自建双 Agent、独立双向引脚检查、周期级 FIFO 模型与 DLAB 感知 RAL。这里保存实际运行证据、原版缺陷与修复对照。</p><div class="links"><a href="https://github.com/jiangzheyi1234-star/apb-uart-uvm">GitHub 源码</a><a href="https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions">实际 CI</a><a href="https://github.com/jiangzheyi1234-star/apb-uart-uvm/releases">下载与版本</a></div></header>
-<main><div class="metrics"><div class="metric"><b>48 / 48</b><span>核心 45 + RAL 3 次正常回归</span></div><div class="metric"><b>2,261</b><span>双向自动比对帧数</span></div><div class="metric"><b>272 / 277</b><span>核心功能 bins · 98.19%</span></div><div class="metric"><b>4 / 4</b><span>指定故障检出 · 6/6 干净对照</span></div></div>
-<div class="grid"><article><h2>核心回归与缺陷闭环</h2><p>当前 TB 下，修复版核心 45 次全部通过；原版 33 次通过、12 次严格需求真实失败。另列 RAL 3 次，不混算不同报告覆盖率。</p><p><a href="release/index.html">打开 93 次运行的原始证据</a></p><p class="note">含逐次日志、原生 coverage.dat、LCOV、关键 VCD、源码快照和 SHA-256 输入清单。失败保留 FAIL。</p><a href="release/acceptance.json">100 项核心验收 JSON</a></article>
-<article><h2>RAL 与检查器实测</h2><p>四寄存器双 map、加锁 frontdoor 和被动 bank predictor；三个 seed 累计 168 次写与 291 次 mirror 读。TX/RX/PE/IRQ 四类受控故障各命中预定检查器。</p><p><a href="features/index.html">打开专项证据与故障日志</a></p><p class="note">4 个受控故障属于边界负向对照，不是额外发现的 RTL 缺陷，也不是穷尽的 mutation coverage。</p><a href="https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/main/docs/checker_sensitivity.md">检查原理与范围</a></article></div>
-<section><h2>Technical documentation</h2><ul><li><a href="https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/main/docs/README.md">Documentation index</a>：运行环境、寄存器、测试计划和验证范围。</li><li><a href="https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/main/docs/architecture.md">Architecture</a>：双 Agent、引脚检查、FIFO 模型、RAL 与复位处理。</li><li><a href="https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/main/docs/validation.md">Verification results</a>：原始日志、验收口径、代码覆盖率与剩余缺口。</li><li><a href="https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/main/RELEASE.md">Release procedure</a>：源码、证据与 CI 归档的内容和校验方法。</li></ul></section>
-<footer>实测：Verilator 5.054 / Accellera UVM 2020.3.1。Questa/VCS 仅提供入口，未宣称商业仿真实绩。原始 RTL 保持 Solderpad 0.51；新增验证代码与文档使用 MIT。发行版提供独立源码、证据和原始 CI 归档，附 SHA-256 校验和。</footer></main></body></html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="APB UART verification workbench: recorded regressions, coverage, waveform inspection and source-linked design evidence.">
+  <title>APB UART · 验证工作台</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="data/dashboard.js" defer></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">跳到工作区</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="验证工作台导航">
+      <a class="brand" href="#overview" aria-label="APB UART 验证总览">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span><strong>APB UART</strong><span class="brand-subtitle">Verification workbench</span></span>
+      </a>
+      <p class="nav-label">工程证据</p>
+      <nav class="workspace-nav" id="workspace-nav" aria-label="工作区">
+        <button type="button" data-tab="overview" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">◫</span>总览</button>
+        <button type="button" data-tab="regressions" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">≡</span>回归记录</button>
+        <button type="button" data-tab="coverage" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">▥</span>覆盖与缺口</button>
+        <button type="button" data-tab="waveforms" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">⌁</span>波形与总线</button>
+        <button type="button" data-tab="architecture" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">▦</span>验证架构</button>
+        <button type="button" data-tab="defects" aria-controls="workspace"><span class="nav-icon" aria-hidden="true">◇</span>缺陷对照</button>
+      </nav>
+      <div class="sidebar-footer"><span class="offline-label">离线数据 · 无外部依赖</span><p>所有数字来自记录的运行。原始结果、预期分类与统计范围分别呈现。</p></div>
+    </aside>
+    <div class="main-shell">
+      <header class="topbar">
+        <div><p class="eyebrow">SYSTEMVERILOG / UVM</p><h1 id="page-title">验证总览</h1></div>
+        <div id="project-meta" class="project-meta"></div>
+      </header>
+      <main id="workspace" class="workspace" tabindex="-1" aria-labelledby="page-title">
+        <div class="empty-state"><h2>正在读取本地证据</h2><p>请保留同版本证据包的目录结构。</p></div>
+      </main>
+      <footer class="page-footer"><span>原始 FAIL 保留；DETECTED 只表示指定负向控制被检查器发现。</span><span id="generated-at"></span></footer>
+    </div>
+  </div>
+  <noscript><div class="noscript">互动工作台需要 JavaScript。可直接阅读 <a href="release/index.html">原始回归报告</a> 或 <a href="features/index.html">专项证据</a>。</div></noscript>
+  <div id="live-message" class="sr-only" role="status" aria-live="polite"></div>
+</body>
+</html>

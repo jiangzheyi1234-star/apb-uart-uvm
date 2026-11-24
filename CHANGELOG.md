@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.2.0 — 2026-11-24
+
+### Added
+
+- Independent APB agent qualification with a programmable slave, 0/1/3/7 wait states, completion-time data, PSLVERR/no-commit checks, asynchronous reset cancellation, bounded timeout detection and recovery controls.
+- A 15-process protocol campaign: nine positive runs, three deliberate timeout failures detected by the intended checker, and three clean recovery runs. Raw FAIL results remain unchanged.
+- An offline diagnostic workbench with regression filters/CSV export, separate coverage scopes and gaps, interactive VCD waveforms, reconstructed APB events, source-linked architecture and upstream/fixed defect comparisons.
+- Evidence generation that verifies source snapshots, log counters, native coverage databases and input hashes before publishing 118 measured runs, eight traces and 230 hashed inputs.
+
+### Fixed
+
+- Bind RAL frontdoors during register-map construction, before locking the model; verify full LCR restoration independently on APB. The three measured RAL runs have no RegModel warnings.
+- Cancel in-flight APB waits promptly on asynchronous reset, preserve completed handshakes, and expose completed/aborted/timed-out transaction outcomes explicitly.
+
+### Verified
+
+- [Full verification run](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45321619200): 74 Python tests, 100 acceptance checks, UART core 45/45 and RAL 3/3 PASS; upstream 33 PASS/12 strict functional FAIL; checker controls six PASS/four detected failures; protocol controls twelve PASS/three detected failures.
+- UART coverage remains 272/277 functional bins, 453/474 RTL lines and 1670/2120 RTL branches. Protocol qualification and negative controls have separate scopes.
+
 ## 1.1.2 — 2026-11-24
 
 ### Fixed

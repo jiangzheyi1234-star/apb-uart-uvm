@@ -2627,7 +2627,7 @@
         "name": "auto_0",
         "point": "",
         "cross": "",
-        "hits": 576,
+        "hits": 579,
         "at_least": 1,
         "covered": true
       },
@@ -2682,7 +2682,7 @@
         "name": "registers[3]",
         "point": "",
         "cross": "",
-        "hits": 741,
+        "hits": 744,
         "at_least": 1,
         "covered": true
       },
@@ -2748,7 +2748,7 @@
         "name": "auto_1",
         "point": "",
         "cross": "",
-        "hits": 561,
+        "hits": 564,
         "at_least": 1,
         "covered": true
       },
@@ -2759,7 +2759,7 @@
         "name": "auto_0",
         "point": "",
         "cross": "",
-        "hits": 1041,
+        "hits": 1044,
         "at_least": 1,
         "covered": true
       },
@@ -2858,7 +2858,7 @@
         "name": "<auto_0,registers[3],auto_1>",
         "point": "",
         "cross": "1",
-        "hits": 204,
+        "hits": 207,
         "at_least": 1,
         "covered": true
       },
@@ -3199,7 +3199,7 @@
         "name": "<auto_0,registers[3],auto_0>",
         "point": "",
         "cross": "1",
-        "hits": 420,
+        "hits": 423,
         "at_least": 1,
         "covered": true
       },
@@ -5542,7 +5542,7 @@
         "name": "empty",
         "point": "",
         "cross": "",
-        "hits": 4551,
+        "hits": 4560,
         "at_least": 1,
         "covered": true
       },
@@ -5586,7 +5586,7 @@
         "name": "empty",
         "point": "",
         "cross": "",
-        "hits": 4392,
+        "hits": 4401,
         "at_least": 1,
         "covered": true
       },
@@ -5630,7 +5630,7 @@
         "name": "auto_0",
         "point": "",
         "cross": "",
-        "hits": 4554,
+        "hits": 4563,
         "at_least": 1,
         "covered": true
       },
@@ -5652,7 +5652,7 @@
         "name": "auto_0",
         "point": "",
         "cross": "",
-        "hits": 4554,
+        "hits": 4563,
         "at_least": 1,
         "covered": true
       },
@@ -5699,19 +5699,19 @@
     "metric": "Instrumented native counters with at least one observed hit; separate from line and functional coverage",
     "by_source_scope_and_type": {
       "library_or_external/branch": {
-        "points_seen": 2561,
-        "points_total": 17368,
-        "point_seen_percent": 14.75
+        "points_seen": 2596,
+        "points_total": 17610,
+        "point_seen_percent": 14.74
       },
       "library_or_external/expr": {
-        "points_seen": 405,
-        "points_total": 2128,
-        "point_seen_percent": 19.03
+        "points_seen": 410,
+        "points_total": 2147,
+        "point_seen_percent": 19.1
       },
       "library_or_external/line": {
-        "points_seen": 3968,
-        "points_total": 12977,
-        "point_seen_percent": 30.58
+        "points_seen": 4034,
+        "points_total": 13188,
+        "point_seen_percent": 30.59
       },
       "rtl/branch": {
         "points_seen": 92,
@@ -5729,24 +5729,24 @@
         "point_seen_percent": 73.91
       },
       "rtl/toggle": {
-        "points_seen": 565,
+        "points_seen": 577,
         "points_total": 1792,
-        "point_seen_percent": 31.53
+        "point_seen_percent": 32.2
       },
       "testbench/branch": {
-        "points_seen": 132,
-        "points_total": 595,
-        "point_seen_percent": 22.18
+        "points_seen": 141,
+        "points_total": 641,
+        "point_seen_percent": 22.0
       },
       "testbench/expr": {
         "points_seen": 52,
-        "points_total": 146,
-        "point_seen_percent": 35.62
+        "points_total": 150,
+        "point_seen_percent": 34.67
       },
       "testbench/line": {
-        "points_seen": 181,
-        "points_total": 630,
-        "point_seen_percent": 28.73
+        "points_seen": 184,
+        "points_total": 655,
+        "point_seen_percent": 28.09
       },
       "testbench/toggle": {
         "points_seen": 107,
@@ -5755,8 +5755,8 @@
       }
     }
   },
-  "record_count": 36542,
-  "database": "/mnt/c/研究生/ic项目/results/optimization_ral_01/coverage/merged.dat",
+  "record_count": 37089,
+  "database": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_ral/coverage/merged.dat",
   "lcov": {
     "files": {
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_barrier.svh": {
@@ -5818,15 +5818,15 @@
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_config_db.svh": {
         "lines_hit": 26,
         "lines_total": 45,
-        "branches_hit": 59,
-        "branches_total": 284,
+        "branches_hit": 63,
+        "branches_total": 311,
         "line_percent": 57.78
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_config_db_implementation.svh": {
         "lines_hit": 81,
         "lines_total": 178,
-        "branches_hit": 293,
-        "branches_total": 2160,
+        "branches_hit": 326,
+        "branches_total": 2376,
         "line_percent": 45.51
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_copier.svh": {
@@ -5966,7 +5966,7 @@
         "lines_hit": 13,
         "lines_total": 99,
         "branches_hit": 55,
-        "branches_total": 1476,
+        "branches_total": 1552,
         "line_percent": 13.13
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_port_base.svh": {
@@ -6014,8 +6014,8 @@
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_registry.svh": {
         "lines_hit": 100,
         "lines_total": 180,
-        "branches_hit": 8696,
-        "branches_total": 22708,
+        "branches_hit": 8893,
+        "branches_total": 23227,
         "line_percent": 55.56
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_report_catcher.svh": {
@@ -6047,16 +6047,16 @@
         "line_percent": 34.88
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_report_server.svh": {
-        "lines_hit": 126,
+        "lines_hit": 125,
         "lines_total": 307,
-        "branches_hit": 39,
+        "branches_hit": 38,
         "branches_total": 137,
-        "line_percent": 41.04
+        "line_percent": 40.72
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_resource.svh": {
         "lines_hit": 39,
         "lines_total": 90,
-        "branches_hit": 254,
+        "branches_hit": 266,
         "branches_total": 1824,
         "line_percent": 43.33
       },
@@ -6071,14 +6071,14 @@
         "lines_hit": 0,
         "lines_total": 52,
         "branches_hit": 0,
-        "branches_total": 624,
+        "branches_total": 676,
         "line_percent": 0.0
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_resource_db_implementation.svh": {
         "lines_hit": 0,
         "lines_total": 161,
         "branches_hit": 0,
-        "branches_total": 2340,
+        "branches_total": 2535,
         "line_percent": 0.0
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/base/uvm_resource_db_options.svh": {
@@ -6362,11 +6362,11 @@
         "line_percent": 0.0
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/reg/uvm_reg.svh": {
-        "lines_hit": 360,
+        "lines_hit": 356,
         "lines_total": 1059,
-        "branches_hit": 115,
+        "branches_hit": 114,
         "branches_total": 652,
-        "line_percent": 33.99
+        "line_percent": 33.62
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/reg/uvm_reg_adapter.svh": {
         "lines_hit": 4,
@@ -6432,11 +6432,11 @@
         "line_percent": 47.54
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/reg/uvm_reg_map.svh": {
-        "lines_hit": 310,
+        "lines_hit": 308,
         "lines_total": 896,
-        "branches_hit": 121,
+        "branches_hit": 118,
         "branches_total": 709,
-        "line_percent": 34.6
+        "line_percent": 34.38
       },
       "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src/reg/uvm_reg_model.svh": {
         "lines_hit": 0,
@@ -6614,25 +6614,25 @@
         "line_percent": 100.0
       },
       "/var/tmp/apb-uart-uvm-workspace/tb/apb_agent/apb_driver.sv": {
-        "lines_hit": 37,
-        "lines_total": 57,
-        "branches_hit": 7,
-        "branches_total": 26,
-        "line_percent": 64.91
+        "lines_hit": 51,
+        "lines_total": 75,
+        "branches_hit": 9,
+        "branches_total": 35,
+        "line_percent": 68.0
       },
       "/var/tmp/apb-uart-uvm-workspace/tb/apb_agent/apb_monitor.sv": {
-        "lines_hit": 21,
-        "lines_total": 26,
+        "lines_hit": 22,
+        "lines_total": 27,
         "branches_hit": 9,
         "branches_total": 18,
-        "line_percent": 80.77
+        "line_percent": 81.48
       },
       "/var/tmp/apb-uart-uvm-workspace/tb/apb_agent/apb_seq_item.sv": {
-        "lines_hit": 10,
-        "lines_total": 11,
-        "branches_hit": 35,
-        "branches_total": 219,
-        "line_percent": 90.91
+        "lines_hit": 12,
+        "lines_total": 13,
+        "branches_hit": 43,
+        "branches_total": 275,
+        "line_percent": 92.31
       },
       "/var/tmp/apb-uart-uvm-workspace/tb/apb_agent/apb_sequencer.sv": {
         "lines_hit": 3,
@@ -6677,11 +6677,11 @@
         "line_percent": 94.34
       },
       "/var/tmp/apb-uart-uvm-workspace/tb/ral/uart_reg_block.sv": {
-        "lines_hit": 43,
-        "lines_total": 46,
+        "lines_hit": 40,
+        "lines_total": 43,
         "branches_hit": 3,
         "branches_total": 27,
-        "line_percent": 93.48
+        "line_percent": 93.02
       },
       "/var/tmp/apb-uart-uvm-workspace/tb/scoreboard/apb_uart_scoreboard.sv": {
         "lines_hit": 106,
@@ -6712,11 +6712,11 @@
         "line_percent": 0.0
       },
       "/var/tmp/apb-uart-uvm-workspace/tb/test/uart_ral_test.sv": {
-        "lines_hit": 87,
-        "lines_total": 91,
-        "branches_hit": 9,
-        "branches_total": 29,
-        "line_percent": 95.6
+        "lines_hit": 93,
+        "lines_total": 100,
+        "branches_hit": 12,
+        "branches_total": 44,
+        "line_percent": 93.0
       },
       "/var/tmp/apb-uart-uvm-workspace/tb/test/uart_tests.sv": {
         "lines_hit": 0,
@@ -6770,7 +6770,7 @@
       "rtl_fixed/apb_uart.sv": {
         "lines_hit": 109,
         "lines_total": 127,
-        "branches_hit": 279,
+        "branches_hit": 291,
         "branches_total": 685,
         "line_percent": 85.83
       },
@@ -6833,28 +6833,28 @@
     },
     "source_scopes": {
       "library_or_external": {
-        "lines_hit": 4825,
+        "lines_hit": 4818,
         "lines_total": 20030,
-        "branches_hit": 12152,
-        "branches_total": 57505,
-        "line_percent": 24.09,
-        "branch_percent": 21.13
+        "branches_hit": 12393,
+        "branches_total": 58590,
+        "line_percent": 24.05,
+        "branch_percent": 21.15
       },
       "testbench": {
-        "lines_hit": 739,
-        "lines_total": 1162,
-        "branches_hit": 459,
-        "branches_total": 1960,
-        "line_percent": 63.6,
-        "branch_percent": 23.42
+        "lines_hit": 759,
+        "lines_total": 1189,
+        "branches_hit": 472,
+        "branches_total": 2040,
+        "line_percent": 63.84,
+        "branch_percent": 23.14
       },
       "rtl": {
         "lines_hit": 391,
         "lines_total": 474,
-        "branches_hit": 817,
+        "branches_hit": 829,
         "branches_total": 2120,
         "line_percent": 82.49,
-        "branch_percent": 38.54
+        "branch_percent": 39.1
       }
     },
     "metric": "LCOV executable line and branch coverage"

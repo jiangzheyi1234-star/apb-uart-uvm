@@ -1,0 +1,2 @@
+COMMAND ["/var/tmp/apb-agent-protocol-workspace/.tools/verilator/bin/verilator", "--version"]
+Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123

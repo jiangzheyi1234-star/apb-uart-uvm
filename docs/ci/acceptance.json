@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "checked_utc": "2026-11-23T15:57:13.702922+00:00",
+  "checked_utc": "2026-11-24T03:54:14.983022+00:00",
   "scope": "Acceptance of recorded regression evidence; raw simulation statuses are never rewritten",
   "inputs": {
     "fixed": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/report.json",
@@ -123,7 +123,7 @@
         }
       ],
       "database": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/coverage/merged.dat",
-      "database_sha256": "6c674274cd1641edc8805a2dffbf9da620cb540bd0d68bd13c0e02f74f9ddcd0",
+      "database_sha256": "9fb90c2fd5aa8820b8e176c98707fe34f75952094f09d3ff61fbf5ba7b9fa5ed",
       "lcov": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/coverage/coverage.info"
     }
   },
@@ -133,7 +133,7 @@
       "status": "PASS",
       "actual": {
         "path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/report.json",
-        "sha256": "829f54866fbad441e49d0261b37c150ebdd6ae324bc7446259ebfde916d0c852"
+        "sha256": "56b715c3ad50142334fea0db0601944d6debe1cd53a345604b542e5e70479f22"
       }
     },
     {
@@ -141,7 +141,7 @@
       "status": "PASS",
       "actual": {
         "path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/report.json",
-        "sha256": "f4fc032bee7b51eda37d13f20ceceaafdfffe428429aaf3a6e2d49c4dba2a0cc"
+        "sha256": "32352729e5405e794124fc56f94ab65e85ed1b921c2991e5f379e5d9e68b53fa"
       }
     },
     {
@@ -151,7 +151,7 @@
         "build_processes": 1,
         "raw_report_status": "PASS",
         "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
-        "binary_sha256": "ac747b5eaf2de0acdd560d02d2a9648c207a0025d2e48b346d777775e8ef712c"
+        "binary_sha256": "c66dde2e0c3bf23eb3fabbfa48bc9e7ae3fe530cf37df4e1a59fd5abfdc9365e"
       }
     },
     {
@@ -183,7 +183,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_1/simulation.log",
-        "log_sha256": "7aa38d022c43757a7d1b14e07742b95322b87c0a79abe1360cf7552097fc9c62",
+        "log_sha256": "d1c70b9c962dc587a2fd97919ae300332df3736cc467cbc171080ee81135230a",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_1/waves.vcd"
@@ -206,7 +206,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_2/simulation.log",
-        "log_sha256": "146ee3ecffeb5621751b04de880ab0624c9b13ed0691f9392305e0d5c88bfcb5",
+        "log_sha256": "031c186a4bf1d6d1729c8f642f14540817dbe35651991c54b4d8e4862bb7e4ca",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_2/waves.vcd"
@@ -229,7 +229,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_3/simulation.log",
-        "log_sha256": "bdffd6e59fb5ea323e8cb731c0741a214b8bd61c0cf5a14070cdd09855b99ec6",
+        "log_sha256": "a7cac940f2fd13d906c733a022104123fe793a39a97ede28cd0b083386d3906f",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_3/waves.vcd"
@@ -252,7 +252,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_1/simulation.log",
-        "log_sha256": "cc01b99baea9c12d7be89a80c2f4f4c55f535fee67c6ef7a77562cfedc1d3080",
+        "log_sha256": "6bc5a621cdbc9ad6a44a23f35425a6e5667967d519d5b6cefad3722a8ad77a4f",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_1/waves.vcd"
@@ -275,7 +275,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_2/simulation.log",
-        "log_sha256": "c6951d388797d50995b1e4eb69486fcdc71c84b3a66f91200340e26b619e5b10",
+        "log_sha256": "65cc8f7d75d6989e25014b17fe29fd14cd59e85b57e2182f69d0ab6fa7c37356",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_2/waves.vcd"
@@ -298,7 +298,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_3/simulation.log",
-        "log_sha256": "cd505a0b1f6ee64c2d18d264783e1572750f94bfa8df359157c7a44e78ff6e77",
+        "log_sha256": "a5fbeb76951098c4f5ffc18cc5d7e07f8faa89f7556aa53adaec062d99956dde",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_3/waves.vcd"
@@ -321,7 +321,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_1/simulation.log",
-        "log_sha256": "025d1a89bf2b3a20435297a6ca626349d6c0c0e9b7259920b168191dec904ad0",
+        "log_sha256": "74cef4496c9d4126301677b564384073fb9b485d391e53231572717cb43b4355",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_1/waves.vcd"
@@ -344,7 +344,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_2/simulation.log",
-        "log_sha256": "15d5603585a9ff611d074c02913e92dab03524d34eb148fe449869d96048aa3f",
+        "log_sha256": "7b0388dccfca4ef32dfe5983d214fd93e8a552ca740ac697f3a509e6fda90f2a",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_2/waves.vcd"
@@ -367,7 +367,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_3/simulation.log",
-        "log_sha256": "10436a0aa1767eed0ebdbb7c9282e187108529409d24b6778f8e1f6f073f343e",
+        "log_sha256": "ef33de049a59cfc9e14e4163356441042201dac768f250d6334b2bfa23c1b83c",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_3/waves.vcd"
@@ -390,7 +390,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 3,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_1/simulation.log",
-        "log_sha256": "d5116efac53661e63e0e99f2565e60a9e9267cee665940916c902b1e5c891ee3",
+        "log_sha256": "fbe6c3fc9c8dc77ad572c90a49a79deecdd3a54d876e5dcd7feb993bd90146d4",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_1/waves.vcd"
@@ -413,7 +413,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 3,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_2/simulation.log",
-        "log_sha256": "e83d23db2fbce589c459ac42e2035dbb633dd35e1ddb2393403775fd2b324ce5",
+        "log_sha256": "b3091b68ac6b71934ae38aca49bdd7f0eae5de35ea52aa1adc92ed691ded0403",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_2/waves.vcd"
@@ -436,7 +436,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 3,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_3/simulation.log",
-        "log_sha256": "3f0567bcf59f6260ea8ef48f228923ee8d43a178c0e2a1631c387ebf5b14e0eb",
+        "log_sha256": "74ce0eb343cb631096cb19dbc40b20f9f5aaedaf811429ad909c1687cdcc0c1c",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_3/waves.vcd"
@@ -459,7 +459,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_1/simulation.log",
-        "log_sha256": "cf4ad76cf717915b55a7d6a7969b376ebaeb8dc550befa6f27d1c9ca2a09022b",
+        "log_sha256": "0bb12c931684d6705ec2fadad3df047375a601feeeb2afc3efeb91adb6c81aad",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_1/waves.vcd"
@@ -482,7 +482,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_2/simulation.log",
-        "log_sha256": "376c71fd06b413079c917d40c4da73b84a6613506e7bbcbbe859c0f16c6a0ffa",
+        "log_sha256": "393b4ab3798fe44e7a403cb59938634fb9ccce5cd2d98a25a4de33a664c1d847",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_2/waves.vcd"
@@ -505,7 +505,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_3/simulation.log",
-        "log_sha256": "c8c765527ec1ba713368bb914961192becd4e468dd87dceeda2b78d4d0b7777b",
+        "log_sha256": "9c67513a244912ecc32275477a2e8b0cca805adf75370dfbe6ee06295c4ec777",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_3/waves.vcd"
@@ -528,7 +528,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 16,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_1/simulation.log",
-        "log_sha256": "c6661a4bc4f25e3c2e3ca013f997dbdda64fc588ecc1a31893908de79e54a6f9",
+        "log_sha256": "a4c8cf6d15c4ef80b0cd620973a86d4a1e819e2de828c48bf487e1a60cc27440",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_1/waves.vcd"
@@ -551,7 +551,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 16,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_2/simulation.log",
-        "log_sha256": "3cc1885f732d76edb97947b97bd72319f365cc87544b847c59b78ae4bfd2f519",
+        "log_sha256": "887761711055dce93c330f0650b767f69602e40ea40ed1c7d5d1bc3e89cc257a",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_2/waves.vcd"
@@ -574,7 +574,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 16,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_3/simulation.log",
-        "log_sha256": "f515108f8e1c4b5172dc990699d904ee87f5e4c4037fc873ae0aee06abc181a7",
+        "log_sha256": "29dee39f642667cdd94913a7b17b2422e72d6864e22bfef6116b0b94bcd7dee5",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_3/waves.vcd"
@@ -597,7 +597,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_1/simulation.log",
-        "log_sha256": "603df03e3b37979c7c1ddc3d6d4d0b53e61f62b5ebba1c6e8b15de3a6e6b5fd6",
+        "log_sha256": "bc6ec7ebdf7443ae6f948f17259ef87df35690ac1448b2c2f4df7fc28d1c9b83",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_1/waves.vcd"
@@ -620,7 +620,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_2/simulation.log",
-        "log_sha256": "31978e46212b7ce2deefd08b6a5299ec4ac8ddcbd8db8c9aac5e3ed9cd50b68a",
+        "log_sha256": "c946de179f0a8eb5d5f699d83cc075962c6cfcab1e043b0f926ed87007a3d36b",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_2/waves.vcd"
@@ -643,7 +643,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_3/simulation.log",
-        "log_sha256": "d01df3fe367022c25029926cefa7bd2869f48a99791138b896ce9c4866c7eeb0",
+        "log_sha256": "ef800d96c2f9547bbecab13412ee6403af75571d97719ec842955d23c16015ea",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_3/waves.vcd"
@@ -666,7 +666,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_1/simulation.log",
-        "log_sha256": "74fa327cdcefe4d3ab1b11b419d59f8609631895410da625eaea4a58ae03ccc7",
+        "log_sha256": "dfbd94d0f83f3dbbb5530876116f065002bd0374085fcd1c7e7f06c6672123ab",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_1/waves.vcd"
@@ -689,7 +689,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_2/simulation.log",
-        "log_sha256": "7278ac5bbd8dd77df1e72e6e8d08e6941fe07926ff3a314f7ac865bdab62841f",
+        "log_sha256": "74be51480fb2a2d0c45a5ee381ef84c11ca46b6c0c120100e89a916b0e5b4fdc",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_2/waves.vcd"
@@ -712,7 +712,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_3/simulation.log",
-        "log_sha256": "750299fe9d80efe16cb05c6030de085a4441a91e1c2d391a653e4579fa41d1cd",
+        "log_sha256": "261a2c8b84f9f8f4529a7ad2b428cb2ec52007a782ce43aa48389d427d7c8b43",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_3/waves.vcd"
@@ -735,7 +735,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_1/simulation.log",
-        "log_sha256": "d1ed4e629d933b77c4d8d653b91fb508eb58813ed458e08823a3518d119cb7af",
+        "log_sha256": "ad1c80207f838254bd33e14799f378fcfc8cb222bcc096ad8d6d126aeaa57d1a",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_1/waves.vcd"
@@ -758,7 +758,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_2/simulation.log",
-        "log_sha256": "770f2981f278f7340746b3311c6ffa17e968395aeb2d8729822923790f5af7ba",
+        "log_sha256": "851da47e22d936236fe8e4aba594b216ad2f4658db62f9dd9aa6b6c70ded2e08",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_2/waves.vcd"
@@ -781,7 +781,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_3/simulation.log",
-        "log_sha256": "55ca299a0f9bb9ad22591b5c216617eb0aae470e701a9d651e9cb62467a641a9",
+        "log_sha256": "19cfd14cafe56a268915e622a44c833f74bc775eccbe928a3ccd6175af14a00d",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_3/waves.vcd"
@@ -804,7 +804,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_1/simulation.log",
-        "log_sha256": "54dd82576b3b2cfba421aa553eb36dca0dfa95f3ae2bded640f66f32d96ebce9",
+        "log_sha256": "5445b16bc284b1d4aa18989eaf74ff8670b263ede0a4ae3ddd4d99671ce184db",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_1/waves.vcd"
@@ -827,7 +827,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_2/simulation.log",
-        "log_sha256": "84cf34f54b7640f4023349842e6ee2ba4f0912250bb4de841abc1d4a47b9dc90",
+        "log_sha256": "166c6da9327e664bd9af6fa25683d3012391fe3eaa04e420aab0e8e67bf15c7e",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_2/waves.vcd"
@@ -850,7 +850,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_3/simulation.log",
-        "log_sha256": "85eca6fd2bbf4b7cd43abd1cbb19eb4f1e1422deab950f55c97c6fdb2aaf3935",
+        "log_sha256": "ea9b50d64833986939d4eb037e3abdf60708001932cf79b0afabdbf4dc3d0808",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_3/waves.vcd"
@@ -873,7 +873,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 16,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_1/simulation.log",
-        "log_sha256": "252c1eabeb27cf244b7d27b847115f78c621c160b57129f92d8b1e9ea0a2a3ce",
+        "log_sha256": "9861f7256a5cdd4412fc7b863c47c4e7274638fae7a5877d2b8a1acbd5b1baa9",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_1/waves.vcd"
@@ -904,7 +904,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 16,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_2/simulation.log",
-        "log_sha256": "390ac0dd666d9dccd53bada266eeb740d3fcca256168892a7c33e67ab6045fad",
+        "log_sha256": "e747a4f29fc8d44946a517b2dfea8e3e8568d4ac384c721279ef936d078b0e1e",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_2/waves.vcd"
@@ -935,7 +935,7 @@
         "max_tx_pending": 16,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_3/simulation.log",
-        "log_sha256": "e79cf625476eeb4a76d31630e22162922627af4a993ca88f84a06240ccc81028",
+        "log_sha256": "2c9bd0b453f6b1fb962a1a4d02ed00a99876ac369b00159a862da2715fb1c4a1",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_3/waves.vcd"
@@ -966,7 +966,7 @@
         "max_tx_pending": 3,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_1/simulation.log",
-        "log_sha256": "3530a28fba81c147f0a6348975afff57f94a31f732c44ac6f3de7f03b18ee875",
+        "log_sha256": "f7ac3ce706834bf0acc2e4e0a74e3a3fc1bb003b87e59428857a8b0e3f2b0c3a",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_1/waves.vcd"
@@ -989,7 +989,7 @@
         "max_tx_pending": 3,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_2/simulation.log",
-        "log_sha256": "f45c6f11fba63a9d0c4369c22c3f3c98047670b9d234adf4f53ccb769b4b7261",
+        "log_sha256": "2d8c0687ec2190e0e8eb8acba7cb3952f03575b5f254edbefb7be273c39a3ce9",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_2/waves.vcd"
@@ -1012,7 +1012,7 @@
         "max_tx_pending": 3,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_3/simulation.log",
-        "log_sha256": "4df044f4dce0be2c30ba12f4306f80af2d7dc5d4f979599171c1fc152bc42089",
+        "log_sha256": "06ce51d91d094f979885cc2b1486ca9c7d49c2a34e913cea6266463990eefea3",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_3/waves.vcd"
@@ -1035,7 +1035,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 17,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_1/simulation.log",
-        "log_sha256": "6d09b4727618328de721b23c506cbf7cd50c76fd232d9140cc781aa3b5aacf9c",
+        "log_sha256": "0d5821ce481a9c9f39f3016ddbfca52486291ef7ce365b25a4d219d4612588e4",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_1/waves.vcd"
@@ -1058,7 +1058,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 17,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_2/simulation.log",
-        "log_sha256": "e02d53f3888a1b2e26a434f42180033dd1fd684a619891bfa7213b504e0b9e8a",
+        "log_sha256": "67c135561e03351c27e4e2b6cf6e594f3c1bc80d12d4dd21adcba627ab3842bb",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_2/waves.vcd"
@@ -1081,7 +1081,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 17,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_3/simulation.log",
-        "log_sha256": "7969e13330b45305e397ad6c2454c5ff788f907704711e137a7c747961ef018b",
+        "log_sha256": "3478243018d7592582dcba41e7443ddca531ef439b9da7e70c97acbc2f76714b",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_3/waves.vcd"
@@ -1104,7 +1104,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_1/simulation.log",
-        "log_sha256": "adc147708937e9e74050f76bda73ed1399d0df06a7f1325f6e2d6ba00d81eeaf",
+        "log_sha256": "ac824d80d121f585d085527c3b39c46d8dd2abf4289472d7cbb9b01e5475baa4",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_1/waves.vcd"
@@ -1127,7 +1127,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_2/simulation.log",
-        "log_sha256": "285117a7fd9767561521f03cee1d1a27cdf61596cd8e10552170079d1770b224",
+        "log_sha256": "d95902f7c74be9a107215d879f5ac4cb28dead6b0e88e5bab6245895ede7eea4",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_2/waves.vcd"
@@ -1150,7 +1150,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_3/simulation.log",
-        "log_sha256": "3ca1917721001d2cf2bfa53e41f656a3f8f5a14ce65ea888ca1594dacddebe83",
+        "log_sha256": "736abd7e0d3eaed79e06b5d35bf1d0885b2bbc74b1d6b140824af4b3b993edf1",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_3/waves.vcd"
@@ -1173,7 +1173,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_1/simulation.log",
-        "log_sha256": "be18a986b406d316474be35907ccb017900dd2e4fb66bd594ec4f9e87bc63ac8",
+        "log_sha256": "86f4ee87d5b9fd8ee1784fac2923a11ac17cee34403e170c62bb8496257a170c",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_1/waves.vcd"
@@ -1196,7 +1196,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_2/simulation.log",
-        "log_sha256": "06c3358f1c033b6659d253aa0af6ff482a56564a87eab7153b82b343e6858620",
+        "log_sha256": "d90a3592489631f78fe2a3b28cd765a0a01a70bf4ece063a2de1e77f7bbf0356",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_2/waves.vcd"
@@ -1219,7 +1219,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_3/simulation.log",
-        "log_sha256": "e2672788902794df8775e8ef458fe741f720fd3cae879b69c5527afe90ba79ed",
+        "log_sha256": "23386ea2d651110d2f50302c42e20934f684a6dcf8e3014eb72611527ba2a3e2",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_3/waves.vcd"
@@ -1233,7 +1233,7 @@
         "build_processes": 1,
         "raw_report_status": "FAIL",
         "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
-        "binary_sha256": "2a1226c3b6b92a8e82ef8cc59c07065b6a6bba6bd1e85ae6bfb88b08563004e7"
+        "binary_sha256": "6394f41d144d8083347becb8af64fa21af7ca83ae52fe577710900957895dfe0"
       }
     },
     {
@@ -1265,7 +1265,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/simulation.log",
-        "log_sha256": "9b75e0fcc41a34a91e68b7cc98d164be56543846f4981d368c9b3bee00231472",
+        "log_sha256": "8367ae437fd4c485aaac985ea507a4a0cbb467a0677151c139dd0b46a9e8a1e6",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/waves.vcd"
@@ -1288,7 +1288,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/simulation.log",
-        "log_sha256": "3e804e125fab89d867c7fc8e35c063893cbe2e3d842e7c923ae07f10cc56a7fe",
+        "log_sha256": "b255672b216fe22bdba5deb52890f3a05cf08c1581c3497319184de881c830ad",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/waves.vcd"
@@ -1311,7 +1311,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/simulation.log",
-        "log_sha256": "e7bbcd1d63f7ec05e62c8467bc95868c41dd86a2afe9f91c4a8dbdf178cfb3b0",
+        "log_sha256": "c07c24f226ed27d437f854f7e5f68913b562846f2ba6f52442a2d153d06d0323",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/waves.vcd"
@@ -1334,7 +1334,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/simulation.log",
-        "log_sha256": "65b5086f64f4d024663ea86a03da83e260d5178369e7998a0edd66f46b606b29",
+        "log_sha256": "c4adca337efea39b0400751a395e3bc09777a94264a1c49ac51d602e640cc906",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/waves.vcd"
@@ -1357,7 +1357,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/simulation.log",
-        "log_sha256": "9618a07eb633c88bb99badba15fc6cc75aaabd23ef320d8b0d54fea25684bf48",
+        "log_sha256": "60e4e63becd5107811220fa2ed8d7d044cdf1786592f6c837df6c41a35e72970",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/waves.vcd"
@@ -1380,7 +1380,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/simulation.log",
-        "log_sha256": "8bf293e56dd0941720a03af06b2ac2a278c56247bc7543ea7cd06e9589fbaba3",
+        "log_sha256": "45ec375d6dbe0dc1028d8c6e7dde741a94e4fc858ce7f259698f2bcaa22281ab",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/waves.vcd"
@@ -1403,7 +1403,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/simulation.log",
-        "log_sha256": "9f6524ec9cb7b7a9ed168ed2b19eb83af6fae2e463969af8b0feef596a46e322",
+        "log_sha256": "a47fbddb36a8d19bb9d7cde2b5697ef9e85927eb7515674dc64683b3eb78d995",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/waves.vcd"
@@ -1426,7 +1426,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/simulation.log",
-        "log_sha256": "50163c0974aca4fe5104fb4f0b24bccc528f6bbd04888953fc64730486609198",
+        "log_sha256": "55fa91d56d0a8ff1462f6413a063f1939019660f37aac5a7b5e2483fa2d8d9c9",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/waves.vcd"
@@ -1449,7 +1449,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/simulation.log",
-        "log_sha256": "60aacb220f6348d0c9f9ca7acd0f5d9ec498f4b8e4c4a587741fdfee404527af",
+        "log_sha256": "d3c304ea7dcc0e98b1728271c208044d2ad9a3d338103611c5bd9acabaee6dae",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/waves.vcd"
@@ -1472,7 +1472,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 3,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/simulation.log",
-        "log_sha256": "83688f59fa20be3db4e14a03dc6c3474a6467b878900ca8ff0e67a120feb2ceb",
+        "log_sha256": "09ccf3a536c432acd75ee09c1505014b2daa6749bfe1d8a47406cde07656cc34",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/waves.vcd"
@@ -1495,7 +1495,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 3,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/simulation.log",
-        "log_sha256": "2174d705810074292d496468944111e3fd57d8725644f00473c0e47ff162ff7a",
+        "log_sha256": "45d3740e925dbd08a97d3163b3c3f92c19a4d75f78fe7a333ecec3db12da07aa",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/waves.vcd"
@@ -1518,7 +1518,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 3,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/simulation.log",
-        "log_sha256": "a7efad26f002de167aa7264c21f8fc3e30a1a39119c90e1b20e5a10aa3b8efab",
+        "log_sha256": "932e170611abbeaf8aa75e36ddcbbc741a2cd58ecf51762a4ce604bad2924612",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/waves.vcd"
@@ -1541,7 +1541,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/simulation.log",
-        "log_sha256": "ca749164a11ea3324bbd37118f37af3b2a214d14d892779470084de417d8a38b",
+        "log_sha256": "526af843594ed1e6ecdc11e55cd1c5283b1b72f761033fb58a30d5b018eeda5a",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/waves.vcd"
@@ -1564,7 +1564,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/simulation.log",
-        "log_sha256": "fe47d413f3ecd09c7eb239ef01dbc9274e4a4fa42afd33cb79e316bb43a3a28e",
+        "log_sha256": "e9df40a9fa9cbb525165ab458c6ae0b1d4132edde1add08bda81872f40a5c573",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/waves.vcd"
@@ -1587,7 +1587,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/simulation.log",
-        "log_sha256": "8619b96f241a6fc2827931862ba3bb92d5d5108fe5a54814864b593dcef0f0f2",
+        "log_sha256": "733de62638db27d79bfe0c95199f6800557ccc20573584088a448e4749b35c90",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/waves.vcd"
@@ -1610,7 +1610,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 16,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/simulation.log",
-        "log_sha256": "6eee9b0fcf5adc0df61774e0fa2d901c3815909d5e522bc0f1a1df89ba89963e",
+        "log_sha256": "5543a98747807fd6cbde004a0e7dcb0a0181b7a84fb6eceada512f3e133e709b",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/waves.vcd"
@@ -1633,7 +1633,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 16,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/simulation.log",
-        "log_sha256": "787b82402a9049fd4eb8e127ae20d54cf981f2793677108047e783f275588833",
+        "log_sha256": "b68d8caebc2d582823ed147e4b067c8ad6b41647029151aa902f103012965df1",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/waves.vcd"
@@ -1656,7 +1656,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 16,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/simulation.log",
-        "log_sha256": "a83afc87f3c272347e54b16ea7b7b56e56977410d1b96693993fac6a6a26e49d",
+        "log_sha256": "66cb611f98d004947ad57e2b8058d93695044e97b0ffb09d042e8db306e2ad63",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/waves.vcd"
@@ -1679,7 +1679,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/simulation.log",
-        "log_sha256": "4a0a070cc462e969fd569a6d89f1c54b7dd97014ecf0604eb521f0b7ca6d8c99",
+        "log_sha256": "42503d874d77d5c20eb1f97e1f6558efb2210cdaa182d66be5f60a2ff5ecd0d2",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/waves.vcd"
@@ -1702,7 +1702,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/simulation.log",
-        "log_sha256": "f3aeaf2159cf350ba04bc19af5fe317eaad530fb33dd7ff89d85f8d91fc61900",
+        "log_sha256": "a8310927f69815b1afb2173ad3c9167f19acea560fa614c8bfd90da0b9e7a20e",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/waves.vcd"
@@ -1725,7 +1725,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/simulation.log",
-        "log_sha256": "554121ae70fd9eab8529f7457be4da594a85bece161efb3b92038976222ef99c",
+        "log_sha256": "af19e98225afbb2dc93db22c156e1e1c47a3c9ab8b92738ecacb0681030d18d0",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/waves.vcd"
@@ -1748,7 +1748,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/simulation.log",
-        "log_sha256": "70384f720143a3c93993857bd9efb59196869bd6be35581e94f653334576060e",
+        "log_sha256": "6b4ad3554f6b214ff89593a9a8c50a03183cd9f2a5e9d02e955b85e6a6eb9ddd",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/waves.vcd"
@@ -1771,7 +1771,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/simulation.log",
-        "log_sha256": "24caef6af7385b4ec2ccb1ff81a93913ce25658cfe218567112abac99f272f8f",
+        "log_sha256": "2c7719ee9988c85380077346dd57b6ab8e6db05a25cce9a85803993a9ccb808b",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/waves.vcd"
@@ -1794,7 +1794,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/simulation.log",
-        "log_sha256": "69157f6c0c40cad8545fb1b78f31a1dda574f8a27f12686511862e55ac21ddf8",
+        "log_sha256": "b1d49539c1cbcb0d309c775d523d2f14f0896a46ca36d2e1dcca9b9c2cd584cb",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/waves.vcd"
@@ -1817,7 +1817,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/simulation.log",
-        "log_sha256": "aac3492c4419e8047d20480a429807204da167a4aebc586ec2d70f72ad87911c",
+        "log_sha256": "447dd29753d4838956ce1cffed73eadcc760f2c43694963c00652b9f30cee068",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/waves.vcd"
@@ -1840,7 +1840,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/simulation.log",
-        "log_sha256": "dce29b132391931243aadd9c87a4cc37a672e1369c719aafa59ca9824c374a6f",
+        "log_sha256": "81329e1c42d38d874f7230f4467d813c05a2ec7ae8a045a14df37f3f8993da32",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/waves.vcd"
@@ -1863,7 +1863,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/simulation.log",
-        "log_sha256": "c84a1c826527b31c8030e4ef35c894aba181c44ad92e7a8059d3cb50e1fdd15e",
+        "log_sha256": "c11a908098498b0118cb7e16f3557c207f0e2a47fd4e98e0dc55daadc0124a35",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/waves.vcd"
@@ -1886,7 +1886,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/simulation.log",
-        "log_sha256": "bfb6a190ba23565fe7dfa5900271fa44569dae16d36118a0ba4a3a0c9849860b",
+        "log_sha256": "25262885bf7fc43097ae30e8e28dac4235bf003ee08e96cf3da12f59c8202cf8",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/waves.vcd"
@@ -1909,7 +1909,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/simulation.log",
-        "log_sha256": "e0e6cd865826adbe5f63dc5ca17ab2d2b022cb1fec0ad5339ef36fa3fd5a8359",
+        "log_sha256": "0cb93ad93705e8097b42f92d1caf180c5504091c6e4fd57a55849ae07842e86a",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/waves.vcd"
@@ -1932,7 +1932,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/simulation.log",
-        "log_sha256": "1dfc190f091719b317e267212f44a577b3b9693e27bde5884ea004662d8d2794",
+        "log_sha256": "c32c5a60e873da19ee9b7d3cca0a890eb4e3ec48d1f847e82b28c8e2cae84ef9",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/waves.vcd"
@@ -1955,7 +1955,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 16,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/simulation.log",
-        "log_sha256": "3df64c210aede5b19057704f0866ef4d07df5295e24a9b0724aa0fdc5e8f92bd",
+        "log_sha256": "5e47b721dff28a5a202630e47f5d57795b7cc33962db1e3500cdcf491a507ae8",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/waves.vcd"
@@ -1986,7 +1986,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 16,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/simulation.log",
-        "log_sha256": "8d80f17f291f88f62d8c6049384c4c3de0736197a9ea1056b6207efb718e681b",
+        "log_sha256": "5e1ed05b5e36e9c8cf9b90e16920c202486f4fad97af0b85c84b68d5a925e120",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/waves.vcd"
@@ -2017,7 +2017,7 @@
         "max_tx_pending": 16,
         "max_rx_pending": 15,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/simulation.log",
-        "log_sha256": "9dba2878644d578c673b3802fc40cb789ef74291a0aaef597e780ea82623087e",
+        "log_sha256": "490494380da5b66273595ef8d9063c7b94798d308d31242cc79d94f0501314e6",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/waves.vcd"
@@ -2048,7 +2048,7 @@
         "max_tx_pending": 3,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/simulation.log",
-        "log_sha256": "841d26dbfeb9852985f61f97dc4cf6be8221de71a2a80ef33cffc9abee964754",
+        "log_sha256": "6ba83c9c06e0f8b996693a8dcc73c6d4d1b355caed0c5f6d35a54a5f7a084620",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/waves.vcd"
@@ -2071,7 +2071,7 @@
         "max_tx_pending": 3,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/simulation.log",
-        "log_sha256": "11a36e8d1e426ef6b44af40bfdb9df0ef737f2b75e67408f851efa6d6c785d17",
+        "log_sha256": "a3d0f070a9357d18b623d70f44b4722f9dbe9d8573856b0a74b2e72e29e55780",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/waves.vcd"
@@ -2094,7 +2094,7 @@
         "max_tx_pending": 3,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/simulation.log",
-        "log_sha256": "60d2629385d66ed3b781a51a4e568d461af4c18ad6b2bc44a27b7062a0248ae0",
+        "log_sha256": "56c36912cc7c6ad6ced98cf853b6090eb4d67186ef4c1d0ff5e91e4432f2510b",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/waves.vcd"
@@ -2117,7 +2117,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 17,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/simulation.log",
-        "log_sha256": "28826645ed0b69b9ee58d45eece681500377c4e2c5de70f762eb0471b2489560",
+        "log_sha256": "3fa3322388f3fc7f7ed39877c30607a6aada1d909bf24f422a0c89dc6b82e0ba",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/waves.vcd"
@@ -2140,7 +2140,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 17,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/simulation.log",
-        "log_sha256": "036ed33c88eb4308db177a1651dcbb6ae515e6713c6c4f133b5db2fd4806fea0",
+        "log_sha256": "60d4d510f96b04853bfa3ed93c3f8a9dc5ac67f4c70f4a3cbad8b047e8e4d958",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/waves.vcd"
@@ -2163,7 +2163,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 17,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/simulation.log",
-        "log_sha256": "b9ba9b97ef60e43cb117212238218904fd54856345f29b611a1968b3da3598d2",
+        "log_sha256": "baf3d6578c11384136c2a32a66cf15794b9b7a823fa259d4daffa5787601014d",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/waves.vcd"
@@ -2186,7 +2186,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/simulation.log",
-        "log_sha256": "f035d6ccda34d14d0cfc0efa77e678f9e283b942a968a622037f152d2f698cb2",
+        "log_sha256": "5068f868068070508bcc75f45cfabb50595faac2e71b3feb8e22c6c8ce24dde2",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/waves.vcd"
@@ -2209,7 +2209,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/simulation.log",
-        "log_sha256": "d7f178c6f54a5699a082d3c8ccbba74763bbd5b76e425047d19ea7d0b1113e1f",
+        "log_sha256": "6a7c0f383d885e76d7fc4bbdb378adf6b30bbc231b671757feb0d65302317c44",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/waves.vcd"
@@ -2232,7 +2232,7 @@
         "max_tx_pending": 1,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/simulation.log",
-        "log_sha256": "7d0df5becd1d2636b3889f357c0968fb29e23c693f5768c04f5d51c14b419b39",
+        "log_sha256": "f5ec2b7add9739e7c7289f362763cc6e593a28e354efbf4ce2f28d64a314efd6",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/waves.vcd"
@@ -2255,7 +2255,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/simulation.log",
-        "log_sha256": "f2afeee65e039f4d0dbf9a56a9a7c71384620db174931b52611c115b93306d10",
+        "log_sha256": "a835311dfdfdaff0e7a201161f6b3d0d254bb137fba7ff49cd4387d9af12109a",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/waves.vcd"
@@ -2278,7 +2278,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/simulation.log",
-        "log_sha256": "c88ddfc4debf6c83a5a701f44b2a5a14b75e62da00b254c6e8f3e039d5ac52c3",
+        "log_sha256": "950a4dc8163ea3019f862d3cfb78d1fca249a73bc7cd5996a9606a258cd0646a",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/waves.vcd"
@@ -2301,7 +2301,7 @@
         "max_tx_pending": 17,
         "max_rx_pending": 1,
         "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/simulation.log",
-        "log_sha256": "8df087e0566999a12a5fc88f1ce49b4a7bdbe6007d8bd0c3caa70a396eae04e0",
+        "log_sha256": "98ef6f7a20d86750697f1b379694ec6a2368b091f62839d662991c08d924e4ca",
         "artifacts": {
           "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/coverage.dat",
           "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/waves.vcd"
@@ -2370,13 +2370,13 @@
       "check": "source_and_pinned_integrity",
       "status": "PASS",
       "actual": {
-        "identical_TB_files": 27,
+        "identical_TB_files": 33,
         "identical_UVM_files": 170,
         "pinned_files_verified": 8,
         "pinned_commit": "dfad6e04d19cc9481d3cd2750b45b970dc61271b",
         "snapshot_sha256": {
-          "fixed": "e3c709aea165361daee898ecafa51bdd88d4c089337800133797ca9ab5bff946",
-          "upstream": "aa98124858b8735b524228a89b988b5e6a7fdc7ef294e24518fc229405238d85"
+          "fixed": "5de43a2a3ed18fa40d0869782b3d5e382a384cb3baed644fe54070b3d729628c",
+          "upstream": "ae30bca9a9253be7f01a487af7272333a953088b4d479a8ccaafd41ee0772b1f"
         }
       }
     },
@@ -2450,7 +2450,7 @@
           }
         ],
         "database": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/coverage/merged.dat",
-        "database_sha256": "6c674274cd1641edc8805a2dffbf9da620cb540bd0d68bd13c0e02f74f9ddcd0",
+        "database_sha256": "9fb90c2fd5aa8820b8e176c98707fe34f75952094f09d3ff61fbf5ba7b9fa5ed",
         "lcov": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/coverage/coverage.info"
       }
     },
@@ -2484,7 +2484,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 3,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/simulation.log",
-      "log_sha256": "83688f59fa20be3db4e14a03dc6c3474a6467b878900ca8ff0e67a120feb2ceb",
+      "log_sha256": "09ccf3a536c432acd75ee09c1505014b2daa6749bfe1d8a47406cde07656cc34",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/waves.vcd"
@@ -2503,7 +2503,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 3,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/simulation.log",
-      "log_sha256": "2174d705810074292d496468944111e3fd57d8725644f00473c0e47ff162ff7a",
+      "log_sha256": "45d3740e925dbd08a97d3163b3c3f92c19a4d75f78fe7a333ecec3db12da07aa",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/waves.vcd"
@@ -2522,7 +2522,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 3,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/simulation.log",
-      "log_sha256": "a7efad26f002de167aa7264c21f8fc3e30a1a39119c90e1b20e5a10aa3b8efab",
+      "log_sha256": "932e170611abbeaf8aa75e36ddcbbc741a2cd58ecf51762a4ce604bad2924612",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/waves.vcd"
@@ -2541,7 +2541,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 1,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/simulation.log",
-      "log_sha256": "4a0a070cc462e969fd569a6d89f1c54b7dd97014ecf0604eb521f0b7ca6d8c99",
+      "log_sha256": "42503d874d77d5c20eb1f97e1f6558efb2210cdaa182d66be5f60a2ff5ecd0d2",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/waves.vcd"
@@ -2560,7 +2560,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 1,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/simulation.log",
-      "log_sha256": "f3aeaf2159cf350ba04bc19af5fe317eaad530fb33dd7ff89d85f8d91fc61900",
+      "log_sha256": "a8310927f69815b1afb2173ad3c9167f19acea560fa614c8bfd90da0b9e7a20e",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/waves.vcd"
@@ -2579,7 +2579,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 1,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/simulation.log",
-      "log_sha256": "554121ae70fd9eab8529f7457be4da594a85bece161efb3b92038976222ef99c",
+      "log_sha256": "af19e98225afbb2dc93db22c156e1e1c47a3c9ab8b92738ecacb0681030d18d0",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/waves.vcd"
@@ -2598,7 +2598,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 15,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/simulation.log",
-      "log_sha256": "70384f720143a3c93993857bd9efb59196869bd6be35581e94f653334576060e",
+      "log_sha256": "6b4ad3554f6b214ff89593a9a8c50a03183cd9f2a5e9d02e955b85e6a6eb9ddd",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/waves.vcd"
@@ -2617,7 +2617,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 15,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/simulation.log",
-      "log_sha256": "24caef6af7385b4ec2ccb1ff81a93913ce25658cfe218567112abac99f272f8f",
+      "log_sha256": "2c7719ee9988c85380077346dd57b6ab8e6db05a25cce9a85803993a9ccb808b",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/waves.vcd"
@@ -2636,7 +2636,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 15,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/simulation.log",
-      "log_sha256": "69157f6c0c40cad8545fb1b78f31a1dda574f8a27f12686511862e55ac21ddf8",
+      "log_sha256": "b1d49539c1cbcb0d309c775d523d2f14f0896a46ca36d2e1dcca9b9c2cd584cb",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/waves.vcd"
@@ -2655,7 +2655,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 1,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/simulation.log",
-      "log_sha256": "bfb6a190ba23565fe7dfa5900271fa44569dae16d36118a0ba4a3a0c9849860b",
+      "log_sha256": "25262885bf7fc43097ae30e8e28dac4235bf003ee08e96cf3da12f59c8202cf8",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/waves.vcd"
@@ -2674,7 +2674,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 1,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/simulation.log",
-      "log_sha256": "e0e6cd865826adbe5f63dc5ca17ab2d2b022cb1fec0ad5339ef36fa3fd5a8359",
+      "log_sha256": "0cb93ad93705e8097b42f92d1caf180c5504091c6e4fd57a55849ae07842e86a",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/waves.vcd"
@@ -2693,7 +2693,7 @@
       "max_tx_pending": 1,
       "max_rx_pending": 1,
       "log": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/simulation.log",
-      "log_sha256": "1dfc190f091719b317e267212f44a577b3b9693e27bde5884ea004662d8d2794",
+      "log_sha256": "c32c5a60e873da19ee9b7d3cca0a890eb4e3ec48d1f847e82b28c8e2cae84ef9",
       "artifacts": {
         "coverage_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/coverage.dat",
         "waveform_file": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/waves.vcd"

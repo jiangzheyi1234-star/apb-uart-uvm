@@ -1,24 +1,24 @@
 {
-  "generated_utc": "2026-11-23T15:43:57.378159+00:00",
+  "generated_utc": "2026-11-24T03:54:15.226916+00:00",
   "reports": [
     {
-      "name": "release_fixed",
+      "name": "ci_fixed",
       "status": "PASS",
       "expected_failure_demonstration": false,
       "simulator": "verilator",
       "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
       "rtl_variant": "fixed",
       "uvm_source": "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src",
-      "started_utc": "2026-11-23T15:27:52.101023+00:00",
+      "started_utc": "2026-11-24T03:47:09.102797+00:00",
       "report_input": "inputs/000_report.json",
-      "report_sha256": "6fac7026514751907b3e32c1246bd6cddaad63a0c060dd500079b5d580ae3cbb",
+      "report_sha256": "56b715c3ad50142334fea0db0601944d6debe1cd53a345604b542e5e70479f22",
       "runs": [
         {
           "test": "uart_smoke_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.824,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.465,
           "transcript": "inputs/005_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -39,15 +39,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_smoke_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_1/waves.vcd",
           "waveform_sha256": "e74c4d3e5647790f82dcafe545acb07ef7eaf4f16589ea20caf88373e2201e7f"
         },
         {
           "test": "uart_smoke_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.776,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.465,
           "transcript": "inputs/007_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -68,15 +68,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_smoke_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_2/waves.vcd",
           "waveform_sha256": "6fb218a0fa93059b5aeb3323f813c0ab00f77c166e9c8c5a06fab6177dfd7c5c"
         },
         {
           "test": "uart_smoke_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.776,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.465,
           "transcript": "inputs/009_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -97,15 +97,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_smoke_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_smoke_test_seed_3/waves.vcd",
           "waveform_sha256": "7784485efc6a27812118dc5c102ca46482bd509fbde9e6ea3134042f845758db"
         },
         {
           "test": "uart_fifo_boundary_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.283,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.715,
           "transcript": "inputs/011_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -126,15 +126,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_fifo_boundary_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_1/waves.vcd",
           "waveform_sha256": "3382c9cc05ef0888727758603cc74d1b0bf33be01661b4ec966cab588c48aeeb"
         },
         {
           "test": "uart_fifo_boundary_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.231,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.715,
           "transcript": "inputs/013_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -155,15 +155,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_fifo_boundary_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_2/waves.vcd",
           "waveform_sha256": "ac86b8a39f103083d5cac3ecef978e15a67f56ca90295edfb8ba6b768d2da06f"
         },
         {
           "test": "uart_fifo_boundary_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.33,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.715,
           "transcript": "inputs/015_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -184,15 +184,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_fifo_boundary_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_fifo_boundary_test_seed_3/waves.vcd",
           "waveform_sha256": "79e57a295b973e7035778a614728f6287b688b6f5a0bba920c07a7a0c403af1d"
         },
         {
           "test": "uart_error_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.575,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/017_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -213,15 +213,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": "inputs/018_waves.vcd",
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_1/waves.vcd",
           "waveform_sha256": "4a62f9a88c148e95fc247cc1366a5f0de2550255bf77bd0b8d9f76bf669bcf79"
         },
         {
           "test": "uart_error_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.523,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.315,
           "transcript": "inputs/019_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -242,15 +242,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_2/waves.vcd",
           "waveform_sha256": "889904c3eaf41f42c89104e3b6bedd68c93978ae730b57a79a261f5e4ffd239d"
         },
         {
           "test": "uart_error_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.525,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/021_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -271,15 +271,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_test_seed_3/waves.vcd",
           "waveform_sha256": "0229c2b5c8b9228b8a3c028bb06655e87f30c8b8babe9aaf77d04d69ca6a8d45"
         },
         {
           "test": "uart_reset_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.573,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/023_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -300,15 +300,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": "inputs/024_waves.vcd",
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_reset_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_1/waves.vcd",
           "waveform_sha256": "d77a589751b3bdba475a501be7883c3e85efa9831884118c5972460351070870"
         },
         {
           "test": "uart_reset_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.574,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/025_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -329,15 +329,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_reset_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_2/waves.vcd",
           "waveform_sha256": "d3706433b143bc83db6fad862418947d7aa3489411bf5f0d64992e42da803830"
         },
         {
           "test": "uart_reset_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.573,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.315,
           "transcript": "inputs/027_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -358,15 +358,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_reset_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_reset_test_seed_3/waves.vcd",
           "waveform_sha256": "8b2a1e34b03a92fae7a4a5087dbe01f13cce03682bcc0ad9a4e8f94ede614304"
         },
         {
           "test": "uart_tx_overflow_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.777,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.966,
           "transcript": "inputs/029_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -387,15 +387,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_tx_overflow_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_1/waves.vcd",
           "waveform_sha256": "86d661aace571a100d1b45ac26df3d553afbb08bb616935a9746b090c4f56555"
         },
         {
           "test": "uart_tx_overflow_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.725,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.966,
           "transcript": "inputs/031_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -416,15 +416,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_tx_overflow_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_2/waves.vcd",
           "waveform_sha256": "4ba2c3af2435662306cc67107f85c57c9837d63218269e85f035893a203839a0"
         },
         {
           "test": "uart_tx_overflow_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.724,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.965,
           "transcript": "inputs/033_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -445,15 +445,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_tx_overflow_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_tx_overflow_test_seed_3/waves.vcd",
           "waveform_sha256": "62faeed88fc4a587b71399bf83e44b854ee5a18d041a3769c5ca3fc2fb164707"
         },
         {
           "test": "uart_rx_retention_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.622,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.365,
           "transcript": "inputs/035_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -474,15 +474,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_rx_retention_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_1/waves.vcd",
           "waveform_sha256": "3cb4b6c186e092959157eda0ce55acdc651e5ef2719090808126edf2f4b8b62a"
         },
         {
           "test": "uart_rx_retention_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.622,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.365,
           "transcript": "inputs/037_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -503,15 +503,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_rx_retention_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_2/waves.vcd",
           "waveform_sha256": "c40f7463b409ebf3a1e3dc223f5f93a4996a7aa475e7cece53c348443a043bb6"
         },
         {
           "test": "uart_rx_retention_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.673,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.365,
           "transcript": "inputs/039_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -532,15 +532,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_rx_retention_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_rx_retention_test_seed_3/waves.vcd",
           "waveform_sha256": "68a98366622c71a42a16c8cf7880f16808b4295f2631af934e967f83ea732484"
         },
         {
           "test": "uart_empty_read_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.522,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/041_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -561,15 +561,15 @@
             "empty_rbr_reads": 7
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_empty_read_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_1/waves.vcd",
           "waveform_sha256": "ea6a8cce9f497ca6de1dbd33b6a8668b540bec74cc00cecec8c8ce7898c334e9"
         },
         {
           "test": "uart_empty_read_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.522,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.315,
           "transcript": "inputs/043_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -590,15 +590,15 @@
             "empty_rbr_reads": 7
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_empty_read_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_2/waves.vcd",
           "waveform_sha256": "9e954a6b9c238b14043f1c83d9eb33ee06a08d85c1ca2ce8af4ab6d1a0c02945"
         },
         {
           "test": "uart_empty_read_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.572,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/045_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -619,15 +619,15 @@
             "empty_rbr_reads": 7
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_empty_read_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_empty_read_test_seed_3/waves.vcd",
           "waveform_sha256": "bbb59714efa2e03c6d3cb2578a867f7f12fab68d3fe66a1cbccbceece71e3029"
         },
         {
           "test": "uart_address_mirror_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.522,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/047_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -648,15 +648,15 @@
             "empty_rbr_reads": 2
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_address_mirror_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_1/waves.vcd",
           "waveform_sha256": "01bf7af86e6b61896ed545e03869ac07832953e8f43ec8e96e1d838964d48a8f"
         },
         {
           "test": "uart_address_mirror_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.571,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/049_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -677,15 +677,15 @@
             "empty_rbr_reads": 2
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_address_mirror_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_2/waves.vcd",
           "waveform_sha256": "cf4c1a1b7cf4b794a0a9c08d697352afda9ffcc9c976e430cb758c1fefdd51ae"
         },
         {
           "test": "uart_address_mirror_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.571,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/051_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -706,15 +706,15 @@
             "empty_rbr_reads": 2
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_address_mirror_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_address_mirror_test_seed_3/waves.vcd",
           "waveform_sha256": "9c5d4a049b10d6c55571c4faba3c69b62f164c87a3a9ebcd385fc078e1594e34"
         },
         {
           "test": "uart_parity_requirement_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.521,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/053_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -735,15 +735,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_parity_requirement_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_1/waves.vcd",
           "waveform_sha256": "cddde223fb63bc0c0a272ba0eefa56fb08aaa022076985e71a2e88986bfc7487"
         },
         {
           "test": "uart_parity_requirement_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.521,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/055_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -764,15 +764,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_parity_requirement_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_2/waves.vcd",
           "waveform_sha256": "f6a0df1bd2f8ddac9c975223de6794b23fdb07b4af81c414729bcc65d3bdcd70"
         },
         {
           "test": "uart_parity_requirement_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.521,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/057_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -793,15 +793,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_parity_requirement_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_parity_requirement_test_seed_3/waves.vcd",
           "waveform_sha256": "4f8692a9d90bd031136199119df222d6ca20aa867a9d8409b8721b53f7404ca1"
         },
         {
           "test": "uart_framing_requirement_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.521,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/059_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -822,15 +822,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_framing_requirement_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_1/waves.vcd",
           "waveform_sha256": "18a0e711b724654c338d0a52f1ba39eebdc318284d3b365ce62f4e0fae86430f"
         },
         {
           "test": "uart_framing_requirement_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.522,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.315,
           "transcript": "inputs/061_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -851,15 +851,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_framing_requirement_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_2/waves.vcd",
           "waveform_sha256": "a312d693abab18a4b294d39997d7a04449d0ea2cfad66b4888959058b9c429ed"
         },
         {
           "test": "uart_framing_requirement_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.521,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/063_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -880,15 +880,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_framing_requirement_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_framing_requirement_test_seed_3/waves.vcd",
           "waveform_sha256": "2db3e0b9b8c172e0bd32427a830f41a4817d2163b1587a74e08000b37b1d4edf"
         },
         {
           "test": "uart_error_association_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.522,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/065_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -908,16 +908,16 @@
             "tx_dropped": 0,
             "empty_rbr_reads": 0
           },
-          "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_association_test_seed_1\\waves.vcd",
+          "waveform": "inputs/066_waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_1/waves.vcd",
           "waveform_sha256": "651eb26426f7fc568853bbd8242965fabd6a9af377de7ddb4aff3bb9c56e9081"
         },
         {
           "test": "uart_error_association_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.572,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/067_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -938,15 +938,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_association_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_2/waves.vcd",
           "waveform_sha256": "84ab5114fbe50d3ca355b2b7266c1f979bcc063614912ed0c0a73aa21041848c"
         },
         {
           "test": "uart_error_association_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.522,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/069_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -967,15 +967,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_error_association_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_error_association_test_seed_3/waves.vcd",
           "waveform_sha256": "737d5e110c8f2b9f9a8cdf4acb5ac30cb5f94dbd0be4563803d4fd694f806af5"
         },
         {
           "test": "uart_irq_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.822,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.515,
           "transcript": "inputs/071_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -995,16 +995,16 @@
             "tx_dropped": 0,
             "empty_rbr_reads": 0
           },
-          "waveform": "inputs/072_waves.vcd",
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_test_seed_1\\waves.vcd",
+          "waveform": null,
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_1/waves.vcd",
           "waveform_sha256": "1f1579ccd1eb6633af1b84ae846ca8f2a5630552bada229b6d8cca2c4008e53e"
         },
         {
           "test": "uart_irq_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.822,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.515,
           "transcript": "inputs/073_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1025,15 +1025,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_2/waves.vcd",
           "waveform_sha256": "7227706c961506683ac14dd3b91d475fbfffe35439400a685f942bb0fdbb8e8d"
         },
         {
           "test": "uart_irq_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.822,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.515,
           "transcript": "inputs/075_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1054,15 +1054,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_test_seed_3/waves.vcd",
           "waveform_sha256": "c5deb7fcab41845543006dd4798721363972e9f30fc77c2551c5c9ee463f26ed"
         },
         {
           "test": "uart_irq_requirement_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.771,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.515,
           "transcript": "inputs/077_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1083,15 +1083,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_requirement_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_1/waves.vcd",
           "waveform_sha256": "1f1579ccd1eb6633af1b84ae846ca8f2a5630552bada229b6d8cca2c4008e53e"
         },
         {
           "test": "uart_irq_requirement_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.772,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.515,
           "transcript": "inputs/079_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1112,15 +1112,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_requirement_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_2/waves.vcd",
           "waveform_sha256": "7227706c961506683ac14dd3b91d475fbfffe35439400a685f942bb0fdbb8e8d"
         },
         {
           "test": "uart_irq_requirement_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.772,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.515,
           "transcript": "inputs/081_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1141,15 +1141,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_irq_requirement_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_irq_requirement_test_seed_3/waves.vcd",
           "waveform_sha256": "c5deb7fcab41845543006dd4798721363972e9f30fc77c2551c5c9ee463f26ed"
         },
         {
           "test": "uart_random_stress_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 2.734,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 1.818,
           "transcript": "inputs/083_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1170,15 +1170,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_random_stress_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_1/waves.vcd",
           "waveform_sha256": "233272053b35c68deb1f1344a052056f244f44aa359270c573484e70c2c44500"
         },
         {
           "test": "uart_random_stress_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 2.942,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 1.968,
           "transcript": "inputs/085_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1199,15 +1199,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_random_stress_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_2/waves.vcd",
           "waveform_sha256": "12513ee8c4a5cc2bb149f54b617cae94e7fc375b8347c7cfe203efd9ebfaff8b"
         },
         {
           "test": "uart_random_stress_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 2.478,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 1.667,
           "transcript": "inputs/087_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1228,15 +1228,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_random_stress_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_random_stress_test_seed_3/waves.vcd",
           "waveform_sha256": "dec7581b3ccd57e5a94167ca74987db7ec3de5edd5a1f6e0f746e9590684d08f"
         },
         {
           "test": "uart_baud_sweep_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.072,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.665,
           "transcript": "inputs/089_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1257,15 +1257,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_baud_sweep_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_1/waves.vcd",
           "waveform_sha256": "4702548b04978f8d55540dda5f88b6a9c71f22270e1659f338c0c6fbf8d7c767"
         },
         {
           "test": "uart_baud_sweep_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.073,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.665,
           "transcript": "inputs/091_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1286,15 +1286,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_baud_sweep_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_2/waves.vcd",
           "waveform_sha256": "2f11a91f03021b45b06167b17f7b0e6464cab20c09d16f9c88881707ba35e8db"
         },
         {
           "test": "uart_baud_sweep_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.073,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.665,
           "transcript": "inputs/093_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1315,7 +1315,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_fixed\\uart_baud_sweep_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_fixed/uart_baud_sweep_test_seed_3/waves.vcd",
           "waveform_sha256": "5d469e1e757b9890a4887083a73e6fcb0b5adf6827a0c888817921a51225ed62"
         }
       ],
@@ -1468,18 +1468,18 @@
           "library_or_external": {
             "lines_hit": 3682,
             "lines_total": 20030,
-            "branches_hit": 11626,
-            "branches_total": 57505,
+            "branches_hit": 11872,
+            "branches_total": 58590,
             "line_percent": 18.38,
-            "branch_percent": 20.22
+            "branch_percent": 20.26
           },
           "testbench": {
-            "lines_hit": 792,
-            "lines_total": 1162,
-            "branches_hit": 879,
-            "branches_total": 1960,
-            "line_percent": 68.16,
-            "branch_percent": 44.85
+            "lines_hit": 807,
+            "lines_total": 1189,
+            "branches_hit": 881,
+            "branches_total": 2040,
+            "line_percent": 67.87,
+            "branch_percent": 43.19
           },
           "rtl": {
             "lines_hit": 453,
@@ -1549,16 +1549,16 @@
         ],
         "summary_input": "inputs/095_coverage_summary.json",
         "merged_database_input": "inputs/096_merged.dat",
-        "merged_database_sha256": "6c674274cd1641edc8805a2dffbf9da620cb540bd0d68bd13c0e02f74f9ddcd0",
+        "merged_database_sha256": "9fb90c2fd5aa8820b8e176c98707fe34f75952094f09d3ff61fbf5ba7b9fa5ed",
         "lcov_input": "inputs/097_coverage.info",
-        "lcov_sha256": "f5cd20bbd6c9af565fb0c485fc8ca75336181ab700cd06166b1378ad4893fdfa"
+        "lcov_sha256": "9dacfb738b96c2b1d8ffbc3e16195f03425f8d858fa09607738c40a1f8818e9d"
       },
       "build_logs": [
         "inputs/003_build_0.log"
       ],
       "build_source_snapshot": {
-        "snapshot_sha256": "e3c709aea165361daee898ecafa51bdd88d4c089337800133797ca9ab5bff946",
-        "captured_utc": "2026-11-23T15:27:52.232746+00:00",
+        "snapshot_sha256": "5de43a2a3ed18fa40d0869782b3d5e382a384cb3baed644fe54070b3d729628c",
+        "captured_utc": "2026-11-24T03:47:09.170199+00:00",
         "manifest_input": "inputs/001_source_snapshot.json",
         "uvm_version": "1800.2 2020.3.1",
         "uvm_archives": [
@@ -1568,42 +1568,42 @@
             "bytes": 729501
           }
         ],
-        "project_files_count": 33,
+        "project_files_count": 39,
         "uvm_files_count": 170,
         "current_project_sources_match": true,
         "current_project_source_mismatches": []
       },
       "source_origin": {
-        "original_project_root": "/mnt/c/研究生/ic项目",
+        "original_project_root": "/home/runner/work/apb-uart-uvm/apb-uart-uvm",
         "staged_project_root": "/var/tmp/apb-uart-uvm-workspace",
-        "verified_files": 516,
+        "verified_files": 534,
         "all_staged_files_byte_equal": true,
         "map_input": "inputs/002_stage_origin.json"
       },
       "compiled_binary": {
         "path": "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
-        "sha256": "ac747b5eaf2de0acdd560d02d2a9648c207a0025d2e48b346d777775e8ef712c",
-        "bytes": 31239600
+        "sha256": "c66dde2e0c3bf23eb3fabbfa48bc9e7ae3fe530cf37df4e1a59fd5abfdc9365e",
+        "bytes": 31754472
       }
     },
     {
-      "name": "release_upstream",
+      "name": "ci_upstream",
       "status": "FAIL",
       "expected_failure_demonstration": true,
       "simulator": "verilator",
       "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
       "rtl_variant": "upstream",
       "uvm_source": "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src",
-      "started_utc": "2026-11-23T15:33:26.047706+00:00",
+      "started_utc": "2026-11-24T03:51:41.173117+00:00",
       "report_input": "inputs/098_report.json",
-      "report_sha256": "90811c9158daa8103781e5e05a40bf411bf6265263351393ec4552cc7d0fb095",
+      "report_sha256": "32352729e5405e794124fc56f94ab65e85ed1b921c2991e5f379e5d9e68b53fa",
       "runs": [
         {
           "test": "uart_smoke_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.795,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.465,
           "transcript": "inputs/103_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1624,15 +1624,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_smoke_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_1/waves.vcd",
           "waveform_sha256": "3f75948343f04aa3e91a3151f0987c992f6021f236187f38a6082260892bbcc3"
         },
         {
           "test": "uart_smoke_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.771,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.465,
           "transcript": "inputs/105_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1653,15 +1653,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_smoke_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_2/waves.vcd",
           "waveform_sha256": "27a739dadfd932ac80c2233f88a2ffa52c5aa7afef89feb1224894d0f1a21ab3"
         },
         {
           "test": "uart_smoke_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.772,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.465,
           "transcript": "inputs/107_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1682,15 +1682,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_smoke_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_smoke_test_seed_3/waves.vcd",
           "waveform_sha256": "5b51d08a451056a29f546598b983296cf1fa3824c6c5727e815bbacda9bd6817"
         },
         {
           "test": "uart_fifo_boundary_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.279,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.716,
           "transcript": "inputs/109_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1711,15 +1711,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_fifo_boundary_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_1/waves.vcd",
           "waveform_sha256": "634a51653f291484dbd430e4c15469e5d27ce0b416634b4620bbe8fa2ff45fea"
         },
         {
           "test": "uart_fifo_boundary_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.282,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.715,
           "transcript": "inputs/111_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1740,15 +1740,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_fifo_boundary_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_2/waves.vcd",
           "waveform_sha256": "e692a5abf662048b5a2ae23ca5253456afc88c06e351a2b3862b56d7ad4c8855"
         },
         {
           "test": "uart_fifo_boundary_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.278,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.715,
           "transcript": "inputs/113_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1769,15 +1769,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_fifo_boundary_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_fifo_boundary_test_seed_3/waves.vcd",
           "waveform_sha256": "e62e173f6f41755763e0228d6b2148abfa857db549189fddde6a881623d6f9f5"
         },
         {
           "test": "uart_error_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.527,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/115_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1798,15 +1798,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": "inputs/116_waves.vcd",
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_1/waves.vcd",
           "waveform_sha256": "85491a317f027ecd11096dae672a2086ff6b1e9182d54f66487c7e9654108694"
         },
         {
           "test": "uart_error_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.575,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/117_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1827,15 +1827,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_2/waves.vcd",
           "waveform_sha256": "b122b82f3fbb9e5aedb39c5c4f74bfc292cd949b64ce21a9791f8544abd3eee2"
         },
         {
           "test": "uart_error_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.572,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/119_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1856,15 +1856,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_test_seed_3/waves.vcd",
           "waveform_sha256": "59fb453d563c4023e636a84be54dd15df48199fca7778ab2a12d1e6a640ec378"
         },
         {
           "test": "uart_reset_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.573,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/121_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1885,15 +1885,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": "inputs/122_waves.vcd",
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_reset_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_1/waves.vcd",
           "waveform_sha256": "afa42234d7c27f8b24b2aa54d90d02b0b63384c7acaa9c86a6b940b6fe9af829"
         },
         {
           "test": "uart_reset_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.521,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/123_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1914,15 +1914,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_reset_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_2/waves.vcd",
           "waveform_sha256": "2eff885a9e25e131d8d338518feb9ad39c9ad1bd9463dfa8d50cb4b6ffab974c"
         },
         {
           "test": "uart_reset_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.676,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/125_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1943,15 +1943,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_reset_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_reset_test_seed_3/waves.vcd",
           "waveform_sha256": "f582a2c3a4a98e4214ea20cb1cac1e0b509f8fc306a07ac527fa41d592ef3bf1"
         },
         {
           "test": "uart_tx_overflow_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.875,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.966,
           "transcript": "inputs/127_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -1972,15 +1972,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_tx_overflow_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_1/waves.vcd",
           "waveform_sha256": "c6be57e16f318f26bc3ad16c1fe3c2329ee375ca1914954207bc9cf0cc1b6d6d"
         },
         {
           "test": "uart_tx_overflow_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.926,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.966,
           "transcript": "inputs/129_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2001,15 +2001,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_tx_overflow_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_2/waves.vcd",
           "waveform_sha256": "cd5250b495fcd4a40dc83ae177b29f999e160c0676f082928ed83b29a911255d"
         },
         {
           "test": "uart_tx_overflow_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.876,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.966,
           "transcript": "inputs/131_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2030,15 +2030,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_tx_overflow_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_tx_overflow_test_seed_3/waves.vcd",
           "waveform_sha256": "c94cb709eb71ba7dd4e48779436e49d1a2486101d9b1916e0eaaff6e6317944f"
         },
         {
           "test": "uart_rx_retention_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.672,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.365,
           "transcript": "inputs/133_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2059,15 +2059,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_rx_retention_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_1/waves.vcd",
           "waveform_sha256": "40fb259ffb5d39a5111f612bda098e2efbd3b480755eca4249f8a7e8d47418fb"
         },
         {
           "test": "uart_rx_retention_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.673,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.365,
           "transcript": "inputs/135_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2088,15 +2088,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_rx_retention_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_2/waves.vcd",
           "waveform_sha256": "0cfc79c58f2b2a27f080b6b9870df332362ac0571fe794819b685b77c38eef37"
         },
         {
           "test": "uart_rx_retention_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.674,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.365,
           "transcript": "inputs/137_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2117,15 +2117,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_rx_retention_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_rx_retention_test_seed_3/waves.vcd",
           "waveform_sha256": "53db21773adf77ef757c49f1635b86e29e74aca28ca59bdf955b32ae3bee233f"
         },
         {
           "test": "uart_empty_read_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.572,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/139_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2146,15 +2146,15 @@
             "empty_rbr_reads": 7
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_empty_read_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_1/waves.vcd",
           "waveform_sha256": "bd64d19ba99cc31fce019e1edc1eaf9f98f25bddda29ff9f260da18cb3512bec"
         },
         {
           "test": "uart_empty_read_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.572,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.315,
           "transcript": "inputs/141_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2175,15 +2175,15 @@
             "empty_rbr_reads": 7
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_empty_read_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_2/waves.vcd",
           "waveform_sha256": "d05e9dd1de374f89c19e160c2f5af67819d8ff8da38c89b848165d2379d1c8e9"
         },
         {
           "test": "uart_empty_read_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.572,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/143_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2204,15 +2204,15 @@
             "empty_rbr_reads": 7
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_empty_read_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_empty_read_test_seed_3/waves.vcd",
           "waveform_sha256": "00c524686a1e7e4125d83b7b1dd7b1f67f81219a0fd8bb76dfcbb7dd5260f8be"
         },
         {
           "test": "uart_address_mirror_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.572,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/145_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2233,15 +2233,15 @@
             "empty_rbr_reads": 2
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_address_mirror_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_1/waves.vcd",
           "waveform_sha256": "ce576f914f58bf698fb5dfefafca9acdc700258bc57b1a2502e07c95ed629516"
         },
         {
           "test": "uart_address_mirror_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.571,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/147_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2262,15 +2262,15 @@
             "empty_rbr_reads": 2
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_address_mirror_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_2/waves.vcd",
           "waveform_sha256": "8cab9b993cf2fa50537da3f1d197092cea8b33110cc2b4fe89b6c0d496bd76bf"
         },
         {
           "test": "uart_address_mirror_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.521,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/149_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2291,7 +2291,7 @@
             "empty_rbr_reads": 2
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_address_mirror_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_address_mirror_test_seed_3/waves.vcd",
           "waveform_sha256": "796bea91ee59f9693415d075841bc91f54a675a1a7cf2992f7ce46387d4b9d5b"
         },
         {
@@ -2299,7 +2299,7 @@
           "seed": 1,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.572,
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/151_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2320,7 +2320,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_parity_requirement_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/waves.vcd",
           "waveform_sha256": "c0c49709d6ac93c32355208c73c3ffa5be53d4fed0fbe3093f540925c48b5d3c"
         },
         {
@@ -2328,7 +2328,7 @@
           "seed": 2,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.572,
+          "elapsed_seconds": 0.315,
           "transcript": "inputs/153_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2349,7 +2349,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_parity_requirement_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/waves.vcd",
           "waveform_sha256": "1b88b41e86d8f207934e4b72c7ca97674396720707cbf14fdcfe517a3ceab289"
         },
         {
@@ -2357,7 +2357,7 @@
           "seed": 3,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.572,
+          "elapsed_seconds": 0.315,
           "transcript": "inputs/155_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2378,7 +2378,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_parity_requirement_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/waves.vcd",
           "waveform_sha256": "b7ee4ffff54297d3f40dbc027466de09c5258df8765cea33207d396086af56d8"
         },
         {
@@ -2386,7 +2386,7 @@
           "seed": 1,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.571,
+          "elapsed_seconds": 0.315,
           "transcript": "inputs/157_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2407,7 +2407,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_framing_requirement_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/waves.vcd",
           "waveform_sha256": "d729652acdec44ee7fe02a3f6e05266669223caf140fa544921c67a61f20e1af"
         },
         {
@@ -2415,7 +2415,7 @@
           "seed": 2,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.571,
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/159_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2436,7 +2436,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_framing_requirement_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/waves.vcd",
           "waveform_sha256": "678f600955ffc1641b377c2f1a7e4d7c572f21f0bf5aaf3ed81a32b674fa6c3d"
         },
         {
@@ -2444,7 +2444,7 @@
           "seed": 3,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.571,
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/161_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2465,7 +2465,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_framing_requirement_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/waves.vcd",
           "waveform_sha256": "dcac9b7714a671caaade2301df07a77564ab5a52b1f4558396413e33fc557141"
         },
         {
@@ -2473,7 +2473,7 @@
           "seed": 1,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.521,
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/163_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2493,8 +2493,8 @@
             "tx_dropped": 0,
             "empty_rbr_reads": 0
           },
-          "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_association_test_seed_1\\waves.vcd",
+          "waveform": "inputs/164_waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_1/waves.vcd",
           "waveform_sha256": "3aeaa6a49359e93e59a1b3e794458bb6531e2dc6fe262944d8ab7c0b7e13df7a"
         },
         {
@@ -2502,7 +2502,7 @@
           "seed": 2,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.571,
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/165_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2523,7 +2523,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_association_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/waves.vcd",
           "waveform_sha256": "589591d6c7ba6b828da96378aac4ff674b7afdb5400005659b6d3c4438ff9228"
         },
         {
@@ -2531,7 +2531,7 @@
           "seed": 3,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.572,
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/167_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2552,15 +2552,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_error_association_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/waves.vcd",
           "waveform_sha256": "6ae86c678d2936997b5ac2b5dd091bad46b213a259b172c3e017fdd41796bad3"
         },
         {
           "test": "uart_irq_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.521,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/169_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2580,16 +2580,16 @@
             "tx_dropped": 0,
             "empty_rbr_reads": 1
           },
-          "waveform": "inputs/170_waves.vcd",
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_test_seed_1\\waves.vcd",
+          "waveform": null,
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_1/waves.vcd",
           "waveform_sha256": "b123e5d959dbe21936fecb8d76188fa214e0ad44cfaa39e23f3b3cfa44bef350"
         },
         {
           "test": "uart_irq_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.521,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/171_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2610,15 +2610,15 @@
             "empty_rbr_reads": 1
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_2/waves.vcd",
           "waveform_sha256": "387ab04f04f636253fa385010dc721b313c610da3c1987f6d398b75be2a2fba2"
         },
         {
           "test": "uart_irq_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.521,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.315,
           "transcript": "inputs/173_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2639,7 +2639,7 @@
             "empty_rbr_reads": 1
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_test_seed_3/waves.vcd",
           "waveform_sha256": "997226365f8906e34406406a86e6550bcbd8251438e0c130643fb67c3eda56b8"
         },
         {
@@ -2647,7 +2647,7 @@
           "seed": 1,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.772,
+          "elapsed_seconds": 0.515,
           "transcript": "inputs/175_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2668,7 +2668,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_requirement_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/waves.vcd",
           "waveform_sha256": "a89c96c09cd31cc57bbb50cbe3d194993901f4ccbac53fc055c5fb77f5559130"
         },
         {
@@ -2676,7 +2676,7 @@
           "seed": 2,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.822,
+          "elapsed_seconds": 0.515,
           "transcript": "inputs/177_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2697,7 +2697,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_requirement_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/waves.vcd",
           "waveform_sha256": "de02ccb580343d30b0742384ec54ed42c4c7567d7f870cb14cc5c98b0519403b"
         },
         {
@@ -2705,7 +2705,7 @@
           "seed": 3,
           "status": "FAIL",
           "reason": "UVM reported an error or fatal",
-          "elapsed_seconds": 0.773,
+          "elapsed_seconds": 0.515,
           "transcript": "inputs/179_simulation.log",
           "clean_completion_validated": false,
           "uvm": {
@@ -2726,15 +2726,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_irq_requirement_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/waves.vcd",
           "waveform_sha256": "2e3c8913a72a8a93ade634f56d637f6617a3565c61d8b53e2b80d053bc8cf9f3"
         },
         {
           "test": "uart_random_stress_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 2.728,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 1.818,
           "transcript": "inputs/181_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2755,15 +2755,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_random_stress_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_1/waves.vcd",
           "waveform_sha256": "77c8b15456dd610496f7c58740b6fdd17214cb52add0db96ee3aad6b24c0ee9a"
         },
         {
           "test": "uart_random_stress_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 2.938,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 1.918,
           "transcript": "inputs/183_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2784,15 +2784,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_random_stress_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_2/waves.vcd",
           "waveform_sha256": "6fa7efe1a63d9fd7257ff98fb2c9ae354d0b0afc0005f268ac6e211f5bb26511"
         },
         {
           "test": "uart_random_stress_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 2.586,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 1.668,
           "transcript": "inputs/185_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2813,15 +2813,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_random_stress_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_random_stress_test_seed_3/waves.vcd",
           "waveform_sha256": "ec23a1e352be20cdb909d9a2ae8a81e7566900e69a5d677d0fc9f194ba911e39"
         },
         {
           "test": "uart_baud_sweep_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.126,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.665,
           "transcript": "inputs/187_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2842,15 +2842,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_baud_sweep_test_seed_1\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_1/waves.vcd",
           "waveform_sha256": "62e1ceba2e13120bfd92364db5e538f0eb711c2146c76daf9addddafba9a568f"
         },
         {
           "test": "uart_baud_sweep_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.074,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.665,
           "transcript": "inputs/189_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2871,15 +2871,15 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_baud_sweep_test_seed_2\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_2/waves.vcd",
           "waveform_sha256": "d96ec221977b1c07e16cf6c442639405e391136fe5e5b621dc0ddd5904d96660"
         },
         {
           "test": "uart_baud_sweep_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 1.072,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.665,
           "transcript": "inputs/191_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
@@ -2900,7 +2900,7 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\release_upstream\\uart_baud_sweep_test_seed_3\\waves.vcd",
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_baud_sweep_test_seed_3/waves.vcd",
           "waveform_sha256": "920e7d7ddaea6d47358207c5b959a6aa8fef364bc51d277ddc46451e7438dd47"
         }
       ],
@@ -3053,18 +3053,18 @@
           "library_or_external": {
             "lines_hit": 3682,
             "lines_total": 20030,
-            "branches_hit": 11610,
-            "branches_total": 57505,
+            "branches_hit": 11856,
+            "branches_total": 58590,
             "line_percent": 18.38,
-            "branch_percent": 20.19
+            "branch_percent": 20.24
           },
           "testbench": {
-            "lines_hit": 724,
-            "lines_total": 1162,
-            "branches_hit": 835,
-            "branches_total": 1960,
-            "line_percent": 62.31,
-            "branch_percent": 42.6
+            "lines_hit": 739,
+            "lines_total": 1189,
+            "branches_hit": 837,
+            "branches_total": 2040,
+            "line_percent": 62.15,
+            "branch_percent": 41.03
           },
           "rtl": {
             "lines_hit": 519,
@@ -3387,16 +3387,16 @@
         ],
         "summary_input": "inputs/193_coverage_summary.json",
         "merged_database_input": "inputs/194_merged.dat",
-        "merged_database_sha256": "9528cc7518022f06b4bc7bb90b2f3e7f295078cf216f3a4066ffac237ca05f12",
+        "merged_database_sha256": "34b5207d0ced0d567a0fc11b2d794b30f1a5d567ec0b33d2dbbb286f662a10a2",
         "lcov_input": "inputs/195_coverage.info",
-        "lcov_sha256": "caaba007ff0f9d57a8bf706a8e6f210a6a1a0c06f0098999eec63479f840613e"
+        "lcov_sha256": "20e02eab8e03a24d820a6675cb65799e8aa7cfa00ec740c3be5901eb93b186da"
       },
       "build_logs": [
         "inputs/101_build_0.log"
       ],
       "build_source_snapshot": {
-        "snapshot_sha256": "aa98124858b8735b524228a89b988b5e6a7fdc7ef294e24518fc229405238d85",
-        "captured_utc": "2026-11-23T15:33:26.180006+00:00",
+        "snapshot_sha256": "ae30bca9a9253be7f01a487af7272333a953088b4d479a8ccaafd41ee0772b1f",
+        "captured_utc": "2026-11-24T03:51:41.240378+00:00",
         "manifest_input": "inputs/099_source_snapshot.json",
         "uvm_version": "1800.2 2020.3.1",
         "uvm_archives": [
@@ -3406,48 +3406,48 @@
             "bytes": 729501
           }
         ],
-        "project_files_count": 33,
+        "project_files_count": 39,
         "uvm_files_count": 170,
         "current_project_sources_match": true,
         "current_project_source_mismatches": []
       },
       "source_origin": {
-        "original_project_root": "/mnt/c/研究生/ic项目",
+        "original_project_root": "/home/runner/work/apb-uart-uvm/apb-uart-uvm",
         "staged_project_root": "/var/tmp/apb-uart-uvm-workspace",
-        "verified_files": 516,
+        "verified_files": 534,
         "all_staged_files_byte_equal": true,
         "map_input": "inputs/100_stage_origin.json"
       },
       "compiled_binary": {
         "path": "/var/tmp/apb-uart-uvm-build-upstream/Vtb_top",
-        "sha256": "2a1226c3b6b92a8e82ef8cc59c07065b6a6bba6bd1e85ae6bfb88b08563004e7",
-        "bytes": 31247880
+        "sha256": "6394f41d144d8083347becb8af64fa21af7ca83ae52fe577710900957895dfe0",
+        "bytes": 31758832
       }
     },
     {
-      "name": "optimization_ral_01",
+      "name": "ci_ral",
       "status": "PASS",
       "expected_failure_demonstration": false,
       "simulator": "verilator",
       "tool_version": "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
       "rtl_variant": "fixed",
       "uvm_source": "/var/tmp/apb-uart-uvm-workspace/.tools/uvm-core-2020.3.1/src",
-      "started_utc": "2026-11-23T15:26:03.991045+00:00",
+      "started_utc": "2026-11-24T03:50:04.904430+00:00",
       "report_input": "inputs/196_report.json",
-      "report_sha256": "23a792cedd82fb26bb5cae114b4b243c4ccca51a3de5a0bb73a53b0ac96777e8",
+      "report_sha256": "d3ae8d4a7192c1b8e2f4702f3f447a481bdc0e29cc8468483edf08da28d84fe6",
       "runs": [
         {
           "test": "uart_ral_test",
           "seed": 1,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.572,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/201_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
             "error": 0,
             "fatal": 0,
-            "warning": 5
+            "warning": 2
           },
           "scoreboard": {
             "tx": 1,
@@ -3462,21 +3462,21 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_1\\waves.vcd",
-          "waveform_sha256": "f7bac32dd154c085db20fbe7233f66a9ace4170d604c0601d6e0435aafc94c71"
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_ral/uart_ral_test_seed_1/waves.vcd",
+          "waveform_sha256": "b66a61ffc5af2e375e97f587e6f207df7c2cc3e674cef182b6773c04c455677b"
         },
         {
           "test": "uart_ral_test",
           "seed": 2,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.572,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/203_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
             "error": 0,
             "fatal": 0,
-            "warning": 5
+            "warning": 2
           },
           "scoreboard": {
             "tx": 1,
@@ -3491,21 +3491,21 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_2\\waves.vcd",
-          "waveform_sha256": "2eb7d734c005c0791f6469e8f43299c42f268dace31d79dfc14057bf53b6e882"
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_ral/uart_ral_test_seed_2/waves.vcd",
+          "waveform_sha256": "61f48158a183b9ec39ede6f050b33c713e9d60ea17ae5c266f028790f0ab2652"
         },
         {
           "test": "uart_ral_test",
           "seed": 3,
           "status": "PASS",
-          "reason": "Scoreboard completed; UVM error/fatal counts are zero",
-          "elapsed_seconds": 0.622,
+          "reason": "Completion marker observed; UVM error/fatal counts are zero",
+          "elapsed_seconds": 0.314,
           "transcript": "inputs/205_simulation.log",
           "clean_completion_validated": true,
           "uvm": {
             "error": 0,
             "fatal": 0,
-            "warning": 5
+            "warning": 2
           },
           "scoreboard": {
             "tx": 1,
@@ -3520,8 +3520,8 @@
             "empty_rbr_reads": 0
           },
           "waveform": null,
-          "waveform_original_path": "C:\\研究生\\ic项目\\results\\optimization_ral_01\\uart_ral_test_seed_3\\waves.vcd",
-          "waveform_sha256": "a1e27a69feabefef765e93de66b4c1cff2ce0066f6cf083a34be7e6a94de028f"
+          "waveform_original_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_ral/uart_ral_test_seed_3/waves.vcd",
+          "waveform_sha256": "0e4061a26a20e6487cb7871b161bc732630cffb25545132f1cd7886431a7acd5"
         }
       ],
       "coverage": {
@@ -3671,28 +3671,28 @@
         },
         "code_scopes": {
           "library_or_external": {
-            "lines_hit": 4825,
+            "lines_hit": 4818,
             "lines_total": 20030,
-            "branches_hit": 12152,
-            "branches_total": 57505,
-            "line_percent": 24.09,
-            "branch_percent": 21.13
+            "branches_hit": 12393,
+            "branches_total": 58590,
+            "line_percent": 24.05,
+            "branch_percent": 21.15
           },
           "testbench": {
-            "lines_hit": 739,
-            "lines_total": 1162,
-            "branches_hit": 459,
-            "branches_total": 1960,
-            "line_percent": 63.6,
-            "branch_percent": 23.42
+            "lines_hit": 759,
+            "lines_total": 1189,
+            "branches_hit": 472,
+            "branches_total": 2040,
+            "line_percent": 63.84,
+            "branch_percent": 23.14
           },
           "rtl": {
             "lines_hit": 391,
             "lines_total": 474,
-            "branches_hit": 817,
+            "branches_hit": 829,
             "branches_total": 2120,
             "line_percent": 82.49,
-            "branch_percent": 38.54
+            "branch_percent": 39.1
           }
         },
         "uncovered_bins": [
@@ -6174,16 +6174,16 @@
         ],
         "summary_input": "inputs/207_coverage_summary.json",
         "merged_database_input": "inputs/208_merged.dat",
-        "merged_database_sha256": "6c0c3a22f263f1d546cc1d17bc531244eca75dcf4fda04cdc1fab80b6d3cacb2",
+        "merged_database_sha256": "60efc45c46e897bc18ce0ef45e831145bb74a8d011c4c66a3d1a1a6730661d33",
         "lcov_input": "inputs/209_coverage.info",
-        "lcov_sha256": "2ae1a62bf95b7794a3cdce7cc5dc6065440764c50cac820602f1b1c4c43de4ef"
+        "lcov_sha256": "be58cf25d51c38d343b3beb84c5eb0bc23eab310a11d4951b000e360380e41cf"
       },
       "build_logs": [
         "inputs/199_build_0.log"
       ],
       "build_source_snapshot": {
-        "snapshot_sha256": "e3c709aea165361daee898ecafa51bdd88d4c089337800133797ca9ab5bff946",
-        "captured_utc": "2026-11-23T15:26:04.121452+00:00",
+        "snapshot_sha256": "5de43a2a3ed18fa40d0869782b3d5e382a384cb3baed644fe54070b3d729628c",
+        "captured_utc": "2026-11-24T03:50:04.970903+00:00",
         "manifest_input": "inputs/197_source_snapshot.json",
         "uvm_version": "1800.2 2020.3.1",
         "uvm_archives": [
@@ -6193,22 +6193,22 @@
             "bytes": 729501
           }
         ],
-        "project_files_count": 33,
+        "project_files_count": 39,
         "uvm_files_count": 170,
         "current_project_sources_match": true,
         "current_project_source_mismatches": []
       },
       "source_origin": {
-        "original_project_root": "/mnt/c/研究生/ic项目",
+        "original_project_root": "/home/runner/work/apb-uart-uvm/apb-uart-uvm",
         "staged_project_root": "/var/tmp/apb-uart-uvm-workspace",
-        "verified_files": 516,
+        "verified_files": 534,
         "all_staged_files_byte_equal": true,
         "map_input": "inputs/198_stage_origin.json"
       },
       "compiled_binary": {
         "path": "/var/tmp/apb-uart-uvm-build-fixed/Vtb_top",
-        "sha256": "ac747b5eaf2de0acdd560d02d2a9648c207a0025d2e48b346d777775e8ef712c",
-        "bytes": 31239600
+        "sha256": "c66dde2e0c3bf23eb3fabbfa48bc9e7ae3fe530cf37df4e1a59fd5abfdc9365e",
+        "bytes": 31754472
       }
     }
   ],
@@ -6283,15 +6283,15 @@
       },
       {
         "path": "tb/apb_agent/apb_driver.sv",
-        "sha256": "757235f5ceb2587ee08ab42d2ce68dbd1a273a2c3d6936b73db2f24d2502d7d3"
+        "sha256": "852c5d024d875aeaf102c016239cdb48f1ba269e78fb6bc919dd0ef2634e3016"
       },
       {
         "path": "tb/apb_agent/apb_monitor.sv",
-        "sha256": "7a56496110927a285ec90ddc58c0cd12bdd5dff6d5143275d95d68bab71b76dc"
+        "sha256": "22f413ae76af35a31d193f602d22039e5a00ba0d8bfee7d004d003ffc0aee30f"
       },
       {
         "path": "tb/apb_agent/apb_seq_item.sv",
-        "sha256": "888774201775664161a86e90c753ebf4c022a94e67c54def91bbb4230823b42e"
+        "sha256": "01ba9bdf79eb391d433a47dd83011a8dd3000877a5d5ea182bc5f8d1f0c478f0"
       },
       {
         "path": "tb/apb_agent/apb_sequencer.sv",
@@ -6314,6 +6314,30 @@
         "sha256": "9f99ac03143374b2d5b62810ec10ed428baf3683f6c7663edb7098387a9b87b6"
       },
       {
+        "path": "tb/protocol/apb_programmable_slave.sv",
+        "sha256": "ba02a79b3e5696ec713433f76b2b3caea9ae64c8f9549e9abc7f4730c354fae6"
+      },
+      {
+        "path": "tb/protocol/apb_protocol_checker.sv",
+        "sha256": "06c486d39977d7e1ef51a2e109299cf0a6387696a4c821c63aaf965071bbddd1"
+      },
+      {
+        "path": "tb/protocol/apb_protocol_control_if.sv",
+        "sha256": "49cea2af30cbb9c75dcba974d1b1202d345f9d57cd39480e57656673afc86059"
+      },
+      {
+        "path": "tb/protocol/apb_protocol_pkg.sv",
+        "sha256": "7c2537aa8293e7df9e1ee13d1ff9d4922b435b4ca87ce36772150abbea9f9115"
+      },
+      {
+        "path": "tb/protocol/apb_protocol_tests.sv",
+        "sha256": "c8d85df9ea5da1222c6c394b3dec536f0b237c1c8fd7a1f59510d286bd1a0bb2"
+      },
+      {
+        "path": "tb/protocol/tb_protocol_top.sv",
+        "sha256": "b83f23c23fbae2d7fa3a260710fef58bf4dce97ddcc6210daa5f4c62b1ee51a5"
+      },
+      {
         "path": "tb/ral/uart_apb_reg_adapter.sv",
         "sha256": "7d1ef14a7f74c6faf07885d419804a09b72ea7589167f16c6063f4954887df7d"
       },
@@ -6327,7 +6351,7 @@
       },
       {
         "path": "tb/ral/uart_reg_block.sv",
-        "sha256": "f44b7a1a446ef2812befaaee169ce31d9bde3f0ac76feeb43786706f3d984865"
+        "sha256": "0922ae49d25ae951d5eacdee06168b37c36e49af933d1618ebe6c1d8fb079a88"
       },
       {
         "path": "tb/scoreboard/apb_uart_scoreboard.sv",
@@ -6351,7 +6375,7 @@
       },
       {
         "path": "tb/test/uart_ral_test.sv",
-        "sha256": "973e49f6749a536e80d4e52693e4cda2fc984ec21de1c2c5a38dcb65c2c486cd"
+        "sha256": "a2859e1145df5f2eafa453ddf123c3eacbf2f303c56a4931be95bbbbd72e7c97"
       },
       {
         "path": "tb/test/uart_tests.sv",

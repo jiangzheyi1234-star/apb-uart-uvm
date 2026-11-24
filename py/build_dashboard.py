@@ -243,7 +243,7 @@ def defects(rows: list[dict], source_url) -> list[dict]:
         selected = [r for r in rows if r["test"] == test and r["suite_id"] == "uart_core"]
         links = [{"label": f"{variant} / seed {r['seed']} / {r['raw_status']}", "url": r["log_url"]}
                  for variant in ("upstream", "fixed") for r in selected if r["variant"] == variant and r["seed"] == 1]
-        result.append({"id": id, "title": title, "summary": summary, "test_ids": [test],
+        result.append({"id": id, "title": title, "summary": summary, "test_ids": [test], "suite_ids": ["uart_core"],
                        "upstream": {"description": before, "source_url": source_url("rtl/" + file)},
                        "fixed": {"description": after, "source_url": source_url("rtl_fixed/" + file)}, "evidence_urls": links})
     return result
