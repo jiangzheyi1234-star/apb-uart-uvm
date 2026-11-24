@@ -29,9 +29,9 @@ The evidence records the source revision at simulation time. Original upstream f
 python3 -m unittest discover -s tests -v
 python3 py/verify_rtl.py
 python3 py/package_project.py --profile source \
-  --out dist/apb-uart-uvm-1.1.1-source.zip
+  --out dist/apb-uart-uvm-1.1.2-source.zip
 python3 py/package_project.py --profile evidence \
-  --out dist/apb-uart-uvm-1.1.1-evidence.zip
+  --out dist/apb-uart-uvm-1.1.2-evidence.zip
 ```
 
 Download a released version from [GitHub Releases](https://github.com/jiangzheyi1234-star/apb-uart-uvm/releases/latest). Linux can verify assets with `sha256sum -c SHA256SUMS`; Windows PowerShell can compare `Get-FileHash -Algorithm SHA256` with that file.

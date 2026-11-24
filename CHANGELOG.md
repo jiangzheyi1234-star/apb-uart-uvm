@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.2 — 2026-11-24
+
+### Fixed
+
+- Use explicit HTML filenames for report navigation so the evidence archive opens correctly without an HTTP server.
+
+RTL, SystemVerilog verification and distribution-tool behavior are unchanged from 1.1.1.
+
 ## 1.1.1 — 2026-11-24
 
 ### Changed
