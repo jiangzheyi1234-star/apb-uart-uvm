@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Make the measured comparison the overview's only primary panel. Put additional results, input manifests and run logs behind disclosures.
+- Keep the trace and a compact transaction selection visible, with advanced waveform controls and evidence available below the plot.
 - Show the matched upstream/fixed FIFO error association case on the overview, with measured LSR/RBR values and direct links to the corresponding read transactions.
 - Use the full width for waveforms and show selectable APB transaction intervals, a separate time cursor, and signal values next to their labels.
 - Prioritize test results and evidence links in narrow regression cards, with run details available on demand.

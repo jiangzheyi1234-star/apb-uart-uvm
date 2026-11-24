@@ -207,30 +207,29 @@
     const hex = value => `0x${value.toString(16).toUpperCase().padStart(2, "0")}`;
     const showTrace = record => showWave(record.trace.id, record.reads[1].event.id);
     const stateRow = (record, label, tone) => el("tr", {},
-      el("th", {scope:"row"}, el("strong", {}, label), badge(record.run.raw_status, tone)),
+      el("th", {scope:"row"},
+        button(label, () => showTrace(record), {className:"link-button"}),
+        badge(record.run.raw_status, tone)),
       record.reads.map((reading, i) => el("td", {className:i === 1 ? "case-byte-target" : ""},
         el("code", {className:"case-lsr"}, hex(reading.lsr)),
         el("span", {className:`case-bit${reading.parityError ? " case-bit-set" : ""}`}, `PE=${Number(reading.parityError)}`))));
     const difference = fixed.reads[1];
     return el("section", {className:"association-case", "aria-labelledby":"case-title"},
       el("div", {className:"case-intro"},
-        el("p", {className:"case-scope"}, `UART 缺陷对照 · seed ${text(fixed.run.seed)}`),
-        el("h2", {id:"case-title"}, "校验错误跟随哪个字节？"),
-        el("p", {}, `依次读取三个 FIFO 队首字节。读取 ${hex(difference.payload)} 前，修复版的 LSR 报告 PE=1，原版的 PE 仍为 0。`),
-        el("div", {className:"button-group"},
-          button("查看修复版波形", () => showTrace(fixed), {className:"button case-primary"}),
-          button("查看原版波形", () => showTrace(upstream), {className:"button case-secondary"}))),
+        el("h2", {id:"case-title"}, "FIFO 校验错误对照"),
+        el("p", {}, `${hex(difference.payload)} 位于队首时，修复版报告校验错误（PE=1）。`)),
       el("div", {className:"case-evidence"},
         el("table", {className:"case-matrix"},
-          el("caption", {}, "FIFO 队首的 APB 读值"),
+          el("caption", {className:"sr-only"}, `FIFO 队首的 APB 读值，seed ${text(fixed.run.seed)}`),
           el("thead", {}, el("tr", {}, el("th", {scope:"col"}, "RBR 字节"),
             fixed.reads.map((reading, index) => el("th", {scope:"col", className:index === 1 ? "case-byte-target" : ""},
               el("code", {}, hex(reading.payload)), index === 1 ? el("span", {}, "坏校验") : null)))),
-          el("tbody", {}, stateRow(upstream, "原版 LSR", "fail"), stateRow(fixed, "修复版 LSR", "pass"))),
+          el("tbody", {}, stateRow(upstream, "原版波形", "fail"), stateRow(fixed, "修复版波形", "pass"))),
         el("div", {className:"case-evidence-footer"},
-          el("span", {}, `差异所在的 LSR 读完成于 ${time(difference.event.end)} ns`),
-          el("div", {className:"case-log-links"},
-            link("原版日志", upstream.run.log_url), link("修复版日志", fixed.run.log_url)))));
+          el("span", {}, `LSR 读值 · seed ${text(fixed.run.seed)} · 差异 ${time(difference.event.end)} ns`),
+          el("details", {className:"case-log-links"}, el("summary", {}, "原始日志"),
+            el("div", {className:"evidence-links"},
+              link("原版日志", upstream.run.log_url), link("修复版日志", fixed.run.log_url))))));
   }
 
   function renderOverview() {
@@ -244,36 +243,29 @@
     const core=coverage.find(item=>item.suite_id===headlineIds[0]&&item.variant===headline.variant);
     const associationCase = renderAssociationCase();
     if (associationCase) root.append(associationCase);
-    const card=(label,value,detail)=>el("article",{className:"metric-card"},el("span",{className:"metric-label"},label),el("strong",{className:`metric-number${String(value).length>15 ? " small-value" : ""}`},value),el("div",{className:"metric-detail"},detail));
-    root.append(el("div",{className:"metrics-grid overview-metrics", "aria-label":"UART 验证结果"},
-      card("修复版 UART 回归",headlineRuns.length?`${h.pass} / ${h.total}`:missing,"PASS · 核心与 RAL"),
-      card("UART 成功比对帧",finite(tx)&&finite(rx)?number(tx+rx):missing,finite(tx)&&finite(rx)?`TX ${number(tx)} · RX ${number(rx)}` : "需有完整的 TX / RX 计数"),
-      card("核心功能 bins · 未加权",metricText(core?.metrics?.functional_bins),percent(core?.metrics?.functional_bins)),
-      card("核心 RTL 代码行",metricText(core?.metrics?.rtl_lines),`${percent(core?.metrics?.rtl_lines)} · LCOV`)));
+    const metric = (value, label) => el("li", {}, el("strong", {}, value), el("span", {}, label));
+    root.append(el("ul", {className:"overview-metrics", "aria-label":"UART 验证结果"},
+      metric(headlineRuns.length ? `${h.pass} / ${h.total}` : missing, "修复版回归通过"),
+      metric(finite(tx) && finite(rx) ? number(tx + rx) : missing, "成功比对帧"),
+      metric(percent(core?.metrics?.functional_bins), "核心功能覆盖")));
     const failures = counts(runs).fail;
     const timeoutWave = waves.find(wave => {
       const run = runsById.get(wave.run_id);
       return run?.suite_id === "apb_protocol" && run.phase === "negative" && run.raw_status === "FAIL";
     });
-    const taskLink = (label, detail, action) => el("button", {
-      type: "button", className: "debug-entry", onClick: action
-    }, el("strong", {}, label), el("span", {}, detail));
     const debugEntries = [
-      failures ? taskLink("查看原始 FAIL", `${number(failures)} 条记录 · 按范围筛选并打开日志`,
-        () => showRuns({status: "FAIL"})) : null,
-      timeoutWave ? taskLink("打开 APB 超时波形", "查看等待、复位中止与恢复事务",
-        () => showWave(timeoutWave.id)) : null,
-      core ? taskLink("检查覆盖缺口", `${metricText(core.metrics?.functional_bins)} 功能 bins`, () => {
+      failures ? button(`原始 FAIL · ${number(failures)} 次`, () => showRuns({status: "FAIL"}), {className:"link-button"}) : null,
+      timeoutWave ? button("APB 超时波形", () => showWave(timeoutWave.id), {className:"link-button"}) : null,
+      core ? button("覆盖缺口", () => {
         state.coverageId = core.id;
         setView("coverage", true);
         const gaps = document.getElementById("coverage-gaps");
         gaps?.focus({preventScroll:true});
         gaps?.scrollIntoView({block:"start"});
-      }) : null
+      }, {className:"link-button"}) : null
     ].filter(Boolean);
     if (debugEntries.length) {
-      root.append(el("section", {className: "debug-entry-section", "aria-label": "常用调试入口"},
-        el("h2", {}, "常用调试入口"), el("div", {className: "debug-entry-grid"}, debugEntries)));
+      root.append(el("nav", {className:"overview-actions", "aria-label":"调试入口"}, debugEntries));
     }
     const scopeRows=[];
     for(const suite of suites) {
@@ -283,16 +275,20 @@
         scopeRows.push(el("tr",{},el("td",{},button(text(suite.title),()=>showRuns({suite:suite.id,variant:variant??""}),{className:"link-button"}),el("span",{className:"row-secondary"},text(suite.scope))),el("td",{},variantName(variant)),el("td",{},number(c.total)),el("td",{},badge("PASS","pass"),el("span",{className:"row-secondary"},number(c.pass))),el("td",{},badge("FAIL","fail"),el("span",{className:"row-secondary"},number(c.fail))),el("td",{},`${c.detected} DETECTED`,el("span",{className:"row-secondary"},`预期失败 ${c.expected}${c.other?` · 其他状态 ${c.other}`:""}`))));
       }
     }
-    root.append(panel("验证范围与结果", "每行对应一组套件与 RTL。DETECTED 记录负向检查结果。",scopeRows.length?table(["测试范围","版本","运行数","原始 PASS","原始 FAIL","独立分类"],scopeRows):empty("没有范围记录","数据中尚未提供可分组的运行。")));
     const chain=list(project.toolchain);
     const chainLabels=chain.length?chain.map(item=>typeof item==="string"?item:[item?.name,item?.version].filter(Boolean).join(" ")):typeof project.toolchain==="string"?[project.toolchain]:project.toolchain&&typeof project.toolchain==="object"?Object.entries(project.toolchain).map(([key,value])=>`${key} ${text(value)}`):[];
-    const provenance=panel("来源与实现边界","输入哈希用于复核记录；不同源码快照与覆盖统计范围分别保留。",
+    const provenance=panel("来源与实现边界",null,
       project.source_note?el("p",{className:"inline-note"},project.source_note):null,
+      project.commit?el("p",{className:"hash"},`实测提交 ${project.commit}`):null,
       chainLabels.length?el("div",{className:"toolchain"},chainLabels.map(value=>el("span",{},value))):null,
       list(data.limitations).length?el("ul",{},data.limitations.map(value=>el("li",{},value))):el("p",{className:"muted"},"数据未附加实现边界说明。"));
     const inputs=list(data.inputs),inputsKnown=Array.isArray(data.inputs);
     provenance.append(el("details",{},el("summary",{},inputsKnown?`输入清单 · ${inputs.length} 个文件`:"输入清单 · 未记录"),inputs.length?table(["路径","大小","SHA-256"],inputs.map(input=>el("tr",{},el("td",{},link(text(input.path),input.path)),el("td",{className:"nowrap"},finite(input.bytes)?`${number(input.bytes)} bytes`:missing),el("td",{className:"hash"},text(input.sha256)))),{className:"table-scroll file-list"}):empty("尚无输入清单","未记录文件清单或 SHA-256。")));
-    root.append(provenance);
+    root.append(el("details", {className:"overview-details"},
+      el("summary", {}, "全部验证结果与证据来源"),
+      panel("验证范围与结果", "DETECTED 记录负向检查结果。", scopeRows.length ?
+        table(["测试范围","版本","运行数","原始 PASS","原始 FAIL","独立分类"], scopeRows) :
+        empty("没有范围记录", "数据中尚未提供可分组的运行。")), provenance));
   }
 
   function distinctOptions(key, labeler=text) {
@@ -453,18 +449,20 @@
     let ws=state.waveState.get(wave.id);
     if(!ws){const initial=validRange(wave.default_window)?[Math.max(domain[0],wave.default_window[0]),Math.min(domain[1],wave.default_window[1])]:domain.slice();const window=validRange(initial)?initial:domain.slice();ws={start:window[0],end:window[1],cursor:(window[0]+window[1])/2,selected:new Set(defaults.map(signal=>signal.id)),eventId:null,eventPage:1,eventsInView:true,eventKind:"all",eventQuery:"",density:"compact"};state.waveState.set(wave.id,ws);}
     if(!["compact","comfortable"].includes(ws.density))ws.density="compact";
-    const waveformPanel=el("section",{className:"panel"});
+    const waveformPanel=el("section",{className:"panel waveform-panel"});
     const picker=makeSelect(waves.map(item=>({value:String(item.id),label:text(item.title)})),String(wave.id),id=>{state.waveId=id;setView("waveforms");},{"aria-label":"选择真实波形"});
     const controls=el("div",{className:"wave-controls"});
-    waveformPanel.append(el("div",{className:"wave-select-bar"},makeField("波形记录",picker),controls));
+    waveformPanel.append(el("div",{className:"wave-select-bar wave-record-picker"},makeField("波形记录",picker)));
     const related=hasId(wave.run_id)?runsById.get(wave.run_id):null;
-    if(related||state.waveReturn)waveformPanel.append(el("div",{className:"wave-run-context"},
+    const quickActions=el("div",{className:"wave-quick-actions"});
+    const actionBar=el("div",{className:"wave-action-bar"},related?el("div",{className:"wave-essential-status"},resultBadges(related)):null,quickActions);
+    waveformPanel.append(actionBar);
+    const runContext=related?el("div",{className:"wave-run-context"},
       related?el("div",{className:"legend wave-run-identity"},el("span",{},el("code",{},text(related.test)),` · seed ${text(related.seed)} · ${variantName(related.variant)}`),resultBadges(related),el("span",{},suiteTitle(related.suite_id),related.phase?` · ${phaseName(related.phase)}`:"")):null,
       el("div",{className:"evidence-links wave-run-links"},related?.log_url?link("同次运行日志",related.log_url):null,related?.report_url?link("同次原始报告",related.report_url):null,
-        related?button("查看此运行",()=>showRun(related),{className:"button small"}):null,
-        state.waveReturn?button("返回筛选结果",()=>{Object.assign(state.reg,state.waveReturn);setView("regressions",true);},{className:"button small"}):null)));
+        button("查看此运行",()=>showRun(related),{className:"button small"}))):null;
     const signalCount=el("span",{className:"wave-signal-count"});
-    const signalPanel=el("details",{className:"signal-panel wave-signal-picker"},el("summary",{},"显示信号",signalCount));
+    const signalPanel=el("section",{className:"signal-panel wave-signal-picker"},el("h3",{},"显示信号",signalCount));
     const signalList=el("div",{className:"signal-list"});
     const svg=svgEl("svg",{class:"wave-chart",tabindex:"0",role:"group","aria-label":"真实波形与 APB 事务轨：左右键移动游标，加减键缩放，Shift 加左右键平移，Home 查看全程"});
     const chartFrame=el("div",{className:"wave-chart-frame"},svg);
@@ -476,18 +474,24 @@
     const windowForm=el("form",{className:"wave-window-form",onSubmit:event=>{event.preventDefault();applyWindow();}},makeField(`窗口起点 (${wave.unit||"ns"})`,startInput),makeField(`窗口终点 (${wave.unit||"ns"})`,endInput),button("应用范围",applyWindow,{className:"button small"}),makeField(`游标 (${wave.unit||"ns"})`,cursorInput),button("定位",()=>{const t=inputNumber(cursorInput);if(!finite(t)||t<domain[0]||t>domain[1]){invalid("请输入记录范围内的游标时间。");return;}ws.cursor=t;centerCursor();},{className:"button small"}));
     const density=makeSelect([{value:"compact",label:"紧凑"},{value:"comfortable",label:"舒展"}],ws.density,value=>{ws.density=value;scheduleDraw();},{"aria-label":"波形行密度"});
     const viewOptions=el("div",{className:"wave-view-options"},el("div",{className:"wave-chart-legend"},el("span",{},el("i",{className:"wave-key--transaction","aria-hidden":"true"}),"事务范围"),el("span",{},el("i",{className:"wave-key--cursor","aria-hidden":"true"}),"时间游标")),el("label",{className:"wave-density"},el("span",{},"行密度"),density));
-    const waveMain=el("div",{className:"wave-main"},viewOptions,chartFrame,signalPanel,el("p",{className:"wave-help"},"点击事务轨选中事务；滚轮缩放、拖动平移。← → 移动游标，+ / − 缩放，Shift + ← → 平移，Home 全程。"),windowForm,status);
+    const transactionDetails=el("div",{className:"wave-transaction-details wave-selection-details"});
+    const more=el("details",{className:"wave-more"},el("summary",{},"信号、缩放与运行证据"),el("div",{className:"wave-more-body"},
+      el("section",{className:"wave-view-settings"},el("h3",{},"视图与时间范围"),controls,viewOptions,windowForm,status,transactionDetails),
+      signalPanel,
+      el("section",{className:"wave-evidence"},el("h3",{},"同次运行与原始文件"),runContext,
+        wave.source?el("div",{className:"provenance"},wave.source.url?link("打开原始 VCD",wave.source.url):el("span",{className:"secondary"},"原始 VCD 链接未记录"),wave.source.sha256?el("p",{className:"hash",style:{marginTop:"8px"}},"SHA-256 ",wave.source.sha256):null,wave.source.note?el("p",{className:"secondary"},wave.source.note):null):null),
+      el("p",{className:"wave-help"},"点击事务轨选中事务；滚轮缩放、拖动平移。← → 移动游标，+ / − 缩放，Shift + ← → 平移，Home 全程。")));
+    const waveMain=el("div",{className:"wave-main"},chartFrame,more);
     waveformPanel.append(el("div",{className:"wave-layout wave-layout--full"},waveMain));
-    if(wave.source)waveformPanel.append(el("div",{className:"provenance"},wave.source.url?link("打开原始 VCD",wave.source.url):el("span",{className:"secondary"},"原始 VCD 链接未记录"),wave.source.sha256?el("p",{className:"hash",style:{marginTop:"8px"}},"SHA-256 ",wave.source.sha256):null,wave.source.note?el("p",{className:"secondary"},wave.source.note):null));
     root.append(waveformPanel);
     const eventResults=el("div",{}),allEvents=list(wave.apb_events),waitEvents=allEvents.filter(eventHasWait),issueEvents=allEvents.filter(eventHasIssue);
     const eventSearch=el("input",{type:"search",value:ws.eventQuery,placeholder:"地址、数据、状态…","aria-label":"筛选 APB 事件"});
     const eventKind=makeSelect([{value:"all",label:`全部记录 (${allEvents.length})`},{value:"wait",label:`有等待 (${waitEvents.length})`},{value:"issue",label:`异常记录 (${issueEvents.length})`}],ws.eventKind,value=>{ws.eventKind=value;ws.eventPage=1;renderEvents();},{"aria-label":"APB 事件类型"});
     const inView=el("input",{type:"checkbox",checked:ws.eventsInView,onChange:event=>{ws.eventsInView=event.target.checked;ws.eventPage=1;renderEvents();}});
     const locatable=event=>finite(event.start)&&event.start>=domain[0]&&event.start<=domain[1];
-    root.append(panel("APB 事件", "点击事件时间定位到对应采样窗口。",
+    root.append(el("details",{className:"wave-event-disclosure"},el("summary",{},"APB 事件记录"),el("div",{className:"wave-event-body"},
       el("div",{className:"toolbar wave-event-tools"},makeField("事件类型",eventKind),makeField("搜索事件",eventSearch),el("label",{className:"check-field"},inView,"仅当前窗口")),
-      el("p",{className:"inline-note"},"快捷定位扫描整份波形，并清除事件搜索条件。异常记录包括非 OK 状态或 PSLVERR；复位中止、未完成及未知记录需结合日志判断。"),eventResults));
+      el("p",{className:"inline-note"},"点击事件时间定位到对应采样窗口。快捷定位扫描整份波形，并清除事件搜索条件。异常记录包括非 OK 状态或 PSLVERR；复位中止、未完成及未知记录需结合日志判断。"),eventResults)));
     eventSearch.addEventListener("input",()=>{ws.eventQuery=eventSearch.value;ws.eventPage=1;renderEvents();});
     signalPanel.append(el("div",{className:"button-group"},button("全选",()=>{ws.selected=new Set(wave.signals.map(signal=>signal.id));refreshSignals();scheduleDraw(true);},{className:"button small"}),button("清空",()=>{ws.selected.clear();refreshSignals();scheduleDraw(true);},{className:"button small"})),signalList,values);
     function refreshSignals(){signalCount.textContent=`${ws.selected.size} / ${wave.signals.length}`;signalList.replaceChildren(...orderedSignals.map(signal=>el("label",{className:"signal-check"},el("input",{type:"checkbox",checked:ws.selected.has(signal.id),onChange:event=>{if(event.target.checked)ws.selected.add(signal.id);else ws.selected.delete(signal.id);signalCount.textContent=`${ws.selected.size} / ${wave.signals.length}`;scheduleDraw(true);}}),el("span",{},text(signal.label||signal.id),finite(signal.width)?el("small",{},`[${signal.width}]`):null))));}
@@ -501,21 +505,23 @@
     function invalid(message){status.classList.add("invalid");status.textContent=message;}
     function applyWindow(){const start=inputNumber(startInput),end=inputNumber(endInput);if(!finite(start)||!finite(end)||end<=start||start<domain[0]||end>domain[1]){invalid("请填写有效起止时间；终点须大于起点，且窗口应位于记录范围内。");return;}setWindow(start,end);}
     controls.append(button("放大",()=>zoom(.5),{className:"button small"}),button("缩小",()=>zoom(2),{className:"button small"}),button("全程",()=>setWindow(...domain),{className:"button small"}),button("初始窗口",()=>setWindow(...(validRange(wave.default_window)?wave.default_window:domain)),{className:"button small"}),button("居中游标",centerCursor,{className:"button small"}));
-    const eventSummary = el("div", {className:"wave-transaction-summary",role:"status"});
+    const eventSummary = el("div", {className:"wave-transaction-summary wave-focus-bar",role:"status",hidden:true});
     function updateEventSummary(event) {
-      if(!event){const visible=allEvents.filter(item=>finite(item.start)&&item.start<=ws.end&&(finite(item.end)?item.end:item.start)>=ws.start);eventSummary.replaceChildren(el("div",{className:"wave-transaction-heading"},el("strong",{},"当前窗口"),el("span",{className:"secondary"},Array.isArray(wave.apb_events)?`${visible.length} 条 APB 记录 · ${visible.filter(eventHasWait).length} 条有等待 · ${visible.filter(eventHasIssue).length} 条异常记录`:"未附加 APB 记录")));return;}
+      eventSummary.hidden=!event;eventSummary.style.display=event?"":"none";
+      if(!event){eventSummary.replaceChildren();transactionDetails.replaceChildren();return;}
       const direction=event.write===true?"WRITE":event.write===false?"READ":missing;
       const data=event.write===true?event.write_data:event.write===false?event.read_data:null;
       const duration=finite(event.start)&&finite(event.end)&&event.end>=event.start?`${time(event.end-event.start)} ${wave.unit||"ns"}`:missing;
-      eventSummary.replaceChildren(
-        el("div",{className:"wave-transaction-heading"},el("strong",{},"选中事务"),badge(direction,"phase"),el("code",{},formatBus(event.address)),el("span",{className:`wave-event-status${eventHasIssue(event)?" is-issue":""}`},text(event.status)),button("取消选择",()=>{ws.eventId=null;updateEventSummary(null);scheduleDraw(true);},{className:"link-button"})),
-        el("div",{className:"wave-transaction-details"},el("span",{},"数据 ",el("code",{},formatBus(data))),el("span",{},`等待 ${number(event.wait_cycles)} 周期`),el("span",{},`区间 ${time(event.start)}–${time(event.end)} ${wave.unit||"ns"}`),el("span",{},`持续 ${duration}`)));
+      eventSummary.replaceChildren(el("strong",{className:"wave-event-direction"},direction),el("code",{},`${formatBus(event.address)} → ${formatBus(data)}`),el("span",{className:"wave-event-wait"},`等待 ${number(event.wait_cycles)}`),el("span",{className:`wave-event-status${eventHasIssue(event)?" is-issue":""}`},text(event.status)),button("取消选择",()=>{ws.eventId=null;updateEventSummary(null);scheduleDraw(true);},{className:"link-button"}));
+      transactionDetails.replaceChildren(el("strong",{},"选中事务"),el("span",{},`区间 ${time(event.start)}–${time(event.end)} ${wave.unit||"ns"}`),el("span",{},`持续 ${duration}`),el("span",{},`等待 ${number(event.wait_cycles)} 周期`));
     }
     updateEventSummary(ws.eventId === null ? null : allEvents.find(event => event.id === ws.eventId));
     const jumpControls = el("div", {className:"button-group wave-jump-controls", "aria-label":"APB 事件定位"},
       waitEvents.some(locatable)?button("下一个等待", () => jumpEvent("wait"), {className:"button small"}):null,
       issueEvents.some(locatable)?button("下一个异常", () => jumpEvent("issue"), {className:"button small"}):null);
-    waveformPanel.insertBefore(el("div",{className:"wave-focus-bar"},eventSummary,jumpControls), waveformPanel.querySelector(".wave-layout"));
+    quickActions.append(jumpControls);
+    if(state.waveReturn)quickActions.append(button("返回筛选结果",()=>{Object.assign(state.reg,state.waveReturn);setView("regressions",true);},{className:"button small"}));
+    waveformPanel.insertBefore(eventSummary, waveformPanel.querySelector(".wave-layout"));
     function dimensions(){const width=Math.max(260,chartFrame.clientWidth-2);const left=width<500?116:174;return {width,left,right:14,plot:Math.max(80,width-left-14)};}
     function pointerX(event){const d=dimensions(),rect=svg.getBoundingClientRect();return (event.clientX-rect.left)*d.width/Math.max(1,rect.width);}
     function pointerTime(event){const d=dimensions();return ws.start+(Math.max(0,Math.min(d.plot,pointerX(event)-d.left))/d.plot)*(ws.end-ws.start);}
@@ -623,9 +629,8 @@
 
   const project=data.project||{};
   const meta=document.getElementById("project-meta");
-  if(project.version)meta.append(el("span",{className:"meta-chip"},text(project.version)));
-  if(project.commit)meta.append(el("span",{className:"meta-chip mono",title:String(project.commit)},String(project.commit).slice(0,12)));
-  if(project.source_url)meta.append(link("源码",project.source_url,{className:"meta-chip"}));
+  if(project.version)meta.append(el("span",{className:"secondary"},`证据 ${text(project.version)}`));
+  if(project.source_url)meta.append(link("源码",project.source_url));
   document.getElementById("generated-at").textContent=project.generated_utc?`数据生成 UTC：${String(project.generated_utc).replace("T"," ").replace(/Z$/,"")}`:"数据生成时间未记录";
   nav.addEventListener("click",event=>{const target=event.target.closest("button[data-tab]");if(target)setView(target.dataset.tab,true);});
   nav.addEventListener("keydown",event=>{const buttons=[...nav.querySelectorAll("button[data-tab]")],index=buttons.indexOf(document.activeElement);if(index<0)return;let next=null;if(["ArrowDown","ArrowRight"].includes(event.key))next=(index+1)%buttons.length;if(["ArrowUp","ArrowLeft"].includes(event.key))next=(index-1+buttons.length)%buttons.length;if(event.key==="Home")next=0;if(event.key==="End")next=buttons.length-1;if(next!==null){event.preventDefault();buttons[next].focus();}});
