@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Plot the six measured FIFO head observations by parity-error bit and byte. Each point opens its corresponding APB read in the waveform viewer.
+- Align waveform ticks to regular absolute time intervals and make uncovered bins visible above the optional coverage group details.
 - Make the measured comparison the overview's only primary panel. Put additional results, input manifests and run logs behind disclosures.
 - Keep the trace and a compact transaction selection visible, with advanced waveform controls and evidence available below the plot.
 - Show the matched upstream/fixed FIFO error association case on the overview, with measured LSR/RBR values and direct links to the corresponding read transactions.

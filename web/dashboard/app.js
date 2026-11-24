@@ -205,28 +205,46 @@
     if (!comparison) return null;
     const {upstream, fixed} = comparison;
     const hex = value => `0x${value.toString(16).toUpperCase().padStart(2, "0")}`;
-    const showTrace = record => showWave(record.trace.id, record.reads[1].event.id);
-    const stateRow = (record, label, tone) => el("tr", {},
-      el("th", {scope:"row"},
-        button(label, () => showTrace(record), {className:"link-button"}),
-        badge(record.run.raw_status, tone)),
-      record.reads.map((reading, i) => el("td", {className:i === 1 ? "case-byte-target" : ""},
-        el("code", {className:"case-lsr"}, hex(reading.lsr)),
-        el("span", {className:`case-bit${reading.parityError ? " case-bit-set" : ""}`}, `PE=${Number(reading.parityError)}`))));
-    const difference = fixed.reads[1];
+    const pointMark = (variant) => el("span", {className:`case-mark case-mark--${variant}`, "aria-hidden":"true"});
+    const middle = fixed.reads[1];
+    const defaultDetail = `${hex(middle.payload)} 队首 · 原版 LSR ${hex(upstream.reads[1].lsr)} · 修复版 LSR ${hex(middle.lsr)}`;
+    const readout = el("p", {className:"case-readout"}, defaultDetail);
+    function samplePoint(record, index, variant, label) {
+      const read = record.reads[index];
+      const detail = `${label} · ${hex(read.payload)} · LSR ${hex(read.lsr)} · PE=${Number(read.parityError)} · ${time(read.event.end)} ns`;
+      return el("button", {
+        type:"button", className:`case-point case-point--${variant}`,
+        "aria-label":`${detail}，打开波形`, title:detail,
+        style:{gridRow:read.parityError ? "1" : "2"},
+        onClick:() => showWave(record.trace.id, read.event.id),
+        onFocus:() => { readout.textContent = detail; },
+        onBlur:() => { readout.textContent = defaultDetail; },
+        onPointerenter:() => { readout.textContent = detail; },
+        onPointerleave:() => { readout.textContent = defaultDetail; }
+      }, pointMark(variant));
+    }
+    const columns = fixed.reads.map((reading, index) => {
+      const differs = reading.parityError !== upstream.reads[index].parityError;
+      return el("div", {className:`case-column${differs ? " case-column--difference" : ""}`},
+        el("div", {className:"case-observations"},
+          samplePoint(upstream, index, "upstream", "原版"), samplePoint(fixed, index, "fixed", "修复版")),
+        el("div", {className:"case-byte"}, el("code", {}, hex(reading.payload)),
+          differs ? el("span", {}, "坏校验") : null));
+    });
     return el("section", {className:"association-case", "aria-labelledby":"case-title"},
       el("div", {className:"case-intro"},
         el("h2", {id:"case-title"}, "FIFO 校验错误对照"),
-        el("p", {}, `${hex(difference.payload)} 位于队首时，修复版报告校验错误（PE=1）。`)),
-      el("div", {className:"case-evidence"},
-        el("table", {className:"case-matrix"},
-          el("caption", {className:"sr-only"}, `FIFO 队首的 APB 读值，seed ${text(fixed.run.seed)}`),
-          el("thead", {}, el("tr", {}, el("th", {scope:"col"}, "RBR 字节"),
-            fixed.reads.map((reading, index) => el("th", {scope:"col", className:index === 1 ? "case-byte-target" : ""},
-              el("code", {}, hex(reading.payload)), index === 1 ? el("span", {}, "坏校验") : null)))),
-          el("tbody", {}, stateRow(upstream, "原版波形", "fail"), stateRow(fixed, "修复版波形", "pass"))),
-        el("div", {className:"case-evidence-footer"},
-          el("span", {}, `LSR 读值 · seed ${text(fixed.run.seed)} · 差异 ${time(difference.event.end)} ns`),
+        el("p", {}, `${hex(middle.payload)} 位于队首时，修复版报告校验错误。`)),
+      el("figure", {className:"case-figure", "aria-label":"三次队首读取的校验错误位对照"},
+        el("figcaption", {className:"case-chart-caption"},
+          el("div", {className:"case-legend"},
+            el("span", {}, pointMark("upstream"), `原版 ${upstream.run.raw_status}`),
+            el("span", {}, pointMark("fixed"), `修复版 ${fixed.run.raw_status}`)),
+          el("span", {}, `seed ${text(fixed.run.seed)} · 点击采样点查看波形`)),
+        el("div", {className:"case-plot"},
+          el("div", {className:"case-axis", "aria-hidden":"true"}, el("span", {}, "PE=1"),
+            el("span", {}, "PE=0"), el("span", {}, "队首字节")), columns),
+        el("div", {className:"case-evidence-footer"}, readout,
           el("details", {className:"case-log-links"}, el("summary", {}, "原始日志"),
             el("div", {className:"evidence-links"},
               link("原版日志", upstream.run.log_url), link("修复版日志", fixed.run.log_url))))));
@@ -385,29 +403,58 @@
 
   function coverageMetric(label,metric,kind,definition) {
     const m=metricPair(metric);
-    return el("article",{className:"coverage-metric"},el("h3",{},label),el("div",{className:"coverage-value"},metricText(metric)),el("p",{className:"secondary"},definition),el("div",{className:"bar-track",role:"img","aria-label":`${label}：${metricText(metric)}，${percent(metric)}`},m?el("div",{className:`bar-fill ${kind||""}`,style:{width:`${100*m.hit/m.total}%`}}):null),el("div",{className:"coverage-percent"},percent(metric)));
+    const remainder=m?m.total-m.hit:null;
+    const description=m?`${label}：已命中 ${metricText(m)}，未命中 ${number(remainder)}，${percent(m)}`:`${label}：${missing}`;
+    return el("article",{className:`coverage-metric coverage-measure${m?"":" coverage-measure--unknown"}`},
+      el("div",{className:"coverage-measure-heading"},el("h3",{title:definition},label),
+        el("div",{className:"coverage-measure-count"},el("strong",{className:"mono nowrap"},metricText(metric)),
+          el("span",{className:"coverage-percent"},percent(metric)),
+          el("span",{className:"coverage-missing"},m?`未命中 ${number(remainder)}`:"缺口未记录"))),
+      el("div",{className:"bar-track",role:m?"progressbar":"img","aria-label":description,
+        "aria-valuemin":m?0:null,"aria-valuemax":m?m.total:null,"aria-valuenow":m?m.hit:null,"aria-valuetext":description},
+        m?el("div",{className:`bar-fill ${kind||""}`,style:{width:`${100*m.hit/m.total}%`}}):null));
   }
   function renderCoverage() {
-    intro("功能 bins、RTL 可执行行与 RTL 分支采用独立的分子和分母。仅显示数据中指定的统计范围，不把 RAL 子集、协议对照或故障注入混入核心覆盖率。");
-    if(!coverage.length){root.append(empty("没有覆盖率数据","尚未提供可复核的覆盖率记录。"));return;}
-    let selected=coverage.find(item=>item.id===state.coverageId)||coverage[0];state.coverageId=selected.id;
-    const picker=makeSelect(coverage.map(item=>({value:String(item.id),label:text(item.title)})),String(selected.id),value=>{state.coverageId=value;setView("coverage");},{"aria-label":"选择覆盖报告"});
-    root.append(panel("选择报告范围",null,makeField("覆盖报告",picker),el("dl",{className:"detail-list"},el("dt",{},"记录范围"),el("dd",{},text(selected.scope)),el("dt",{},"版本"),el("dd",{},variantName(selected.variant))),selected.note?el("p",{className:"source-note",style:{marginTop:"16px",marginBottom:"0"}},selected.note):null));
-    root.append(el("div",{className:"coverage-metrics"},coverageMetric("功能 bins · 未加权",selected.metrics?.functional_bins,"","按原生计数和 at_least 阈值；非加权 covergroup 百分比。"),coverageMetric("RTL 可执行行 · LCOV",selected.metrics?.rtl_lines,"code-line","只统计报告声明的 RTL 源码范围。"),coverageMetric("RTL 分支 · LCOV",selected.metrics?.rtl_branches,"code-branch","分支计数独立于功能 bins 与行覆盖率。")));
-    if(list(selected.evidence_urls).length)root.append(panel("覆盖证据",null,evidenceLinks(selected.evidence_urls)));
-    const groups=list(selected.groups);
-    const groupRows=groups.map(group=>{
-      const m=metricPair(group);return el("tr",{},el("td",{},el("code",{},text(group.title||group.id))),el("td",{className:"mono nowrap"},metricText(group)),el("td",{},el("div",{className:"group-progress"},el("div",{className:"bar-track"},m?el("div",{className:"bar-fill",style:{width:`${100*m.hit/m.total}%`}}):null),el("span",{className:"count-label"},percent(group)))));
-    });
-    root.append(panel("Coverpoint / cross 分组", "分组只合并已记录的 bin 身份，不增加覆盖点或推定不可达项。",groups.length?table(["分组","已命中 / 有效 bins","未加权命中率"],groupRows):empty("没有分组记录","该报告未提供 coverpoint 或 cross 的分组计数。")));
-    const gaps=list(selected.gaps), gapResults=el("div",{});
+    const profiles=coverage.filter(item=>item&&typeof item==="object");
+    if(!profiles.length){root.append(empty("没有覆盖率数据","尚未提供可复核的覆盖率记录。"));return;}
+    const selected=profiles.find(item=>item.id===state.coverageId)||profiles[0];state.coverageId=selected.id;
+    const picker=makeSelect(profiles.map(item=>({value:String(item.id),label:item.suite_id?`${suiteTitle(item.suite_id)} · ${variantName(item.variant)}`:text(item.title||item.id)})),String(selected.id),value=>{state.coverageId=value;setView("coverage");},{"aria-label":"选择覆盖报告"});
+    const profileRuns=runs.filter(run=>run.suite_id===selected.suite_id&&run.variant===selected.variant);
+    const passCount=profileRuns.filter(run=>run.raw_status==="PASS").length;
+    const scope=profileRuns.length?`仅合并 ${number(passCount)} 次 PASS${profileRuns.length>passCount?`；其余 ${number(profileRuns.length-passCount)} 次未合并`:""}${selected.suite_id==="uart_ral"?"；RAL 专项与核心分开":""}`:text(selected.scope);
+    root.append(el("div",{className:"toolbar coverage-scope"},makeField("统计范围",picker),el("p",{className:"inline-note"},scope)));
+    const definitions=[
+      ["功能 bins · 未加权",selected.metrics?.functional_bins,"","按原生计数和 at_least 阈值；非加权 covergroup 百分比。"],
+      ["RTL 可执行行 · LCOV",selected.metrics?.rtl_lines,"code-line","只统计报告声明的 RTL 源码范围。"],
+      ["RTL 分支 · LCOV",selected.metrics?.rtl_branches,"code-branch","分支计数独立于功能 bins 与行覆盖率。"]
+    ];
+    root.append(el("div",{className:"coverage-metrics coverage-measures"},definitions.map(values=>coverageMetric(...values))));
+    const gaps=list(selected.gaps).filter(gap=>gap&&typeof gap==="object"),gapResults=el("div",{});
+    const functional=metricPair(selected.metrics?.functional_bins);
     const search=el("input",{type:"search",placeholder:"分组、bin 或记录的原因…","aria-label":"筛选覆盖缺口"});
-    const gapPanel=panel("未命中的有效 bins","未记录原因时保留空缺，不以推断替代工程说明。",makeField("查找缺口",search),el("div",{style:{height:"16px"}}),gapResults);
-    gapPanel.id = "coverage-gaps";
-    gapPanel.tabIndex = -1;
-    function updateGaps(){const q=search.value.trim().toLowerCase();const filtered=gaps.filter(gap=>!q||[gap.group,gap.bin,gap.reason].some(value=>String(value??"").toLowerCase().includes(q)));
-      gapResults.replaceChildren(filtered.length?table(["分组 / bin","实际命中 / 阈值","记录的原因","源码"],filtered.map(gap=>el("tr",{},el("td",{},el("span",{className:"secondary"},text(gap.group)),el("br"),el("code",{},text(gap.bin))),el("td",{className:"mono nowrap"},`${number(gap.hits)} / ${number(gap.at_least)}`),el("td",{className:"gap-reason"},gap.reason||missing),el("td",{},gap.source_url?link("源码位置",gap.source_url):el("span",{className:"secondary"},missing))))):empty(gaps.length?"没有匹配的缺口":"数据中未列出缺口",gaps.length?"调整关键词后重试。":"空列表本身不证明完整覆盖；请同时核对上方分子、分母及原生数据库。"));}
+    const gapPanel=panel("未命中的功能 bins",functional?`${number(functional.total-functional.hit)} / ${number(functional.total)} 未命中；按记录的原因复核。`:"功能覆盖分母未记录；不从缺口列表推定完整覆盖。",makeField("查找缺口",search),gapResults);
+    gapPanel.id="coverage-gaps";gapPanel.tabIndex=-1;
+    function updateGaps(){
+      const q=search.value.trim().toLowerCase();
+      const filtered=gaps.filter(gap=>!q||[gap.group,gap.bin,gap.reason,gap.source_path].some(value=>String(value??"").toLowerCase().includes(q)));
+      const rows=filtered.map(gap=>{
+        const sourceName=typeof gap.source_path==="string"?gap.source_path.split(/[\\/]/).pop():"源码位置";
+        return el("tr",{},el("td",{},el("code",{className:"wrap-anywhere"},text(gap.group||gap.bin)),el("span",{className:"row-secondary"},`命中 ${number(gap.hits)} / 阈值 ${number(gap.at_least)}`)),
+          el("td",{className:"gap-reason"},gap.reason||missing),
+          el("td",{},gap.source_url?link(`${sourceName}${gap.source_line?":"+text(gap.source_line):""}`,gap.source_url):el("span",{className:"secondary"},missing)));
+      });
+      gapResults.replaceChildren(el("p",{className:"count-label"},Array.isArray(selected.gaps)?`显示 ${number(filtered.length)} / ${number(gaps.length)} 条缺口记录`:"缺口明细未记录"),
+        rows.length?table(["未命中 bin","记录的原因","源码"],rows):empty(gaps.length?"没有匹配的缺口":"数据中未列出缺口",gaps.length?"调整关键词后重试。":"空列表本身不证明完整覆盖；请核对实际分子、分母及原生数据库。"));
+    }
     search.addEventListener("input",updateGaps);updateGaps();root.append(gapPanel);
+    const groups=list(selected.groups).filter(group=>group&&typeof group==="object");
+    const groupRows=groups.map(group=>el("tr",{},el("td",{},el("code",{title:text(group.id)},text(group.title||group.id))),el("td",{className:"mono nowrap"},metricText(group)),el("td",{className:"mono nowrap"},percent(group))));
+    root.append(el("details",{className:"panel coverage-details"},el("summary",{},"分组、度量定义与原始证据"),
+      el("p",{className:"inline-note"},selected.note||"只读取已记录的覆盖项，各度量分母独立。"),
+      el("dl",{className:"detail-list"},el("dt",{},"记录范围"),el("dd",{},text(selected.scope)),
+        definitions.map(values=>[el("dt",{},values[0]),el("dd",{},values[3])])),
+      el("h3",{},"Coverpoint / cross 分组"),groups.length?table(["分组","已命中 / 有效 bins","未加权命中率"],groupRows):el("p",{className:"secondary"},"分组计数未记录。"),
+      el("h3",{},"原始覆盖证据"),list(selected.evidence_urls).length?evidenceLinks(selected.evidence_urls):el("p",{className:"secondary"},"原生数据库与 LCOV 链接未记录。")));
   }
 
   const preparedWaves=new Map();
@@ -525,6 +572,16 @@
     function dimensions(){const width=Math.max(260,chartFrame.clientWidth-2);const left=width<500?116:174;return {width,left,right:14,plot:Math.max(80,width-left-14)};}
     function pointerX(event){const d=dimensions(),rect=svg.getBoundingClientRect();return (event.clientX-rect.left)*d.width/Math.max(1,rect.width);}
     function pointerTime(event){const d=dimensions();return ws.start+(Math.max(0,Math.min(d.plot,pointerX(event)-d.left))/d.plot)*(ws.end-ws.start);}
+    const absoluteFormatter=new Intl.NumberFormat("zh-CN",{maximumFractionDigits:9});
+    const absoluteTime=value=>finite(value)?absoluteFormatter.format(value):missing;
+    function axisTicks(start,end,pixels){
+      const count=Math.max(1,Math.floor(pixels/115)),rawStep=(end-start)/count,power=10**Math.floor(Math.log10(rawStep)),candidates=[1,2,5,10].map(value=>value*power);
+      const step=candidates.find(value=>value>=rawStep*(1-1e-12)&&value<=end-start)||candidates.filter(value=>value<=end-start).pop()||power;
+      const digits=Math.min(9,Math.max(0,-Math.floor(Math.log10(step)))),formatter=new Intl.NumberFormat("zh-CN",{maximumFractionDigits:digits});
+      const first=Math.ceil(start/step-1e-9),last=Math.floor(end/step+1e-9),ticks=[];
+      for(let offset=0;offset<count+3&&first+offset<=last;offset++){const value=Number(((first+offset)*step).toFixed(digits));if(value>=start&&value<=end&&(!ticks.length||value>ticks[ticks.length-1].value))ticks.push({value,label:formatter.format(value)});}
+      return ticks;
+    }
     function draw(){
       const d=dimensions(),selected=orderedSignals.filter(signal=>ws.selected.has(signal.id)),axis=78,row=ws.density==="comfortable"?54:40,height=axis+Math.max(1,selected.length)*row+16,span=ws.end-ws.start;
       svg.setAttribute("viewBox",`0 0 ${d.width} ${height}`);svg.setAttribute("height",String(height));svg.replaceChildren();
@@ -536,13 +593,15 @@
       const activeEvent=allEvents.find(event=>event.id===ws.eventId);
       if(!activeEvent)updateEventSummary(null);
       if(activeEvent&&finite(activeEvent.start)&&finite(activeEvent.end)&&activeEvent.end>=ws.start&&activeEvent.start<=ws.end){const a=x(Math.max(ws.start,activeEvent.start)),b=x(Math.min(ws.end,activeEvent.end));svg.append(svgEl("rect",{x:a,y:axis-3,width:Math.max(1,b-a),height:height-axis-9,fill:"#0c8b88","fill-opacity":.09,class:"wave-selected-range"}));for(const t of [activeEvent.start,activeEvent.end])if(t>=ws.start&&t<=ws.end)svg.append(svgEl("line",{x1:x(t),y1:70,x2:x(t),y2:height-12,stroke:"#087f83","stroke-width":1.5,"stroke-dasharray":"3 3",class:"wave-selected-boundary"}));}
-      const tickCount=Math.max(2,Math.floor(d.plot/115));
-      for(let i=0;i<=tickCount;i++){const t=ws.start+span*i/tickCount,px=x(t);svg.append(svgEl("line",{x1:px,y1:24,x2:px,y2:height-12,stroke:"#d9e5ed","stroke-width":1}),svgEl("text",{x:px,y:18,"text-anchor":i===0?"start":i===tickCount?"end":"middle",class:"wave-axis"},time(t)));}
-      svg.append(svgEl("text",{x:12,y:18,class:"wave-axis"},"信号 / 游标值"),svgEl("text",{x:12,y:38,class:"wave-axis"},wave.unit||"ns"),svgEl("text",{x:12,y:65,class:"wave-axis"},"APB 事务"));
+      let previousLabelRight=-Infinity;
+      for(const tick of axisTicks(ws.start,ws.end,d.plot)){const px=x(tick.value),labelWidth=tick.label.length*8.5,anchor=px-d.left<labelWidth/2?"start":d.width-d.right-px<labelWidth/2?"end":"middle",labelLeft=px-(anchor==="end"?labelWidth:anchor==="middle"?labelWidth/2:0);svg.append(svgEl("line",{x1:px,y1:24,x2:px,y2:height-12,stroke:"#d9e5ed","stroke-width":1,class:"wave-time-grid"}));if(labelLeft>=previousLabelRight+12){const label=svgEl("text",{x:px,y:18,"text-anchor":anchor,class:"wave-axis wave-time-tick","data-time":String(tick.value)},tick.label);label.append(svgEl("title",{},`绝对时间 ${absoluteTime(tick.value)} ${wave.unit||"ns"}`));svg.append(label);previousLabelRight=labelLeft+labelWidth;}}
+      svg.append(svgEl("text",{x:12,y:18,class:"wave-axis"},"信号 / 游标值"),svgEl("text",{x:12,y:38,class:"wave-axis"},`绝对时间 ${wave.unit||"ns"}`),svgEl("text",{x:12,y:65,class:"wave-axis"},"APB 事务"));
       for(const event of allEvents){if(!finite(event.start)||!finite(event.end)||event.end<ws.start||event.start>ws.end)continue;const a=x(Math.max(ws.start,event.start)),b=x(Math.min(ws.end,event.end)),isSelected=event.id===ws.eventId,issue=eventHasIssue(event),direction=event.write===true?"W":event.write===false?"R":"?",label=`${direction} ${formatBus(event.address)}`,description=`${label} · ${text(event.status)} · 等待 ${number(event.wait_cycles)} 周期 · ${time(event.start)}–${time(event.end)} ${wave.unit||"ns"}`;
         const group=svgEl("g",{class:"wave-event-track",tabindex:"0",role:"button","aria-label":description,"aria-pressed":isSelected?"true":"false","data-apb-event-id":String(event.id),style:"cursor:pointer"});
         group.append(svgEl("rect",{x:a,y:51,width:Math.max(1,b-a),height:20,rx:3,fill:isSelected?"#0a7c80":issue?"#f5e3bd":event.write===true?"#d7eceb":"#dce9f7",stroke:isSelected?"#075d60":issue?"#a97727":event.write===true?"#71aaa6":"#87a8c7","stroke-width":isSelected?2:1,class:`wave-event-band wave-event-band--${issue?"issue":event.write===true?"write":"read"}${isSelected?" wave-event-band--selected":""}`}));
         const display=fit(label,b-a-12);if(display)group.append(svgEl("text",{x:(a+b)/2,y:65,"text-anchor":"middle",fill:isSelected?"#ffffff":"#284c63","font-size":12,"font-family":"ui-monospace,Consolas,monospace",class:`wave-event-label${isSelected?" is-selected":""}`},display));
+        if(isSelected&&event.start<ws.start)group.append(svgEl("path",{d:`M${a+6},55L${a+2},61L${a+6},67`,stroke:"#ffffff","stroke-width":1.5,fill:"none",class:"wave-event-clipped-start"}));
+        if(isSelected&&event.end>ws.end)group.append(svgEl("path",{d:`M${b-6},55L${b-2},61L${b-6},67`,stroke:"#ffffff","stroke-width":1.5,fill:"none",class:"wave-event-clipped-end"}));
         group.append(svgEl("title",{},description));group.addEventListener("pointerdown",event=>event.stopPropagation());group.addEventListener("click",click=>{click.stopPropagation();svg.focus({preventScroll:true});focusEvent(event);});group.addEventListener("keydown",key=>{if(key.key==="Enter"||key.key===" "){key.preventDefault();key.stopPropagation();svg.focus({preventScroll:true});focusEvent(event);}});svg.append(group);
       }
       if(!selected.length)svg.append(svgEl("text",{x:d.left+12,y:axis+27,class:"wave-axis"},"请选择显示信号"));
@@ -550,7 +609,7 @@
         const signal=selected[i],top=axis+i*row,bottom=top+row,high=top+8,low=bottom-9,middle=(high+low)/2;
         const label=String(signal.label||signal.id),cursorValue=formatBits(valueAt(signal,ws.cursor),signal.width),handshake=priority.slice(0,5).some(name=>signalMatches(signal,name));
         const labelNode=svgEl("text",{x:12,y:top+16,class:`wave-label${handshake?" wave-label--handshake":""}`},fit(label,d.left-22));labelNode.append(svgEl("title",{},label));
-        const valueNode=svgEl("text",{x:12,y:top+32,fill:"#386077","font-size":13,"font-family":"ui-monospace,Consolas,monospace",class:"wave-inline-value"},fit(cursorValue,d.left-22));valueNode.append(svgEl("title",{},`${label} @ ${time(ws.cursor)} ${wave.unit||"ns"}: ${cursorValue}`));
+        const valueNode=svgEl("text",{x:12,y:top+32,fill:"#386077","font-size":13,"font-family":"ui-monospace,Consolas,monospace",class:"wave-inline-value"},fit(cursorValue,d.left-22));valueNode.append(svgEl("title",{},`${label} @ ${absoluteTime(ws.cursor)} ${wave.unit||"ns"}: ${cursorValue}`));
         if(handshake)svg.append(svgEl("rect",{x:0,y:top+5,width:3,height:row-10,rx:1,fill:"#218e90",class:"wave-handshake-accent"}));
         svg.append(labelNode,valueNode,svgEl("line",{x1:0,y1:bottom,x2:d.width,y2:bottom,stroke:"#dce7ee","stroke-width":1}));
         const events=signal.events,index=valueIndex(events,ws.start);let j=index>=0?index:0;let t=ws.start;let value=index>=0?events[index][1]:null;
@@ -564,9 +623,9 @@
           if(path)svg.append(svgEl("path",{d:path,class:"wave-trace"}));
         }else{for(const [a,b,v] of segments){if(b<ws.start||a>ws.end)continue;const pa=x(Math.max(a,ws.start)),pb=x(Math.min(b,ws.end)),cut=Math.min(4,Math.max(0,(pb-pa)/4));if(v===null){svg.append(svgEl("line",{x1:pa,y1:middle,x2:pb,y2:middle,class:"wave-unknown"}));continue;}const busValue=formatBits(v,signal.width),shape=svgEl("path",{d:`M${pa},${middle}L${pa+cut},${high+2}L${pb-cut},${high+2}L${pb},${middle}L${pb-cut},${low-2}L${pa+cut},${low-2}Z`,class:`wave-bus${/[xz]/i.test(v)?" wave-bus--unknown":""}`});shape.append(svgEl("title",{},`${label}: ${busValue} · ${time(a)}–${time(b)} ${wave.unit||"ns"}`));svg.append(shape);const display=fit(busValue,pb-pa-16);if(display)svg.append(svgEl("text",{x:(pa+pb)/2,y:middle+5,"text-anchor":"middle",class:"wave-value"},display));}}
       }
-      if(ws.cursor>=ws.start&&ws.cursor<=ws.end){const px=x(ws.cursor),label=`${time(ws.cursor)} ${wave.unit||"ns"}`,width=Math.min(d.plot,Math.max(78,label.length*8+18)),left=Math.max(d.left,Math.min(d.width-d.right-width,px-width/2));svg.append(svgEl("line",{x1:px,y1:44,x2:px,y2:height-11,class:"cursor-line"}),svgEl("rect",{x:left,y:26,width:width,height:19,rx:4,fill:"#b83c4d",class:"wave-cursor-label"}),svgEl("text",{x:left+width/2,y:40,"text-anchor":"middle",fill:"#ffffff","font-size":12,"font-family":"ui-monospace,Consolas,monospace",class:"wave-cursor-text"},fit(label,width-12)),svgEl("path",{d:`M${px-5},44L${px+5},44L${px},50Z`,class:"cursor-handle","data-cursor-handle":"true"}),svgEl("rect",{x:px-8,y:73,width:16,height:height-84,fill:"transparent","data-cursor-handle":"true",style:"cursor:ew-resize"}));}
+      if(ws.cursor>=ws.start&&ws.cursor<=ws.end){const px=x(ws.cursor),label=`t=${absoluteTime(ws.cursor)} ${wave.unit||"ns"}`,width=Math.min(d.plot,Math.max(78,label.length*8+18)),left=Math.max(d.left,Math.min(d.width-d.right-width,px-width/2)),text=svgEl("text",{x:left+width/2,y:40,"text-anchor":"middle",fill:"#ffffff","font-size":12,"font-family":"ui-monospace,Consolas,monospace",class:"wave-cursor-text"},fit(label,width-12));text.append(svgEl("title",{},`游标绝对时间 ${absoluteTime(ws.cursor)} ${wave.unit||"ns"}`));svg.append(svgEl("line",{x1:px,y1:44,x2:px,y2:height-11,class:"cursor-line"}),svgEl("rect",{x:left,y:26,width:width,height:19,rx:4,fill:"#b83c4d",class:"wave-cursor-label"}),text,svgEl("path",{d:`M${px-5},44L${px+5},44L${px},50Z`,class:"cursor-handle","data-cursor-handle":"true"}),svgEl("rect",{x:px-8,y:73,width:16,height:height-84,fill:"transparent","data-cursor-handle":"true",style:"cursor:ew-resize"}));}
       if(document.activeElement!==startInput)startInput.value=String(Number(ws.start.toFixed(6)));if(document.activeElement!==endInput)endInput.value=String(Number(ws.end.toFixed(6)));if(document.activeElement!==cursorInput)cursorInput.value=String(Number(ws.cursor.toFixed(6)));
-      status.classList.remove("invalid");status.textContent=`窗口 ${time(ws.start)}–${time(ws.end)} ${wave.unit||"ns"} · 游标 ${time(ws.cursor)} ${wave.unit||"ns"} · ${selected.length}/${wave.signals.length} 个信号`;
+      status.classList.remove("invalid");status.textContent=`窗口 ${absoluteTime(ws.start)}–${absoluteTime(ws.end)} ${wave.unit||"ns"} · 游标绝对时间 ${absoluteTime(ws.cursor)} ${wave.unit||"ns"} · ${selected.length}/${wave.signals.length} 个信号`;
       values.replaceChildren(...selected.map(signal=>el("div",{className:"cursor-value"},el("span",{},text(signal.label||signal.id)),el("code",{},formatBits(valueAt(signal,ws.cursor),signal.width)))));
     }
     function focusEvent(event){if(!finite(event.start))return;ws.eventId=event.id;ws.cursor=finite(event.end)?event.end:event.start;const duration=finite(event.end)?Math.max(0,event.end-event.start):0;const span=Math.max(duration*8,domainSpan/3000,minSpan*8);setWindow(ws.cursor-span*.6,ws.cursor+span*.4);updateEventSummary(event);announce(`定位 APB 事件，游标 ${time(ws.cursor)} ${wave.unit||"ns"}`);}

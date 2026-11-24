@@ -107,33 +107,83 @@
   font-size: .9375rem;
 }
 
-.case-matrix {
-  table-layout: fixed;
+.case-figure { margin: 13px 0 0; }
+
+.case-chart-caption,
+.case-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  font-size: .875rem;
+  color: var(--muted);
+}
+.case-chart-caption { justify-content: space-between; margin-bottom: 9px; }
+.case-legend > span { display: inline-flex; align-items: center; gap: 7px; }
+
+.case-plot {
+  --sample-height: 62px;
+  display: grid;
+  grid-template-columns: 78px repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
   font-variant-numeric: tabular-nums;
 }
-
-.case-matrix th,
-.case-matrix td {
-  padding: 8px 6px;
-  text-align: center;
-  vertical-align: middle;
+.case-axis {
+  display: grid;
+  grid-template-rows: repeat(2, var(--sample-height)) auto;
+  border-right: 1px solid var(--line);
+  font-size: .875rem;
+  color: var(--muted);
 }
-
-.case-matrix th:first-child {
-  text-align: left;
-  width: 25%;
-  white-space: normal;
+.case-axis span { align-self: center; }
+.case-axis span:last-child { align-self: start; padding-top: 8px; }
+.case-column { min-width: 0; }
+.case-column--difference { background: #f0f8f5; }
+.case-observations {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, min(50%, 46px)));
+  grid-template-rows: repeat(2, var(--sample-height));
+  place-content: center;
+  align-items: center;
 }
-
-.case-matrix th .badge { margin: 0 0 0 8px; }
-.case-matrix tbody th { background: transparent; }
-.case-matrix thead code { color: var(--ink); font-size: 1rem; }
-.case-matrix thead span { display: block; color: var(--amber); font-weight: 500; }
-.case-matrix .case-byte-target { background: #fff5df; }
-.case-lsr { display: block; font-size: 1rem; }
-.case-bit { color: var(--muted); font: .875rem/1.6 ui-monospace, Consolas, monospace; }
-.case-bit-set { color: var(--teal-dark); font-weight: 700; }
-.case-matrix tbody tr:last-child th { border-bottom: 0; }
+.case-observations::before,
+.case-observations::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  border-top: 1px dashed #bcd1da;
+  pointer-events: none;
+}
+.case-observations::before { top: 25%; }
+.case-observations::after { top: 75%; }
+.case-point {
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  min-height: 42px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+.case-point--upstream { grid-column: 1; }
+.case-point--fixed { grid-column: 2; }
+.case-mark {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #5e798c;
+  border-radius: 50%;
+  background: #fff;
+}
+.case-mark--fixed { background: var(--teal); border-color: var(--teal); border-radius: 2px; }
+.case-point .case-mark { width: 16px; height: 16px; }
+.case-point:hover .case-mark,
+.case-point:focus-visible .case-mark { box-shadow: 0 0 0 5px #d1e9e4; }
+.case-byte { display: flex; justify-content: center; align-items: baseline; flex-wrap: wrap; gap: 3px 8px; padding: 6px; min-height: 40px; }
+.case-byte code { font-size: 1rem; font-weight: 650; }
+.case-byte span { color: var(--teal-dark); font-size: .875rem; }
+.case-readout { margin: 0; max-width: 100%; overflow-wrap: anywhere; }
 
 .case-evidence-footer {
   display: flex;
@@ -166,6 +216,48 @@
 .overview-actions button { min-height: 34px; }
 .overview-details { border-top: 1px solid var(--line); padding-top: 6px; }
 .overview-details > summary { color: var(--teal-dark); }
+
+.coverage-scope { margin-bottom: 12px; }
+.coverage-scope .field { width: min(100%, 390px); }
+.coverage-measures.coverage-metrics {
+  display: block;
+  padding: 4px 17px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.coverage-measure.coverage-metric {
+  padding: 12px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.coverage-measure + .coverage-measure { border-top: 1px solid var(--line); }
+.coverage-measure-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 3px 14px;
+}
+.coverage-measure-heading h2,
+.coverage-measure-heading h3 { margin: 0; }
+.coverage-measure-count {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.coverage-measure-count .coverage-percent { margin: 0; }
+.coverage-scope p { margin: 0; }
+.coverage-measure .bar-track { height: 7px; margin-top: 7px; }
+.coverage-measure--unknown .bar-track { background: repeating-linear-gradient(135deg, #e5edf1 0 5px, #f2f6f8 5px 10px); }
+.coverage-missing { color: var(--muted); font-size: .875rem; }
+.coverage-details { border-top: 1px solid var(--line); padding-top: 5px; }
+.coverage-details summary { color: var(--teal-dark); }
+#coverage-gaps .count-label { margin: 8px 0 12px; }
 
 /* Keep the timing plot as a full-width instrument. */
 .panel.waveform-panel {
@@ -247,6 +339,11 @@
 .wave-chart .wave-selected-range { fill: #4ca6a4; fill-opacity: .13; }
 .wave-chart .wave-selected-boundary { stroke: #207d80; stroke-width: 1.4; }
 .wave-chart .wave-cursor-label { font: 12px ui-monospace, Consolas, monospace; fill: #a32b39; }
+.wave-chart .wave-event-band--read:not(.wave-event-band--selected),
+.wave-chart .wave-event-band--write:not(.wave-event-band--selected) {
+  fill: #e7eef2;
+  stroke: #aabec9;
+}
 
 .regression-more { display: none; }
 
@@ -262,11 +359,8 @@
   .workspace-nav button { min-height: 40px; }
   .topbar { min-height: 58px; padding-block: 10px; }
   .association-case { padding: 12px; }
-  .case-matrix th,
-  .case-matrix td { padding: 7px 3px; }
-  .case-matrix thead code { font-size: .95rem; }
-  .case-matrix th .badge { margin: 2px 0 0; font-size: .75rem; padding: 2px 4px; }
-  .case-matrix th .link-button { text-align: left; }
+  .case-plot { --sample-height: 44px; grid-template-columns: 61px repeat(3, minmax(0, 1fr)); }
+  .case-byte { padding: 5px 2px; }
   .overview-metrics { gap: 3px 14px; margin: 12px 0; }
   .wave-record-picker .field { flex-direction: column; align-items: stretch; gap: 2px; }
 
