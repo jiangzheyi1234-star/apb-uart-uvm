@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Open raw failures, the APB timeout trace and core coverage gaps directly from the dashboard overview.
+- Jump to recorded APB wait or exception events. Open the matching run, log and report from a trace, and return to the previous regression filters and page.
+- Fit all six navigation entries on narrow screens.
+
 ## 1.2.0 — 2026-11-24
 
 ### Added

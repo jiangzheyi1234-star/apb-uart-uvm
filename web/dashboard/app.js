@@ -119,7 +119,7 @@
   const suitesById=new Map(suites.map(suite=>[suite.id,suite]));
   const runsById=new Map(runs.filter(run=>hasId(run.id)).map(run=>[run.id,run]));
   const suiteTitle = id => text(suitesById.get(id)?.title || id);
-  const state={tab:"overview",reg:{suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,size:25,sort:"recorded"},coverageId:coverage[0]?.id,waveId:waves[0]?.id,waveState:new Map()};
+  const state={tab:"overview",reg:{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,size:25,sort:"recorded"},coverageId:coverage[0]?.id,waveId:waves[0]?.id,waveState:new Map(),waveReturn:null};
   let cleanupView=()=>{};
 
   function counts(rows) {
@@ -140,21 +140,30 @@
     try { if(location.hash!=="#"+name)history.replaceState(null,"","#"+name); } catch (_) { if(location.hash!=="#"+name)location.hash=name; }
     root.replaceChildren();
     ({overview:renderOverview,regressions:renderRegressions,coverage:renderCoverage,waveforms:renderWaveforms,architecture:renderArchitecture,defects:renderDefects})[name]();
-    if(focus)root.focus({preventScroll:true});
+    if(focus) {
+      root.focus({preventScroll:true});
+      window.scrollTo(0, 0);
+    }
   }
 
   function showRuns(filters) {
-    Object.assign(state.reg,{suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1},filters);
+    Object.assign(state.reg,{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1},filters);
     setView("regressions",true);
   }
-  function showWave(id) { state.waveId=id;setView("waveforms",true); }
+  function showRun(run) {
+    if(!hasId(run.id))return;
+    showRuns({runId:run.id,suite:String(run.suite_id??"__missing__"),variant:String(run.variant??"__missing__"),test:String(run.test??"__missing__"),seed:String(run.seed??"__missing__"),phase:run.phase?String(run.phase):""});
+  }
+  function showWave(id) {
+    state.waveReturn = state.tab === "regressions" ? {...state.reg} : null;
+    state.waveId = id;
+    setView("waveforms", true);
+  }
   function intro(message) { root.append(el("div",{className:"view-intro"},el("p",{},message))); }
   function evidenceLinks(items) { return el("div",{className:"evidence-links"},list(items).map(item=>link(text(item.label),item.url))); }
 
   function renderOverview() {
-    intro("从统计范围进入证据：先检查原始运行状态，再定位覆盖缺口、总线事件与源码。UART、APB 协议和负向控制分别计量。");
     const project=data.project||{};
-    if(project.source_note)root.append(el("div",{className:"source-note"},project.source_note));
     const headline=data.headline||{};
     const headlineIds=list(headline.suite_ids);
     const headlineRuns=runs.filter(run=>headlineIds.includes(run.suite_id)&&run.variant===headline.variant);
@@ -168,6 +177,31 @@
       card("UART 成功比对帧",finite(tx)&&finite(rx)?number(tx+rx):missing,finite(tx)&&finite(rx)?`TX ${number(tx)} · RX ${number(rx)}；仅上述 PASS` : "需有完整的 TX / RX 计数"),
       card("核心功能 bins · 未加权",metricText(core?.metrics?.functional_bins),percent(core?.metrics?.functional_bins)),
       card("核心 RTL 代码行",metricText(core?.metrics?.rtl_lines),`${percent(core?.metrics?.rtl_lines)} · LCOV 独立口径`)));
+    const failures = counts(runs).fail;
+    const timeoutWave = waves.find(wave => {
+      const run = runsById.get(wave.run_id);
+      return run?.suite_id === "apb_protocol" && run.phase === "negative" && run.raw_status === "FAIL";
+    });
+    const taskLink = (label, detail, action) => el("button", {
+      type: "button", className: "debug-entry", onClick: action
+    }, el("strong", {}, label), el("span", {}, detail));
+    const debugEntries = [
+      failures ? taskLink("查看原始 FAIL", `${number(failures)} 条记录 · 按范围筛选并打开日志`,
+        () => showRuns({status: "FAIL"})) : null,
+      timeoutWave ? taskLink("打开 APB 超时波形", "查看等待、复位中止与恢复事务",
+        () => showWave(timeoutWave.id)) : null,
+      core ? taskLink("检查覆盖缺口", `${metricText(core.metrics?.functional_bins)} 功能 bins`, () => {
+        state.coverageId = core.id;
+        setView("coverage", true);
+        const gaps = document.getElementById("coverage-gaps");
+        gaps?.focus({preventScroll:true});
+        gaps?.scrollIntoView({block:"start"});
+      }) : null
+    ].filter(Boolean);
+    if (debugEntries.length) {
+      root.append(el("section", {className: "debug-entry-section", "aria-label": "常用调试入口"},
+        el("h2", {}, "常用调试入口"), el("div", {className: "debug-entry-grid"}, debugEntries)));
+    }
     const separate=suites.filter(suite=>suite.id==="apb_protocol"||suite.id==="fault_control"||["protocol","negative_control","fault_control"].includes(suite.kind));
     if(separate.length) {
       root.append(el("div",{className:"card-grid"},separate.map(suite=>{
@@ -190,6 +224,7 @@
     const chain=list(project.toolchain);
     const chainLabels=chain.length?chain.map(item=>typeof item==="string"?item:[item?.name,item?.version].filter(Boolean).join(" ")):typeof project.toolchain==="string"?[project.toolchain]:project.toolchain&&typeof project.toolchain==="object"?Object.entries(project.toolchain).map(([key,value])=>`${key} ${text(value)}`):[];
     const provenance=panel("来源与实现边界","输入哈希用于复核记录；不同源码快照与覆盖统计范围分别保留。",
+      project.source_note?el("p",{className:"inline-note"},project.source_note):null,
       chainLabels.length?el("div",{className:"toolchain"},chainLabels.map(value=>el("span",{},value))):null,
       list(data.limitations).length?el("ul",{},data.limitations.map(value=>el("li",{},value))):el("p",{className:"muted"},"数据未附加实现边界说明。"));
     const inputs=list(data.inputs),inputsKnown=Array.isArray(data.inputs);
@@ -204,6 +239,7 @@
   function filteredRuns() {
     const f=state.reg;
     let selected=runs.filter(run=>{
+      if(hasId(f.runId)&&run.id!==f.runId)return false;
       for(const [filter,key] of [["suite","suite_id"],["variant","variant"],["test","test"],["seed","seed"],["status","raw_status"],["phase","phase"]]) {
         if(f[filter]&&String(run[key]??"__missing__")!==f[filter])return false;
       }
@@ -235,13 +271,15 @@
     const search=el("input",{type:"search",value:state.reg.query,placeholder:"测试名、记录 ID、分类…",onInput:event=>{state.reg.query=event.target.value;state.reg.page=1;updateResults();}});
     fields.append(makeField("搜索记录",search,{wide:true}));
     fields.append(makeField("排序",makeSelect([{value:"recorded",label:"记录顺序"},{value:"fail_first",label:"原始 FAIL 优先"},{value:"test",label:"测试名称 / seed"}],state.reg.sort,value=>{state.reg.sort=value;state.reg.page=1;updateResults();})));
-    const filterPanel=panel("筛选记录",null,fields,el("div",{className:"toolbar-end"},button("清除筛选",()=>{Object.assign(state.reg,{suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,sort:"recorded"});setView("regressions");})));
+    const filterPanel=panel("筛选记录",null,fields,
+      hasId(state.reg.runId)?el("div",{className:"filter-chip"},"精确定位",el("code",{},String(state.reg.runId)),button("取消单条定位",()=>{state.reg.runId="";state.reg.page=1;setView("regressions");},{className:"link-button"})):null,
+      el("div",{className:"toolbar-end"},button("清除筛选",()=>{Object.assign(state.reg,{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,sort:"recorded"});setView("regressions");})));
     root.append(filterPanel,resultBox);
     function updateResults() {
       const rows=filteredRuns(), c=counts(rows), pages=Math.max(1,Math.ceil(rows.length/state.reg.size));
       state.reg.page=Math.min(Math.max(1,state.reg.page),pages);
       const start=(state.reg.page-1)*state.reg.size;
-      const toolbar=el("div",{className:"toolbar"},el("span",{className:"count-label",role:"status","aria-live":"polite"},`筛选 ${rows.length} / ${runs.length} 条 · PASS ${c.pass} · 原始 FAIL ${c.fail} · DETECTED ${c.detected}`),el("div",{className:"toolbar-end"},makeField("每页",makeSelect([25,50,100].map(value=>({value:String(value),label:String(value)})),String(state.reg.size),value=>{state.reg.size=Number(value);state.reg.page=1;updateResults();})),button("导出筛选 CSV",()=>downloadCSV("uart-regressions.csv",["suite","variant","test","seed","phase","raw_status","classification","expected","TX","RX","UVM_ERROR","UVM_FATAL","APB_completed","duration_s","log_url"],rows.map(run=>[run.suite_id,run.variant,run.test,run.seed,run.phase,run.raw_status,run.classification,run.expected,run.metrics?.tx,run.metrics?.rx,run.metrics?.errors,run.metrics?.fatals,run.metrics?.apb_completed,run.metrics?.duration_s,run.log_url])),{disabled:!rows.length})));
+      const toolbar=el("div",{className:"toolbar"},el("span",{className:"count-label",role:"status","aria-live":"polite"},`筛选 ${rows.length} / ${runs.length} 条 · PASS ${c.pass} · 原始 FAIL ${c.fail} · DETECTED ${c.detected}`),el("div",{className:"toolbar-end"},makeField("每页",makeSelect([25,50,100].map(value=>({value:String(value),label:String(value)})),String(state.reg.size),value=>{state.reg.size=Number(value);state.reg.page=1;updateResults();})),button("导出筛选 CSV",()=>downloadCSV("uart-regressions.csv",["run_id","suite","variant","test","seed","phase","raw_status","classification","expected","TX","RX","UVM_ERROR","UVM_FATAL","APB_completed","duration_s","log_url"],rows.map(run=>[run.id,run.suite_id,run.variant,run.test,run.seed,run.phase,run.raw_status,run.classification,run.expected,run.metrics?.tx,run.metrics?.rx,run.metrics?.errors,run.metrics?.fatals,run.metrics?.apb_completed,run.metrics?.duration_s,run.log_url])),{disabled:!rows.length})));
       const resultPanel=el("section",{className:"panel"},toolbar);
       if(!rows.length)resultPanel.append(empty("没有符合条件的记录","调整筛选条件，或清除筛选后重新查看。没有记录不代表测试通过。"));
       else {
@@ -279,6 +317,8 @@
     const gaps=list(selected.gaps), gapResults=el("div",{});
     const search=el("input",{type:"search",placeholder:"分组、bin 或记录的原因…","aria-label":"筛选覆盖缺口"});
     const gapPanel=panel("未命中的有效 bins","未记录原因时保留空缺，不以推断替代工程说明。",makeField("查找缺口",search),el("div",{style:{height:"16px"}}),gapResults);
+    gapPanel.id = "coverage-gaps";
+    gapPanel.tabIndex = -1;
     function updateGaps(){const q=search.value.trim().toLowerCase();const filtered=gaps.filter(gap=>!q||[gap.group,gap.bin,gap.reason].some(value=>String(value??"").toLowerCase().includes(q)));
       gapResults.replaceChildren(filtered.length?table(["分组 / bin","实际命中 / 阈值","记录的原因","源码"],filtered.map(gap=>el("tr",{},el("td",{},el("span",{className:"secondary"},text(gap.group)),el("br"),el("code",{},text(gap.bin))),el("td",{className:"mono nowrap"},`${number(gap.hits)} / ${number(gap.at_least)}`),el("td",{className:"gap-reason"},gap.reason||missing),el("td",{},gap.source_url?link("源码位置",gap.source_url):el("span",{className:"secondary"},missing))))):empty(gaps.length?"没有匹配的缺口":"数据中未列出缺口",gaps.length?"调整关键词后重试。":"空列表本身不证明完整覆盖；请同时核对上方分子、分母及原生数据库。"));}
     search.addEventListener("input",updateGaps);updateGaps();root.append(gapPanel);
@@ -299,6 +339,8 @@
     try{return "0x"+BigInt("0b"+value).toString(16).toUpperCase().padStart(Math.ceil((width||value.length)/4),"0");}catch(_){return value;}
   }
   function formatBus(value) {return finite(value)?"0x"+Math.trunc(value).toString(16).toUpperCase():text(value);}
+  function eventHasWait(event) {return finite(event.wait_cycles)&&event.wait_cycles>0;}
+  function eventHasIssue(event) {return event.slverr===true||(finite(event.slverr)&&event.slverr!==0)||(typeof event.status==="string"&&event.status.trim()!==""&&event.status.toUpperCase()!=="OK");}
   function validRange(range) {return Array.isArray(range)&&finite(range[0])&&finite(range[1])&&range[1]>range[0];}
   function defaultWaveSignals(signals) {
     const matches=(signal,name)=>[signal.id,signal.label].some(value=>typeof value==="string"&&(value===name||value.endsWith("."+name)||(name==="apb.rst_n"&&value==="rst_n")));
@@ -314,14 +356,20 @@
     const wave=prepareWave(source);
     if(!validRange(wave.range)){root.append(empty("波形时间范围未记录","需要有效的 range:[start,end] 才能显示真实时间轴。"));return;}
     const domain=wave.range, domainSpan=domain[1]-domain[0], minSpan=Math.max(domainSpan/100000,0.001);
+    const defaults = defaultWaveSignals(wave.signals);
+    const orderedSignals = defaults.concat(wave.signals.filter(signal => !defaults.includes(signal)));
     let ws=state.waveState.get(wave.id);
-    if(!ws){const initial=validRange(wave.default_window)?[Math.max(domain[0],wave.default_window[0]),Math.min(domain[1],wave.default_window[1])]:domain.slice();const window=validRange(initial)?initial:domain.slice();const defaults=defaultWaveSignals(wave.signals);ws={start:window[0],end:window[1],cursor:(window[0]+window[1])/2,selected:new Set(defaults.map(signal=>signal.id)),eventId:null,eventPage:1,eventsInView:true};state.waveState.set(wave.id,ws);}
+    if(!ws){const initial=validRange(wave.default_window)?[Math.max(domain[0],wave.default_window[0]),Math.min(domain[1],wave.default_window[1])]:domain.slice();const window=validRange(initial)?initial:domain.slice();ws={start:window[0],end:window[1],cursor:(window[0]+window[1])/2,selected:new Set(defaults.map(signal=>signal.id)),eventId:null,eventPage:1,eventsInView:true,eventKind:"all",eventQuery:""};state.waveState.set(wave.id,ws);}
     const waveformPanel=el("section",{className:"panel"});
     const picker=makeSelect(waves.map(item=>({value:String(item.id),label:text(item.title)})),String(wave.id),id=>{state.waveId=id;setView("waveforms");},{"aria-label":"选择真实波形"});
     const controls=el("div",{className:"wave-controls"});
     waveformPanel.append(el("div",{className:"wave-select-bar"},makeField("波形记录",picker),controls));
     const related=hasId(wave.run_id)?runsById.get(wave.run_id):null;
-    if(related)waveformPanel.append(el("div",{className:"legend legend-inline"},el("span",{},el("code",{},text(related.test)),` · seed ${text(related.seed)} · ${variantName(related.variant)}`),resultBadges(related)));
+    if(related||state.waveReturn)waveformPanel.append(el("div",{className:"wave-run-context"},
+      related?el("div",{className:"legend legend-inline"},el("span",{},el("code",{},text(related.test)),` · seed ${text(related.seed)} · ${variantName(related.variant)}`),resultBadges(related),el("span",{},suiteTitle(related.suite_id),related.phase?` · ${phaseName(related.phase)}`:"")):null,
+      el("div",{className:"evidence-links"},related?.log_url?link("同次运行日志",related.log_url):null,related?.report_url?link("同次原始报告",related.report_url):null,
+        related?button("查看此运行",()=>showRun(related),{className:"button small"}):null,
+        state.waveReturn?button("返回筛选结果",()=>{Object.assign(state.reg,state.waveReturn);setView("regressions",true);},{className:"button small"}):null)));
     const signalPanel=el("aside",{className:"signal-panel","aria-label":"信号选择"},el("h3",{},"显示信号"));
     const signalList=el("div",{className:"signal-list"});
     const svg=svgEl("svg",{class:"wave-chart",tabindex:"0",role:"img","aria-label":"可操作的真实波形：左右键移动游标，加减键缩放，Shift 加左右键平移，Home 查看全程"});
@@ -336,13 +384,17 @@
     waveformPanel.append(el("div",{className:"wave-layout"},signalPanel,waveMain));
     if(wave.source)waveformPanel.append(el("div",{className:"provenance"},wave.source.url?link("打开原始 VCD",wave.source.url):el("span",{className:"secondary"},"原始 VCD 链接未记录"),wave.source.sha256?el("p",{className:"hash",style:{marginTop:"8px"}},"SHA-256 ",wave.source.sha256):null,wave.source.note?el("p",{className:"secondary"},wave.source.note):null));
     root.append(waveformPanel);
-    const eventResults=el("div",{});
-    const eventSearch=el("input",{type:"search",placeholder:"地址、数据、状态…","aria-label":"筛选 APB 事件"});
+    const eventResults=el("div",{}),allEvents=list(wave.apb_events),waitEvents=allEvents.filter(eventHasWait),issueEvents=allEvents.filter(eventHasIssue);
+    const eventSearch=el("input",{type:"search",value:ws.eventQuery,placeholder:"地址、数据、状态…","aria-label":"筛选 APB 事件"});
+    const eventKind=makeSelect([{value:"all",label:`全部记录 (${allEvents.length})`},{value:"wait",label:`有等待 (${waitEvents.length})`},{value:"issue",label:`异常记录 (${issueEvents.length})`}],ws.eventKind,value=>{ws.eventKind=value;ws.eventPage=1;renderEvents();},{"aria-label":"APB 事件类型"});
     const inView=el("input",{type:"checkbox",checked:ws.eventsInView,onChange:event=>{ws.eventsInView=event.target.checked;ws.eventPage=1;renderEvents();}});
-    root.append(panel("APB 事件", "点击事件时间定位到对应采样窗口；等待周期和 PSLVERR 只显示已有记录。",el("div",{className:"toolbar"},makeField("搜索事件",eventSearch),el("label",{className:"check-field"},inView,"仅当前窗口")),eventResults));
-    eventSearch.addEventListener("input",()=>{ws.eventPage=1;renderEvents();});
+    const locatable=event=>finite(event.start)&&event.start>=domain[0]&&event.start<=domain[1];
+    root.append(panel("APB 事件", "点击事件时间定位到对应采样窗口。",
+      el("div",{className:"toolbar wave-event-tools"},makeField("事件类型",eventKind),makeField("搜索事件",eventSearch),el("label",{className:"check-field"},inView,"仅当前窗口")),
+      el("p",{className:"inline-note"},"快捷定位扫描整份波形，并清除事件搜索条件。异常记录包括非 OK 状态或 PSLVERR；复位中止、未完成及未知记录需结合日志判断。"),eventResults));
+    eventSearch.addEventListener("input",()=>{ws.eventQuery=eventSearch.value;ws.eventPage=1;renderEvents();});
     signalPanel.append(el("div",{className:"button-group"},button("全选",()=>{ws.selected=new Set(wave.signals.map(signal=>signal.id));refreshSignals();scheduleDraw(true);},{className:"button small"}),button("清空",()=>{ws.selected.clear();refreshSignals();scheduleDraw(true);},{className:"button small"})),signalList);
-    function refreshSignals(){signalList.replaceChildren(...wave.signals.map(signal=>el("label",{className:"signal-check"},el("input",{type:"checkbox",checked:ws.selected.has(signal.id),onChange:event=>{if(event.target.checked)ws.selected.add(signal.id);else ws.selected.delete(signal.id);scheduleDraw(true);}}),el("span",{},text(signal.label||signal.id),finite(signal.width)?el("small",{},`[${signal.width}]`):null))));}
+    function refreshSignals(){signalList.replaceChildren(...orderedSignals.map(signal=>el("label",{className:"signal-check"},el("input",{type:"checkbox",checked:ws.selected.has(signal.id),onChange:event=>{if(event.target.checked)ws.selected.add(signal.id);else ws.selected.delete(signal.id);scheduleDraw(true);}}),el("span",{},text(signal.label||signal.id),finite(signal.width)?el("small",{},`[${signal.width}]`):null))));}
     refreshSignals();
     let frame=null,pendingEvents=false,drag=null;
     function scheduleDraw(events=false){pendingEvents=pendingEvents||events;if(frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;draw();if(pendingEvents){pendingEvents=false;renderEvents();}});}
@@ -353,10 +405,20 @@
     function invalid(message){status.classList.add("invalid");status.textContent=message;}
     function applyWindow(){const start=inputNumber(startInput),end=inputNumber(endInput);if(!finite(start)||!finite(end)||end<=start||start<domain[0]||end>domain[1]){invalid("请填写有效起止时间；终点须大于起点，且窗口应位于记录范围内。");return;}setWindow(start,end);}
     controls.append(button("放大",()=>zoom(.5),{className:"button small"}),button("缩小",()=>zoom(2),{className:"button small"}),button("全程",()=>setWindow(...domain),{className:"button small"}),button("初始窗口",()=>setWindow(...(validRange(wave.default_window)?wave.default_window:domain)),{className:"button small"}),button("居中游标",centerCursor,{className:"button small"}));
+    const eventSummary = el("span", {className:"count-label"});
+    function updateEventSummary(event) {
+      eventSummary.textContent = event ? `${text(event.status)} · ${number(event.wait_cycles)} 等待周期 · ${time(event.start)}–${time(event.end)} ${wave.unit || "ns"}` : "";
+    }
+    updateEventSummary(ws.eventId === null ? null : allEvents.find(event => event.id === ws.eventId));
+    const jumpControls = el("div", {className:"button-group wave-jump-controls", "aria-label":"APB 事件定位"},
+      button("下一个等待", () => jumpEvent("wait"), {className:"button small", disabled:!waitEvents.some(locatable)}),
+      button("下一个异常", () => jumpEvent("issue"), {className:"button small", disabled:!issueEvents.some(locatable)}),
+      eventSummary);
+    waveformPanel.insertBefore(jumpControls, waveformPanel.querySelector(".wave-layout"));
     function dimensions(){const width=Math.max(260,chartFrame.clientWidth-2);const left=width<500?108:148;return {width,left,right:14,plot:Math.max(80,width-left-14)};}
     function pointerTime(event){const d=dimensions(),rect=svg.getBoundingClientRect();return ws.start+(Math.max(0,Math.min(d.plot,event.clientX-rect.left-d.left))/d.plot)*(ws.end-ws.start);}
     function draw(){
-      const d=dimensions(),selected=wave.signals.filter(signal=>ws.selected.has(signal.id)),axis=47,row=47,height=axis+Math.max(1,selected.length)*row+19,span=ws.end-ws.start;
+      const d=dimensions(),selected=orderedSignals.filter(signal=>ws.selected.has(signal.id)),axis=47,row=47,height=axis+Math.max(1,selected.length)*row+19,span=ws.end-ws.start;
       svg.setAttribute("viewBox",`0 0 ${d.width} ${height}`);svg.setAttribute("height",String(height));svg.replaceChildren();
       svg.append(svgEl("rect",{x:0,y:0,width:d.width,height:height,fill:"#fcfeff"}),svgEl("rect",{x:0,y:0,width:d.left,height:height,fill:"#f0f5f8"}));
       const x=t=>d.left+(t-ws.start)/span*d.plot;
@@ -385,12 +447,14 @@
       status.classList.remove("invalid");status.textContent=`窗口 ${time(ws.start)}–${time(ws.end)} ${wave.unit||"ns"} · 游标 ${time(ws.cursor)} ${wave.unit||"ns"} · ${selected.length}/${wave.signals.length} 个信号`;
       values.replaceChildren(...selected.map(signal=>el("div",{className:"cursor-value"},el("span",{},text(signal.label||signal.id)),el("code",{},formatBits(valueAt(signal,ws.cursor),signal.width)))));
     }
-    function focusEvent(event){if(!finite(event.start))return;ws.eventId=event.id;ws.cursor=finite(event.end)?event.end:event.start;const duration=finite(event.end)?Math.max(0,event.end-event.start):0;const span=Math.max(duration*8,domainSpan/3000,minSpan*8);setWindow(ws.cursor-span*.6,ws.cursor+span*.4);announce(`定位 APB 事件，游标 ${time(ws.cursor)} ${wave.unit||"ns"}`);}
+    function focusEvent(event){if(!finite(event.start))return;ws.eventId=event.id;ws.cursor=finite(event.end)?event.end:event.start;const duration=finite(event.end)?Math.max(0,event.end-event.start):0;const span=Math.max(duration*8,domainSpan/3000,minSpan*8);setWindow(ws.cursor-span*.6,ws.cursor+span*.4);updateEventSummary(event);announce(`定位 APB 事件，游标 ${time(ws.cursor)} ${wave.unit||"ns"}`);}
+    function jumpEvent(kind){const candidates=(kind==="wait"?waitEvents:issueEvents).filter(locatable).slice().sort((a,b)=>a.start-b.start);if(!candidates.length)return;let index=candidates.findIndex(event=>event.start>ws.cursor);const wrapped=index<0;if(wrapped)index=0;ws.eventKind=kind;eventKind.value=kind;ws.eventQuery="";eventSearch.value="";ws.eventsInView=true;inView.checked=true;focusEvent(candidates[index]);announce(`${wrapped?"已回到首项；":""}定位${kind==="wait"?"等待事件":"异常记录"} ${index+1}/${candidates.length}，游标 ${time(ws.cursor)} ${wave.unit||"ns"}`);}
     function renderEvents(){const q=eventSearch.value.trim().toLowerCase();const events=list(wave.apb_events).filter(event=>{
+      if(ws.eventKind==="wait"&&!eventHasWait(event)||ws.eventKind==="issue"&&!eventHasIssue(event))return false;
       if(ws.eventsInView&&(!finite(event.start)||event.start>ws.end||(finite(event.end)?event.end:event.start)<ws.start))return false;
       return !q||[event.address,event.write_data,event.read_data,event.status,formatBus(event.address),event.id].some(value=>String(value??"").toLowerCase().includes(q));
     });const per=25,pages=Math.max(1,Math.ceil(events.length/per));ws.eventPage=Math.max(1,Math.min(pages,ws.eventPage));const offset=(ws.eventPage-1)*per;
-      if(!events.length){eventResults.replaceChildren(empty("当前没有 APB 事件",list(wave.apb_events).length?"尝试扩大时间窗口、清空关键词或取消“仅当前窗口”。":"该波形没有附加 APB 事件表；仍可检查真实引脚采样。"));return;}
+      if(!events.length){eventResults.replaceChildren(empty("当前没有 APB 事件",list(wave.apb_events).length?"尝试选择全部记录、扩大时间窗口、清空关键词或取消“仅当前窗口”。":"该波形没有附加 APB 事件表；仍可检查真实引脚采样。"));return;}
       const rows=events.slice(offset,offset+per).map(event=>el("tr",{"data-event-id":String(event.id),className:event.id===ws.eventId?"is-selected":"",onClick:()=>focusEvent(event)},el("td",{},button(`${time(event.start)}–${time(event.end)}`,()=>focusEvent(event),{className:"link-button"})),el("td",{},event.write===true?"WRITE":event.write===false?"READ":missing),el("td",{className:"mono"},formatBus(event.address)),el("td",{className:"mono"},formatBus(event.write===true?event.write_data:event.write===false?event.read_data:null)),el("td",{className:"mono"},number(event.wait_cycles)),el("td",{},event.slverr===true?"1":event.slverr===false?"0":finite(event.slverr)?String(event.slverr):missing),el("td",{},text(event.status))));
       eventResults.replaceChildren(el("p",{className:"count-label"},`${events.length} 条事件 · 时间单位 ${wave.unit||"ns"}`),table(["时间起止（点击定位）","方向","地址","数据","等待周期","PSLVERR","记录状态"],rows,{className:"table-scroll apb-event-table"}),el("div",{className:"pagination"},el("span",{},`${offset+1}–${Math.min(offset+per,events.length)} / ${events.length}`),el("div",{className:"button-group"},button("上一页",()=>{ws.eventPage--;renderEvents();},{disabled:ws.eventPage<=1,className:"button small"}),el("span",{},`${ws.eventPage} / ${pages}`),button("下一页",()=>{ws.eventPage++;renderEvents();},{disabled:ws.eventPage>=pages,className:"button small"}))));
     }
