@@ -4,6 +4,12 @@
 
 总览的错误关联案例配对同一 seed 的原版和修复版运行，从 `uart_error_association_test` 的 VCD 解码结果中找出 `0x10 / 0x96 / 0x20` 三次队首读取。点图按队首字节比较读到的 `LSR.PE`。中间字节的原版 LSR 为 `0x61`，修复版为 `0x65`。每个采样点都能定位对应版本和字节的 LSR 读事务。展开“原始日志”查看同次运行，展开“全部验证结果与证据来源”核对各套件结果、实测提交及输入清单。
 
+## 图表与严格需求矩阵
+
+概览点图和“缺陷对照”矩阵使用本地捆绑的 Apache ECharts 6.1.0 SVG 渲染器。当前矩阵显示 **4 项严格需求 × 2 个 RTL 版本 × 3 个 seed，共 24 格**；每格对应一次 UART 核心归档运行，按原始 `PASS`、`FAIL` 或其他状态显示。缺失或存在多条匹配记录时保留“未记录”，不推定通过。该矩阵不加入 RAL、APB 协议或检查器故障对照，也不增加运行次数或覆盖率。
+
+点击矩阵格，或使用“选中运行”下拉框进行键盘选择，可查看该次运行的测试、版本、seed、原始状态、诊断计数及说明，并打开原始日志、报告、对应源码和回归记录；只有归档了该次运行波形时才提供波形入口。图表依赖缺失或渲染失败时，概览保留原生点图，矩阵回退到可点击的 HTML 表格，证据选择仍可使用。
+
 ## 验证套件与判定
 
 | 范围 | 执行入口与标记 | 工作台统计 |
@@ -60,6 +66,8 @@ APB 解码在上升沿使用严格早于该时间戳的信号值，即 **pre-edg
 - 窄屏回归列表优先显示测试、seed、原始状态和证据链接，次要计数可从每行的更多运行信息展开。
 - 打开对应原始日志、报告和 VCD；每份 VCD 保留 SHA-256，便于使用外部波形工具独立查看。
 
+“信号、缩放与运行证据”内保留本地“打开原始 VCD”，并为项目已发布、列入白名单且 SHA-256 与输入清单一致的 VCD 提供可选“用 Surfer 打开”入口。该入口在外部 [Surfer 浏览器版](https://app.surfer-project.org/) 中加载 GitHub Pages 上的公开归档 URL，并携带有效的当前游标与时间窗口。使用 Surfer 需要网络；离线工作台、原始 VCD 和本地波形查看不依赖该服务。
+
 波形解码是诊断视图，不是新的验证 oracle。`RESET_ABORT` 等视图标签也不等于 UVM 的通过判定；结果仍来自原始测试和审计记录。功能 bins、RTL 行和分支覆盖分别保留实测分母，未知计数显示“未记录”。
 
 覆盖页按所选报告显示三个独立进度条，其后可搜索未命中功能 bin 并跳到源码。展开分组和证据可查原生数据、LCOV 和统计定义。
@@ -68,12 +76,22 @@ APB 解码在上升沿使用严格早于该时间戳的信号值，即 **pre-edg
 
 | 路径 | 来源与用途 |
 | --- | --- |
-| `web/dashboard/` | 源码包中的 HTML/CSS/JavaScript 模板，无构建步骤、CDN 或在线数据依赖 |
+| `web/dashboard/` | 源码包中的 HTML/CSS/JavaScript 模板及预构建本地图表资源；浏览无需构建、CDN 或在线数据请求 |
 | `docs/index.html`、`docs/assets/` | 证据包中的生成首页与运行资源 |
+| `docs/assets/vendor/` | ECharts 子集、依赖许可、版权通知及 `SHA256SUMS` |
 | `docs/data/dashboard.js` | 本地数据脚本，设置 `window.UART_DASHBOARD`，页面无需 `fetch` |
 | `docs/data/dashboard.json` | 同一数据的机器可读版本 |
 | `docs/release/`、`docs/features/`、`docs/protocol/` | 保留的静态报告、原始输入和 SHA-256 清单 |
 
 将同一 Release 的源码包与证据包叠加解压到一个根目录，直接打开 `docs/index.html` 即可离线使用，无需启动 HTTP 服务。单独打开尚未装配数据的源模板只会提示缺失，不会生成示例通过记录。原始 HTML 报告仍可从各自 `index.html` 独立打开。
+
+维护图表依赖时，在项目根目录运行：
+
+```bash
+npm --prefix scripts/dashboard-charts ci
+npm --prefix scripts/dashboard-charts run build
+```
+
+锁文件固定 ECharts 6.1.0 及构建工具；[构建入口](../scripts/dashboard-charts/entry.js) 仅注册散点图、热力图、所需组件和 SVG 渲染器。[构建脚本](../scripts/dashboard-charts/build.mjs) 输出 classic-script IIFE、许可文件及 SHA-256 清单到 `web/dashboard/vendor/`。重新运行页面生成器即可将它们复制到 `docs/assets/`；浏览已生成报告不需要 Node.js 或 npm。第三方许可范围见 [NOTICE](../NOTICE.md)。
 
 源码包不包含生成数据、日志或波形；证据包不替代可复跑的验证源码。保留完整相对目录结构并核对独立清单，具体下载和校验方法见 [发布说明](../RELEASE.md)。

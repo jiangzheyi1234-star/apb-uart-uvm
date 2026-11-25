@@ -287,6 +287,10 @@ def build(root: Path, output: Path, template: Path, version: str, repository: st
     shutil.copyfile(template / "index.html", output / "index.html")
     for name in ("app.js", "styles.css"):
         shutil.copyfile(template / name, output / "assets" / name)
+    chart_view = template / "chart-view.js"
+    if chart_view.is_file():
+        shutil.copyfile(chart_view, output / "assets" / chart_view.name)
+        shutil.copytree(template / "vendor", output / "assets" / "vendor", dirs_exist_ok=True)
     serialized = json.dumps(data, ensure_ascii=False, allow_nan=False, separators=(",", ":")).replace("<", "\\u003c").replace(">", "\\u003e")
     (output / "data/dashboard.js").write_text("window.UART_DASHBOARD=" + serialized + ";\n", encoding="utf-8", newline="\n")
     (output / "data/dashboard.json").write_text(json.dumps(data, ensure_ascii=False, allow_nan=False, indent=2) + "\n", encoding="utf-8", newline="\n")

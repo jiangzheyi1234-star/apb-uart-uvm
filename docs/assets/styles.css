@@ -108,6 +108,10 @@
 }
 
 .case-figure { margin: 13px 0 0; }
+.case-library-plot { height: 174px; border-top: 1px solid var(--line); }
+.case-library-plot[hidden], .case-plot[hidden] { display: none; }
+.case-sample-list { margin-top: 0; }
+.case-sample-list .link-button { text-align: left; }
 
 .case-chart-caption,
 .case-legend {
@@ -259,6 +263,13 @@
 .coverage-details summary { color: var(--teal-dark); }
 #coverage-gaps .count-label { margin: 8px 0 12px; }
 
+.defect-matrix-host { height: 226px; }
+.defect-matrix-host:has(.table-scroll) { height: auto; }
+.defect-run-select { max-width: 460px; color: var(--muted); }
+.defect-run-select select { max-width: 100%; }
+.defect-selected-detail .row-actions { margin-top: 15px; }
+.defect-matrix-host [aria-pressed="true"] { border-color: var(--teal); background: var(--teal-pale); }
+
 /* Keep the timing plot as a full-width instrument. */
 .panel.waveform-panel {
   background: transparent;
@@ -359,6 +370,8 @@
   .workspace-nav button { min-height: 40px; }
   .topbar { min-height: 58px; padding-block: 10px; }
   .association-case { padding: 12px; }
+  .case-library-plot { height: 151px; }
+  .defect-matrix-host { height: 208px; }
   .case-plot { --sample-height: 44px; grid-template-columns: 61px repeat(3, minmax(0, 1fr)); }
   .case-byte { padding: 5px 2px; }
   .overview-metrics { gap: 3px 14px; margin: 12px 0; }

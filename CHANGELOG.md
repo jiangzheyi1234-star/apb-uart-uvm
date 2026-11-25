@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Bundle an offline Apache ECharts 6.1.0 SVG subset for the measured overview point plot and the strict-requirement result matrix. Keep the pinned build recipe, dependency licenses and SHA-256 manifest with the local assets.
+- Show four strict UART requirements across two RTL variants and three seeds as 24 original-result cells. Selecting a cell or using the keyboard-accessible run selector opens its evidence details; missing or ambiguous records remain unrecorded. Retain native point-plot and HTML-table fallbacks when chart rendering is unavailable.
+- Add an optional Surfer web-viewer entrypoint for allowlisted, hash-matched published VCD archives, carrying the current cursor and time window. Keep local VCD links and offline waveform inspection independently available.
 - Plot the six measured FIFO head observations by parity-error bit and byte. Each point opens its corresponding APB read in the waveform viewer.
 - Align waveform ticks to regular absolute time intervals and make uncovered bins visible above the optional coverage group details.
 - Make the measured comparison the overview's only primary panel. Put additional results, input manifests and run logs behind disclosures.

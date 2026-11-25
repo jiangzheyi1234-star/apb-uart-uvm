@@ -209,9 +209,10 @@
     const middle = fixed.reads[1];
     const defaultDetail = `${hex(middle.payload)} 队首 · 原版 LSR ${hex(upstream.reads[1].lsr)} · 修复版 LSR ${hex(middle.lsr)}`;
     const readout = el("p", {className:"case-readout"}, defaultDetail);
+    const detailFor = (read, label) => `${label} · ${hex(read.payload)} · LSR ${hex(read.lsr)} · PE=${Number(read.parityError)} · ${time(read.event.end)} ns`;
     function samplePoint(record, index, variant, label) {
       const read = record.reads[index];
-      const detail = `${label} · ${hex(read.payload)} · LSR ${hex(read.lsr)} · PE=${Number(read.parityError)} · ${time(read.event.end)} ns`;
+      const detail = detailFor(read, label);
       return el("button", {
         type:"button", className:`case-point case-point--${variant}`,
         "aria-label":`${detail}，打开波形`, title:detail,
@@ -231,7 +232,24 @@
         el("div", {className:"case-byte"}, el("code", {}, hex(reading.payload)),
           differs ? el("span", {}, "坏校验") : null));
     });
-    return el("section", {className:"association-case", "aria-labelledby":"case-title"},
+    const samples = [[upstream, "upstream", "原版"], [fixed, "fixed", "修复版"]].flatMap(
+      ([record, variant, label]) => record.reads.map(read => ({
+        id: `${variant}:${read.event.id}`, byte: hex(read.payload), variant, bit: Number(read.parityError),
+        detail: detailFor(read, label), waveId: record.trace.id, eventId: read.event.id,
+      })));
+    const select = id => {
+      const sample = samples.find(item => item.id === id);
+      if (sample) showWave(sample.waveId, sample.eventId);
+    };
+    const fallback = el("div", {className:"case-plot"},
+      el("div", {className:"case-axis", "aria-hidden":"true"}, el("span", {}, "PE=1"),
+        el("span", {}, "PE=0"), el("span", {}, "队首字节")), columns);
+    const host = el("div", {className:"case-library-plot", hidden:true, role:"img",
+      "aria-label":"三次读取的 PE 对照。使用采样值列表可打开任一读取的波形。"});
+    const sampleList = el("ul", {className:"case-sample-list", hidden:true}, samples.map(sample =>
+      el("li", {}, button(sample.detail, () => select(sample.id), {className:"link-button"}))));
+    const logTitle = el("summary", {}, "原始日志");
+    const element = el("section", {className:"association-case", "aria-labelledby":"case-title"},
       el("div", {className:"case-intro"},
         el("h2", {id:"case-title"}, "FIFO 校验错误对照"),
         el("p", {}, `${hex(middle.payload)} 位于队首时，修复版报告校验错误。`)),
@@ -241,13 +259,24 @@
             el("span", {}, pointMark("upstream"), `原版 ${upstream.run.raw_status}`),
             el("span", {}, pointMark("fixed"), `修复版 ${fixed.run.raw_status}`)),
           el("span", {}, `seed ${text(fixed.run.seed)} · 点击采样点查看波形`)),
-        el("div", {className:"case-plot"},
-          el("div", {className:"case-axis", "aria-hidden":"true"}, el("span", {}, "PE=1"),
-            el("span", {}, "PE=0"), el("span", {}, "队首字节")), columns),
+        host, fallback,
         el("div", {className:"case-evidence-footer"}, readout,
-          el("details", {className:"case-log-links"}, el("summary", {}, "原始日志"),
+          el("details", {className:"case-log-links"}, logTitle, sampleList,
             el("div", {className:"evidence-links"},
               link("原版日志", upstream.run.log_url), link("修复版日志", fixed.run.log_url))))));
+    return { element, mount() {
+      if (!window.UARTCharts?.renderParity) return;
+      host.hidden = false;
+      try {
+        const view = window.UARTCharts.renderParity(host, { samples, onSelect: select });
+        cleanupView = view.dispose;
+        fallback.hidden = true;
+        sampleList.hidden = false;
+        logTitle.textContent = "采样值与日志";
+      } catch (_) {
+        host.hidden = true;
+      }
+    } };
   }
 
   function renderOverview() {
@@ -260,7 +289,10 @@
     const tx=sumComplete(passing,"tx"),rx=sumComplete(passing,"rx");
     const core=coverage.find(item=>item.suite_id===headlineIds[0]&&item.variant===headline.variant);
     const associationCase = renderAssociationCase();
-    if (associationCase) root.append(associationCase);
+    if (associationCase) {
+      root.append(associationCase.element);
+      associationCase.mount();
+    }
     const metric = (value, label) => el("li", {}, el("strong", {}, value), el("span", {}, label));
     root.append(el("ul", {className:"overview-metrics", "aria-label":"UART 验证结果"},
       metric(headlineRuns.length ? `${h.pass} / ${h.total}` : missing, "修复版回归通过"),
@@ -522,11 +554,27 @@
     const density=makeSelect([{value:"compact",label:"紧凑"},{value:"comfortable",label:"舒展"}],ws.density,value=>{ws.density=value;scheduleDraw();},{"aria-label":"波形行密度"});
     const viewOptions=el("div",{className:"wave-view-options"},el("div",{className:"wave-chart-legend"},el("span",{},el("i",{className:"wave-key--transaction","aria-hidden":"true"}),"事务范围"),el("span",{},el("i",{className:"wave-key--cursor","aria-hidden":"true"}),"时间游标")),el("label",{className:"wave-density"},el("span",{},"行密度"),density));
     const transactionDetails=el("div",{className:"wave-transaction-details wave-selection-details"});
+    // Only link the project's published archives; never forward arbitrary data URLs.
+    const publishedArchives=new Set(["release/inputs/018_waves.vcd","release/inputs/024_waves.vcd","release/inputs/066_waves.vcd","release/inputs/116_waves.vcd","release/inputs/164_waves.vcd","protocol/inputs/008_waves.vcd","protocol/inputs/012_waves.vcd","protocol/inputs/025_waves.vcd"]);
+    const publicWave=data.project?.source_url==="https://github.com/jiangzheyi1234-star/apb-uart-uvm"&&publishedArchives.has(wave.source?.url)&&/^[a-f0-9]{64}$/i.test(wave.source?.sha256||"")&&list(data.inputs).some(input=>input&&input.path===wave.source.url&&input.sha256===wave.source.sha256);
+    function surferUrl(){
+      const viewer=new URL("https://app.surfer-project.org/");
+      viewer.searchParams.set("load_url","https://jiangzheyi1234-star.github.io/apb-uart-uvm/"+wave.source.url);
+      const commands=["psel","penable","pready","pwrite","prdata"].map(name=>"variable_add tb_top.apb."+name);
+      const ns=value=>value.toFixed(9).replace(/\.?0+$/,"")+"ns";
+      if(wave.unit==="ns"){
+        if(finite(ws.cursor)&&ws.cursor>=domain[0]&&ws.cursor<=domain[1])commands.push("cursor_set "+ns(ws.cursor));
+        if(validRange([ws.start,ws.end])&&ws.start>=domain[0]&&ws.end<=domain[1])commands.push("zoom_to "+ns(ws.start)+" "+ns(ws.end));
+      }
+      viewer.searchParams.set("startup_commands",commands.join(";"));
+      return viewer.href;
+    }
+    const professionalLink=publicWave?link("用 Surfer 打开",surferUrl(),{title:"在 Surfer 浏览器版中打开已公开的原始 VCD，带当前游标与时间窗口"}):null;
     const more=el("details",{className:"wave-more"},el("summary",{},"信号、缩放与运行证据"),el("div",{className:"wave-more-body"},
       el("section",{className:"wave-view-settings"},el("h3",{},"视图与时间范围"),controls,viewOptions,windowForm,status,transactionDetails),
       signalPanel,
       el("section",{className:"wave-evidence"},el("h3",{},"同次运行与原始文件"),runContext,
-        wave.source?el("div",{className:"provenance"},wave.source.url?link("打开原始 VCD",wave.source.url):el("span",{className:"secondary"},"原始 VCD 链接未记录"),wave.source.sha256?el("p",{className:"hash",style:{marginTop:"8px"}},"SHA-256 ",wave.source.sha256):null,wave.source.note?el("p",{className:"secondary"},wave.source.note):null):null),
+        wave.source?el("div",{className:"provenance"},el("div",{className:"evidence-links"},wave.source.url?link("打开原始 VCD",wave.source.url):el("span",{className:"secondary"},"原始 VCD 链接未记录"),professionalLink),wave.source.sha256?el("p",{className:"hash",style:{marginTop:"8px"}},"SHA-256 ",wave.source.sha256):null,wave.source.note?el("p",{className:"secondary"},wave.source.note):null):null),
       el("p",{className:"wave-help"},"点击事务轨选中事务；滚轮缩放、拖动平移。← → 移动游标，+ / − 缩放，Shift + ← → 平移，Home 全程。")));
     const waveMain=el("div",{className:"wave-main"},chartFrame,more);
     waveformPanel.append(el("div",{className:"wave-layout wave-layout--full"},waveMain));
@@ -625,6 +673,7 @@
       }
       if(ws.cursor>=ws.start&&ws.cursor<=ws.end){const px=x(ws.cursor),label=`t=${absoluteTime(ws.cursor)} ${wave.unit||"ns"}`,width=Math.min(d.plot,Math.max(78,label.length*8+18)),left=Math.max(d.left,Math.min(d.width-d.right-width,px-width/2)),text=svgEl("text",{x:left+width/2,y:40,"text-anchor":"middle",fill:"#ffffff","font-size":12,"font-family":"ui-monospace,Consolas,monospace",class:"wave-cursor-text"},fit(label,width-12));text.append(svgEl("title",{},`游标绝对时间 ${absoluteTime(ws.cursor)} ${wave.unit||"ns"}`));svg.append(svgEl("line",{x1:px,y1:44,x2:px,y2:height-11,class:"cursor-line"}),svgEl("rect",{x:left,y:26,width:width,height:19,rx:4,fill:"#b83c4d",class:"wave-cursor-label"}),text,svgEl("path",{d:`M${px-5},44L${px+5},44L${px},50Z`,class:"cursor-handle","data-cursor-handle":"true"}),svgEl("rect",{x:px-8,y:73,width:16,height:height-84,fill:"transparent","data-cursor-handle":"true",style:"cursor:ew-resize"}));}
       if(document.activeElement!==startInput)startInput.value=String(Number(ws.start.toFixed(6)));if(document.activeElement!==endInput)endInput.value=String(Number(ws.end.toFixed(6)));if(document.activeElement!==cursorInput)cursorInput.value=String(Number(ws.cursor.toFixed(6)));
+      if(professionalLink)professionalLink.setAttribute("href",surferUrl());
       status.classList.remove("invalid");status.textContent=`窗口 ${absoluteTime(ws.start)}–${absoluteTime(ws.end)} ${wave.unit||"ns"} · 游标绝对时间 ${absoluteTime(ws.cursor)} ${wave.unit||"ns"} · ${selected.length}/${wave.signals.length} 个信号`;
       values.replaceChildren(...selected.map(signal=>el("div",{className:"cursor-value"},el("span",{},text(signal.label||signal.id)),el("code",{},formatBits(valueAt(signal,ws.cursor),signal.width)))));
     }
@@ -671,19 +720,97 @@
   }
 
   function renderDefects() {
-    intro("把未修改上游行为、局部修复和对应严格需求放在一起核对。受控故障用于检查器敏感性，不增加真实 DUT 缺陷的数量。");
-    const defects=list(data.defects);
+    const defects=list(data.defects).filter(defect=>defect&&typeof defect==="object");
     if(!defects.length){root.append(empty("没有缺陷对照记录","数据中尚未提供可核对的原版 / 修复版条目。"));return;}
-    for(const defect of defects){
-      const testNames=list(defect.test_ids),declaredSuites=[...new Set(list(defect.suite_ids).filter(hasId))];
-      const scopeSuites=declaredSuites.length?declaredSuites:["uart_core"];
-      const related=runs.filter(run=>scopeSuites.includes(run.suite_id)&&testNames.includes(run.test));
-      const card=el("article",{className:"panel defect-card"},el("div",{className:"panel-heading"},el("div",{},el("h2",{},text(defect.title)),defect.summary?el("p",{},defect.summary):null),defect.id?el("code",{className:"meta-chip"},defect.id):null),el("div",{className:"defect-grid"},el("section",{className:"defect-side upstream"},el("h3",{},"未修改上游"),el("p",{},defect.upstream?.description||missing),defect.upstream?.source_url?link("上游源码依据",defect.upstream.source_url):null),el("section",{className:"defect-side fixed"},el("h3",{},"本地修复"),el("p",{},defect.fixed?.description||missing),defect.fixed?.source_url?link("修复源码",defect.fixed.source_url):null)));
-      if(testNames.length)card.append(el("div",{className:"test-links"},testNames.flatMap(test=>scopeSuites.map(suite=>button(scopeSuites.length>1?`${suiteTitle(suite)} / ${test}`:`查看 ${test}`,()=>showRuns({test,suite}),{className:"button small"})))));
-      const variants=[...new Set(related.map(run=>run.variant))];
-      if(related.length)card.append(el("div",{className:"defect-counts"},variants.map(variant=>{const c=counts(related.filter(run=>run.variant===variant));return `${variantName(variant)}：原始 PASS ${c.pass} / FAIL ${c.fail}`;}).join("；")));
-      if(list(defect.evidence_urls).length)card.append(evidenceLinks(defect.evidence_urls));root.append(card);
+    const rows=defects.map((defect,index)=>{
+      const tests=list(defect.test_ids).filter(hasId),declared=[...new Set(list(defect.suite_ids).filter(hasId))];
+      const allowed=!declared.length||declared.includes("uart_core");
+      const related=allowed?runs.filter(run=>run.suite_id==="uart_core"&&tests.includes(run.test)&&["upstream","fixed"].includes(run.variant)):[];
+      return {id:`defect-${index}`,label:text(defect.title||defect.id),defect,related};
+    });
+    const seeds=[...new Set(["1","2","3",...rows.flatMap(row=>row.related.filter(run=>hasId(run.seed)).map(run=>String(run.seed)))])].sort(collator.compare);
+    const columns=["upstream","fixed"].flatMap(variant=>seeds.map(seed=>({id:`${variant}:${seed}`,label:`${variantName(variant)} · seed ${seed}`,variant,seed})));
+    const entries=new Map();
+    for(const row of rows)for(const run of row.related)if(hasId(run.id)&&!entries.has(String(run.id)))entries.set(String(run.id),{row,run});
+    const cells=rows.flatMap(row=>columns.map(column=>{
+      const matches=row.related.filter(run=>run.variant===column.variant&&String(run.seed)===column.seed);
+      // A cell represents exactly one archived run; do not invent an aggregate
+      // status when a record is missing or the input contains ambiguous runs.
+      const run=matches.length===1?matches[0]:null;
+      return {rowId:row.id,columnId:column.id,status:run?.raw_status??null,runId:run&&hasId(run.id)?run.id:null};
+    }));
+    const recorded=[...entries.values()];
+    const association=entry=>entry.run.test==="uart_error_association_test"&&String(entry.run.seed)==="1";
+    const initial=entries.get(String(state.defectRunId))||recorded.find(entry=>association(entry)&&entry.run.variant==="upstream")||recorded.find(association)||recorded[0];
+    let selectedRunId=initial?.run.id??null,chart=null,fallbackButtons=[];
+    const matrixHost=el("div",{className:"defect-matrix-host",role:"group","aria-label":"严格需求、版本和 seed 的原始结果矩阵"});
+    const detail=el("section",{className:"panel defect-selected-detail","aria-live":"polite"});
+    const options=recorded.map(({row,run})=>({value:String(run.id),label:`${row.label} · ${variantName(run.variant)} · seed ${text(run.seed)} · ${text(run.raw_status)}`}));
+    const picker=makeSelect(options,String(selectedRunId??""),id=>selectRun(id),{"aria-label":"选择严格需求运行",disabled:!recorded.length});
+    const selection=el("details",{className:"defect-run-select"},el("summary",{},"按运行选择"),picker);
+    root.append(panel("UART 严格需求","每格对应一次归档运行，点选即可查证。",matrixHost,selection),detail);
+
+    function disposeChart(){
+      const previous=chart;chart=null;
+      if(previous&&typeof previous.dispose==="function")try{previous.dispose();}catch(_){}
     }
+    function updateDetail(){
+      const entry=entries.get(String(selectedRunId));
+      if(!entry){detail.replaceChildren(empty("没有可选运行","此处没有匹配 UART 严格需求及声明范围的真实记录。"));return;}
+      const {row,run}=entry,source=row.defect[run.variant];
+      const trace=waves.find(wave=>wave.run_id===run.id);
+      const actions=el("div",{className:"row-actions"},
+        run.log_url?link("本次原始日志",run.log_url):el("span",{className:"secondary"},"原始日志未记录"),
+        run.report_url?link("本次原始报告",run.report_url):null,
+        trace?button("本次波形",()=>showWave(trace.id),{className:"link-button"}):el("span",{className:"secondary"},"本次运行未归档波形"),
+        source?.source_url?link(run.variant==="upstream"?"上游源码":"修复源码",source.source_url):el("span",{className:"secondary"},"源码位置未记录"),
+        button("本次回归记录",()=>showRun(run),{className:"link-button"}));
+      detail.replaceChildren(el("div",{className:"panel-heading"},el("div",{},el("h2",{},row.label),
+        el("p",{},`${variantName(run.variant)} · seed ${text(run.seed)}`)),resultBadges(run)),
+        row.defect.summary?el("p",{},row.defect.summary):null,
+        source?.description?el("p",{className:"secondary"},source.description):null,
+        el("dl",{className:"detail-list"},el("dt",{},"测试"),el("dd",{},el("code",{className:"wrap-anywhere"},text(run.test))),
+          el("dt",{},"ERROR / FATAL"),el("dd",{className:"mono"},`${number(run.metrics?.errors)} / ${number(run.metrics?.fatals)}`),
+          el("dt",{},"TX / RX 比对"),el("dd",{className:"mono"},`${number(run.metrics?.tx)} / ${number(run.metrics?.rx)}`)),actions);
+    }
+    function updateFallbackSelection(){
+      for(const item of fallbackButtons)item.node.setAttribute("aria-pressed",String(String(item.runId)===String(selectedRunId)));
+    }
+    function renderFallback(){
+      disposeChart();fallbackButtons=[];
+      const body=rows.map(row=>el("tr",{},el("th",{scope:"row"},row.label),columns.map(column=>{
+        const cell=cells.find(item=>item.rowId===row.id&&item.columnId===column.id);
+        if(!cell||!hasId(cell.runId))return el("td",{},cell?.status?badge(cell.status):el("span",{className:"secondary"},missing));
+        const node=button(text(cell.status),()=>selectRun(cell.runId),{className:"button small",
+          "aria-label":`${row.label}，${column.label}，原始 ${text(cell.status)}`});
+        fallbackButtons.push({node,runId:cell.runId});
+        return el("td",{},node);
+      })));
+      matrixHost.replaceChildren(table(["严格需求",...columns.map(column=>column.label)],body));
+      updateFallbackSelection();
+    }
+    function selectRun(id,syncChart=true){
+      const entry=entries.get(String(id));
+      if(!entry)return;
+      const changed=String(selectedRunId)!==String(entry.run.id);
+      selectedRunId=entry.run.id;state.defectRunId=selectedRunId;picker.value=String(selectedRunId);
+      updateDetail();updateFallbackSelection();
+      if(syncChart&&chart&&changed){
+        if(typeof chart.setSelected==="function")try{chart.setSelected(selectedRunId);}catch(_){renderFallback();}
+        else renderFallback();
+      }
+    }
+    if(initial)selectRun(initial.run.id,false);else updateDetail();
+    try{
+      if(typeof window.UARTCharts?.renderMatrix!=="function")renderFallback();
+      else{
+        chart=window.UARTCharts.renderMatrix(matrixHost,{rows:rows.map(row=>({id:row.id,label:row.label})),
+          columns,cells,selectedRunId,
+          onSelect:id=>selectRun(id)});
+        if(!chart||typeof chart.dispose!=="function")renderFallback();
+      }
+    }catch(_){renderFallback();}
+    cleanupView=disposeChart;
   }
 
   const project=data.project||{};

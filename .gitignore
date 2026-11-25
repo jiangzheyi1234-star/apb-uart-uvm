@@ -1,6 +1,7 @@
 .tools/
 .resume_work/
 .private/
+scripts/dashboard-charts/node_modules/
 apb-uart-uvm/
 __pycache__/
 *.pyc
