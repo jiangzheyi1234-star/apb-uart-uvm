@@ -131,6 +131,7 @@
 
   function setView(name, focus=false) {
     if (!VIEWS[name]) name="overview";
+    if (name !== "waveforms") state.waveReturn = null;
     cleanupView();cleanupView=()=>{};state.tab=name;
     title.textContent=VIEWS[name];
     document.title=`${VIEWS[name]} · ${text(data.project?.title || "APB UART")}`;
@@ -155,7 +156,7 @@
     showRuns({runId:run.id,suite:String(run.suite_id??"__missing__"),variant:String(run.variant??"__missing__"),test:String(run.test??"__missing__"),seed:String(run.seed??"__missing__"),phase:run.phase?String(run.phase):""});
   }
   function showWave(id, eventId = null) {
-    state.waveReturn = state.tab === "regressions" ? {...state.reg} : null;
+    state.waveReturn = {view:state.tab, filters:state.tab === "regressions" ? {...state.reg} : null};
     state.waveId = id;
     state.waveFocusEventId = eventId;
     setView("waveforms", true);
@@ -165,7 +166,11 @@
 
   function uartAssociationCase() {
     const test = "uart_error_association_test";
-    const payloads = [0x10, 0x96, 0x20];
+    const stimulus = [
+      {payload:0x10, expectedFlags:0x00},
+      {payload:0x96, expectedFlags:0x04},
+      {payload:0x20, expectedFlags:0x00},
+    ];
     const readValue = event => {
       const value = event?.read_data;
       return typeof value === "string" && /^0x[0-9a-f]{1,8}$/i.test(value) ? Number(value) : null;
@@ -178,12 +183,12 @@
       const events = list(trace?.apb_events);
       // Match the complete LSR/RBR sequence from the strict requirement test.
       for (let start = 0; start + 6 <= events.length; start++) {
-        const reads = payloads.map((payload, index) => {
+        const reads = stimulus.map(({payload, expectedFlags}, index) => {
           const lsr = events[start + index * 2];
           const rbr = events[start + index * 2 + 1];
           if (!isRead(lsr, "LSR") || !isRead(rbr, "RBR") || readValue(rbr) !== payload || lsr.end >= rbr.end) return null;
           const value = readValue(lsr);
-          return {payload, lsr: value, parityError: (value & 4) !== 0, event: lsr};
+          return {payload, expectedFlags, lsr:value, parityError:(value & 4) !== 0, event:lsr};
         });
         if (reads.every(Boolean)) return {run, trace, reads};
       }
@@ -195,7 +200,7 @@
         run.raw_status === "FAIL" && run.expected === true));
       const fixed = extract(fixedRun);
       if (upstream && fixed && upstream.reads.every(read => !read.parityError) &&
-          fixed.reads.every((read, index) => read.parityError === (index === 1))) return {upstream, fixed};
+          fixed.reads.every(read => (read.lsr & 0x0c) === read.expectedFlags)) return {upstream, fixed};
     }
     return null;
   }
@@ -295,13 +300,15 @@
       const original = upstream.reads[index], repaired = fixed.reads[index];
       const times = original.event.end === repaired.event.end ? time(repaired.event.end) :
         `${time(original.event.end)} / ${time(repaired.event.end)}`;
-      context.textContent = `seed ${text(fixed.run.seed)} · LSR 采样 ${times} ns`;
+      const expectedPE = Number((repaired.expectedFlags & 4) !== 0);
+      context.textContent = `期望 PE=${expectedPE} · seed ${text(fixed.run.seed)} · 采样 ${times} ns`;
       traceHost.replaceChildren(renderCaseTrace(upstream, fixed, original, repaired));
       summary.replaceChildren(...[[upstream,original,"原版","is-upstream"],[fixed,repaired,"修复版","is-fixed"]].map(
         ([record, read, label, tone]) => el("div", {className:`case-run-summary ${tone}`},
           el("div", {className:"case-run-result"}, el("strong", {}, label),
             el("code", {}, `LSR ${caseHex(read.lsr)}`),
-            el("code", {className:read.parityError ? "is-set" : null}, `PE=${Number(read.parityError)}`)),
+            el("code", {className:Number(read.parityError) !== expectedPE ? "is-mismatch" : read.parityError ? "is-set" : null},
+              `PE=${Number(read.parityError)}`)),
           button("完整波形", () => showWave(record.trace.id, read.event.id), {
             className:"link-button", "aria-label":`查看${label}完整波形`
           }))));
@@ -309,15 +316,51 @@
     }
     select(state.caseIndex);
     return el("section", {className:"association-case", "aria-labelledby":"case-title"},
-      el("header", {className:"case-intro"}, el("h2", {id:"case-title"}, "同一笔 LSR 读取，两版波形"),
-        el("p", {}, "切换 FIFO 队首字节，看校验错误位（LSR[2]）是否跟随字节。")),
+      el("header", {className:"case-intro"}, el("h2", {id:"case-title"}, "RX FIFO 校验错误关联"),
+        el("p", {}, "依次读取 LSR 和 RBR，验证校验错误位是否跟随当前队首字节。")),
       el("figure", {className:"case-figure"},
         el("div", {className:"case-toolbar"},
           el("fieldset", {className:"case-payload-picker"}, el("legend", {className:"sr-only"}, "FIFO 队首字节"), choices),
           context),
         traceHost, summary),
-      el("details", {className:"case-log-links"}, el("summary", {}, "同次运行日志"),
-        el("div", {className:"evidence-links"}, link("原版日志", upstream.run.log_url), link("修复版日志", fixed.run.log_url))));
+      renderAssociationEvidence(upstream, fixed));
+  }
+
+  function renderAssociationEvidence(upstream, fixed) {
+    const {source_url:repo, commit} = data.project || {};
+    const pinned = /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+$/.test(repo || "") && /^[a-f0-9]{40}$/i.test(commit || "");
+    const source = (label, path, line) => pinned ? link(label,
+      `${repo}/blob/${commit}/${path}${commit === "127f21e0d695cd0e6aa32b46541b158196058679" ? "#L" + line : ""}`) : null;
+    const links = (...items) => el("div", {className:"evidence-links"}, items);
+    const sameTest = runs.filter(run => run.suite_id === upstream.run.suite_id && run.test === upstream.run.test);
+    const passRatio = variant => {
+      const result = counts(sameTest.filter(run => run.variant === variant));
+      return `${result.pass}/${result.total}`;
+    };
+    const openComparison = () => {
+      state.defectRunId = upstream.run.id;
+      setView("defects", true);
+    };
+    return el("div", {className:"case-evidence"},
+      el("div", {className:"case-evidence-actions"},
+        button("查看此用例回归", openComparison, {className:"link-button"}),
+        el("span", {className:"case-context"}, `PASS · 原版 ${passRatio("upstream")} · 修复版 ${passRatio("fixed")}`)),
+      el("details", {className:"case-traceability"},
+        el("summary", {}, "需求、检查与修复"),
+        el("dl", {className:"case-proof"},
+          el("dt", {}, "验证需求"),
+          el("dd", {}, "错误标记随 RX FIFO 队首更新。对正常、坏校验、正常三个字节，期望 PE 依次为 0、1、0。",
+            links(source("定向测试", "tb/test/uart_extended_tests.sv", 116))),
+          el("dt", {}, "检查与定位"),
+          el("dd", {}, el("code", {}, "expect_bits"), " 用掩码 ", el("code", {}, "0x0C"),
+            " 检查 LSR[3:2]。Scoreboard 独立比对 RBR 数据，这里由状态检查报告 ", el("code", {}, "[STATUS]"), "。",
+            links(source("状态检查", "tb/test/base_test.sv", 33),
+              source("RBR 数据比对", "tb/scoreboard/apb_uart_scoreboard.sv", 148),
+              link("原版日志", upstream.run.log_url))),
+          el("dt", {}, "修复与复测"),
+          el("dd", {}, "原版在校验检查前提交字节，顶层固定清除错误。修复版在帧检查完成后随字节保存 PE、FE，由当前有效队首生成 LSR。",
+            links(source("原版 RX 提交", "rtl/uart_rx.sv", 132), source("LSR 修复", "rtl_fixed/apb_uart.sv", 209),
+              link("修复版日志", fixed.run.log_url))))));
   }
 
   function renderOverview() {
@@ -333,7 +376,7 @@
     if (associationCase) root.append(associationCase);
     const metric = (value, label) => el("li", {}, el("strong", {}, value), el("span", {}, label));
     root.append(el("ul", {className:"overview-metrics", "aria-label":"UART 验证结果"},
-      metric(headlineRuns.length ? `${h.pass} / ${h.total}` : missing, "修复版回归通过"),
+      metric(headlineRuns.length ? `${h.pass} / ${h.total}` : missing, "修复版 UART 核心 + RAL 通过"),
       metric(finite(tx) && finite(rx) ? number(tx + rx) : missing, "成功比对帧"),
       metric(percent(core?.metrics?.functional_bins), "核心功能覆盖")));
     const failures = counts(runs).fail;
@@ -653,7 +696,12 @@
       waitEvents.some(locatable)?button("下一个等待", () => jumpEvent("wait"), {className:"button small"}):null,
       issueEvents.some(locatable)?button("下一个异常", () => jumpEvent("issue"), {className:"button small"}):null);
     quickActions.append(jumpControls);
-    if(state.waveReturn)quickActions.append(button("返回筛选结果",()=>{Object.assign(state.reg,state.waveReturn);setView("regressions",true);},{className:"button small"}));
+    const origin = state.waveReturn;
+    const returnLabel = {overview:"返回总览", defects:"返回缺陷对照", regressions:"返回筛选结果"}[origin?.view];
+    if (returnLabel) quickActions.append(button(returnLabel, () => {
+      if (origin.filters) Object.assign(state.reg, origin.filters);
+      setView(origin.view, true);
+    }, {className:"button small"}));
     waveformPanel.insertBefore(eventSummary, waveformPanel.querySelector(".wave-layout"));
     function dimensions(){const width=Math.max(260,chartFrame.clientWidth-2);const left=width<500?116:174;return {width,left,right:14,plot:Math.max(80,width-left-14)};}
     function pointerX(event){const d=dimensions(),rect=svg.getBoundingClientRect();return (event.clientX-rect.left)*d.width/Math.max(1,rect.width);}

@@ -299,9 +299,35 @@
 .case-run-result .is-set { color: var(--teal-dark); font-weight: 700; }
 .case-run-summary .button,
 .case-run-summary .link-button { min-height: 34px; text-align: left; white-space: normal; }
-.case-log-links { margin-top: 8px; padding-top: 3px; }
-.case-log-links summary { color: var(--teal-dark); }
-.case-log-links .evidence-links { margin-top: 0; }
+.case-run-result .is-mismatch { color: var(--fail); font-weight: 700; }
+.case-evidence {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 20px;
+  margin-top: 8px;
+}
+.case-evidence-actions { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; }
+.case-traceability { min-width: 0; }
+.case-traceability[open] { flex: 1 0 100%; }
+.case-traceability summary { color: var(--teal-dark); }
+.case-proof {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 10px 18px;
+  margin: 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--line);
+}
+.case-proof dt { font-weight: 600; }
+.case-proof dd { margin: 0; min-width: 0; }
+.case-proof .evidence-links { margin-top: 3px; }
+
+@media (max-width: 480px) {
+  .case-proof { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .case-proof dd + dt { margin-top: 8px; }
+}
 
 .overview-metrics {
   display: flex;

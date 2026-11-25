@@ -32,3 +32,14 @@
 
 范围边界：活跃 TX 清FIFO、RX持续超载、热切换配置、波特率误差扫描、短毛刺路径、四态验证、完整16550功能。它们未计入已完成需求。
 
+## RX FIFO 错误状态关联
+
+需求是错误状态随当前 FIFO 队首字节更新。测试依次注入正常 `0x10`、错误偶校验 `0x96`、正常 `0x20`，每次读 RBR 前检查 LSR：`PE` 应为 `0 → 1 → 0`，`FE` 应保持 0。检查采用掩码 `0x0C`，期望依次为 `0x00 / 0x04 / 0x00`。
+
+| 环节 | 源码与检查职责 |
+| --- | --- |
+| 激励与状态判定 | [定向测试](https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/tb/test/uart_extended_tests.sv#L116-L130) 调用 [STATUS 检查](https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/tb/test/base_test.sv#L33-L37)，比较 `(actual & mask)` 与期望值 |
+| 独立数据检查 | [Scoreboard 的 RBR 比对](https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/tb/scoreboard/apb_uart_scoreboard.sv#L149-L162) 核对 RX 引脚监视器预测的数据顺序；[串行错误计数](https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/tb/scoreboard/apb_uart_scoreboard.sv#L183-L189) 确认注入被实际解码；LSR 位值由测试判定 |
+| RTL 修复 | [FIFO 入队](https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/apb_uart.sv#L120-L139) 保存 `{FE, PE, data}`；[LSR 映射](https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/apb_uart.sv#L209-L213) 取当前队首标记 |
+
+seed 1 的归档记录在 **t = 16,875 ns** 读取 `LSR@0x005`：原版原始值 `0x61`、修复版 `0x65`，掩码后分别为 `0x00`、`0x04`，该次期望为 `0x04`。可在 [工作台案例](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#overview) 对照波形及同次日志。实测范围仅为这个定向场景的 seeds 1/2/3：**原版 3 次原始 FAIL，修复版 3 次 PASS**；这是该需求的定向回归，不代表错误状态关联的全部组合或额外覆盖率。追溯入口说明见 [工作台文档](dashboard.md)。
