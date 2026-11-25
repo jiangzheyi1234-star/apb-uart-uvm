@@ -1,4 +1,4 @@
-/* ECharts rendering for the archived comparison data. */
+/* ECharts rendering for the archived strict-requirement result matrix. */
 (() => {
   "use strict";
 
@@ -7,7 +7,6 @@
 
   const ink = "#243c4d";
   const muted = "#526b7b";
-  const rule = "#d8e5eb";
   const accent = "#087f83";
   const typography = { color: ink, fontFamily: 'system-ui, "Microsoft YaHei", sans-serif' };
   const tooltip = {
@@ -43,41 +42,6 @@
         chart.dispose();
       },
     };
-  }
-
-  function renderParity(host, { samples, onSelect }) {
-    const bytes = [...new Set(samples.map(sample => sample.byte))];
-    const configs = [
-      { variant: "upstream", label: "原版", symbol: "circle", offset: -10, fill: "#fff", border: muted },
-      { variant: "fixed", label: "修复版", symbol: "roundRect", offset: 10, fill: accent, border: accent },
-    ];
-    const option = {
-      grid: { left: 57, right: 11, top: 14, bottom: 30 },
-      tooltip: { ...tooltip, formatter: item => item.data.detail },
-      xAxis: {
-        type: "category", data: bytes, axisTick: { show: false },
-        axisLabel: { color: ink, interval: 0, fontSize: 13, fontWeight: 650 },
-        axisLine: { lineStyle: { color: rule } },
-        splitArea: { show: true, areaStyle: { color: bytes.map((_, i) => i === 1 ? "#ecf7f3" : "#fff") } },
-      },
-      yAxis: {
-        type: "category", data: ["PE=0", "PE=1"], axisTick: { show: false },
-        axisLine: { show: false }, axisLabel: { color: muted, fontSize: 12 },
-        splitLine: { show: true, lineStyle: { color: rule, type: "dashed" } },
-      },
-      series: configs.map(config => ({
-        name: config.label, type: "scatter", symbol: config.symbol, symbolSize: 16,
-        symbolOffset: [config.offset, 0],
-        itemStyle: { color: config.fill, borderColor: config.border, borderWidth: 2, opacity: 1 },
-        emphasis: { scale: 1.3 },
-        data: samples.filter(sample => sample.variant === config.variant).map(sample => ({
-          id: sample.id, detail: sample.detail, value: [sample.byte, `PE=${sample.bit}`],
-        })),
-      })),
-    };
-    const view = mount(host, option);
-    view.chart.on("click", "series.scatter", event => onSelect(event.data.id));
-    return view;
   }
 
   const states = [
@@ -146,5 +110,5 @@
     };
   }
 
-  window.UARTCharts = { renderParity, renderMatrix };
+  window.UARTCharts = { renderMatrix };
 })();

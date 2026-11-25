@@ -119,7 +119,7 @@
   const suitesById=new Map(suites.map(suite=>[suite.id,suite]));
   const runsById=new Map(runs.filter(run=>hasId(run.id)).map(run=>[run.id,run]));
   const suiteTitle = id => text(suitesById.get(id)?.title || id);
-  const state={tab:"overview",reg:{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,size:25,sort:"recorded"},coverageId:coverage[0]?.id,waveId:waves[0]?.id,waveState:new Map(),waveReturn:null};
+  const state={tab:"overview",caseIndex:1,reg:{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,size:25,sort:"recorded"},coverageId:coverage[0]?.id,waveId:waves[0]?.id,waveState:new Map(),waveReturn:null};
   let cleanupView=()=>{};
 
   function counts(rows) {
@@ -200,83 +200,124 @@
     return null;
   }
 
+  const caseHex = value => `0x${value.toString(16).toUpperCase().padStart(2, "0")}`;
+
+  function caseSignalSegments(trace, id, start, end) {
+    const signal = prepareWave(trace).signals.find(item => item.id === id);
+    if (!signal) return [];
+    const changes = [[start, valueAt(signal, start)]];
+    for (let index = valueIndex(signal.events, start) + 1; index < signal.events.length; index++) {
+      const [timestamp, value] = signal.events[index];
+      if (timestamp >= end) break;
+      if (changes.at(-1)[0] === timestamp) changes.at(-1)[1] = value;
+      else if (changes.at(-1)[1] !== value) changes.push([timestamp, value]);
+    }
+    return changes.map(([from, value], index) => ({from, to:changes[index + 1]?.[0] ?? end, value}));
+  }
+
+  function renderCaseTrace(upstream, fixed, original, repaired) {
+    const {start:setup, end:sample} = repaired.event;
+    const start = sample - 20, end = sample + 20;
+    const unavailable = () => el("p", {className:"case-context"}, "此对读取缺少可对齐的波形窗口，仍可查看各自的归档证据。");
+    if (!finite(setup) || setup < start || setup >= sample ||
+        original.event.start !== setup || original.event.end !== sample ||
+        [upstream, fixed].some(record => !validRange(record.trace.range) ||
+          start < record.trace.range[0] || end > record.trace.range[1])) return unavailable();
+    const signals = [upstream, fixed].map(record => ({
+      enable:caseSignalSegments(record.trace, "apb.penable", start, end),
+      data:caseSignalSegments(record.trace, "apb.prdata", start, end),
+    }));
+    const [orig, fix] = signals;
+    const segmentAtSample = segments => segments.find(({from, to}) => from <= sample && sample < to);
+    const sampled = signals.map(signal => segmentAtSample(signal.data));
+    // Display the measured bus at the marker only when it agrees with the
+    // decoded handshake. Same-timestamp signal changes can otherwise disagree.
+    if (orig.enable.length === 0 || orig.enable.some(segment => !/^[01]$/.test(segment.value)) ||
+        JSON.stringify(orig.enable) !== JSON.stringify(fix.enable) ||
+        segmentAtSample(orig.enable)?.value !== "1" ||
+        sampled.some((segment,index) => !segment?.value || !/^[01]+$/.test(segment.value) ||
+          Number.parseInt(segment.value, 2) !== [original, repaired][index].lsr)) return unavailable();
+
+    const x = timestamp => 1000 * (timestamp - start) / (end - start);
+    const position = timestamp => `${x(timestamp) / 10}%`;
+    const trace = el("div", {className:"case-trace", role:"img",
+      "aria-label":`${time(start)}–${time(end)} ns，共用 PENABLE。LSR 在 ${time(sample)} ns 采样，原版 ${caseHex(original.lsr)}，修复版 ${caseHex(repaired.lsr)}。`});
+    trace.style.setProperty("--sample", position(sample));
+    trace.style.setProperty("--access-start", position(setup));
+    trace.style.setProperty("--access-width", `${(x(sample) - x(setup)) / 10}%`);
+    const row = (name, signal, content, tone = "") => el("div", {className:"case-trace-row"},
+      el("span", {className:"case-trace-label"}, el("strong", {}, name), el("small", {}, signal)),
+      el("div", {className:`case-trace-lane ${tone}`}, content));
+    const waveform = (className, children) => svgEl("svg", {
+      class:className, viewBox:"0 0 1000 40", preserveAspectRatio:"none", "aria-hidden":"true", focusable:"false"
+    }, children);
+    const path = (d, props={}) => svgEl("path", {d, "vector-effect":"non-scaling-stroke", ...props});
+    const levels = orig.enable.map((segment, index) => {
+      const y = segment.value === "1" ? 11 : 29;
+      return `${index ? "V" : `M${x(segment.from)} `}${y}H${x(segment.to)}`;
+    }).join("");
+    const axis = el("div", {className:"case-trace-row case-trace-row--axis"},
+      el("span", {className:"case-trace-label"}, "相对采样 · ns"),
+      el("div", {className:"case-trace-lane"}, [-20, -10, 0, 10, 20].map((delta, index) => {
+        const tick = el("span", {className:`case-trace-axis-label${index === 0 ? " is-first" : index === 4 ? " is-last" : ""}`},
+          delta === 0 ? "0" : delta > 0 ? `+${delta}` : `−${-delta}`);
+        tick.style.setProperty("--position", position(sample + delta));
+        return tick;
+      })));
+    trace.append(axis, row("PENABLE", "两版共用", waveform("case-trace-digital", path(levels))));
+    for (const [index, name, tone, read] of [[0,"原版","is-upstream",original],[1,"修复版","is-fixed",repaired]]) {
+      const bus = signals[index].data.map(segment => {
+        const from = x(segment.from), to = x(segment.to);
+        const bevel = Math.min(12, (to - from) / 2);
+        return path(`M${from} 20L${from + bevel} 9H${to - bevel}L${to} 20L${to - bevel} 31H${from + bevel}Z`,
+          {class:segment === sampled[index] ? "is-sampled" : null});
+      });
+      const value = el("code", {className:`case-trace-value is-sampled ${tone}`}, caseHex(read.lsr));
+      value.style.setProperty("--position", position(sample + 1));
+      trace.append(row(name, "PRDATA", [waveform("case-trace-bus", bus), value], tone));
+    }
+    return trace;
+  }
+
   function renderAssociationCase() {
     const comparison = uartAssociationCase();
     if (!comparison) return null;
     const {upstream, fixed} = comparison;
-    const hex = value => `0x${value.toString(16).toUpperCase().padStart(2, "0")}`;
-    const pointMark = (variant) => el("span", {className:`case-mark case-mark--${variant}`, "aria-hidden":"true"});
-    const middle = fixed.reads[1];
-    const defaultDetail = `${hex(middle.payload)} 队首 · 原版 LSR ${hex(upstream.reads[1].lsr)} · 修复版 LSR ${hex(middle.lsr)}`;
-    const readout = el("p", {className:"case-readout"}, defaultDetail);
-    const detailFor = (read, label) => `${label} · ${hex(read.payload)} · LSR ${hex(read.lsr)} · PE=${Number(read.parityError)} · ${time(read.event.end)} ns`;
-    function samplePoint(record, index, variant, label) {
-      const read = record.reads[index];
-      const detail = detailFor(read, label);
-      return el("button", {
-        type:"button", className:`case-point case-point--${variant}`,
-        "aria-label":`${detail}，打开波形`, title:detail,
-        style:{gridRow:read.parityError ? "1" : "2"},
-        onClick:() => showWave(record.trace.id, read.event.id),
-        onFocus:() => { readout.textContent = detail; },
-        onBlur:() => { readout.textContent = defaultDetail; },
-        onPointerenter:() => { readout.textContent = detail; },
-        onPointerleave:() => { readout.textContent = defaultDetail; }
-      }, pointMark(variant));
+    const context = el("span", {className:"case-context"});
+    const traceHost = el("div");
+    const summary = el("div", {className:"case-sample-summary"});
+    const choices = fixed.reads.map((read, index) =>
+      button(caseHex(read.payload), () => select(index, true), {className:"case-payload",
+        "aria-label":`队首字节 ${caseHex(read.payload)}`, "aria-pressed":"false"}));
+    function select(index, notify=false) {
+      state.caseIndex = index;
+      choices.forEach((choice,i) => choice.setAttribute("aria-pressed", String(i === index)));
+      const original = upstream.reads[index], repaired = fixed.reads[index];
+      const times = original.event.end === repaired.event.end ? time(repaired.event.end) :
+        `${time(original.event.end)} / ${time(repaired.event.end)}`;
+      context.textContent = `seed ${text(fixed.run.seed)} · LSR 采样 ${times} ns`;
+      traceHost.replaceChildren(renderCaseTrace(upstream, fixed, original, repaired));
+      summary.replaceChildren(...[[upstream,original,"原版","is-upstream"],[fixed,repaired,"修复版","is-fixed"]].map(
+        ([record, read, label, tone]) => el("div", {className:`case-run-summary ${tone}`},
+          el("div", {className:"case-run-result"}, el("strong", {}, label),
+            el("code", {}, `LSR ${caseHex(read.lsr)}`),
+            el("code", {className:read.parityError ? "is-set" : null}, `PE=${Number(read.parityError)}`)),
+          button("完整波形", () => showWave(record.trace.id, read.event.id), {
+            className:"link-button", "aria-label":`查看${label}完整波形`
+          }))));
+      if (notify) announce(`队首字节 ${caseHex(repaired.payload)}；${context.textContent}；原版 PE=${Number(original.parityError)}，修复版 PE=${Number(repaired.parityError)}。`);
     }
-    const columns = fixed.reads.map((reading, index) => {
-      const differs = reading.parityError !== upstream.reads[index].parityError;
-      return el("div", {className:`case-column${differs ? " case-column--difference" : ""}`},
-        el("div", {className:"case-observations"},
-          samplePoint(upstream, index, "upstream", "原版"), samplePoint(fixed, index, "fixed", "修复版")),
-        el("div", {className:"case-byte"}, el("code", {}, hex(reading.payload)),
-          differs ? el("span", {}, "坏校验") : null));
-    });
-    const samples = [[upstream, "upstream", "原版"], [fixed, "fixed", "修复版"]].flatMap(
-      ([record, variant, label]) => record.reads.map(read => ({
-        id: `${variant}:${read.event.id}`, byte: hex(read.payload), variant, bit: Number(read.parityError),
-        detail: detailFor(read, label), waveId: record.trace.id, eventId: read.event.id,
-      })));
-    const select = id => {
-      const sample = samples.find(item => item.id === id);
-      if (sample) showWave(sample.waveId, sample.eventId);
-    };
-    const fallback = el("div", {className:"case-plot"},
-      el("div", {className:"case-axis", "aria-hidden":"true"}, el("span", {}, "PE=1"),
-        el("span", {}, "PE=0"), el("span", {}, "队首字节")), columns);
-    const host = el("div", {className:"case-library-plot", hidden:true, role:"img",
-      "aria-label":"三次读取的 PE 对照。使用采样值列表可打开任一读取的波形。"});
-    const sampleList = el("ul", {className:"case-sample-list", hidden:true}, samples.map(sample =>
-      el("li", {}, button(sample.detail, () => select(sample.id), {className:"link-button"}))));
-    const logTitle = el("summary", {}, "原始日志");
-    const element = el("section", {className:"association-case", "aria-labelledby":"case-title"},
-      el("div", {className:"case-intro"},
-        el("h2", {id:"case-title"}, "FIFO 校验错误对照"),
-        el("p", {}, `${hex(middle.payload)} 位于队首时，修复版报告校验错误。`)),
-      el("figure", {className:"case-figure", "aria-label":"三次队首读取的校验错误位对照"},
-        el("figcaption", {className:"case-chart-caption"},
-          el("div", {className:"case-legend"},
-            el("span", {}, pointMark("upstream"), `原版 ${upstream.run.raw_status}`),
-            el("span", {}, pointMark("fixed"), `修复版 ${fixed.run.raw_status}`)),
-          el("span", {}, `seed ${text(fixed.run.seed)} · 点击采样点查看波形`)),
-        host, fallback,
-        el("div", {className:"case-evidence-footer"}, readout,
-          el("details", {className:"case-log-links"}, logTitle, sampleList,
-            el("div", {className:"evidence-links"},
-              link("原版日志", upstream.run.log_url), link("修复版日志", fixed.run.log_url))))));
-    return { element, mount() {
-      if (!window.UARTCharts?.renderParity) return;
-      host.hidden = false;
-      try {
-        const view = window.UARTCharts.renderParity(host, { samples, onSelect: select });
-        cleanupView = view.dispose;
-        fallback.hidden = true;
-        sampleList.hidden = false;
-        logTitle.textContent = "采样值与日志";
-      } catch (_) {
-        host.hidden = true;
-      }
-    } };
+    select(state.caseIndex);
+    return el("section", {className:"association-case", "aria-labelledby":"case-title"},
+      el("header", {className:"case-intro"}, el("h2", {id:"case-title"}, "同一笔 LSR 读取，两版波形"),
+        el("p", {}, "切换 FIFO 队首字节，看校验错误位（LSR[2]）是否跟随字节。")),
+      el("figure", {className:"case-figure"},
+        el("div", {className:"case-toolbar"},
+          el("fieldset", {className:"case-payload-picker"}, el("legend", {className:"sr-only"}, "FIFO 队首字节"), choices),
+          context),
+        traceHost, summary),
+      el("details", {className:"case-log-links"}, el("summary", {}, "同次运行日志"),
+        el("div", {className:"evidence-links"}, link("原版日志", upstream.run.log_url), link("修复版日志", fixed.run.log_url))));
   }
 
   function renderOverview() {
@@ -289,10 +330,7 @@
     const tx=sumComplete(passing,"tx"),rx=sumComplete(passing,"rx");
     const core=coverage.find(item=>item.suite_id===headlineIds[0]&&item.variant===headline.variant);
     const associationCase = renderAssociationCase();
-    if (associationCase) {
-      root.append(associationCase.element);
-      associationCase.mount();
-    }
+    if (associationCase) root.append(associationCase);
     const metric = (value, label) => el("li", {}, el("strong", {}, value), el("span", {}, label));
     root.append(el("ul", {className:"overview-metrics", "aria-label":"UART 验证结果"},
       metric(headlineRuns.length ? `${h.pass} / ${h.total}` : missing, "修复版回归通过"),

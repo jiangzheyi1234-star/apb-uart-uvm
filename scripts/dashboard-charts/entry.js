@@ -1,7 +1,7 @@
 import { init, use, version } from "echarts/core";
-import { ScatterChart, HeatmapChart } from "echarts/charts";
+import { HeatmapChart } from "echarts/charts";
 import { GridComponent, TooltipComponent, VisualMapPiecewiseComponent } from "echarts/components";
 import { SVGRenderer } from "echarts/renderers";
 
-use([ScatterChart, HeatmapChart, GridComponent, TooltipComponent, VisualMapPiecewiseComponent, SVGRenderer]);
+use([HeatmapChart, GridComponent, TooltipComponent, VisualMapPiecewiseComponent, SVGRenderer]);
 window.UARTECharts = { init, version };
