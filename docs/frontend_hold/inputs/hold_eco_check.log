@@ -1,0 +1,91 @@
+COMMAND ["yosys", "-s", "/var/tmp/apb-frontend-20261126T134659283558Z/hold_eco_check.ys"]
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.33 (git sha1 2584903a060)
+
+
+-- Executing script file `/var/tmp/apb-frontend-20261126T134659283558Z/hold_eco_check.ys' --
+
+1. Executing Liberty frontend: /var/tmp/apb-frontend-tools/NangateOpenCellLibrary_typical.lib
+Imported 135 cell types from liberty file.
+
+2. Executing Verilog-2005 frontend: mapped.v
+Parsing Verilog input from `mapped.v' to AST representation.
+Generating RTLIL representation for module `\apb_ram_mbist'.
+Successfully finished Verilog frontend.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+
+3.1. Analyzing design hierarchy..
+Top module:  \apb_ram_mbist
+
+3.2. Analyzing design hierarchy..
+Top module:  \apb_ram_mbist
+Removed 0 unused modules.
+
+4. Executing CHECK pass (checking for obvious problems).
+Checking module apb_ram_mbist...
+Found and reported 0 problems.
+
+5. Printing statistics.
+
+=== apb_ram_mbist ===
+
+   Number of wires:                509
+   Number of wire bits:            770
+   Number of public wires:         509
+   Number of public wire bits:     770
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                560
+     AND2_X1                         7
+     AND3_X1                        32
+     AND4_X1                         1
+     AOI211_X1                      33
+     AOI21_X1                      136
+     AOI221_X1                       1
+     AOI22_X1                       12
+     BUF_X1                          1
+     DFFR_X1                        58
+     INV_X1                         55
+     MUX2_X1                        14
+     NAND2_X1                       54
+     NAND3_X1                       15
+     NAND4_X1                       11
+     NOR2_X1                        53
+     NOR3_X1                        20
+     NOR4_X1                        16
+     OAI21_X1                       21
+     OAI22_X1                        3
+     OR2_X1                          6
+     OR3_X1                          4
+     XNOR2_X1                        5
+     XOR2_X1                         2
+
+   Chip area for module '\apb_ram_mbist': 830.186000
+
+6. Executing JSON backend.
+
+End of script. Logfile hash: 55b73d5eac, CPU: user 0.21s system 0.02s, MEM: 29.25 MB peak
+Yosys 0.33 (git sha1 2584903a060)
+Time spent: 39% 2x read_liberty (0 sec), 37% 1x stat (0 sec), ...

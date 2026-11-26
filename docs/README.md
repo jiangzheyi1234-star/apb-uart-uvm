@@ -32,7 +32,7 @@
 | [RAL 与检查器报告](features/index.html) | RAL 访问计数、四类故障检出与六次正常对照 |
 | [独立 APB 协议报告](protocol/index.html) | 正向、超时负向及恢复对照的原始状态、审计分类和代表性 VCD |
 | [RAM / MBIST 子系统报告](subsystem/report.json) | 12 次独立 UVM 运行及同次日志和 VCD，通过工作台验证计划导航 |
-| [综合、STA 与扫描链报告](frontend/report.json) | 控制器综合、布图前 hold 违例、门级对比和扫描检查，通过工作台「实现与 DFT」导航 |
+| [前端基线报告](frontend/report.json) · [Hold 修复证据](frontend_hold/README.md) | 同约束下的控制器综合、STA、门级对照及扫描检查，两版结果从工作台「实现与 DFT」导航 |
 | [GitHub CI 记录](ci/README.md) | 远端运行的提交身份、步骤状态与原始验收报告 |
 
 生成的 [工作台首页](index.html) 可 [在线查看](https://jiangzheyi1234-star.github.io/apb-uart-uvm/)。**源码 ZIP 不包含生成证据**，其中 `web/dashboard/` 是源模板；离线阅读前，按 [发布说明](../RELEASE.md) 下载匹配版本的证据 ZIP 并叠加解压到源码项目根目录，保留 `docs/assets/`、`docs/data/`、`docs/release/`、`docs/features/`、`docs/protocol/` 的相对目录结构。各报告的 SHA-256 清单用于核对原始输入，不能将其他版本的证据视为当前源码的运行结果。

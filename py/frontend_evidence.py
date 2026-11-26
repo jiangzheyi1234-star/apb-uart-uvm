@@ -99,6 +99,12 @@ def public_text(path: Path) -> None:
             f"Artifact contains a private path or credential pattern: {path.name}")
 
 
+def primary_artifacts(report: dict) -> tuple[str, ...]:
+    if any(source["path"] == "scripts/frontend/hold_repair.py" for source in report["source_snapshot"]):
+        return (*CURATED, "hold_repair.py")
+    return CURATED
+
+
 def verify_run(path: Path, *, current_sources: bool) -> tuple[dict, dict]:
     report = read(path)
     require(report.get("status") == "TIMING_VIOLATION" and report.get("execution_status") == "PASS",
@@ -113,7 +119,7 @@ def verify_run(path: Path, *, current_sources: bool) -> tuple[dict, dict]:
         require(digest(artifact) == item.get("sha256") and artifact.stat().st_size == item.get("bytes"),
                 "Original frontend artifact changed: " + name)
         artifacts[name] = item
-    require(all(name in artifacts for name in CURATED), "Original frontend evidence is incomplete")
+    require(all(name in artifacts for name in primary_artifacts(report)), "Original frontend evidence is incomplete")
     for source in report["source_snapshot"]:
         archived = relative_file(path.parent, Path(source["path"]).name)
         require(digest(archived) == source["sha256"] and archived.stat().st_size == source["bytes"],
@@ -186,7 +192,8 @@ def package(report_path: Path, repeat_path: Path, output: Path) -> None:
         equality.append(identities[name])
     for path in (report_path, repeat_path):
         public_text(path)
-    for name in CURATED:
+    primary = primary_artifacts(original)
+    for name in primary:
         public_text(report_path.parent / name)
     for name in REPEAT_CURATED:
         public_text(repeat_path.parent / name)
@@ -200,7 +207,7 @@ def package(report_path: Path, repeat_path: Path, output: Path) -> None:
         require(digest(target) == digest(source), "Evidence copy changed bytes")
         inputs.append(metadata(target, name))
 
-    for name in CURATED:
+    for name in primary:
         copy(report_path.parent / name, "inputs/" + name)
     for name in REPEAT_CURATED:
         copy(repeat_path.parent / name, "repeat/" + name)
@@ -384,7 +391,7 @@ def frontend_data(base: Path, root: Path) -> tuple[list[dict], list[dict], list[
     for raw, directory in ((original, "inputs"), (repeated, "repeat")):
         require(all(process["returncode"] == 0 for process in raw["processes"]), "Original EDA execution has a failed process")
         records = {item["path"]: item for item in raw["artifacts"]}
-        names = CURATED if directory == "inputs" else REPEAT_CURATED
+        names = primary_artifacts(raw) if directory == "inputs" else REPEAT_CURATED
         for name in names:
             artifact = relative_file(base, directory + "/" + name)
             require(digest(artifact) == records[name]["sha256"] and artifact.stat().st_size == records[name]["bytes"], "Public artifact differs from its original execution")

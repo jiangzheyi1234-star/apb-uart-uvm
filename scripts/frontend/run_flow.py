@@ -12,12 +12,14 @@ from collections import Counter
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import shutil
 import subprocess
 import sys
 import time
+from hold_repair import first_path, measure_sta, repair_netlist
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -73,6 +75,7 @@ def main():
     parser.add_argument("--out", type=Path, required=True, help="Fresh durable output directory")
     parser.add_argument("--work", type=Path, help="Fresh ASCII Linux work directory")
     parser.add_argument("--source", type=Path, default=ROOT / "rtl_subsystem/apb_ram_mbist.sv")
+    parser.add_argument("--hold-repair", action="store_true", help="Preserve baseline and insert one guarded BUF_X1 on the measured pending-read hold path")
     a = parser.parse_args()
     output = a.out.resolve()
     started = datetime.now(timezone.utc)
@@ -111,7 +114,8 @@ def main():
         sta = tools / "opensta-build/sta"
         require(sta.is_file(), "OpenSTA is not built; run scripts/frontend/bootstrap.py --build")
         sources = [a.source.resolve(), ROOT / "flow/frontend/controller.sdc", ROOT / "flow/frontend/controller_sta.tcl",
-                   ROOT / "flow/frontend/gate_smoke.sv", ROOT / "flow/frontend/toolchain.lock.json", Path(__file__).resolve()]
+                   ROOT / "flow/frontend/gate_smoke.sv", ROOT / "flow/frontend/toolchain.lock.json", Path(__file__).resolve(),
+                   Path(__file__).with_name("hold_repair.py").resolve()]
         snapshot = [{"path": path.relative_to(ROOT).as_posix() if path.is_relative_to(ROOT) else str(path),
                      "sha256": sha(path), "bytes": path.stat().st_size} for path in sources]
         report["source_snapshot"] = snapshot
@@ -142,6 +146,57 @@ def main():
         report["synthesis"] = {"cells": dict(sorted(counts.items())), "cell_count": sum(counts.values()),
                                "sequential_cells": sum(number for kind, number in counts.items() if kind.startswith("DFF")),
                                "area_um2": float(area[1]), "scope": "Controller standard-cell area; excludes external RAM, placement, routing and physical overhead"}
+
+        def timing_run(netlist, name, target=None):
+            environment = os.environ.copy()
+            environment.pop("FRONTEND_HOLD_FROM", None)
+            environment.pop("FRONTEND_HOLD_TO", None)
+            environment.update(FRONTEND_LIBERTY=str(lib), FRONTEND_NETLIST=str(netlist), FRONTEND_SDC=str(work / "controller.sdc"))
+            if target:
+                environment.update(FRONTEND_HOLD_FROM=target + "/QN", FRONTEND_HOLD_TO=target + "/D")
+            return run([str(sta), "-exit", str(work / "controller_sta.tcl")], name, env=environment)
+
+        paths = {}
+        if a.hold_repair:
+            report["implementation"] = "hold_repair"
+            for before, after in (("mapped.v", "baseline_mapped.v"), ("mapped.json", "baseline_mapped.json"),
+                                  ("synthesis_statistics.txt", "baseline_synthesis_statistics.txt")):
+                shutil.copy2(work / before, work / after)
+            baseline_timing = timing_run(work / "baseline_mapped.v", "baseline_sta")
+            baseline_metrics = measure_sta(baseline_timing)
+            require(baseline_metrics["status"] == "VIOLATED" and baseline_metrics["setup_worst_slack_ns"] >= 0,
+                    "Hold ECO requires an actual hold-only baseline violation")
+            paths["baseline"] = {"min": first_path(baseline_timing, "MIN PATHS"), "max": first_path(baseline_timing, "MAX PATHS")}
+            for key, path in paths["baseline"].items():
+                (work / ("baseline_" + key + "_path.txt")).write_text(path["text"])
+            report["baseline"] = {"synthesis": report["synthesis"], "sta": baseline_metrics,
+                                  "netlist_sha256": sha(work / "baseline_mapped.v"), "netlist": "baseline_mapped.v",
+                                  "sta_log": "baseline_sta.log", "statistics": "baseline_synthesis_statistics.txt",
+                                  "sdc_sha256": sha(work / "controller.sdc"), "liberty_sha256": sha(lib)}
+            eco = repair_netlist(work / "baseline_mapped.v", work / "mapped.v", baseline_timing)
+            eco.update(pre_netlist_sha256=sha(work / "baseline_mapped.v"), post_netlist_sha256=sha(work / "mapped.v"),
+                       liberty_sha256=sha(lib), sdc_sha256=sha(work / "controller.sdc"), rtl_sha256=sha(rtl),
+                       constraints_unchanged=True, manifest="hold_eco.json", paths_file="timing_paths.json")
+            archived = ROOT / "docs/frontend/inputs/mapped.v"
+            if archived.is_file():
+                eco["archived_baseline_netlist_sha256"] = sha(archived)
+                eco["baseline_matches_archived"] = sha(archived) == eco["pre_netlist_sha256"]
+                require(eco["baseline_matches_archived"], "Fresh baseline differs from the archived mapped controller")
+            eco_script = work / "hold_eco_check.ys"
+            eco_script.write_text("\n".join([
+                f"read_liberty -lib {safe_yosys(lib)}", "read_verilog mapped.v", "hierarchy -check -top apb_ram_mbist",
+                "check -assert", f"tee -o synthesis_statistics.txt stat -liberty {safe_yosys(lib)}", "write_json mapped.json", ""]))
+            eco_log = run(["yosys", "-s", str(eco_script)], "hold_eco_check")
+            require("Found and reported 0 problems" in eco_log and "ERROR:" not in eco_log, "Fixed mapped netlist did not pass structural checks")
+            fixed_design = json.loads((work / "mapped.json").read_text())
+            fixed_counts = Counter(cell["type"] for cell in fixed_design["modules"]["apb_ram_mbist"]["cells"].values())
+            require(fixed_counts == counts + Counter({"BUF_X1": 1}), "ECO changed cells beyond the single requested buffer")
+            fixed_area = re.search(r"Chip area for module.*?:\s*([0-9.]+)", eco_log)
+            require(fixed_area is not None, "Fixed cell area was not measured")
+            counts = fixed_counts
+            report["synthesis"] = {**report["synthesis"], "cells": dict(sorted(counts.items())),
+                                   "cell_count": sum(counts.values()), "area_um2": float(fixed_area[1])}
+            report["hold_eco"] = eco
         scan = insert_scan(work / "mapped.v", work / "scan_mapped.v", counts)
         capture_mask, capture_expected, capture_source_bits = 0, 0, set()
         for entry in scan["cells"]:
@@ -187,20 +242,26 @@ def main():
                                      "clean_march_native_operations": 640, "scope": "RTL, mapped gates and scan gates compared at every checked cycle; zero-delay"}
         report["scan"].update(status="PASS", patterns=["all zero", "all one", "one at first chain position", "alternating"], bits_checked=scan_bits,
                              capture_bits_checked=capture_bits, capture_expected="0xfffffff7", capture_scope="actual_q[31:0] after functional-mode March failure capture; other scan bits are not capture-graded")
-        import os
-        environment = os.environ.copy()
-        environment.update(FRONTEND_LIBERTY=str(lib), FRONTEND_NETLIST=str(work / "mapped.v"), FRONTEND_SDC=str(work / "controller.sdc"))
-        timing = run([str(sta), "-exit", str(work / "controller_sta.tcl")], "sta", env=environment)
-        require("FRONTEND_STA_COMPLETE" in timing and not re.search(r"(?:^|\n)(?:Error:|invalid command|.*invalid command name)", timing), "STA Tcl run did not complete cleanly")
-        setup_slack = re.findall(r"^worst slack max\s+(-?[0-9.]+)$", timing, re.MULTILINE)
-        hold_slack = re.findall(r"^worst slack min\s+(-?[0-9.]+)$", timing, re.MULTILINE)
-        require(len(setup_slack) == len(hold_slack) == 1, "STA did not report both setup and hold worst slack")
-        timing_met = float(setup_slack[0]) >= 0 and float(hold_slack[0]) >= 0
-        report["sta"] = {"status": "PASS" if timing_met else "VIOLATED", "setup_worst_slack_ns": float(setup_slack[0]),
-                         "hold_worst_slack_ns": float(hold_slack[0]), "clock_period_ns": 10,
-                         "input_delay_max_ns": 2, "input_delay_min_ns": .2, "output_delay_max_ns": 2,
-                         "output_delay_min_ns": .2, "load_pf": .01, "clock_uncertainty_ns": .1,
-                         "scope": "One typical pre-layout corner; controller external RAM interface budgets only"}
+        timing = timing_run(work / "mapped.v", "sta", report.get("hold_eco", {}).get("target_instance"))
+        report["sta"] = measure_sta(timing)
+        timing_met = report["sta"]["status"] == "PASS"
+        if a.hold_repair:
+            paths["fixed"] = {"min": first_path(timing, "MIN PATHS"), "max": first_path(timing, "MAX PATHS"),
+                              "target_min": first_path(timing, "ECO TARGET MIN PATH")}
+            require(timing_met, "The hold ECO did not close all measured setup and hold paths")
+            target = paths["fixed"]["target_min"]
+            buffer_pins = [point for point in target["points"] if point["pin"] == report["hold_eco"]["buffer_instance"] + "/Z"
+                           and point["cell"] == "BUF_X1"]
+            require(len(buffer_pins) == 1 and buffer_pins[0]["delay_ns"] > 0 and target["slack_ns"] >= 0,
+                    "Target path does not show the actual positive-delay repair")
+            report["hold_eco"].update(buffer_delay_ns=buffer_pins[0]["delay_ns"],
+                                      target_slack_after_ns=target["slack_ns"],
+                                      global_min_endpoint_after=paths["fixed"]["min"]["endpoint"],
+                                      target_path_after=target)
+            for key, path in paths["fixed"].items():
+                (work / ("fixed_" + key + "_path.txt")).write_text(path["text"])
+            (work / "hold_eco.json").write_text(json.dumps(report["hold_eco"], indent=2) + "\n")
+            (work / "timing_paths.json").write_text(json.dumps(paths, indent=2) + "\n")
         require(all(sha(path) == item["sha256"] for path, item in zip(sources, snapshot)), "Source changed during execution")
         report["execution_status"] = "PASS"
         report["status"] = "PASS" if timing_met else "TIMING_VIOLATION"

@@ -19,6 +19,7 @@ dist/
 !docs/reproductions/runs/*/waves.vcd
 !docs/subsystem/*/waves.vcd
 !docs/frontend/inputs/gate_smoke.vcd
+!docs/frontend_hold/inputs/gate_smoke.vcd
 *.ucdb
 *.vdb/
 transcript

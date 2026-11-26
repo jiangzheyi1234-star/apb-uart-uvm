@@ -21,7 +21,7 @@ A SystemVerilog/UVM verification environment for a pinned PULP APB UART, with in
 
 The subsystem places the fixed PULP UART and an original 64 × 32-bit RAM / MBIST controller in one APB address space. The controller owns single-port RAM arbitration, the March C− sequence, and first-failure diagnostics. The `subsystem` UVM suite reuses the APB and UART agents for address, fault, recovery and reset checks. See the [subsystem specification and verification plan](docs/subsystem.md).
 
-The subsystem passed **12/12 runs** across four tests and three seeds. The workbench links each run to its log, report and same-run VCD. Its implementation view records standard-cell mapping, pre-layout STA, gate-level comparisons and the 58-cell scan chain experiment. The timing report retains the hold violation with **−0.00636 ns** worst slack under a 10 ns clock constraint. [Verification plan](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#plan) · [Implementation and DFT](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#frontend)
+The subsystem passed **12/12 runs** across four tests and three seeds. The workbench links each run to its log, report and same-run VCD. Its implementation view compares the baseline controller and a one-buffer hold ECO under the same 10 ns pre-layout constraints. Worst hold slack moves from **−0.00636 ns** to **+0.00375 ns**, with setup worst slack at **+4.88060 ns**. The comparison links gate simulation and 58-cell scan evidence for both versions. [Verification plan](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#plan) · [Implementation and DFT](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#frontend)
 
 ## Requirements and setup
 

@@ -19,6 +19,7 @@ import sys
 
 from build_evidence import read_json, validate_transcript
 from frontend_evidence import frontend_data
+from hold_evidence import hold_data
 from report_coverage import native_summary, parse_records, lcov_summary, lcov_file_details, source_scope
 from recovered_waveforms import recovered_wave_links
 from reproduced_waveforms import reproduction_evidence
@@ -625,6 +626,15 @@ def build(root: Path, output: Path, template: Path, version: str, repository: st
         inputs.extend(frontend_inputs)
         if output != root:
             shutil.copytree(frontend_base, output / "frontend", dirs_exist_ok=True)
+    hold_base = root / "frontend_hold"
+    if (hold_base / "inputs.json").is_file():
+        require("frontend_checks" in data, "Hold comparison requires the verified frontend baseline")
+        comparison, fixed_waves, hold_inputs = hold_data(hold_base, root, frontend_base)
+        data["frontend_comparison"] = comparison
+        waves.extend(fixed_waves)
+        inputs.extend(hold_inputs)
+        if output != root:
+            shutil.copytree(hold_base, output / "frontend_hold", dirs_exist_ok=True)
     if output != root and (subsystem_report is not None or bundled_subsystem or "frontend_checks" in data):
         # Supply every historical artifact referenced by the combined view.
         for directory in ("release", "features", "protocol", "reproductions", "ci"):

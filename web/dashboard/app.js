@@ -119,6 +119,8 @@
   const coverage=list(data.coverage);
   const waves=list(data.waveforms);
   const frontendChecks=list(data.frontend_checks).filter(check=>check&&hasId(check.id));
+  const frontendComparison=data.frontend_comparison&&typeof data.frontend_comparison==="object"?data.frontend_comparison:null;
+  const frontendStages=list(frontendComparison?.stages).filter(stage=>stage&&hasId(stage.id));
   const planGroups=list(data.verification_plan?.groups).filter(group=>group&&hasId(group.id)&&list(group.items).length);
   const planByRun = new Map();
   for (const group of planGroups) for (const item of list(group.items)) for (const id of list(item?.run_ids)) {
@@ -491,7 +493,7 @@
 
   function planNavigation() {
     const views=[["plan","验证计划"],["regressions","全部运行"]];
-    if(frontendChecks.length)views.push(["frontend","实现与 DFT"]);
+    if(frontendChecks.length||frontendStages.length)views.push(["frontend","实现与 DFT"]);
     return el("div", {className:"coverage-modes", role:"group", "aria-label":"计划与回归视图"},
       views.map(([view,label]) =>
         button(label, () => setView(view, true), {className:"coverage-mode", "aria-pressed":String(state.tab===view)})));
@@ -500,20 +502,74 @@
   function frontendStatus(check) {
     return badge(check.status,check.status==="TIMING_VIOLATION"?"timing":undefined);
   }
+  function frontendWaveContext(id) {
+    for(const stage of frontendStages)for(const side of ["before","after"]){
+      const check=stage[side];
+      if(hasId(check?.waveform_id)&&check.waveform_id===id)return {...check,
+        title:text(stage.title||stage.id),variant:side==="before"?"基线":"Hold 调整后",summary:frontendComparison.summary};
+    }
+    return frontendChecks.find(check=>check.waveform_id===id)||null;
+  }
+  function frontendArtifacts(check) {
+    const waveform=hasId(check?.waveform_id)?waves.find(wave=>wave.id===check.waveform_id):null;
+    return el("div",{className:"frontend-check-artifacts"},
+      list(check?.artifacts).map(item=>item?link(text(item.label),item.url):null),
+      waveform?button(waveform.kind==="scan"?"查看扫描波形":"查看同次波形",()=>showWave(waveform.id),
+        {className:"link-button","data-waveform-id":String(waveform.id)}):null);
+  }
+  function renderFrontendComparison() {
+    const comparison=frontendComparison;
+    const metrics=list(comparison.metrics).filter(metric=>metric&&typeof metric.label==="string");
+    const hasDelta=metrics.some(metric=>typeof metric.delta==="string"||finite(metric.delta));
+    const value=entry=>typeof entry==="string"||finite(entry)?text(entry):missing;
+    const result=el("section",{className:"frontend-comparison","aria-labelledby":"frontend-comparison-title"},
+      el("h2",{id:"frontend-comparison-title"},"控制器 Hold 调整对照"),
+      comparison.summary?el("p",{className:"frontend-comparison-scope"},comparison.summary):null);
+    if(metrics.length){
+      const measurement=table(["测量项","基线","Hold 调整后",...(hasDelta?["变化"]:[])],metrics.map(metric=>el("tr",{},
+        el("th",{scope:"row"},metric.label),el("td",{"data-label":"基线"},el("code",{},value(metric.before))),
+        el("td",{"data-label":"Hold 调整后"},el("code",{},value(metric.after))),
+        hasDelta?el("td",{"data-label":"变化"},el("code",{},value(metric.delta))):null)),
+        {className:`table-scroll frontend-metric-table${hasDelta?" has-delta":""}`});
+      measurement.querySelectorAll("table,thead,tbody,tr,th,td").forEach(node=>node.setAttribute("role",
+        ({TABLE:"table",THEAD:"rowgroup",TBODY:"rowgroup",TR:"row",TD:"cell"})[node.tagName]||
+        (node.getAttribute("scope")==="row"?"rowheader":"columnheader")));
+      result.append(measurement);
+    }
+    const rows=frontendStages.map(stage=>el("tr",{"data-stage-id":String(stage.id)},
+      el("th",{scope:"row"},text(stage.title||stage.id)),
+      ["before","after"].map(side=>{
+        const check=stage[side];
+        return el("td",{"data-side":side,"data-label":side==="before"?"基线":"Hold 调整后",
+          className:check?.status==="TIMING_VIOLATION"?"is-timing-violation":null},
+          check?frontendStatus(check):el("span",{className:"secondary"},missing),check?frontendArtifacts(check):null);
+      })));
+    const workflow=table(["检查阶段","基线","Hold 调整后"],rows,{className:"table-scroll frontend-stage-table"});
+    // Mobile rearranges these same rows; explicit roles retain their table
+    // semantics in accessibility trees when CSS changes their display mode.
+    workflow.querySelectorAll("table,thead,tbody,tr,th,td").forEach(node=>node.setAttribute("role",
+      ({TABLE:"table",THEAD:"rowgroup",TBODY:"rowgroup",TR:"row",TD:"cell"})[node.tagName]||
+      (node.getAttribute("scope")==="row"?"rowheader":"columnheader")));
+    result.append(workflow);
+    const diagnosis=(Array.isArray(comparison.diagnosis)?comparison.diagnosis:[comparison.diagnosis]).filter(item=>typeof item==="string"&&item.trim());
+    if(diagnosis.length)result.append(el("p",{className:"frontend-path-summary"},diagnosis[0]));
+    if(diagnosis.length>1)result.append(el("details",{className:"frontend-diagnosis"},el("summary",{},"路径、ECO 与分析边界"),
+      diagnosis.slice(1).map(item=>el("p",{},item))));
+    result.append(el("p",{className:"inline-note frontend-comparison-boundary"},"两列保留各次执行的状态与文件。扫描检查覆盖定向移位和功能捕获，ATPG 故障覆盖率未纳入此处。"));
+    return result;
+  }
   function renderFrontend() {
     root.append(planNavigation());
+    if(frontendStages.length){root.append(renderFrontendComparison());return;}
     intro("综合、STA、门级比较和扫描检查按实际执行分别记录，状态独立于 UVM 回归结果。");
     if(!frontendChecks.length){root.append(empty("尚无实现检查记录","当前证据包未包含综合、时序或扫描检查报告。"));return;}
     const rows=frontendChecks.map(check=>{
-      const waveform=hasId(check.waveform_id)?waves.find(wave=>wave.id===check.waveform_id):null;
       const timing=check.status==="TIMING_VIOLATION";
       return el("li",{className:`frontend-check${timing?" frontend-check--timing":""}`,"data-check-id":String(check.id)},
         el("div",{className:"frontend-check-heading"},el("h2",{},text(check.title||check.id)),frontendStatus(check)),
         check.summary?el("p",{className:"frontend-check-summary"},check.summary):null,
         timing?el("p",{className:"frontend-timing-note"},"时序检查记录了 hold 违例。可用 SDC 和完整时序路径复核。" ):null,
-        el("div",{className:"frontend-check-artifacts"},
-          list(check.artifacts).map(item=>item?link(text(item.label),item.url):null),
-          waveform?button(waveform.kind==="scan"?"查看扫描波形":"查看同次波形",()=>showWave(waveform.id),{className:"link-button","data-waveform-id":String(waveform.id)}):null));
+        frontendArtifacts(check));
     });
     root.append(el("section",{className:"frontend-results","aria-label":"实现与 DFT 检查记录"},
       el("ol",{className:"frontend-check-list"},rows),
@@ -904,7 +960,7 @@
     const source=waves.find(wave=>String(wave.id)===String(state.waveId))||waves[0];state.waveId=source.id;
     const wave=prepareWave(source);
     const scan=wave.kind==="scan",frontend=scan||wave.kind==="gate";
-    const frontendCheck=frontend?frontendChecks.find(check=>check.waveform_id===wave.id):null;
+    const frontendCheck=frontend?frontendWaveContext(wave.id):null;
     const reproduced=isReproductionWave(wave),reproduction=reproductionInfo(wave);
     if(reproduced&&!reproduction){root.append(empty("复现来源无法核对","复现波形需要独立执行身份与对应原始运行的明确关联。请核对归档元数据。"));return;}
     const original=reproduction?runsById.get(reproduction.original_run_id):null;
@@ -913,6 +969,7 @@
       document.title=`${title.textContent} · ${text(data.project?.title||"APB UART")}`;
     }else if(frontend){
       title.textContent=scan?"实现波形 · 扫描检查":"实现波形 · 门级比较";
+      if(frontendCheck?.variant)title.textContent+=` · ${frontendCheck.variant}`;
       document.title=`${title.textContent} · ${text(data.project?.title||"APB UART")}`;
     }
     if(!validRange(wave.range)){root.append(empty("波形时间范围未记录","需要有效的 range:[start,end] 才能显示真实时间轴。"));return;}
@@ -930,7 +987,7 @@
       const record=reproductionInfo(item);
       const label=record?["TRACE 复现",text(record.test),`seed ${text(record.seed)}`,
         record.mutation||record.phase&&phaseName(record.phase)].filter(Boolean).join(" · "):
-        `${isReproductionWave(item)?"TRACE 复现 · ":item.kind==="scan"?"DFT 扫描 · ":item.kind==="gate"?"门级比较 · ":""}${text(item.title)}`;
+        `${isReproductionWave(item)?"TRACE 复现 · ":item.kind==="scan"?"DFT 扫描 · ":item.kind==="gate"?"门级比较 · ":""}${frontendWaveContext(item.id)?.variant?frontendWaveContext(item.id).variant+" · ":""}${text(item.title)}`;
       return {value:String(item.id),label};
     }),String(wave.id),id=>{state.waveId=id;setView("waveforms");},{"aria-label":"选择真实波形"});
     const controls=el("div",{className:"wave-controls"});
@@ -938,7 +995,7 @@
     const related=!frontend&&!reproduced&&hasId(wave.run_id)?runsById.get(wave.run_id):null;
     if(frontend){
       waveformPanel.append(el("section",{className:"wave-frontend-context",role:"note","aria-label":"实现检查来源"},
-        el("div",{className:"frontend-check-heading"},el("strong",{},frontendCheck?text(frontendCheck.title):scan?"扫描检查":"门级比较"),frontendCheck?frontendStatus(frontendCheck):null),
+        el("div",{className:"frontend-check-heading"},el("strong",{},frontendCheck?[frontendCheck.title,frontendCheck.variant].filter(Boolean).join(" · "):scan?"扫描检查":"门级比较"),frontendCheck?frontendStatus(frontendCheck):null),
         frontendCheck?.summary?el("p",{},frontendCheck.summary):null,
         scan?el("p",{className:"secondary"},"窗口聚焦同次仿真中功能捕获后的扫描移出区间。" ):null));
     }

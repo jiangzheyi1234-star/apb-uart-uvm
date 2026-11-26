@@ -21,7 +21,7 @@
 
 独立的外设顶层把修复版 UART 和自研 64 × 32 位 RAM / MBIST 控制器连接到同一 APB 地址空间。控制器负责单端口 RAM 的访问仲裁、March C− 序列和首错诊断。运行 `--suite subsystem` 可复用 APB/UART Agent，验证地址边界、自检期间的访问、故障诊断和复位恢复。接口、验证计划和复跑方法见[子系统说明](docs/subsystem.md)。
 
-四个子系统用例各跑三个 seed，**12/12 PASS**。在线工作台的「计划与回归」关联每次运行的日志、报告和同次 VCD。「实现与 DFT」归档了控制器的标准单元映射、布图前 STA、门级仿真以及 58 级扫描链检查。10 ns 约束下的 hold 最差余量为 **−0.00636 ns**，时序报告保留完整违例路径。[子系统验证计划](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#plan) · [实现与 DFT](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#frontend)
+四个子系统用例各跑三个 seed，**12/12 PASS**。在线工作台的「计划与回归」关联每次运行的日志、报告和同次 VCD。「实现与 DFT」展示控制器在同一 10 ns 布图前约束下的 hold 修复对照。插入一个 `BUF_X1` 后，全局 hold 最差余量从 **−0.00636 ns** 到 **+0.00375 ns**，setup 最差余量为 **+4.88060 ns**。门级仿真和 58 级扫描链检查均已复跑。[子系统验证计划](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#plan) · [实现与 DFT](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#frontend)
 
 ## 运行环境
 

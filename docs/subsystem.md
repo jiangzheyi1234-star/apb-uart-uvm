@@ -85,4 +85,6 @@ python3 py/build_dashboard.py --subsystem-report results/subsystem_acceptance/re
 
 在 Nangate45 典型角对自研 `apb_ram_mbist` 控制器执行实际标准单元映射和 OpenSTA。综合结果为 **559 个单元、829.388 µm²**，范围限定为控制逻辑及其外部 RAM 端口。Icarus 零延时仿真对 RTL、普通网表、扫描网表逐拍比较了 2,711 个周期。
 
-将 58 个触发器替换成同一库的扫描单元并连接为单链。四种移位向量检查 232 位，另对功能捕获后的诊断寄存器检查 32 位扫描读出。10 ns 约束下 setup 最差余量为 **+4.88060 ns**，hold 最差余量为 **−0.00636 ns**。该检查按布图前典型角和既定 I/O 预算执行，报告记录 hold 违例。[综合、时序与扫描链复现步骤](../flow/frontend/README.md)
+将 58 个触发器替换成同一库的扫描单元并连接为单链。四种移位向量检查 232 位，另对功能捕获后的诊断寄存器检查 32 位扫描读出。基线在布图前 10 ns 约束下报告 **−0.00636 ns** 的 hold 违例。最短路径为 `apb_read_pending_q` 寄存器输出经 NAND2、NOR4 回到自身 D 端。
+
+修复网表在该 D 端插入一个 `BUF_X1`，在原 SDC 和同一 Nangate45 典型角重新执行 STA。原反馈路径余量为 **+0.01728 ns**，新的全局最差 hold 余量为 **+0.00375 ns**，setup 最差余量为 **+4.88060 ns**。门级和扫描检查复跑通过。两版报告覆盖布图前控制器，RAM 端口使用既定 I/O 预算。[综合、时序与扫描链复现步骤](../flow/frontend/README.md) · [在线前后对照](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#frontend)

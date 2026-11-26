@@ -1,0 +1,28 @@
+Startpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _1039_/CK (DFFR_X1)
+   0.06745    0.06745 v _1039_/QN (DFFR_X1)
+   0.01868    0.08613 ^ _0769_/ZN (NAND2_X1)
+   0.01019    0.09633 v _0770_/ZN (NOR4_X1)
+   0.00000    0.09633 v _1039_/D (DFFR_X1)
+              0.09633   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _1039_/CK (DFFR_X1)
+   0.00268    0.10268   library hold time
+              0.10268   data required time
+---------------------------------------------------------------
+              0.10268   data required time
+             -0.09633   data arrival time
+---------------------------------------------------------------
+             -0.00636   slack (VIOLATED)

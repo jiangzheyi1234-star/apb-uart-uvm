@@ -93,3 +93,48 @@ closure requires a separately measured optimization and physical flow.
 Gate simulation uses zero-delay cell models generated from the same Liberty,
 three separate RAM models and the recorded smoke stimuli. The comparisons
 cover functional behavior exercised by the selected APB and scan scenarios.
+
+## Guarded hold repair
+
+The optional repair flow inserts one non-inverting `BUF_X1` on the D input of
+the mapped `apb_read_pending_q` flop. It keeps the RTL, Liberty, SDC, 10 ns
+clock and 0.1 ns uncertainty unchanged. The ordinary command above continues
+to run the unrepaired baseline and report its real timing violation.
+
+```bash
+python3 -m unittest discover -s scripts/frontend -p test_hold_repair.py -v
+python3 scripts/frontend/run_flow.py --hold-repair --out results/frontend_hold_new
+```
+
+The flow finds the unique logical Q net and checks its clock/reset, QN-to-NAND
+feedback, NOR next-state driver, sole D consumer and actual worst hold path.
+It rejects changed or ambiguous topology instead of applying a buffer solely
+by a generated cell number. `hold_eco.json` records the original/new nets,
+cell/pin edits, before/after netlist SHA-256, unchanged RTL/library/SDC hashes
+and measured buffer delay. Yosys structural checking confirms one added cell
+and unchanged flip-flop count. The complete gate/scan tests run on the repaired
+netlist, followed by global setup/hold analysis and a targeted report of the
+repaired path.
+
+| Measured typical pre-layout result | Baseline | One-buffer ECO |
+| --- | ---: | ---: |
+| Standard cells | 559 | 560 |
+| Flip-flops | 58 | 58 |
+| Controller area | 829.388 µm² | 830.186 µm² |
+| Global setup slack | +4.88060 ns | +4.88060 ns |
+| Global hold slack | −0.00636 ns | +0.00375 ns |
+| Original pending-read path hold slack | −0.00636 ns | +0.01728 ns |
+
+The original short path is the synchronous-read pending flag's QN-to-D
+feedback. The buffer contributes 0.02395 ns on the measured repaired path.
+The global minimum then moves to `_1017_`; the flow checks the new global
+worst path rather than stopping at the repaired endpoint. These positive
+slacks apply to the same single typical, ideal-clock, pre-layout assumptions;
+they do not establish physical or multicorner signoff.
+
+Outputs preserve `baseline_mapped.v`, `baseline_synthesis_statistics.txt`,
+`baseline_sta.log`, readable before/after min/max paths, `timing_paths.json`
+and the original gate/VCD evidence. The repaired report's `synthesis`, `sta`,
+`gate_simulation` and `scan` describe the repaired implementation; its
+`baseline` section retains the measured violation. Old published baseline
+evidence remains unchanged.

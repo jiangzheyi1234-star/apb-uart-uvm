@@ -1,0 +1,7 @@
+COMMAND ["vvp", "gate_smoke.vvp"]
+VCD info: dumpfile gate_smoke.vcd opened for output.
+GATE_CLEAN_MBIST native_ops=640 reads=320 writes=320
+GATE_FAULT_MBIST addr=63 step=2 expected=ffffffff actual=fffffff7
+SCAN_CAPTURE_PASS checked_bits=32 independently_expected=fffffff7
+FRONTEND_GATE_PASS comparisons=2711 apb_transactions=877 scan_length=58 scan_bits_checked=232 capture_bits_checked=32
+gate_smoke.sv:191: $finish called at 32600000 (1ps)

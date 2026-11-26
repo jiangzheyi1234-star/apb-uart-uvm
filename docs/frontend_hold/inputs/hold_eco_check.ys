@@ -1,0 +1,6 @@
+read_liberty -lib "/var/tmp/apb-frontend-tools/NangateOpenCellLibrary_typical.lib"
+read_verilog mapped.v
+hierarchy -check -top apb_ram_mbist
+check -assert
+tee -o synthesis_statistics.txt stat -liberty "/var/tmp/apb-frontend-tools/NangateOpenCellLibrary_typical.lib"
+write_json mapped.json

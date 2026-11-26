@@ -1,0 +1,1109 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "started_utc": "2026-11-26T13:47:08.168620+00:00",
+  "processes": [
+    {
+      "command": [
+        "yosys",
+        "-V"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.008,
+      "log": "version_yosys.log"
+    },
+    {
+      "command": [
+        "/var/tmp/apb-frontend-tools/opensta-build/sta",
+        "-version"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.004,
+      "log": "version_opensta.log"
+    },
+    {
+      "command": [
+        "iverilog",
+        "-V"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.008,
+      "log": "version_iverilog.log"
+    },
+    {
+      "command": [
+        "yosys",
+        "-s",
+        "/var/tmp/apb-frontend-20261126T134708168620Z/synthesize.ys"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.917,
+      "log": "synthesis.log"
+    },
+    {
+      "command": [
+        "/var/tmp/apb-frontend-tools/opensta-build/sta",
+        "-exit",
+        "/var/tmp/apb-frontend-20261126T134708168620Z/controller_sta.tcl"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.265,
+      "log": "baseline_sta.log"
+    },
+    {
+      "command": [
+        "yosys",
+        "-s",
+        "/var/tmp/apb-frontend-20261126T134708168620Z/hold_eco_check.ys"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.215,
+      "log": "hold_eco_check.log"
+    },
+    {
+      "command": [
+        "yosys",
+        "-s",
+        "/var/tmp/apb-frontend-20261126T134708168620Z/cell_models.ys"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.114,
+      "log": "cell_models.log"
+    },
+    {
+      "command": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "frontend_gate_smoke",
+        "-Pfrontend_gate_smoke.SCAN_LENGTH=58",
+        "-o",
+        "gate_smoke.vvp",
+        "rtl_reference.sv",
+        "mapped.v",
+        "scan_mapped.v",
+        "cells.v",
+        "gate_smoke.sv"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.115,
+      "log": "gate_compile.log"
+    },
+    {
+      "command": [
+        "vvp",
+        "gate_smoke.vvp"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.415,
+      "log": "gate_simulation.log"
+    },
+    {
+      "command": [
+        "/var/tmp/apb-frontend-tools/opensta-build/sta",
+        "-exit",
+        "/var/tmp/apb-frontend-20261126T134708168620Z/controller_sta.tcl"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.265,
+      "log": "sta.log"
+    }
+  ],
+  "top": "apb_ram_mbist",
+  "scope": "Mapped controller only; external 64x32 RAM is excluded from area and internal timing",
+  "limitations": [
+    "Single typical 25C/1.1V Nangate45 corner, ideal clock, pre-layout, no extracted parasitics.",
+    "RAM I/O delay budgets are assumptions, not a characterized memory macro.",
+    "Functional reset is deasserted; reset distribution and recovery/removal are not analyzed.",
+    "Gate simulation is zero-delay and covers the recorded stimuli; it is not formal equivalence or SDF timing simulation.",
+    "Scan is logical standard-cell substitution plus shift/functional testing; no physical DFT closure, ATPG or fault coverage."
+  ],
+  "source_snapshot": [
+    {
+      "path": "rtl_subsystem/apb_ram_mbist.sv",
+      "sha256": "3743009dcec9bee56d361beb5167dc9709d967d7d16a086ca4cd80ba72d074f0",
+      "bytes": 9673
+    },
+    {
+      "path": "flow/frontend/controller.sdc",
+      "sha256": "412e2b4cfbbe507d5eaa34a448e9e4534c9b2d821b6701776b361c0cf501e377",
+      "bytes": 864
+    },
+    {
+      "path": "flow/frontend/controller_sta.tcl",
+      "sha256": "f6e6cd6be19674285ed7ad4a242713a1c513e1fe9c4828dbccdae5968cd25cc4",
+      "bytes": 925
+    },
+    {
+      "path": "flow/frontend/gate_smoke.sv",
+      "sha256": "6ba69017648c3a9aa2b4b48ba55b06017aff237178905c5eeebd3e2df09e19ae",
+      "bytes": 7400
+    },
+    {
+      "path": "flow/frontend/toolchain.lock.json",
+      "sha256": "47de5c6980ee2df47d8cf8e65b6a62e19e0e6e4964520ba01bfaf811d8768c6c",
+      "bytes": 1538
+    },
+    {
+      "path": "scripts/frontend/run_flow.py",
+      "sha256": "3aef991b956258eacbb5194a3816af720d784614311152e74e4bf0c8f3b8d492",
+      "bytes": 20316
+    },
+    {
+      "path": "scripts/frontend/hold_repair.py",
+      "sha256": "1c1ce1b73b092c5543745fd036e08198ef7369bed8e012d30cbf046215f6b5ff",
+      "bytes": 7733
+    }
+  ],
+  "library": {
+    "file": "NangateOpenCellLibrary_typical.lib",
+    "url": "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD-flow-scripts/7aee0ab06c2d77b794ed8ae8f21883af676ce8d0/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib",
+    "sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "bytes": 6692032,
+    "license": "Nangate Open Cell Library license in file header; preserve alongside platform Apache-2.0 LICENSE"
+  },
+  "toolchain_lock": {
+    "schema_version": 1,
+    "opensta_commit": "28d7a0b5123d59cbff8c1def4e3830c840fe5d50",
+    "cudd_commit": "f54f533303640afd5dbe47a05ebeabb3066f2a25",
+    "nangate_repository_commit": "7aee0ab06c2d77b794ed8ae8f21883af676ce8d0",
+    "artifacts": [
+      {
+        "file": "opensta.tar.gz",
+        "url": "https://codeload.github.com/parallaxsw/OpenSTA/tar.gz/28d7a0b5123d59cbff8c1def4e3830c840fe5d50",
+        "sha256": "2451385cd051949bb8bd64244f2797447c7386897cefb5fa6468fd35c656e22c",
+        "bytes": 13571570,
+        "license": "GPL-3.0-or-later; source LICENSE retained"
+      },
+      {
+        "file": "cudd.tar.gz",
+        "url": "https://codeload.github.com/cuddorg/cudd/tar.gz/f54f533303640afd5dbe47a05ebeabb3066f2a25",
+        "sha256": "dbe6b90f8745bf1f755953b76f1c639e07f7ee079f4abf18c871ae878f47431d",
+        "bytes": 1172209,
+        "license": "BSD-style; source LICENSE retained"
+      },
+      {
+        "file": "NangateOpenCellLibrary_typical.lib",
+        "url": "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD-flow-scripts/7aee0ab06c2d77b794ed8ae8f21883af676ce8d0/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib",
+        "sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+        "bytes": 6692032,
+        "license": "Nangate Open Cell Library license in file header; preserve alongside platform Apache-2.0 LICENSE"
+      },
+      {
+        "file": "NANGATE_LICENSE",
+        "url": "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD-flow-scripts/7aee0ab06c2d77b794ed8ae8f21883af676ce8d0/flow/platforms/nangate45/LICENSE",
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+        "bytes": 10174,
+        "license": "Apache-2.0"
+      }
+    ]
+  },
+  "sta_binary_sha256": "15ed20afb58dcb1d3dcd4eb63bc34e6a45b5c20b17a805432ed0b0ed724e4d84",
+  "versions": {
+    "yosys": "Yosys 0.33 (git sha1 2584903a060)",
+    "opensta": "3.2.0",
+    "iverilog": "Icarus Verilog version 12.0 (stable) ()"
+  },
+  "synthesis": {
+    "cells": {
+      "AND2_X1": 7,
+      "AND3_X1": 32,
+      "AND4_X1": 1,
+      "AOI211_X1": 33,
+      "AOI21_X1": 136,
+      "AOI221_X1": 1,
+      "AOI22_X1": 12,
+      "BUF_X1": 1,
+      "DFFR_X1": 58,
+      "INV_X1": 55,
+      "MUX2_X1": 14,
+      "NAND2_X1": 54,
+      "NAND3_X1": 15,
+      "NAND4_X1": 11,
+      "NOR2_X1": 53,
+      "NOR3_X1": 20,
+      "NOR4_X1": 16,
+      "OAI21_X1": 21,
+      "OAI22_X1": 3,
+      "OR2_X1": 6,
+      "OR3_X1": 4,
+      "XNOR2_X1": 5,
+      "XOR2_X1": 2
+    },
+    "cell_count": 560,
+    "sequential_cells": 58,
+    "area_um2": 830.186,
+    "scope": "Controller standard-cell area; excludes external RAM, placement, routing and physical overhead"
+  },
+  "implementation": "hold_repair",
+  "baseline": {
+    "synthesis": {
+      "cells": {
+        "AND2_X1": 7,
+        "AND3_X1": 32,
+        "AND4_X1": 1,
+        "AOI211_X1": 33,
+        "AOI21_X1": 136,
+        "AOI221_X1": 1,
+        "AOI22_X1": 12,
+        "DFFR_X1": 58,
+        "INV_X1": 55,
+        "MUX2_X1": 14,
+        "NAND2_X1": 54,
+        "NAND3_X1": 15,
+        "NAND4_X1": 11,
+        "NOR2_X1": 53,
+        "NOR3_X1": 20,
+        "NOR4_X1": 16,
+        "OAI21_X1": 21,
+        "OAI22_X1": 3,
+        "OR2_X1": 6,
+        "OR3_X1": 4,
+        "XNOR2_X1": 5,
+        "XOR2_X1": 2
+      },
+      "cell_count": 559,
+      "sequential_cells": 58,
+      "area_um2": 829.388,
+      "scope": "Controller standard-cell area; excludes external RAM, placement, routing and physical overhead"
+    },
+    "sta": {
+      "status": "VIOLATED",
+      "setup_worst_slack_ns": 4.8806,
+      "hold_worst_slack_ns": -0.00636,
+      "clock_period_ns": 10,
+      "input_delay_max_ns": 2,
+      "input_delay_min_ns": 0.2,
+      "output_delay_max_ns": 2,
+      "output_delay_min_ns": 0.2,
+      "load_pf": 0.01,
+      "clock_uncertainty_ns": 0.1,
+      "scope": "One typical pre-layout corner; controller external RAM interface budgets only"
+    },
+    "netlist_sha256": "dddab7a96309fdaac438738ab0be1ea95a337bfac779c274af9485af455b5a4f",
+    "netlist": "baseline_mapped.v",
+    "sta_log": "baseline_sta.log",
+    "statistics": "baseline_synthesis_statistics.txt",
+    "sdc_sha256": "412e2b4cfbbe507d5eaa34a448e9e4534c9b2d821b6701776b361c0cf501e377",
+    "liberty_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1"
+  },
+  "hold_eco": {
+    "method": "single_noninverting_buffer_on_flop_D",
+    "target_instance": "_1039_",
+    "target_pin": "D",
+    "logical_q": "apb_read_pending_q",
+    "old_net": "_0000_",
+    "new_net": "hold_eco_apb_read_pending_d_net",
+    "buffer_instance": "hold_eco_apb_read_pending_d",
+    "buffer_cell": "BUF_X1",
+    "buffer_input_pin": "A",
+    "buffer_output_pin": "Z",
+    "cell_count_before": 559,
+    "cell_count_after": 560,
+    "guarded_path_pins": [
+      "_1039_/QN",
+      "_0769_/ZN",
+      "_0770_/ZN",
+      "_1039_/D"
+    ],
+    "guarded_cells": [
+      {
+        "instance": "_1039_",
+        "cell": "DFFR_X1",
+        "pins": {
+          "CK": "CLK",
+          "D": "_0000_",
+          "Q": "apb_read_pending_q",
+          "QN": "_0001_",
+          "RN": "RSTN"
+        }
+      },
+      {
+        "instance": "_0769_",
+        "cell": "NAND2_X1",
+        "pins": {
+          "A1": "RSTN",
+          "A2": "_0001_",
+          "ZN": "_0296_"
+        }
+      },
+      {
+        "instance": "_0770_",
+        "cell": "NOR4_X1",
+        "pins": {
+          "A1": "PWRITE",
+          "A2": "apb_read_pending_q",
+          "A3": "_0295_",
+          "A4": "_0296_",
+          "ZN": "_0000_"
+        }
+      }
+    ],
+    "baseline_target_path": {
+      "startpoint": "_1039_",
+      "endpoint": "_1039_",
+      "slack_ns": -0.00636,
+      "arrival_ns": 0.09633,
+      "required_ns": 0.10268,
+      "status": "VIOLATED",
+      "points": [
+        {
+          "delay_ns": 0.0,
+          "time_ns": 0.0,
+          "edge": "^",
+          "pin": "_1039_/CK",
+          "cell": "DFFR_X1"
+        },
+        {
+          "delay_ns": 0.06745,
+          "time_ns": 0.06745,
+          "edge": "v",
+          "pin": "_1039_/QN",
+          "cell": "DFFR_X1"
+        },
+        {
+          "delay_ns": 0.01868,
+          "time_ns": 0.08613,
+          "edge": "^",
+          "pin": "_0769_/ZN",
+          "cell": "NAND2_X1"
+        },
+        {
+          "delay_ns": 0.01019,
+          "time_ns": 0.09633,
+          "edge": "v",
+          "pin": "_0770_/ZN",
+          "cell": "NOR4_X1"
+        },
+        {
+          "delay_ns": 0.0,
+          "time_ns": 0.09633,
+          "edge": "v",
+          "pin": "_1039_/D",
+          "cell": "DFFR_X1"
+        }
+      ],
+      "text": "Startpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)\nEndpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)\nPath Group: core_clk\nPath Type: min\n\n     Delay       Time   Description\n---------------------------------------------------------------\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   0.00000    0.00000 ^ _1039_/CK (DFFR_X1)\n   0.06745    0.06745 v _1039_/QN (DFFR_X1)\n   0.01868    0.08613 ^ _0769_/ZN (NAND2_X1)\n   0.01019    0.09633 v _0770_/ZN (NOR4_X1)\n   0.00000    0.09633 v _1039_/D (DFFR_X1)\n              0.09633   data arrival time\n\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   0.10000    0.10000   clock uncertainty\n   0.00000    0.10000   clock reconvergence pessimism\n              0.10000 ^ _1039_/CK (DFFR_X1)\n   0.00268    0.10268   library hold time\n              0.10268   data required time\n---------------------------------------------------------------\n              0.10268   data required time\n             -0.09633   data arrival time\n---------------------------------------------------------------\n             -0.00636   slack (VIOLATED)\n"
+    },
+    "scope": "Logical standard-cell hold ECO at one typical pre-layout corner; no physical parasitic/clock-tree signoff",
+    "pre_netlist_sha256": "dddab7a96309fdaac438738ab0be1ea95a337bfac779c274af9485af455b5a4f",
+    "post_netlist_sha256": "9109a717b5b4669c6210a1518c269fdc44328de5134b7193c4f808f39b3cde6c",
+    "liberty_sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "sdc_sha256": "412e2b4cfbbe507d5eaa34a448e9e4534c9b2d821b6701776b361c0cf501e377",
+    "rtl_sha256": "3743009dcec9bee56d361beb5167dc9709d967d7d16a086ca4cd80ba72d074f0",
+    "constraints_unchanged": true,
+    "manifest": "hold_eco.json",
+    "paths_file": "timing_paths.json",
+    "archived_baseline_netlist_sha256": "dddab7a96309fdaac438738ab0be1ea95a337bfac779c274af9485af455b5a4f",
+    "baseline_matches_archived": true,
+    "buffer_delay_ns": 0.02395,
+    "target_slack_after_ns": 0.01728,
+    "global_min_endpoint_after": "_1017_",
+    "target_path_after": {
+      "startpoint": "_1039_",
+      "endpoint": "_1039_",
+      "slack_ns": 0.01728,
+      "arrival_ns": 0.11998,
+      "required_ns": 0.1027,
+      "status": "MET",
+      "points": [
+        {
+          "delay_ns": 0.0,
+          "time_ns": 0.0,
+          "edge": "^",
+          "pin": "_1039_/CK",
+          "cell": "DFFR_X1"
+        },
+        {
+          "delay_ns": 0.06745,
+          "time_ns": 0.06745,
+          "edge": "v",
+          "pin": "_1039_/QN",
+          "cell": "DFFR_X1"
+        },
+        {
+          "delay_ns": 0.01868,
+          "time_ns": 0.08613,
+          "edge": "^",
+          "pin": "_0769_/ZN",
+          "cell": "NAND2_X1"
+        },
+        {
+          "delay_ns": 0.0099,
+          "time_ns": 0.09603,
+          "edge": "v",
+          "pin": "_0770_/ZN",
+          "cell": "NOR4_X1"
+        },
+        {
+          "delay_ns": 0.02395,
+          "time_ns": 0.11998,
+          "edge": "v",
+          "pin": "hold_eco_apb_read_pending_d/Z",
+          "cell": "BUF_X1"
+        },
+        {
+          "delay_ns": 0.0,
+          "time_ns": 0.11998,
+          "edge": "v",
+          "pin": "_1039_/D",
+          "cell": "DFFR_X1"
+        }
+      ],
+      "text": "Startpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)\nEndpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)\nPath Group: core_clk\nPath Type: min\n\n     Delay       Time   Description\n---------------------------------------------------------------\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   0.00000    0.00000 ^ _1039_/CK (DFFR_X1)\n   0.06745    0.06745 v _1039_/QN (DFFR_X1)\n   0.01868    0.08613 ^ _0769_/ZN (NAND2_X1)\n   0.00990    0.09603 v _0770_/ZN (NOR4_X1)\n   0.02395    0.11998 v hold_eco_apb_read_pending_d/Z (BUF_X1)\n   0.00000    0.11998 v _1039_/D (DFFR_X1)\n              0.11998   data arrival time\n\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   0.10000    0.10000   clock uncertainty\n   0.00000    0.10000   clock reconvergence pessimism\n              0.10000 ^ _1039_/CK (DFFR_X1)\n   0.00270    0.10270   library hold time\n              0.10270   data required time\n---------------------------------------------------------------\n              0.10270   data required time\n             -0.11998   data arrival time\n---------------------------------------------------------------\n              0.01728   slack (MET)\n"
+    }
+  },
+  "scan": {
+    "chains": 1,
+    "length": 58,
+    "cells": [
+      {
+        "instance": "_0982_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[0]",
+        "index": 0
+      },
+      {
+        "instance": "_0983_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[1]",
+        "index": 1
+      },
+      {
+        "instance": "_0984_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[2]",
+        "index": 2
+      },
+      {
+        "instance": "_0985_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[3]",
+        "index": 3
+      },
+      {
+        "instance": "_0986_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[4]",
+        "index": 4
+      },
+      {
+        "instance": "_0987_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[5]",
+        "index": 5
+      },
+      {
+        "instance": "_0988_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[6]",
+        "index": 6
+      },
+      {
+        "instance": "_0989_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[7]",
+        "index": 7
+      },
+      {
+        "instance": "_0990_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[8]",
+        "index": 8
+      },
+      {
+        "instance": "_0991_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[9]",
+        "index": 9
+      },
+      {
+        "instance": "_0992_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[10]",
+        "index": 10
+      },
+      {
+        "instance": "_0993_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[11]",
+        "index": 11
+      },
+      {
+        "instance": "_0994_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[12]",
+        "index": 12
+      },
+      {
+        "instance": "_0995_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[13]",
+        "index": 13
+      },
+      {
+        "instance": "_0996_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[14]",
+        "index": 14
+      },
+      {
+        "instance": "_0997_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[15]",
+        "index": 15
+      },
+      {
+        "instance": "_0998_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[16]",
+        "index": 16
+      },
+      {
+        "instance": "_0999_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[17]",
+        "index": 17
+      },
+      {
+        "instance": "_1000_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[18]",
+        "index": 18
+      },
+      {
+        "instance": "_1001_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[19]",
+        "index": 19
+      },
+      {
+        "instance": "_1002_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[20]",
+        "index": 20
+      },
+      {
+        "instance": "_1003_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[21]",
+        "index": 21
+      },
+      {
+        "instance": "_1004_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[22]",
+        "index": 22
+      },
+      {
+        "instance": "_1005_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[23]",
+        "index": 23
+      },
+      {
+        "instance": "_1006_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[24]",
+        "index": 24
+      },
+      {
+        "instance": "_1007_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[25]",
+        "index": 25
+      },
+      {
+        "instance": "_1008_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[26]",
+        "index": 26
+      },
+      {
+        "instance": "_1009_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[27]",
+        "index": 27
+      },
+      {
+        "instance": "_1010_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[28]",
+        "index": 28
+      },
+      {
+        "instance": "_1011_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[29]",
+        "index": 29
+      },
+      {
+        "instance": "_1012_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[30]",
+        "index": 30
+      },
+      {
+        "instance": "_1013_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[31]",
+        "index": 31
+      },
+      {
+        "instance": "_1014_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "state_q[0]",
+        "index": 32
+      },
+      {
+        "instance": "_1015_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "state_q[1]",
+        "index": 33
+      },
+      {
+        "instance": "_1016_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "state_q[2]",
+        "index": 34
+      },
+      {
+        "instance": "_1017_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "step_q[0]",
+        "index": 35
+      },
+      {
+        "instance": "_1018_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "step_q[1]",
+        "index": 36
+      },
+      {
+        "instance": "_1019_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "step_q[2]",
+        "index": 37
+      },
+      {
+        "instance": "_1020_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[0]",
+        "index": 38
+      },
+      {
+        "instance": "_1021_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[1]",
+        "index": 39
+      },
+      {
+        "instance": "_1022_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[2]",
+        "index": 40
+      },
+      {
+        "instance": "_1023_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[3]",
+        "index": 41
+      },
+      {
+        "instance": "_1024_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[4]",
+        "index": 42
+      },
+      {
+        "instance": "_1025_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[5]",
+        "index": 43
+      },
+      {
+        "instance": "_1026_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "busy_q",
+        "index": 44
+      },
+      {
+        "instance": "_1027_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "done_q",
+        "index": 45
+      },
+      {
+        "instance": "_1028_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_q",
+        "index": 46
+      },
+      {
+        "instance": "_1029_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[0]",
+        "index": 47
+      },
+      {
+        "instance": "_1030_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[1]",
+        "index": 48
+      },
+      {
+        "instance": "_1031_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[2]",
+        "index": 49
+      },
+      {
+        "instance": "_1032_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[3]",
+        "index": 50
+      },
+      {
+        "instance": "_1033_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[4]",
+        "index": 51
+      },
+      {
+        "instance": "_1034_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[5]",
+        "index": 52
+      },
+      {
+        "instance": "_1035_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_step_q[0]",
+        "index": 53
+      },
+      {
+        "instance": "_1036_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_step_q[1]",
+        "index": 54
+      },
+      {
+        "instance": "_1037_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_step_q[2]",
+        "index": 55
+      },
+      {
+        "instance": "_1038_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "expected_q[30]",
+        "index": 56
+      },
+      {
+        "instance": "_1039_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "apb_read_pending_q",
+        "index": 57
+      }
+    ],
+    "scope": "Deterministic logical gate-level scan substitution; actual Nangate scan cells, no placement-aware stitching or ATPG",
+    "status": "PASS",
+    "patterns": [
+      "all zero",
+      "all one",
+      "one at first chain position",
+      "alternating"
+    ],
+    "bits_checked": 232,
+    "capture_bits_checked": 32,
+    "capture_expected": "0xfffffff7",
+    "capture_scope": "actual_q[31:0] after functional-mode March failure capture; other scan bits are not capture-graded"
+  },
+  "gate_simulation": {
+    "status": "PASS",
+    "comparisons": 2711,
+    "apb_transactions": 877,
+    "clean_march_native_operations": 640,
+    "scope": "RTL, mapped gates and scan gates compared at every checked cycle; zero-delay"
+  },
+  "sta": {
+    "status": "PASS",
+    "setup_worst_slack_ns": 4.8806,
+    "hold_worst_slack_ns": 0.00375,
+    "clock_period_ns": 10,
+    "input_delay_max_ns": 2,
+    "input_delay_min_ns": 0.2,
+    "output_delay_max_ns": 2,
+    "output_delay_min_ns": 0.2,
+    "load_pf": 0.01,
+    "clock_uncertainty_ns": 0.1,
+    "scope": "One typical pre-layout corner; controller external RAM interface budgets only"
+  },
+  "execution_status": "PASS",
+  "completed_utc": "2026-11-26T13:47:10.705957+00:00",
+  "artifacts": [
+    {
+      "path": "NANGATE_LICENSE",
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+      "bytes": 10174
+    },
+    {
+      "path": "apb_ram_mbist.sv",
+      "sha256": "3743009dcec9bee56d361beb5167dc9709d967d7d16a086ca4cd80ba72d074f0",
+      "bytes": 9673
+    },
+    {
+      "path": "baseline_mapped.json",
+      "sha256": "25d03f324ffd2503211347f7035b94cb78aef89942aeaf2721f352ccc9af2eaa",
+      "bytes": 489407
+    },
+    {
+      "path": "baseline_mapped.v",
+      "sha256": "dddab7a96309fdaac438738ab0be1ea95a337bfac779c274af9485af455b5a4f",
+      "bytes": 61022
+    },
+    {
+      "path": "baseline_max_path.txt",
+      "sha256": "42e9516b083633fa67c8d62e9d3a5b22a8e5b4ce439d3a6be6d1cfd4fb930c5d",
+      "bytes": 1356
+    },
+    {
+      "path": "baseline_min_path.txt",
+      "sha256": "b3c74587e72634ea856e3558cb1801ad0c3924dde1fa3f2568fc1f583a9b0233",
+      "bytes": 1229
+    },
+    {
+      "path": "baseline_sta.log",
+      "sha256": "a184d36fc5e2fabb02a3ee671bf5b1770311a374d7b8f8745bd8063e4ceaccd4",
+      "bytes": 26569
+    },
+    {
+      "path": "baseline_synthesis_statistics.txt",
+      "sha256": "9c28acbda97ea069423fe34a1b84140d10c0620ffc71cc9c697b352430482b6a",
+      "bytes": 1274
+    },
+    {
+      "path": "cell_models.log",
+      "sha256": "a1864b0a2aeeb37cdbee7a0ecd5cc42f07457644c78574d53e862c66b12f6200",
+      "bytes": 6180
+    },
+    {
+      "path": "cell_models.ys",
+      "sha256": "3f4873901d9625f2ca933df43ad96d2e4428299e19fa51b9ca9f3908300a55d1",
+      "bytes": 143
+    },
+    {
+      "path": "cells.v",
+      "sha256": "a7563929afb4fe158914b4897dd849cbe59f3d82218126bd1d301c142ac64977",
+      "bytes": 35639
+    },
+    {
+      "path": "controller.sdc",
+      "sha256": "412e2b4cfbbe507d5eaa34a448e9e4534c9b2d821b6701776b361c0cf501e377",
+      "bytes": 864
+    },
+    {
+      "path": "controller_sta.tcl",
+      "sha256": "f6e6cd6be19674285ed7ad4a242713a1c513e1fe9c4828dbccdae5968cd25cc4",
+      "bytes": 925
+    },
+    {
+      "path": "fixed_max_path.txt",
+      "sha256": "42e9516b083633fa67c8d62e9d3a5b22a8e5b4ce439d3a6be6d1cfd4fb930c5d",
+      "bytes": 1356
+    },
+    {
+      "path": "fixed_min_path.txt",
+      "sha256": "49a71f44e059dceeac94be6000478c4c7074e1a8da79e434a590455a28f8adde",
+      "bytes": 1225
+    },
+    {
+      "path": "fixed_target_min_path.txt",
+      "sha256": "8ba0f30de12b33a18daceca1437a0b2f06c5d65adb090c65760b058ccc7e94e1",
+      "bytes": 1287
+    },
+    {
+      "path": "gate_compile.log",
+      "sha256": "e9de95acc0a5cef70ec6c0dc84c9251f12f61df2777562df0b35eb1cf599951a",
+      "bytes": 450
+    },
+    {
+      "path": "gate_simulation.log",
+      "sha256": "68874eb6deefbe9277c638f21886e52dc73783948da2d556fda9edf62ab0397b",
+      "bytes": 442
+    },
+    {
+      "path": "gate_smoke.sv",
+      "sha256": "6ba69017648c3a9aa2b4b48ba55b06017aff237178905c5eeebd3e2df09e19ae",
+      "bytes": 7400
+    },
+    {
+      "path": "gate_smoke.vcd",
+      "sha256": "e5cbe7e7825eee27fb750dfe03d650c66af31d489f6a5d2b3445c007bb846ccd",
+      "bytes": 335639
+    },
+    {
+      "path": "gate_smoke.vvp",
+      "sha256": "0ce349dc51ac153ee216cfd84505f2fdf8cb00d620745cb7c5948687d9a97e5c",
+      "bytes": 1345170
+    },
+    {
+      "path": "hold_eco.json",
+      "sha256": "0d020caf2900ea3736e3a9c1da1d9fcaee0c10aa7205798e4399068af48b9495",
+      "bytes": 6690
+    },
+    {
+      "path": "hold_eco_check.log",
+      "sha256": "cd0545c0143c0cd30dec1abc23938f3194a958293790458345d74a4f41ccd2ed",
+      "bytes": 3951
+    },
+    {
+      "path": "hold_eco_check.ys",
+      "sha256": "d9e9fec5523e99bed9fd7e2e9bc2601686e7dcaacc6f7ad4f08a919c6b69a20c",
+      "bytes": 289
+    },
+    {
+      "path": "hold_repair.py",
+      "sha256": "1c1ce1b73b092c5543745fd036e08198ef7369bed8e012d30cbf046215f6b5ff",
+      "bytes": 7733
+    },
+    {
+      "path": "mapped.json",
+      "sha256": "61a9ff7fdd11a6b328b92edbea1d372516e19f1641c97051ac094ebec5a0dd76",
+      "bytes": 535165
+    },
+    {
+      "path": "mapped.v",
+      "sha256": "9109a717b5b4669c6210a1518c269fdc44328de5134b7193c4f808f39b3cde6c",
+      "bytes": 61259
+    },
+    {
+      "path": "rtl_reference.sv",
+      "sha256": "02a664eddd4eeb09cd25f1c388a5cddc551201115a60609df4bae2cbc080155a",
+      "bytes": 9677
+    },
+    {
+      "path": "run_flow.py",
+      "sha256": "3aef991b956258eacbb5194a3816af720d784614311152e74e4bf0c8f3b8d492",
+      "bytes": 20316
+    },
+    {
+      "path": "scan_capture.vh",
+      "sha256": "308dfa8315fbce4a92566e8fa8920c4552326dc399d2a9d3fa6b6cdc95b42c70",
+      "bytes": 126
+    },
+    {
+      "path": "scan_chain.json",
+      "sha256": "9a84626644ab72b3ec2651ebd143de4a90376862a175eabf4bd5662569551685",
+      "bytes": 8930
+    },
+    {
+      "path": "scan_mapped.v",
+      "sha256": "c8cfaa8b3f1c54872e478669e7ee372aed7aeb6be828689e2a2ed23242e9a153",
+      "bytes": 66207
+    },
+    {
+      "path": "sta.log",
+      "sha256": "082e7f7f3a0a00540aee319a953381adfd3809bf421d935332e3934a20f5c356",
+      "bytes": 27878
+    },
+    {
+      "path": "synthesis.log",
+      "sha256": "beeeed0243a30e530b7d65b2cf127f76ec4feffe7b06425c65ef78a19655b49f",
+      "bytes": 58427
+    },
+    {
+      "path": "synthesis_statistics.txt",
+      "sha256": "8b0c909b7e751967469c08d0f40bb806fbdbb36f34f21915f5f3364bc7c1598a",
+      "bytes": 1313
+    },
+    {
+      "path": "synthesize.ys",
+      "sha256": "e697e024b92cbba19a9156b02d1902d1194175b569295dfa0dcbe30a97a2b502",
+      "bytes": 596
+    },
+    {
+      "path": "timing_paths.json",
+      "sha256": "a5c26b69fd88fd269a539085d24c11bc09eaf880ac0c68ba8d3086690b1a802e",
+      "bytes": 13273
+    },
+    {
+      "path": "toolchain.lock.json",
+      "sha256": "47de5c6980ee2df47d8cf8e65b6a62e19e0e6e4964520ba01bfaf811d8768c6c",
+      "bytes": 1538
+    },
+    {
+      "path": "version_iverilog.log",
+      "sha256": "045adcf6dab2b32e42c6c3ea0cb5d709595bdbcb4bc9bea71c8eaae134856d38",
+      "bytes": 3321
+    },
+    {
+      "path": "version_opensta.log",
+      "sha256": "4900986173909fae9af00c3c6b4bf60bfaeca514959feaa6d515f6487da6fcf8",
+      "bytes": 76
+    },
+    {
+      "path": "version_yosys.log",
+      "sha256": "49a8640645dc554d17e8dde2f8cb941fb939605aec51eb4468682df552fa80c5",
+      "bytes": 58
+    }
+  ]
+}

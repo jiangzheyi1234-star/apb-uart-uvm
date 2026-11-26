@@ -1,0 +1,38 @@
+
+8. Printing statistics.
+
+=== apb_ram_mbist ===
+
+   Number of wires:                508
+   Number of wire bits:            769
+   Number of public wires:          27
+   Number of public wire bits:     276
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                559
+     AND2_X1                         7
+     AND3_X1                        32
+     AND4_X1                         1
+     AOI211_X1                      33
+     AOI21_X1                      136
+     AOI221_X1                       1
+     AOI22_X1                       12
+     DFFR_X1                        58
+     INV_X1                         55
+     MUX2_X1                        14
+     NAND2_X1                       54
+     NAND3_X1                       15
+     NAND4_X1                       11
+     NOR2_X1                        53
+     NOR3_X1                        20
+     NOR4_X1                        16
+     OAI21_X1                       21
+     OAI22_X1                        3
+     OR2_X1                          6
+     OR3_X1                          4
+     XNOR2_X1                        5
+     XOR2_X1                         2
+
+   Chip area for module '\apb_ram_mbist': 829.388000
+

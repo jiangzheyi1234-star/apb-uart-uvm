@@ -9,6 +9,10 @@ puts "=== MAX PATHS ==="
 report_checks -path_delay max -group_path_count 10 -format full_clock_expanded -digits 5
 puts "=== MIN PATHS ==="
 report_checks -path_delay min -group_path_count 10 -format full_clock_expanded -digits 5
+if {[info exists ::env(FRONTEND_HOLD_FROM)] && [info exists ::env(FRONTEND_HOLD_TO)]} {
+  puts "=== ECO TARGET MIN PATH ==="
+  report_checks -from [get_pins $::env(FRONTEND_HOLD_FROM)] -to [get_pins $::env(FRONTEND_HOLD_TO)] -path_delay min -group_path_count 1 -format full_clock_expanded -digits 5
+}
 puts "=== WORST SLACKS ==="
 report_worst_slack -max -digits 5
 report_worst_slack -min -digits 5

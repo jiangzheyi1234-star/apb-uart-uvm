@@ -1,0 +1,32 @@
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_we (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.03604    2.98575 v _0970_/ZN (AOI22_X1)
+   0.03365    3.01940 ^ _0971_/ZN (NOR2_X1)
+   0.00000    3.01940 ^ ram_we (out)
+              3.01940   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -3.01940   data arrival time
+---------------------------------------------------------------
+              4.88060   slack (MET)

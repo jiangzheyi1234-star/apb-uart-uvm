@@ -53,6 +53,7 @@ class PackagingTests(unittest.TestCase):
             "docs/reproductions/runs/case/waves.vcd",
             "docs/subsystem/report.json", "docs/subsystem/subsystem_apb_test_seed_1/waves.vcd",
             "docs/frontend/report.json", "docs/frontend/inputs/gate_smoke.vcd", "docs/frontend/inputs/sta.log",
+            "docs/frontend_hold/report.json", "docs/frontend_hold/inputs/gate_smoke.vcd", "docs/frontend_hold/inputs/hold_eco.json",
         ):
             self.write(root, name)
         self.write(root, "docs/.nojekyll", "")
@@ -103,7 +104,7 @@ class PackagingTests(unittest.TestCase):
                              "docs/README.md", "docs/architecture.md", "docs/registers.md",
                              "docs/dashboard.md", "docs/apb_protocol.md", "web/dashboard/app.js",
                              "RELEASE.md", "CHANGELOG.md"}.issubset(names))
-            self.assertFalse(any(name.startswith(("docs/release/", "docs/features/", "docs/ci/", "docs/evidence/", "docs/protocol/", "docs/reproductions/", "docs/subsystem/", "docs/frontend/", "docs/assets/", "docs/data/")) for name in names))
+            self.assertFalse(any(name.startswith(("docs/release/", "docs/features/", "docs/ci/", "docs/evidence/", "docs/protocol/", "docs/reproductions/", "docs/subsystem/", "docs/frontend/", "docs/frontend_hold/", "docs/assets/", "docs/data/")) for name in names))
             self.assertNotIn("docs/index.html", names)
             self.assertNotIn("docs/.nojekyll", names)
             self.assertFalse(any(word in name.lower() for name in names for word in ("interview", "resume", "career", "private", "optimization_round", "industry_benchmark")))
@@ -126,6 +127,7 @@ class PackagingTests(unittest.TestCase):
                              "docs/reproductions/runs/case/waves.vcd",
                              "docs/subsystem/report.json", "docs/subsystem/subsystem_apb_test_seed_1/waves.vcd",
                              "docs/frontend/report.json", "docs/frontend/inputs/gate_smoke.vcd", "docs/frontend/inputs/sta.log",
+                             "docs/frontend_hold/report.json", "docs/frontend_hold/inputs/gate_smoke.vcd", "docs/frontend_hold/inputs/hold_eco.json",
                              "docs/assets/styles.css", "docs/data/dashboard.js", "docs/data/dashboard.json",
                              "docs/ci/acceptance.json", "LICENSE"}.issubset(names))
             self.assertFalse(any(name.startswith(("rtl/", "rtl_fixed/", "tb/", "sim/", "py/", "tests/", "web/", "docs/evidence/")) for name in names))

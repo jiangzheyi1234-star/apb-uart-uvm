@@ -8,6 +8,7 @@ docs/protocol/** -text linguist-generated=true
 docs/reproductions/** -text linguist-generated=true
 docs/subsystem/** -text linguist-generated=true
 docs/frontend/** -text linguist-generated=true
+docs/frontend_hold/** -text linguist-generated=true
 docs/data/** -text linguist-generated=true
 web/dashboard/vendor/** -text linguist-vendored=true
 docs/assets/vendor/** -text linguist-vendored=true

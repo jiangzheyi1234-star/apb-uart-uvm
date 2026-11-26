@@ -1,0 +1,299 @@
+{
+  "baseline": {
+    "min": {
+      "startpoint": "_1039_",
+      "endpoint": "_1039_",
+      "slack_ns": -0.00636,
+      "arrival_ns": 0.09633,
+      "required_ns": 0.10268,
+      "status": "VIOLATED",
+      "points": [
+        {
+          "delay_ns": 0.0,
+          "time_ns": 0.0,
+          "edge": "^",
+          "pin": "_1039_/CK",
+          "cell": "DFFR_X1"
+        },
+        {
+          "delay_ns": 0.06745,
+          "time_ns": 0.06745,
+          "edge": "v",
+          "pin": "_1039_/QN",
+          "cell": "DFFR_X1"
+        },
+        {
+          "delay_ns": 0.01868,
+          "time_ns": 0.08613,
+          "edge": "^",
+          "pin": "_0769_/ZN",
+          "cell": "NAND2_X1"
+        },
+        {
+          "delay_ns": 0.01019,
+          "time_ns": 0.09633,
+          "edge": "v",
+          "pin": "_0770_/ZN",
+          "cell": "NOR4_X1"
+        },
+        {
+          "delay_ns": 0.0,
+          "time_ns": 0.09633,
+          "edge": "v",
+          "pin": "_1039_/D",
+          "cell": "DFFR_X1"
+        }
+      ],
+      "text": "Startpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)\nEndpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)\nPath Group: core_clk\nPath Type: min\n\n     Delay       Time   Description\n---------------------------------------------------------------\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   0.00000    0.00000 ^ _1039_/CK (DFFR_X1)\n   0.06745    0.06745 v _1039_/QN (DFFR_X1)\n   0.01868    0.08613 ^ _0769_/ZN (NAND2_X1)\n   0.01019    0.09633 v _0770_/ZN (NOR4_X1)\n   0.00000    0.09633 v _1039_/D (DFFR_X1)\n              0.09633   data arrival time\n\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   0.10000    0.10000   clock uncertainty\n   0.00000    0.10000   clock reconvergence pessimism\n              0.10000 ^ _1039_/CK (DFFR_X1)\n   0.00268    0.10268   library hold time\n              0.10268   data required time\n---------------------------------------------------------------\n              0.10268   data required time\n             -0.09633   data arrival time\n---------------------------------------------------------------\n             -0.00636   slack (VIOLATED)\n"
+    },
+    "max": {
+      "startpoint": "PADDR[1]",
+      "endpoint": "ram_we",
+      "slack_ns": 4.8806,
+      "arrival_ns": 3.0194,
+      "required_ns": 7.9,
+      "status": "MET",
+      "points": [
+        {
+          "delay_ns": 0.0,
+          "time_ns": 2.0,
+          "edge": "v",
+          "pin": "PADDR[1]",
+          "cell": "in"
+        },
+        {
+          "delay_ns": 0.05174,
+          "time_ns": 2.05174,
+          "edge": "^",
+          "pin": "_0540_/ZN",
+          "cell": "NOR2_X1"
+        },
+        {
+          "delay_ns": 0.01668,
+          "time_ns": 2.06842,
+          "edge": "v",
+          "pin": "_0766_/ZN",
+          "cell": "NAND2_X1"
+        },
+        {
+          "delay_ns": 0.45937,
+          "time_ns": 2.52779,
+          "edge": "^",
+          "pin": "_0767_/ZN",
+          "cell": "NOR4_X1"
+        },
+        {
+          "delay_ns": 0.04898,
+          "time_ns": 2.57677,
+          "edge": "v",
+          "pin": "_0768_/ZN",
+          "cell": "NAND4_X1"
+        },
+        {
+          "delay_ns": 0.37294,
+          "time_ns": 2.94971,
+          "edge": "^",
+          "pin": "_0772_/ZN",
+          "cell": "NOR2_X1"
+        },
+        {
+          "delay_ns": 0.03604,
+          "time_ns": 2.98575,
+          "edge": "v",
+          "pin": "_0970_/ZN",
+          "cell": "AOI22_X1"
+        },
+        {
+          "delay_ns": 0.03365,
+          "time_ns": 3.0194,
+          "edge": "^",
+          "pin": "_0971_/ZN",
+          "cell": "NOR2_X1"
+        },
+        {
+          "delay_ns": 0.0,
+          "time_ns": 3.0194,
+          "edge": "^",
+          "pin": "ram_we",
+          "cell": "out"
+        }
+      ],
+      "text": "Startpoint: PADDR[1] (input port clocked by core_clk)\nEndpoint: ram_we (output port clocked by core_clk)\nPath Group: core_clk\nPath Type: max\n\n     Delay       Time   Description\n---------------------------------------------------------------\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   2.00000    2.00000 v input external delay\n   0.00000    2.00000 v PADDR[1] (in)\n   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)\n   0.01668    2.06842 v _0766_/ZN (NAND2_X1)\n   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)\n   0.04898    2.57677 v _0768_/ZN (NAND4_X1)\n   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)\n   0.03604    2.98575 v _0970_/ZN (AOI22_X1)\n   0.03365    3.01940 ^ _0971_/ZN (NOR2_X1)\n   0.00000    3.01940 ^ ram_we (out)\n              3.01940   data arrival time\n\n  10.00000   10.00000   clock core_clk (rise edge)\n   0.00000   10.00000   clock network delay (ideal)\n  -0.10000    9.90000   clock uncertainty\n   0.00000    9.90000   clock reconvergence pessimism\n  -2.00000    7.90000   output external delay\n              7.90000   data required time\n---------------------------------------------------------------\n              7.90000   data required time\n             -3.01940   data arrival time\n---------------------------------------------------------------\n              4.88060   slack (MET)\n"
+    }
+  },
+  "fixed": {
+    "min": {
+      "startpoint": "_1017_",
+      "endpoint": "_1017_",
+      "slack_ns": 0.00375,
+      "arrival_ns": 0.11067,
+      "required_ns": 0.10692,
+      "status": "MET",
+      "points": [
+        {
+          "delay_ns": 0.0,
+          "time_ns": 0.0,
+          "edge": "^",
+          "pin": "_1017_/CK",
+          "cell": "DFFR_X1"
+        },
+        {
+          "delay_ns": 0.07262,
+          "time_ns": 0.07262,
+          "edge": "^",
+          "pin": "_1017_/QN",
+          "cell": "DFFR_X1"
+        },
+        {
+          "delay_ns": 0.01582,
+          "time_ns": 0.08844,
+          "edge": "v",
+          "pin": "_0676_/ZN",
+          "cell": "AOI21_X1"
+        },
+        {
+          "delay_ns": 0.02224,
+          "time_ns": 0.11067,
+          "edge": "^",
+          "pin": "_0678_/ZN",
+          "cell": "AOI21_X1"
+        },
+        {
+          "delay_ns": 0.0,
+          "time_ns": 0.11067,
+          "edge": "^",
+          "pin": "_1017_/D",
+          "cell": "DFFR_X1"
+        }
+      ],
+      "text": "Startpoint: _1017_ (rising edge-triggered flip-flop clocked by core_clk)\nEndpoint: _1017_ (rising edge-triggered flip-flop clocked by core_clk)\nPath Group: core_clk\nPath Type: min\n\n     Delay       Time   Description\n---------------------------------------------------------------\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   0.00000    0.00000 ^ _1017_/CK (DFFR_X1)\n   0.07262    0.07262 ^ _1017_/QN (DFFR_X1)\n   0.01582    0.08844 v _0676_/ZN (AOI21_X1)\n   0.02224    0.11067 ^ _0678_/ZN (AOI21_X1)\n   0.00000    0.11067 ^ _1017_/D (DFFR_X1)\n              0.11067   data arrival time\n\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   0.10000    0.10000   clock uncertainty\n   0.00000    0.10000   clock reconvergence pessimism\n              0.10000 ^ _1017_/CK (DFFR_X1)\n   0.00692    0.10692   library hold time\n              0.10692   data required time\n---------------------------------------------------------------\n              0.10692   data required time\n             -0.11067   data arrival time\n---------------------------------------------------------------\n              0.00375   slack (MET)\n"
+    },
+    "max": {
+      "startpoint": "PADDR[1]",
+      "endpoint": "ram_we",
+      "slack_ns": 4.8806,
+      "arrival_ns": 3.0194,
+      "required_ns": 7.9,
+      "status": "MET",
+      "points": [
+        {
+          "delay_ns": 0.0,
+          "time_ns": 2.0,
+          "edge": "v",
+          "pin": "PADDR[1]",
+          "cell": "in"
+        },
+        {
+          "delay_ns": 0.05174,
+          "time_ns": 2.05174,
+          "edge": "^",
+          "pin": "_0540_/ZN",
+          "cell": "NOR2_X1"
+        },
+        {
+          "delay_ns": 0.01668,
+          "time_ns": 2.06842,
+          "edge": "v",
+          "pin": "_0766_/ZN",
+          "cell": "NAND2_X1"
+        },
+        {
+          "delay_ns": 0.45937,
+          "time_ns": 2.52779,
+          "edge": "^",
+          "pin": "_0767_/ZN",
+          "cell": "NOR4_X1"
+        },
+        {
+          "delay_ns": 0.04898,
+          "time_ns": 2.57677,
+          "edge": "v",
+          "pin": "_0768_/ZN",
+          "cell": "NAND4_X1"
+        },
+        {
+          "delay_ns": 0.37294,
+          "time_ns": 2.94971,
+          "edge": "^",
+          "pin": "_0772_/ZN",
+          "cell": "NOR2_X1"
+        },
+        {
+          "delay_ns": 0.03604,
+          "time_ns": 2.98575,
+          "edge": "v",
+          "pin": "_0970_/ZN",
+          "cell": "AOI22_X1"
+        },
+        {
+          "delay_ns": 0.03365,
+          "time_ns": 3.0194,
+          "edge": "^",
+          "pin": "_0971_/ZN",
+          "cell": "NOR2_X1"
+        },
+        {
+          "delay_ns": 0.0,
+          "time_ns": 3.0194,
+          "edge": "^",
+          "pin": "ram_we",
+          "cell": "out"
+        }
+      ],
+      "text": "Startpoint: PADDR[1] (input port clocked by core_clk)\nEndpoint: ram_we (output port clocked by core_clk)\nPath Group: core_clk\nPath Type: max\n\n     Delay       Time   Description\n---------------------------------------------------------------\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   2.00000    2.00000 v input external delay\n   0.00000    2.00000 v PADDR[1] (in)\n   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)\n   0.01668    2.06842 v _0766_/ZN (NAND2_X1)\n   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)\n   0.04898    2.57677 v _0768_/ZN (NAND4_X1)\n   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)\n   0.03604    2.98575 v _0970_/ZN (AOI22_X1)\n   0.03365    3.01940 ^ _0971_/ZN (NOR2_X1)\n   0.00000    3.01940 ^ ram_we (out)\n              3.01940   data arrival time\n\n  10.00000   10.00000   clock core_clk (rise edge)\n   0.00000   10.00000   clock network delay (ideal)\n  -0.10000    9.90000   clock uncertainty\n   0.00000    9.90000   clock reconvergence pessimism\n  -2.00000    7.90000   output external delay\n              7.90000   data required time\n---------------------------------------------------------------\n              7.90000   data required time\n             -3.01940   data arrival time\n---------------------------------------------------------------\n              4.88060   slack (MET)\n"
+    },
+    "target_min": {
+      "startpoint": "_1039_",
+      "endpoint": "_1039_",
+      "slack_ns": 0.01728,
+      "arrival_ns": 0.11998,
+      "required_ns": 0.1027,
+      "status": "MET",
+      "points": [
+        {
+          "delay_ns": 0.0,
+          "time_ns": 0.0,
+          "edge": "^",
+          "pin": "_1039_/CK",
+          "cell": "DFFR_X1"
+        },
+        {
+          "delay_ns": 0.06745,
+          "time_ns": 0.06745,
+          "edge": "v",
+          "pin": "_1039_/QN",
+          "cell": "DFFR_X1"
+        },
+        {
+          "delay_ns": 0.01868,
+          "time_ns": 0.08613,
+          "edge": "^",
+          "pin": "_0769_/ZN",
+          "cell": "NAND2_X1"
+        },
+        {
+          "delay_ns": 0.0099,
+          "time_ns": 0.09603,
+          "edge": "v",
+          "pin": "_0770_/ZN",
+          "cell": "NOR4_X1"
+        },
+        {
+          "delay_ns": 0.02395,
+          "time_ns": 0.11998,
+          "edge": "v",
+          "pin": "hold_eco_apb_read_pending_d/Z",
+          "cell": "BUF_X1"
+        },
+        {
+          "delay_ns": 0.0,
+          "time_ns": 0.11998,
+          "edge": "v",
+          "pin": "_1039_/D",
+          "cell": "DFFR_X1"
+        }
+      ],
+      "text": "Startpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)\nEndpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)\nPath Group: core_clk\nPath Type: min\n\n     Delay       Time   Description\n---------------------------------------------------------------\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   0.00000    0.00000 ^ _1039_/CK (DFFR_X1)\n   0.06745    0.06745 v _1039_/QN (DFFR_X1)\n   0.01868    0.08613 ^ _0769_/ZN (NAND2_X1)\n   0.00990    0.09603 v _0770_/ZN (NOR4_X1)\n   0.02395    0.11998 v hold_eco_apb_read_pending_d/Z (BUF_X1)\n   0.00000    0.11998 v _1039_/D (DFFR_X1)\n              0.11998   data arrival time\n\n   0.00000    0.00000   clock core_clk (rise edge)\n   0.00000    0.00000   clock network delay (ideal)\n   0.10000    0.10000   clock uncertainty\n   0.00000    0.10000   clock reconvergence pessimism\n              0.10000 ^ _1039_/CK (DFFR_X1)\n   0.00270    0.10270   library hold time\n              0.10270   data required time\n---------------------------------------------------------------\n              0.10270   data required time\n             -0.11998   data arrival time\n---------------------------------------------------------------\n              0.01728   slack (MET)\n"
+    }
+  }
+}

@@ -7,7 +7,7 @@ Release tags use semantic versioning. A published tag identifies a fixed source 
 | Asset | Contents |
 | --- | --- |
 | `apb-uart-uvm-<version>-source.zip` | RTL, testbench, simulation integration, Python tools/tests, authored workbench UI under `web/`, pinned setup scripts, technical documentation and licenses. Excludes generated simulation reports, tool downloads and build caches. |
-| `apb-uart-uvm-<version>-evidence.zip` | Measured reports, archived logs, VCDs, coverage databases, LCOV, source snapshots and CI metadata under `docs/`. Includes the workbench assets and the APB protocol, RAM/MBIST and frontend evidence bundles. |
+| `apb-uart-uvm-<version>-evidence.zip` | Measured reports, archived logs, VCDs, coverage databases, LCOV, source snapshots and CI metadata under `docs/`. Includes the APB protocol, RAM/MBIST, baseline and hold-repair frontend evidence alongside the workbench. |
 | `apb-uart-uvm-<version>-ci.zip` | Original files downloaded from the release verification workflow artifact, plus a per-file manifest. The run identity is recorded in `ci_context.json`. |
 | `SHA256SUMS` | SHA-256 hashes for the three ZIP assets. |
 

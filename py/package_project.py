@@ -36,7 +36,7 @@ SOURCE_DOCUMENTS = (
 )
 EVIDENCE_DIRECTORIES = (
     "docs/release", "docs/features", "docs/ci", "docs/protocol", "docs/reproductions",
-    "docs/subsystem", "docs/frontend", "docs/assets", "docs/data"
+    "docs/subsystem", "docs/frontend", "docs/frontend_hold", "docs/assets", "docs/data"
 )
 EVIDENCE_FILES = ("docs/index.html", "docs/.nojekyll", "LICENSE", "NOTICE", "NOTICE.md", "third_party/apb_uart_sv/LICENSE")
 PROFILES = ("source", "evidence")

@@ -1,0 +1,687 @@
+COMMAND ["/var/tmp/apb-frontend-tools/opensta-build/sta", "-exit", "/var/tmp/apb-frontend-20261126T134659283558Z/controller_sta.tcl"]
+OpenSTA 3.2.0 GITDIR-NOT Copyright (c) 2026, Parallax Software, Inc.
+License GPLv3: GNU GPL version 3 <http://gnu.org/licenses/gpl.html>
+
+This is free software, and you are free to change and redistribute it
+under certain conditions; type `show_copying' for details. 
+This program comes with ABSOLUTELY NO WARRANTY; for details type `show_warranty'.
+=== CONSTRAINT AUDIT ===
+=== MAX PATHS ===
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_we (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.03604    2.98575 v _0970_/ZN (AOI22_X1)
+   0.03365    3.01940 ^ _0971_/ZN (NOR2_X1)
+   0.00000    3.01940 ^ ram_we (out)
+              3.01940   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -3.01940   data arrival time
+---------------------------------------------------------------
+              4.88060   slack (MET)
+
+
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_addr[0] (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.03680    2.98651 v _0837_/ZN (AOI22_X1)
+   0.03045    3.01695 ^ _0838_/ZN (NOR2_X1)
+   0.00000    3.01695 ^ ram_addr[0] (out)
+              3.01695   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -3.01695   data arrival time
+---------------------------------------------------------------
+              4.88305   slack (MET)
+
+
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_addr[1] (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.03680    2.98651 v _0839_/ZN (AOI22_X1)
+   0.03045    3.01695 ^ _0840_/ZN (NOR2_X1)
+   0.00000    3.01695 ^ ram_addr[1] (out)
+              3.01695   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -3.01695   data arrival time
+---------------------------------------------------------------
+              4.88305   slack (MET)
+
+
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_addr[2] (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.03680    2.98651 v _0841_/ZN (AOI22_X1)
+   0.03045    3.01695 ^ _0842_/ZN (NOR2_X1)
+   0.00000    3.01695 ^ ram_addr[2] (out)
+              3.01695   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -3.01695   data arrival time
+---------------------------------------------------------------
+              4.88305   slack (MET)
+
+
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_addr[3] (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.03680    2.98651 v _0843_/ZN (AOI22_X1)
+   0.03045    3.01695 ^ _0844_/ZN (NOR2_X1)
+   0.00000    3.01695 ^ ram_addr[3] (out)
+              3.01695   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -3.01695   data arrival time
+---------------------------------------------------------------
+              4.88305   slack (MET)
+
+
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_addr[4] (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.03680    2.98651 v _0845_/ZN (AOI22_X1)
+   0.03045    3.01695 ^ _0846_/ZN (NOR2_X1)
+   0.00000    3.01695 ^ ram_addr[4] (out)
+              3.01695   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -3.01695   data arrival time
+---------------------------------------------------------------
+              4.88305   slack (MET)
+
+
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_addr[5] (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.03680    2.98651 v _0847_/ZN (AOI22_X1)
+   0.03045    3.01695 ^ _0848_/ZN (NOR2_X1)
+   0.00000    3.01695 ^ ram_addr[5] (out)
+              3.01695   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -3.01695   data arrival time
+---------------------------------------------------------------
+              4.88305   slack (MET)
+
+
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_en (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.02911    2.97882 v _0973_/ZN (OAI21_X1)
+   0.03709    3.01591 ^ _0974_/ZN (AOI21_X1)
+   0.00000    3.01591 ^ ram_en (out)
+              3.01591   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -3.01591   data arrival time
+---------------------------------------------------------------
+              4.88409   slack (MET)
+
+
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_wdata[0] (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.01278    2.96249 v _0773_/ZN (NAND2_X1)
+   0.03570    2.99819 ^ _0774_/ZN (AOI21_X1)
+   0.00000    2.99819 ^ ram_wdata[0] (out)
+              2.99819   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -2.99819   data arrival time
+---------------------------------------------------------------
+              4.90181   slack (MET)
+
+
+Startpoint: PADDR[1] (input port clocked by core_clk)
+Endpoint: ram_wdata[10] (output port clocked by core_clk)
+Path Group: core_clk
+Path Type: max
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   2.00000    2.00000 v input external delay
+   0.00000    2.00000 v PADDR[1] (in)
+   0.05174    2.05174 ^ _0540_/ZN (NOR2_X1)
+   0.01668    2.06842 v _0766_/ZN (NAND2_X1)
+   0.45937    2.52779 ^ _0767_/ZN (NOR4_X1)
+   0.04898    2.57677 v _0768_/ZN (NAND4_X1)
+   0.37294    2.94971 ^ _0772_/ZN (NOR2_X1)
+   0.01278    2.96249 v _0793_/ZN (NAND2_X1)
+   0.03570    2.99819 ^ _0794_/ZN (AOI21_X1)
+   0.00000    2.99819 ^ ram_wdata[10] (out)
+              2.99819   data arrival time
+
+  10.00000   10.00000   clock core_clk (rise edge)
+   0.00000   10.00000   clock network delay (ideal)
+  -0.10000    9.90000   clock uncertainty
+   0.00000    9.90000   clock reconvergence pessimism
+  -2.00000    7.90000   output external delay
+              7.90000   data required time
+---------------------------------------------------------------
+              7.90000   data required time
+             -2.99819   data arrival time
+---------------------------------------------------------------
+              4.90181   slack (MET)
+
+
+=== MIN PATHS ===
+Startpoint: _1017_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _1017_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _1017_/CK (DFFR_X1)
+   0.07262    0.07262 ^ _1017_/QN (DFFR_X1)
+   0.01582    0.08844 v _0676_/ZN (AOI21_X1)
+   0.02224    0.11067 ^ _0678_/ZN (AOI21_X1)
+   0.00000    0.11067 ^ _1017_/D (DFFR_X1)
+              0.11067   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _1017_/CK (DFFR_X1)
+   0.00692    0.10692   library hold time
+              0.10692   data required time
+---------------------------------------------------------------
+              0.10692   data required time
+             -0.11067   data arrival time
+---------------------------------------------------------------
+              0.00375   slack (MET)
+
+
+Startpoint: _1029_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _1029_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _1029_/CK (DFFR_X1)
+   0.08666    0.08666 v _1029_/Q (DFFR_X1)
+   0.01207    0.09873 ^ _0517_/ZN (INV_X1)
+   0.01252    0.11125 v _0747_/ZN (AOI21_X1)
+   0.00000    0.11125 v _1029_/D (DFFR_X1)
+              0.11125   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _1029_/CK (DFFR_X1)
+   0.00269    0.10269   library hold time
+              0.10269   data required time
+---------------------------------------------------------------
+              0.10269   data required time
+             -0.11125   data arrival time
+---------------------------------------------------------------
+              0.00856   slack (MET)
+
+
+Startpoint: _1030_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _1030_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _1030_/CK (DFFR_X1)
+   0.08666    0.08666 v _1030_/Q (DFFR_X1)
+   0.01207    0.09873 ^ _0518_/ZN (INV_X1)
+   0.01252    0.11125 v _0749_/ZN (AOI21_X1)
+   0.00000    0.11125 v _1030_/D (DFFR_X1)
+              0.11125   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _1030_/CK (DFFR_X1)
+   0.00269    0.10269   library hold time
+              0.10269   data required time
+---------------------------------------------------------------
+              0.10269   data required time
+             -0.11125   data arrival time
+---------------------------------------------------------------
+              0.00856   slack (MET)
+
+
+Startpoint: _1031_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _1031_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _1031_/CK (DFFR_X1)
+   0.08666    0.08666 v _1031_/Q (DFFR_X1)
+   0.01207    0.09873 ^ _0519_/ZN (INV_X1)
+   0.01252    0.11125 v _0751_/ZN (AOI21_X1)
+   0.00000    0.11125 v _1031_/D (DFFR_X1)
+              0.11125   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _1031_/CK (DFFR_X1)
+   0.00269    0.10269   library hold time
+              0.10269   data required time
+---------------------------------------------------------------
+              0.10269   data required time
+             -0.11125   data arrival time
+---------------------------------------------------------------
+              0.00856   slack (MET)
+
+
+Startpoint: _0985_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _0985_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _0985_/CK (DFFR_X1)
+   0.08671    0.08671 v _0985_/Q (DFFR_X1)
+   0.01209    0.09880 ^ _0484_/ZN (INV_X1)
+   0.01252    0.11132 v _0588_/ZN (AOI21_X1)
+   0.00000    0.11132 v _0985_/D (DFFR_X1)
+              0.11132   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _0985_/CK (DFFR_X1)
+   0.00269    0.10269   library hold time
+              0.10269   data required time
+---------------------------------------------------------------
+              0.10269   data required time
+             -0.11132   data arrival time
+---------------------------------------------------------------
+              0.00863   slack (MET)
+
+
+Startpoint: _0986_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _0986_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _0986_/CK (DFFR_X1)
+   0.08671    0.08671 v _0986_/Q (DFFR_X1)
+   0.01209    0.09880 ^ _0485_/ZN (INV_X1)
+   0.01252    0.11132 v _0590_/ZN (AOI21_X1)
+   0.00000    0.11132 v _0986_/D (DFFR_X1)
+              0.11132   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _0986_/CK (DFFR_X1)
+   0.00269    0.10269   library hold time
+              0.10269   data required time
+---------------------------------------------------------------
+              0.10269   data required time
+             -0.11132   data arrival time
+---------------------------------------------------------------
+              0.00863   slack (MET)
+
+
+Startpoint: _0987_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _0987_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _0987_/CK (DFFR_X1)
+   0.08671    0.08671 v _0987_/Q (DFFR_X1)
+   0.01209    0.09880 ^ _0486_/ZN (INV_X1)
+   0.01252    0.11132 v _0592_/ZN (AOI21_X1)
+   0.00000    0.11132 v _0987_/D (DFFR_X1)
+              0.11132   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _0987_/CK (DFFR_X1)
+   0.00269    0.10269   library hold time
+              0.10269   data required time
+---------------------------------------------------------------
+              0.10269   data required time
+             -0.11132   data arrival time
+---------------------------------------------------------------
+              0.00863   slack (MET)
+
+
+Startpoint: _0988_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _0988_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _0988_/CK (DFFR_X1)
+   0.08671    0.08671 v _0988_/Q (DFFR_X1)
+   0.01209    0.09880 ^ _0487_/ZN (INV_X1)
+   0.01252    0.11132 v _0594_/ZN (AOI21_X1)
+   0.00000    0.11132 v _0988_/D (DFFR_X1)
+              0.11132   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _0988_/CK (DFFR_X1)
+   0.00269    0.10269   library hold time
+              0.10269   data required time
+---------------------------------------------------------------
+              0.10269   data required time
+             -0.11132   data arrival time
+---------------------------------------------------------------
+              0.00863   slack (MET)
+
+
+Startpoint: _0989_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _0989_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _0989_/CK (DFFR_X1)
+   0.08671    0.08671 v _0989_/Q (DFFR_X1)
+   0.01209    0.09880 ^ _0488_/ZN (INV_X1)
+   0.01252    0.11132 v _0596_/ZN (AOI21_X1)
+   0.00000    0.11132 v _0989_/D (DFFR_X1)
+              0.11132   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _0989_/CK (DFFR_X1)
+   0.00269    0.10269   library hold time
+              0.10269   data required time
+---------------------------------------------------------------
+              0.10269   data required time
+             -0.11132   data arrival time
+---------------------------------------------------------------
+              0.00863   slack (MET)
+
+
+Startpoint: _0990_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _0990_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _0990_/CK (DFFR_X1)
+   0.08671    0.08671 v _0990_/Q (DFFR_X1)
+   0.01209    0.09880 ^ _0489_/ZN (INV_X1)
+   0.01252    0.11132 v _0598_/ZN (AOI21_X1)
+   0.00000    0.11132 v _0990_/D (DFFR_X1)
+              0.11132   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _0990_/CK (DFFR_X1)
+   0.00269    0.10269   library hold time
+              0.10269   data required time
+---------------------------------------------------------------
+              0.10269   data required time
+             -0.11132   data arrival time
+---------------------------------------------------------------
+              0.00863   slack (MET)
+
+
+=== ECO TARGET MIN PATH ===
+Startpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)
+Endpoint: _1039_ (rising edge-triggered flip-flop clocked by core_clk)
+Path Group: core_clk
+Path Type: min
+
+     Delay       Time   Description
+---------------------------------------------------------------
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.00000    0.00000 ^ _1039_/CK (DFFR_X1)
+   0.06745    0.06745 v _1039_/QN (DFFR_X1)
+   0.01868    0.08613 ^ _0769_/ZN (NAND2_X1)
+   0.00990    0.09603 v _0770_/ZN (NOR4_X1)
+   0.02395    0.11998 v hold_eco_apb_read_pending_d/Z (BUF_X1)
+   0.00000    0.11998 v _1039_/D (DFFR_X1)
+              0.11998   data arrival time
+
+   0.00000    0.00000   clock core_clk (rise edge)
+   0.00000    0.00000   clock network delay (ideal)
+   0.10000    0.10000   clock uncertainty
+   0.00000    0.10000   clock reconvergence pessimism
+              0.10000 ^ _1039_/CK (DFFR_X1)
+   0.00270    0.10270   library hold time
+              0.10270   data required time
+---------------------------------------------------------------
+              0.10270   data required time
+             -0.11998   data arrival time
+---------------------------------------------------------------
+              0.01728   slack (MET)
+
+
+=== WORST SLACKS ===
+worst slack max 4.88060
+worst slack min 0.00375
+tns max 0.00
+FRONTEND_STA_COMPLETE
