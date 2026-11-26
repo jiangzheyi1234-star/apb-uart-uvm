@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Link six newly executed TRACE reproductions to the original failures lacking VCDs. Record the exact test, seed, runtime configuration, verified source snapshot and new binary identity, with separate reproduction logs, reports and waveforms.
 - Add a machine-readable verification plan linking six groups and fifteen items to all 118 archived run identities. Navigate from a verification item or raw FAIL count to an exact run, its diagnostic excerpt, full log, report and available same-run waveform; retain the full regression filter view.
 - Restore eleven original UART failure VCDs as a separate supplement checked against the original CI SHA-256 values and byte counts. Thirteen of nineteen raw FAIL records now have verified same-run waveform bytes; explain the six missing traces and preserve the sealed original manifests, reports and raw statuses.
 - Drill down from the selected coverage profile into compact per-RTL-file LCOV line and branch counts, then inspect all unhit source locations through commit-pinned links. Share one inspection area between RTL source coverage and functional-bin gaps, preserving the recorded denominators without adding waivers or simulation results.

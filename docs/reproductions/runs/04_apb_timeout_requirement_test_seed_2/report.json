@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/var/tmp/apb-uart-trace-builds-9i3ad_qb/apb_protocol-binary/Vtb_top",
+    "+UVM_TESTNAME=apb_timeout_requirement_test",
+    "+verilator+seed+2",
+    "+TRACE",
+    "+VCD_FILE=/var/tmp/apb-uart-failure-reproductions-lwzhoyut/runs/04_apb_timeout_requirement_test_seed_2/waves.vcd"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "elapsed_seconds": 0.016,
+  "log": "runs/04_apb_timeout_requirement_test_seed_2/simulation.log",
+  "raw_status": "FAIL",
+  "classification": "DETECTED",
+  "reason": "One armed APB_TIMEOUT was reported; the scenario recovered and completed normally",
+  "uvm_errors": 1,
+  "uvm_fatals": 0,
+  "error_ids": [
+    "APB_TIMEOUT"
+  ],
+  "stats": {
+    "test": "apb_timeout_requirement_test",
+    "completed": 3,
+    "reads": 2,
+    "writes": 1,
+    "wait0": 1,
+    "wait1": 1,
+    "wait3": 1,
+    "wait7": 0,
+    "max_wait": 3,
+    "reset_aborts": 0,
+    "timeout_aborts": 1
+  },
+  "test": "apb_timeout_requirement_test",
+  "seed": 2,
+  "suite_id": "apb_protocol",
+  "variant": "agent",
+  "phase": "negative",
+  "mutation": null,
+  "original_run_id": "apb_protocol:negative:apb_timeout_requirement_test:2",
+  "reproduction_id": "reproduction:20261126T023929564296Z:apb_protocol:negative:apb_timeout_requirement_test:2",
+  "binary_sha256": "ad1fc8287b86440be74294d77bcd34a46de4399f5345622d69122d4de8592edb",
+  "source_snapshot_sha256": "107ec6217c645eb5ffb7eb857f53d2c17fdd5419e9b1a356b37674dd0715ce7e",
+  "waveform_path": "runs/04_apb_timeout_requirement_test_seed_2/waves.vcd",
+  "waveform_sha256": "5d7300aefe13f005e92ae177d84b62c830f7d9f9d6d4477f567880c097e48365",
+  "waveform_bytes": 9157,
+  "waveform_valid": true,
+  "waveform_error": null
+}

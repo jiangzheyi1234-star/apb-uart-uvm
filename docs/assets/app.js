@@ -131,6 +131,34 @@
     coverageId:coverage[0]?.id,coverageMode:"source",coverageFile:"",waveId:waves[0]?.id,waveState:new Map(),waveReturn:null};
   let cleanupView=()=>{};
 
+  function isReproductionWave(wave) {
+    return !!wave?.reproduction || hasId(wave?.reproduction_of);
+  }
+  function reproductionInfo(wave) {
+    const record=wave?.reproduction;
+    return record?.kind==="new_execution" && hasId(record.original_run_id) &&
+      wave.reproduction_of===record.original_run_id && hasId(wave.id) &&
+      wave.id===wave.run_id && wave.id!==record.original_run_id &&
+      (!hasId(record.reproduction_id)||record.reproduction_id===wave.id) ? record : null;
+  }
+  function originalWaveFor(run, predicate=()=>true) {
+    return hasId(run?.id) ? waves.find(wave=>!isReproductionWave(wave)&&wave.run_id===run.id&&predicate(wave)) : null;
+  }
+  function reproductionWaveFor(run) {
+    return run?.raw_status==="FAIL" ? waves.find(wave=>reproductionInfo(wave)?.original_run_id===run.id) : null;
+  }
+  function reproductionEvidence(run) {
+    const wave=reproductionWaveFor(run);
+    if(!wave)return null;
+    const record=reproductionInfo(wave);
+    return el("div", {className:"trace-reproduction-evidence", "aria-label":"独立 TRACE 复现证据",
+      "data-original-run-id":String(run.id), "data-reproduction-id":String(wave.id)},
+      el("strong", {className:"trace-reproduction-label"}, "TRACE 复现"),
+      el("span", {className:"secondary"}, "独立执行"),
+      button("查看复现波形",()=>showWave(wave.id),{className:"link-button"}),
+      record.log_url?link("复现日志",record.log_url,{target:"_blank",rel:"noopener"}):null);
+  }
+
   function counts(rows) {
     return {total:rows.length,pass:rows.filter(run=>run.raw_status==="PASS").length,fail:rows.filter(run=>run.raw_status==="FAIL").length,
       detected:rows.filter(run=>run.raw_status==="FAIL"&&run.classification==="DETECTED").length,
@@ -189,7 +217,7 @@
       event?.status === "OK" && finite(event.end) && readValue(event) !== null;
     function extract(run) {
       if (!run) return null;
-      const trace = waves.find(wave => wave.run_id === run.id && wave.unit === "ns");
+      const trace = originalWaveFor(run, wave=>wave.unit==="ns");
       const events = list(trace?.apb_events);
       // Match the complete LSR/RBR sequence from the strict requirement test.
       for (let start = 0; start + 6 <= events.length; start++) {
@@ -391,6 +419,7 @@
       metric(percent(core?.metrics?.functional_bins), "核心功能覆盖")));
     const failures = counts(runs).fail;
     const timeoutWave = waves.find(wave => {
+      if(isReproductionWave(wave))return false;
       const run = runsById.get(wave.run_id);
       return run?.suite_id === "apb_protocol" && run.phase === "negative" && run.raw_status === "FAIL";
     });
@@ -466,7 +495,7 @@
   }
 
   function renderPlanRun(run) {
-    const waveform = waves.find(wave => wave.run_id === run.id);
+    const waveform = originalWaveFor(run);
     const diagnostics = list(run.failure_excerpt).filter(line => typeof line === "string" && line.trim());
     const context = [suiteTitle(run.suite_id), variantName(run.variant), `seed ${text(run.seed)}`];
     if (run.phase) context.push(phaseName(run.phase));
@@ -481,7 +510,8 @@
         waveform ? button("查看同次波形", () => showWave(waveform.id), {className:"link-button"}) : null,
         run.report_url ? link("原始报告", run.report_url, {target:"_blank", rel:"noopener"}) : null),
       waveform ? null : el("p", {className:"plan-wave-status secondary"}, run.waveform_unavailable || "本次运行未归档波形。"),
-      diagnostics.length ? el("pre", {className:"plan-log-excerpt", tabIndex:0, "aria-label":"原始日志摘录"}, diagnostics.join("\n")) : null);
+      diagnostics.length ? el("pre", {className:"plan-log-excerpt", tabIndex:0, "aria-label":"原始日志摘录"}, diagnostics.join("\n")) : null,
+      reproductionEvidence(run));
   }
 
   function renderVerificationPlan() {
@@ -626,9 +656,9 @@
       if(!rows.length)resultPanel.append(empty("没有符合条件的记录","调整筛选条件，或清除筛选后重新查看。没有记录不代表测试通过。"));
       else {
         const body=rows.slice(start,start+state.reg.size).map(run=>{
-          const associated=hasId(run.id)?waves.find(wave=>hasId(wave.run_id)&&wave.run_id===run.id):null;
+          const associated=originalWaveFor(run);
           const point = run.raw_status === "FAIL" ? planByRun.get(run.id) : null;
-          const actions=el("div",{className:"row-actions"},run.log_url?link("原始日志",run.log_url):null,run.report_url?link("原始报告",run.report_url):null,associated?button("查看波形",()=>showWave(associated.id),{className:"link-button"}):null);
+          const actions=el("div",{className:"row-actions"},run.log_url?link("原始日志",run.log_url):null,run.report_url?link("原始报告",run.report_url):null,associated?button("查看同次波形",()=>showWave(associated.id),{className:"link-button"}):null);
           const diagnostics=`${number(run.metrics?.errors)} / ${number(run.metrics?.fatals)}`;
           const duration=finite(run.metrics?.duration_s)?`${number(run.metrics.duration_s)} s`:"用时未记录";
           const more=el("details",{className:"regression-more"},el("summary",{},"更多运行信息"),
@@ -650,7 +680,7 @@
             } : null)),
             el("td",{className:"reg-col-counts","data-label":"日志比对或总线计数"},countersFor(run)),
             el("td",{className:"reg-col-diagnostics nowrap mono","data-label":"ERROR / FATAL"},diagnostics,el("span",{className:"row-secondary"},duration)),
-            el("td",{className:"reg-col-evidence","data-label":"证据"},actions,more));
+            el("td",{className:"reg-col-evidence","data-label":"证据"},actions,reproductionEvidence(run),more));
         });
         const regressionTable=table(["测试 / 范围","版本","Seed","阶段","原始状态 / 分类","日志比对或总线计数","ERROR / FATAL","证据"],body,{className:"table-scroll regression-table"});
         const columns=["test","variant","seed","phase","status","counts","diagnostics","evidence"];
@@ -839,6 +869,13 @@
     if(!waves.length){root.append(empty("没有波形记录","尚未提供 VCD 采样事件。可从回归日志继续核对运行结果。"));return;}
     const source=waves.find(wave=>String(wave.id)===String(state.waveId))||waves[0];state.waveId=source.id;
     const wave=prepareWave(source);
+    const reproduced=isReproductionWave(wave),reproduction=reproductionInfo(wave);
+    if(reproduced&&!reproduction){root.append(empty("复现来源无法核对","复现波形需要独立执行身份与对应原始运行的明确关联。请核对归档元数据。"));return;}
+    const original=reproduction?runsById.get(reproduction.original_run_id):null;
+    if(reproduced){
+      title.textContent="波形与总线 · TRACE 复现";
+      document.title=`${title.textContent} · ${text(data.project?.title||"APB UART")}`;
+    }
     if(!validRange(wave.range)){root.append(empty("波形时间范围未记录","需要有效的 range:[start,end] 才能显示真实时间轴。"));return;}
     const domain=wave.range, domainSpan=domain[1]-domain[0], minSpan=Math.max(domainSpan/100000,0.001);
     const defaults = defaultWaveSignals(wave.signals);
@@ -850,14 +887,52 @@
     if(!ws){const initial=validRange(wave.default_window)?[Math.max(domain[0],wave.default_window[0]),Math.min(domain[1],wave.default_window[1])]:domain.slice();const window=validRange(initial)?initial:domain.slice();ws={start:window[0],end:window[1],cursor:(window[0]+window[1])/2,selected:new Set(defaults.map(signal=>signal.id)),eventId:null,eventPage:1,eventsInView:true,eventKind:"all",eventQuery:"",density:"compact"};state.waveState.set(wave.id,ws);}
     if(!["compact","comfortable"].includes(ws.density))ws.density="compact";
     const waveformPanel=el("section",{className:"panel waveform-panel"});
-    const picker=makeSelect(waves.map(item=>({value:String(item.id),label:text(item.title)})),String(wave.id),id=>{state.waveId=id;setView("waveforms");},{"aria-label":"选择真实波形"});
+    const picker=makeSelect(waves.map(item=>{
+      const record=reproductionInfo(item);
+      const label=record?["TRACE 复现",text(record.test),`seed ${text(record.seed)}`,
+        record.mutation||record.phase&&phaseName(record.phase)].filter(Boolean).join(" · "):
+        `${isReproductionWave(item)?"TRACE 复现 · ":""}${text(item.title)}`;
+      return {value:String(item.id),label};
+    }),String(wave.id),id=>{state.waveId=id;setView("waveforms");},{"aria-label":"选择真实波形"});
     const controls=el("div",{className:"wave-controls"});
     waveformPanel.append(el("div",{className:"wave-select-bar wave-record-picker"},makeField("波形记录",picker)));
-    const related=hasId(wave.run_id)?runsById.get(wave.run_id):null;
+    const related=!reproduced&&hasId(wave.run_id)?runsById.get(wave.run_id):null;
+    if(reproduction){
+      const context=[original?suiteTitle(original.suite_id):null,
+        original?variantName(original.variant):null,`seed ${text(reproduction.seed)}`,
+        reproduction.phase?phaseName(reproduction.phase):null,reproduction.mutation].filter(Boolean);
+      waveformPanel.append(el("section",{className:"wave-reproduction-context",role:"note",
+        "aria-label":"TRACE 复现来源","data-original-run-id":String(reproduction.original_run_id),
+        "data-reproduction-id":String(wave.id)},
+        el("div",{className:"wave-reproduction-heading"},el("strong",{},"TRACE 复现"),el("span",{},"独立执行")),
+        el("p",{className:"wave-reproduction-scope"},el("code",{},text(reproduction.test)),` · ${context.join(" · ")}`),
+        el("div",{className:"row-actions"},
+          reproduction.log_url?link("复现日志",reproduction.log_url,{target:"_blank",rel:"noopener"}):null,
+          reproduction.report_url?link("复现报告",reproduction.report_url,{target:"_blank",rel:"noopener"}):null,
+          original?button("查看原始运行",()=>showRun(original),{className:"link-button"}):null),
+        original?.waveform_unavailable?el("p",{className:"secondary"},`原始记录：${original.waveform_unavailable}`):null));
+    }
     const quickActions=el("div",{className:"wave-quick-actions"});
-    const actionBar=el("div",{className:"wave-action-bar"},related?el("div",{className:"wave-essential-status"},resultBadges(related)):null,quickActions);
+    const actionBar=el("div",{className:"wave-action-bar"},reproduction||related?el("div",{className:"wave-essential-status"},resultBadges(reproduction||related)):null,quickActions);
     waveformPanel.append(actionBar);
-    const runContext=related?el("div",{className:"wave-run-context"},
+    const runContext=reproduction?el("div",{className:"wave-run-context"},
+      el("dl",{className:"detail-list"},[
+        ["复现执行",reproduction.reproduction_id||wave.id],
+        ["关联原始运行",reproduction.original_run_id],
+        ["原始运行状态",reproduction.original_raw_status],
+        ["复现源码快照 SHA-256",reproduction.source_snapshot_sha256],
+        ["复现二进制 SHA-256",reproduction.binary_sha256],
+        ["原始源码快照 SHA-256",reproduction.original_source_snapshot_sha256],
+        ["原始二进制 SHA-256",reproduction.original_binary_sha256],
+        ["二进制与原始记录",reproduction.binary_matches_original===true?"一致":reproduction.binary_matches_original===false?"不同":null]
+      ].filter(([,value])=>hasId(value)).map(([label,value])=>[
+        el("dt",{},label),el("dd",{className:/^[a-f0-9]{64}$/i.test(String(value))?"hash":"wrap-anywhere"},text(value))])),
+      el("div",{className:"evidence-links wave-run-links"},
+        original?.log_url||reproduction.original_log_url?link("原始运行日志",original?.log_url||reproduction.original_log_url):null,
+        original?.report_url||reproduction.original_report_url?link("原始运行报告",original?.report_url||reproduction.original_report_url):null,
+        reproduction.source_snapshot_url?link("复现源码快照",reproduction.source_snapshot_url):null,
+        reproduction.index_url?link("复现清单",reproduction.index_url):null)):
+      related?el("div",{className:"wave-run-context"},
       related?el("div",{className:"legend wave-run-identity"},el("span",{},el("code",{},text(related.test)),` · seed ${text(related.seed)} · ${variantName(related.variant)}`),resultBadges(related),el("span",{},suiteTitle(related.suite_id),related.phase?` · ${phaseName(related.phase)}`:"")):null,
       el("div",{className:"evidence-links wave-run-links"},related?.log_url?link("同次运行日志",related.log_url):null,related?.report_url?link("同次原始报告",related.report_url):null,
         button("查看此运行",()=>showRun(related),{className:"button small"}))):null;
@@ -894,8 +969,8 @@
     const more=el("details",{className:"wave-more"},el("summary",{},"信号、缩放与运行证据"),el("div",{className:"wave-more-body"},
       el("section",{className:"wave-view-settings"},el("h3",{},"视图与时间范围"),controls,viewOptions,windowForm,status,transactionDetails),
       signalPanel,
-      el("section",{className:"wave-evidence"},el("h3",{},"同次运行与原始文件"),runContext,
-        wave.source?el("div",{className:"provenance"},el("div",{className:"evidence-links"},wave.source.url?link("打开原始 VCD",wave.source.url):el("span",{className:"secondary"},"原始 VCD 链接未记录"),professionalLink),wave.source.sha256?el("p",{className:"hash",style:{marginTop:"8px"}},"SHA-256 ",wave.source.sha256):null,wave.source.note?el("p",{className:"secondary"},wave.source.note):null):null),
+      el("section",{className:"wave-evidence"},el("h3",{},reproduced?"复现执行与文件":"同次运行与原始文件"),runContext,
+        wave.source?el("div",{className:"provenance"},el("div",{className:"evidence-links"},wave.source.url?link(reproduced?"打开复现 VCD":"打开原始 VCD",wave.source.url):el("span",{className:"secondary"},reproduced?"复现 VCD 链接未记录":"原始 VCD 链接未记录"),professionalLink),wave.source.sha256?el("p",{className:"hash",style:{marginTop:"8px"}},"SHA-256 ",wave.source.sha256):null,wave.source.note?el("p",{className:"secondary"},wave.source.note):null):null),
       el("p",{className:"wave-help"},"点击事务轨选中事务；滚轮缩放、拖动平移。← → 移动游标，+ / − 缩放，Shift + ← → 平移，Home 全程。")));
     const waveMain=el("div",{className:"wave-main"},chartFrame,more);
     waveformPanel.append(el("div",{className:"wave-layout wave-layout--full"},waveMain));
@@ -1084,7 +1159,7 @@
       const entry=entries.get(String(selectedRunId));
       if(!entry){detail.replaceChildren(empty("没有可选运行","此处没有匹配 UART 严格需求及声明范围的真实记录。"));return;}
       const {row,run}=entry,source=row.defect[run.variant];
-      const trace=waves.find(wave=>wave.run_id===run.id);
+      const trace=originalWaveFor(run);
       const actions=el("div",{className:"row-actions"},
         run.log_url?link("本次原始日志",run.log_url):el("span",{className:"secondary"},"原始日志未记录"),
         run.report_url?link("本次原始报告",run.report_url):null,
@@ -1097,7 +1172,7 @@
         source?.description?el("p",{className:"secondary"},source.description):null,
         el("dl",{className:"detail-list"},el("dt",{},"测试"),el("dd",{},el("code",{className:"wrap-anywhere"},text(run.test))),
           el("dt",{},"ERROR / FATAL"),el("dd",{className:"mono"},`${number(run.metrics?.errors)} / ${number(run.metrics?.fatals)}`),
-          el("dt",{},"TX / RX 比对"),el("dd",{className:"mono"},`${number(run.metrics?.tx)} / ${number(run.metrics?.rx)}`)),actions);
+          el("dt",{},"TX / RX 比对"),el("dd",{className:"mono"},`${number(run.metrics?.tx)} / ${number(run.metrics?.rx)}`)),actions,reproductionEvidence(run));
     }
     function updateFallbackSelection(){
       for(const item of fallbackButtons)item.node.setAttribute("aria-pressed",String(String(item.runId)===String(selectedRunId)));

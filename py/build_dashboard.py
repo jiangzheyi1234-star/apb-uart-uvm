@@ -20,6 +20,7 @@ import sys
 from build_evidence import read_json, validate_transcript
 from report_coverage import native_summary, parse_records, lcov_summary, lcov_file_details, source_scope
 from recovered_waveforms import recovered_wave_links
+from reproduced_waveforms import reproduction_evidence
 from waveform_data import waveform
 
 
@@ -422,6 +423,47 @@ def annotate_failures(root: Path, rows: list[dict], waves: list[dict]) -> None:
         row["waveform_unavailable"] = reason
 
 
+def append_reproductions(root: Path, rows: list[dict], waves: list[dict], inputs: list[dict]) -> list[dict]:
+    """Show new TRACE executions separately from original archived waveforms."""
+    records, verified_inputs = reproduction_evidence(root / "reproductions", root)
+    by_id = {row["id"]: row for row in rows}
+    wave_ids = {wave["id"] for wave in waves}
+    input_paths = {entry["path"]: entry for entry in inputs}
+    for record in records:
+        original = by_id.get(record["original_run_id"])
+        require(original is not None and original["raw_status"] == "FAIL"
+                and original["log_url"] == record["original_log_url"]
+                and all(original.get(key) == record.get(key) for key in ("suite_id", "test", "seed", "variant", "phase", "mutation")),
+                "Reproduction does not bind one exact archived failure")
+        reproduction_id = record["id"]
+        require(reproduction_id not in by_id and reproduction_id not in wave_ids,
+                "Reproduction identity collides with an original run or waveform")
+        path = inside(root, record["waveform_url"])
+        decoded = waveform(path, id=reproduction_id,
+                           title=f"TRACE reproduction / {record.get('mutation') or record['test']} / seed {record['seed']}",
+                           run_id=reproduction_id, url=record["waveform_url"],
+                           uart_registers=record["suite_id"] != "apb_protocol")
+        require(decoded["source"]["sha256"] == record["waveform_sha256"], "Reproduction VCD changed during decoding")
+        if record["suite_id"] == "apb_protocol":
+            completed = [event for event in decoded["apb_events"] if event["status"] in ("OK", "SLVERR")]
+            stats = record["stats"]
+            require(len(completed) == stats["completed"]
+                    and all(sum(event["wait_cycles"] == wait for event in completed) == stats[f"wait{wait}"] for wait in (0, 1, 3, 7)),
+                    "Reproduction VCD APB traffic differs from its independently assessed transcript")
+        decoded["reproduction_of"] = record["original_run_id"]
+        decoded["reproduction"] = dict(record)
+        decoded["source"]["reproduction"] = True
+        waves.append(decoded)
+        wave_ids.add(reproduction_id)
+    for entry in verified_inputs:
+        require(entry["path"] not in input_paths or input_paths[entry["path"]] == entry,
+                "Reproduction artifact conflicts with an archived input")
+        if entry["path"] not in input_paths:
+            inputs.append(entry)
+            input_paths[entry["path"]] = entry
+    return records
+
+
 def build(root: Path, output: Path, template: Path, version: str, repository: str, commit: str | None = None) -> dict:
     root, output = root.resolve(), output.resolve()
     ref = commit or "main"
@@ -439,6 +481,7 @@ def build(root: Path, output: Path, template: Path, version: str, repository: st
     waves.extend(protocol_waves)
     require(len({r["id"] for r in rows}) == len(rows), "Duplicate dashboard row identity")
     append_recovered_waveforms(root / "release", root, rows, waves, inputs)
+    reproductions = append_reproductions(root, rows, waves, inputs)
     annotate_failures(root, rows, waves)
     source_url = lambda path: f"https://github.com/{repository}/blob/{ref}/{path}"
     for record in coverage:
@@ -461,6 +504,7 @@ def build(root: Path, output: Path, template: Path, version: str, repository: st
                        {"id": "fault_control", "title": "检查器负向对照", "kind": "control", "scope": "4 次故障 + 6 次正常控制", "note": "DETECTED 表示指定 checker 触发，原始运行仍 FAIL。"},
                        {"id": "apb_protocol", "title": "独立 APB 代理资格验证", "kind": "protocol", "scope": "9 正向 + 3 超时负向 + 3 恢复控制", "note": "使用自建等待从设备；不代表 UART DUT 产生等待状态。"}],
             "runs": rows, "coverage": coverage, "waveforms": waves, "architecture": architecture(source_url), "defects": defects(rows, source_url),
+             "reproductions": reproductions,
             "inputs": inputs,
             "limitations": ["Verilator 动态结果不能代替四态 / X 传播签核。", "UART DUT 的 PREADY 恒为 1；等待状态、超时和取消在独立 APB 测试从设备中验证。",
                             "协议资格验证覆盖选定的 0/1/3/7 等待、复位和超时场景，不宣称穷举所有仲裁与时序组合。",

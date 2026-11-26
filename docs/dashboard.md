@@ -24,6 +24,12 @@
 
 验证项与实际测试的映射方式参考 [OpenTitan Testplanner](https://opentitan.org/book/util/dvsim/doc/testplanner.html)。本项目的映射范围见 [验证计划](verification_plan.md#计划与归档运行映射)。
 
+### TRACE 复现
+
+六条原始 VCD 缺失的失败记录各关联一份独立 TRACE 复现。运行明细保留原始日志、原始 FAIL 和波形缺失原因，并提供“查看复现波形”和“复现日志”。波形页显示复现身份、对应原始运行及双方的源码和二进制 SHA-256。原始回归仍为 118 条，原始 FAIL 仍为 19 条。
+
+复现沿用原记录中的用例、seed、套件、RTL 版本、故障开关和模拟器版本。重编译前核对源码快照及编译选项，两份重编译 ELF 的 SHA-256 均与原 CI 记录相同。运行时启用 TRACE 并指定独立输出文件。六次复现均为原始 FAIL，经指定错误、结束标志与波形字节校验后标记 DETECTED。[复现清单](reproductions/index.json) · [复跑工具](../py/reproduce_failures.py)
+
 ## 图表与严格需求矩阵
 
 Apache ECharts 6.1.0 仅用于“缺陷对照”的结果矩阵，资源与 SVG 渲染器均本地捆绑。当前矩阵显示 **4 项严格需求 × 2 个 RTL 版本 × 3 个 seed，共 24 格**；每格对应一次 UART 核心归档运行，按原始 `PASS`、`FAIL` 或其他状态显示。缺失或存在多条匹配记录时保留“未记录”，不推定通过。该矩阵不加入 RAL、APB 协议或检查器故障对照，也不增加运行次数或覆盖率。

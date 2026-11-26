@@ -49,6 +49,8 @@ class PackagingTests(unittest.TestCase):
             "docs/features/plot.svg", "docs/ci/acceptance.json",
             "docs/protocol/inputs/waves.vcd", "docs/assets/app.js",
             "docs/assets/styles.css", "docs/data/dashboard.js", "docs/data/dashboard.json",
+            "docs/reproductions/index.json", "docs/reproductions/builds/source_snapshot.json",
+            "docs/reproductions/runs/case/waves.vcd",
         ):
             self.write(root, name)
         self.write(root, "docs/.nojekyll", "")
@@ -66,6 +68,7 @@ class PackagingTests(unittest.TestCase):
             ".private/material.md", "tb/.private/private.md", "scripts/personal/notes.md",
             "sim/simulation.log", "sim/waves.vcd", "sim/coverage.dat", "sim/work/generated.sv",
             "rtl/build/generated.sv", "rtl/.tools/downloaded.sv", "py/__pycache__/old.pyc",
+            "docs/release/builds/generated.json",
             "results/report.json", "dist/old.zip",
         ):
             self.write(root, name)
@@ -97,7 +100,7 @@ class PackagingTests(unittest.TestCase):
                              "docs/README.md", "docs/architecture.md", "docs/registers.md",
                              "docs/dashboard.md", "docs/apb_protocol.md", "web/dashboard/app.js",
                              "RELEASE.md", "CHANGELOG.md"}.issubset(names))
-            self.assertFalse(any(name.startswith(("docs/release/", "docs/features/", "docs/ci/", "docs/evidence/", "docs/protocol/", "docs/assets/", "docs/data/")) for name in names))
+            self.assertFalse(any(name.startswith(("docs/release/", "docs/features/", "docs/ci/", "docs/evidence/", "docs/protocol/", "docs/reproductions/", "docs/assets/", "docs/data/")) for name in names))
             self.assertNotIn("docs/index.html", names)
             self.assertNotIn("docs/.nojekyll", names)
             self.assertFalse(any(word in name.lower() for name in names for word in ("interview", "resume", "career", "private", "optimization_round", "industry_benchmark")))
@@ -116,11 +119,14 @@ class PackagingTests(unittest.TestCase):
             self.assertTrue({"docs/index.html", "docs/.nojekyll", "docs/release/inputs/run.log",
                              "docs/release/inputs/coverage.dat", "docs/features/plot.svg",
                              "docs/protocol/inputs/waves.vcd", "docs/assets/app.js",
+                             "docs/reproductions/index.json", "docs/reproductions/builds/source_snapshot.json",
+                             "docs/reproductions/runs/case/waves.vcd",
                              "docs/assets/styles.css", "docs/data/dashboard.js", "docs/data/dashboard.json",
                              "docs/ci/acceptance.json", "LICENSE"}.issubset(names))
             self.assertFalse(any(name.startswith(("rtl/", "rtl_fixed/", "tb/", "sim/", "py/", "tests/", "web/", "docs/evidence/")) for name in names))
             self.assertNotIn("README.md", names)
             self.assertNotIn("docs/README.md", names)
+            self.assertNotIn("docs/release/builds/generated.json", names)
             self.assertFalse(any(word in name.lower() for name in names for word in ("interview", "career", "private")))
 
     def test_overlay_retains_both_manifests_and_local_evidence_navigation(self):

@@ -16,6 +16,7 @@ dist/
 !docs/release/inputs/*.vcd
 !docs/release/recovered-vcd/*.vcd
 !docs/protocol/inputs/*.vcd
+!docs/reproductions/runs/*/waves.vcd
 *.ucdb
 *.vdb/
 transcript

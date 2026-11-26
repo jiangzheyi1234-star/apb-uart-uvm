@@ -34,7 +34,9 @@ SOURCE_DOCUMENTS = (
     "docs/coverage_analysis.md", "docs/checker_sensitivity.md", "docs/validation.md",
     "docs/apb_protocol.md", "docs/dashboard.md",
 )
-EVIDENCE_DIRECTORIES = ("docs/release", "docs/features", "docs/ci", "docs/protocol", "docs/assets", "docs/data")
+EVIDENCE_DIRECTORIES = (
+    "docs/release", "docs/features", "docs/ci", "docs/protocol", "docs/reproductions", "docs/assets", "docs/data"
+)
 EVIDENCE_FILES = ("docs/index.html", "docs/.nojekyll", "LICENSE", "NOTICE", "NOTICE.md", "third_party/apb_uart_sv/LICENSE")
 PROFILES = ("source", "evidence")
 EXCLUDED_DIRECTORIES = frozenset({
@@ -71,6 +73,7 @@ def collect_files(root: Path, output: Path, profile: str = "source") -> list[Pat
     root = root.resolve()
     output = output.resolve()
     selected: dict[str, Path] = {}
+    reproduction_build_records = root / "docs" / "reproductions" / "builds"
 
     def allowed_path(path: Path) -> bool:
         # Check ancestors as well as the file itself: explicit documentation
@@ -78,7 +81,8 @@ def collect_files(root: Path, output: Path, profile: str = "source") -> list[Pat
         current = root
         for component in path.relative_to(root).parts:
             current /= component
-            if (component.casefold() in EXCLUDED_DIRECTORIES
+            archived_build = profile == "evidence" and current == reproduction_build_records
+            if ((component.casefold() in EXCLUDED_DIRECTORIES and not archived_build)
                     or NON_ENGINEERING_NAME.search(component) or is_link(current)):
                 return False
         return True
@@ -108,8 +112,7 @@ def collect_files(root: Path, output: Path, profile: str = "source") -> list[Pat
         for current, directories, filenames in os.walk(starting_path, topdown=True, followlinks=False):
             current_path = Path(current)
             directories[:] = sorted(
-                name for name in directories
-                if name.casefold() not in EXCLUDED_DIRECTORIES and not is_link(current_path / name)
+                name for name in directories if allowed_path(current_path / name)
             )
             for filename in sorted(filenames):
                 add(current_path / filename)

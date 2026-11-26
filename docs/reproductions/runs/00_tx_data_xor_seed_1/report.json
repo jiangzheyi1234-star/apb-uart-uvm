@@ -1,0 +1,42 @@
+{
+  "command": [
+    "/var/tmp/apb-uart-trace-builds-9i3ad_qb/uart-binary/Vtb_top",
+    "+UVM_TESTNAME=uart_smoke_test",
+    "+verilator+seed+1",
+    "+RTL_FIXED=1",
+    "+verilator+coverage+file+/tmp/uart-reproduction-coverage-_58gq3jf/coverage.dat",
+    "+MUTATION=tx_data_xor",
+    "+TRACE",
+    "+VCD_FILE=/var/tmp/apb-uart-failure-reproductions-lwzhoyut/runs/00_tx_data_xor_seed_1/waves.vcd"
+  ],
+  "returncode": 0,
+  "timed_out": false,
+  "elapsed_seconds": 0.566,
+  "log": "runs/00_tx_data_xor_seed_1/simulation.log",
+  "status": "DETECTED",
+  "reason": "The activated fault reached its intended functional checker; normal exit and zero fatals",
+  "raw_simulation_status": "FAIL",
+  "uvm_errors": 34,
+  "uvm_fatals": 0,
+  "expected_error_id": "TX_MISMATCH",
+  "observed_error_ids": [
+    "TX_MISMATCH"
+  ],
+  "raw_status": "FAIL",
+  "classification": "DETECTED",
+  "test": "uart_smoke_test",
+  "seed": 1,
+  "suite_id": "fault_control",
+  "variant": "fixed",
+  "phase": "mutation",
+  "mutation": "tx_data_xor",
+  "original_run_id": "fault_control:mutation:uart_smoke_test:tx_data_xor:1",
+  "reproduction_id": "reproduction:20261126T023929564296Z:fault_control:mutation:uart_smoke_test:tx_data_xor:1",
+  "binary_sha256": "c66dde2e0c3bf23eb3fabbfa48bc9e7ae3fe530cf37df4e1a59fd5abfdc9365e",
+  "source_snapshot_sha256": "5de43a2a3ed18fa40d0869782b3d5e382a384cb3baed644fe54070b3d729628c",
+  "waveform_path": "runs/00_tx_data_xor_seed_1/waves.vcd",
+  "waveform_sha256": "e7bcbb9601f9c31c15ce4331fe8042abedd89028e0af43cab7e15307de8d487d",
+  "waveform_bytes": 898890,
+  "waveform_valid": true,
+  "waveform_error": null
+}
