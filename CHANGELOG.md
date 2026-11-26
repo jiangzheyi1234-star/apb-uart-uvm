@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add an evidence-backed Hold path inspector with a shared arrival/required time scale for the original violation, the repaired endpoint and the new global worst path. Select a path to inspect pin delays and its matching STA report.
 - Add a reproducible mapped-netlist hold ECO for the APB pending-read feedback path. The same pre-layout constraints produce −0.00636 ns baseline and +0.00375 ns repaired hold slack, with setup worst slack at +4.88060 ns. Link both executions' STA, gate and scan artifacts from a staged QoR comparison.
 - Add an original APB RAM/MBIST subsystem, a March C− controller, shared UART/RAM addressing, and UVM checks for arbitration, reset, first-failure diagnostics and recovery.
 - Publish all twelve subsystem runs with their corresponding logs and VCDs under a separate verification-plan group. Keep the historical UART run identities and coverage scope.

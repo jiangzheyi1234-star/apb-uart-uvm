@@ -5,7 +5,7 @@
     "version": "main",
     "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm",
     "commit": "127f21e0d695cd0e6aa32b46541b158196058679",
-    "generated_utc": "2026-11-26T13:51:23.769863+00:00",
+    "generated_utc": "2026-11-26T14:09:43.705738+00:00",
     "toolchain": [
       "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
       "Accellera UVM 1800.2 2020.3.1"
@@ -610739,6 +610739,159 @@
         "before": "829.388 µm²",
         "after": "830.186 µm²",
         "delta": "+0.798 µm²"
+      }
+    ],
+    "timing_paths": [
+      {
+        "id": "baseline-target",
+        "title": "修复前目标路径 · apb_read_pending_q",
+        "startpoint": "_1039_",
+        "endpoint": "_1039_",
+        "arrival_ns": 0.09633,
+        "required_ns": 0.10268,
+        "slack_ns": -0.00636,
+        "status": "VIOLATED",
+        "points": [
+          {
+            "pin": "_1039_/CK",
+            "cell": "DFFR_X1",
+            "edge": "^",
+            "time_ns": 0.0,
+            "delay_ns": 0.0
+          },
+          {
+            "pin": "_1039_/QN",
+            "cell": "DFFR_X1",
+            "edge": "v",
+            "time_ns": 0.06745,
+            "delay_ns": 0.06745
+          },
+          {
+            "pin": "_0769_/ZN",
+            "cell": "NAND2_X1",
+            "edge": "^",
+            "time_ns": 0.08613,
+            "delay_ns": 0.01868
+          },
+          {
+            "pin": "_0770_/ZN",
+            "cell": "NOR4_X1",
+            "edge": "v",
+            "time_ns": 0.09633,
+            "delay_ns": 0.01019
+          },
+          {
+            "pin": "_1039_/D",
+            "cell": "DFFR_X1",
+            "edge": "v",
+            "time_ns": 0.09633,
+            "delay_ns": 0.0
+          }
+        ],
+        "report_url": "frontend_hold/before_min_path.txt"
+      },
+      {
+        "id": "repaired-target",
+        "title": "修复后同一目标路径 · apb_read_pending_q",
+        "startpoint": "_1039_",
+        "endpoint": "_1039_",
+        "arrival_ns": 0.11998,
+        "required_ns": 0.1027,
+        "slack_ns": 0.01728,
+        "status": "MET",
+        "points": [
+          {
+            "pin": "_1039_/CK",
+            "cell": "DFFR_X1",
+            "edge": "^",
+            "time_ns": 0.0,
+            "delay_ns": 0.0
+          },
+          {
+            "pin": "_1039_/QN",
+            "cell": "DFFR_X1",
+            "edge": "v",
+            "time_ns": 0.06745,
+            "delay_ns": 0.06745
+          },
+          {
+            "pin": "_0769_/ZN",
+            "cell": "NAND2_X1",
+            "edge": "^",
+            "time_ns": 0.08613,
+            "delay_ns": 0.01868
+          },
+          {
+            "pin": "_0770_/ZN",
+            "cell": "NOR4_X1",
+            "edge": "v",
+            "time_ns": 0.09603,
+            "delay_ns": 0.0099
+          },
+          {
+            "pin": "hold_eco_apb_read_pending_d/Z",
+            "cell": "BUF_X1",
+            "edge": "v",
+            "time_ns": 0.11998,
+            "delay_ns": 0.02395
+          },
+          {
+            "pin": "_1039_/D",
+            "cell": "DFFR_X1",
+            "edge": "v",
+            "time_ns": 0.11998,
+            "delay_ns": 0.0
+          }
+        ],
+        "report_url": "frontend_hold/inputs/fixed_target_min_path.txt"
+      },
+      {
+        "id": "repaired-worst",
+        "title": "修复后全局最差 hold 路径",
+        "startpoint": "_1017_",
+        "endpoint": "_1017_",
+        "arrival_ns": 0.11067,
+        "required_ns": 0.10692,
+        "slack_ns": 0.00375,
+        "status": "MET",
+        "points": [
+          {
+            "pin": "_1017_/CK",
+            "cell": "DFFR_X1",
+            "edge": "^",
+            "time_ns": 0.0,
+            "delay_ns": 0.0
+          },
+          {
+            "pin": "_1017_/QN",
+            "cell": "DFFR_X1",
+            "edge": "^",
+            "time_ns": 0.07262,
+            "delay_ns": 0.07262
+          },
+          {
+            "pin": "_0676_/ZN",
+            "cell": "AOI21_X1",
+            "edge": "v",
+            "time_ns": 0.08844,
+            "delay_ns": 0.01582
+          },
+          {
+            "pin": "_0678_/ZN",
+            "cell": "AOI21_X1",
+            "edge": "^",
+            "time_ns": 0.11067,
+            "delay_ns": 0.02224
+          },
+          {
+            "pin": "_1017_/D",
+            "cell": "DFFR_X1",
+            "edge": "^",
+            "time_ns": 0.11067,
+            "delay_ns": 0.0
+          }
+        ],
+        "report_url": "frontend_hold/after_min_path.txt"
       }
     ],
     "stages": [

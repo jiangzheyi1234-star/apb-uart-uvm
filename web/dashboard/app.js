@@ -131,7 +131,8 @@
   const suiteTitle = id => text(suitesById.get(id)?.title || id);
   const state={tab:"overview",caseIndex:1,plan:{groupId:"",itemId:"",runId:"",failures:false},
     reg:{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,size:25,sort:"recorded"},
-    coverageId:coverage[0]?.id,coverageMode:"source",coverageFile:"",waveId:waves[0]?.id,waveState:new Map(),waveReturn:null};
+    coverageId:coverage[0]?.id,coverageMode:"source",coverageFile:"",waveId:waves[0]?.id,waveState:new Map(),waveReturn:null,
+    timingPathsOpen:new Set()};
   let cleanupView=()=>{};
 
   function isReproductionWave(wave) {
@@ -517,6 +518,48 @@
       waveform?button(waveform.kind==="scan"?"查看扫描波形":"查看同次波形",()=>showWave(waveform.id),
         {className:"link-button","data-waveform-id":String(waveform.id)}):null);
   }
+  function renderHoldTiming(paths) {
+    const valid=list(paths).filter(path=>path&&hasId(path.id)&&finite(path.arrival_ns)&&finite(path.required_ns)&&finite(path.slack_ns));
+    if(!valid.length)return null;
+    const formatter=new Intl.NumberFormat("zh-CN",{maximumFractionDigits:6});
+    const ps=(ns,signed=false)=>finite(ns)?`${signed&&ns>0?"+":""}${formatter.format(ns*1000)} ps`:missing;
+    const values=valid.flatMap(path=>[path.arrival_ns,path.required_ns,...list(path.points).map(point=>point?.time_ns).filter(finite)]);
+    const low=Math.min(0,...values),high=Math.max(...values);
+    const span=high-low||0.01,maximum=Math.ceil((high+span*.06)*100)/100;
+    const position=ns=>`${100*(ns-low)/(maximum-low)}%`;
+    const rows=valid.map(path=>{
+      const tone=path.status==="VIOLATED"?"is-violated":path.status==="MET"?"is-met":"";
+      const points=list(path.points).filter(point=>point&&typeof point==="object");
+      const details=el("details",{className:`hold-path ${tone}`,"data-path-id":String(path.id),open:state.timingPathsOpen.has(path.id),
+        onToggle:event=>{if(event.currentTarget.open)state.timingPathsOpen.add(path.id);else state.timingPathsOpen.delete(path.id);}},
+        el("summary",{className:"hold-path-summary"},
+          el("span",{className:"hold-path-heading"},el("strong",{},text(path.title||path.id)),
+            el("span",{className:"hold-path-endpoints"},"发射 ",el("code",{},text(path.startpoint))," → 捕获 ",el("code",{},text(path.endpoint)))),
+          el("span",{className:"hold-path-plot","aria-hidden":"true",style:`--arrival:${position(path.arrival_ns)};--required:${position(path.required_ns)}`},
+            el("i",{className:"hold-arrival-bar"}),el("i",{className:"hold-required"}),el("i",{className:"hold-arrival"})),
+          el("span",{className:"hold-path-values"},
+            el("span",{},el("small",{},"数据到达"),el("code",{},ps(path.arrival_ns))),
+            el("span",{},el("small",{},"最早允许"),el("code",{},ps(path.required_ns))),
+            el("span",{className:"hold-path-slack"},el("small",{},"报告 slack"),el("strong",{},ps(path.slack_ns,true)),el("small",{},text(path.status)))),
+          el("span",{className:"hold-path-expand","aria-hidden":"true"},"逐级")),
+        el("div",{className:"hold-path-detail"},
+          points.length?table(["Pin","单元","转换","增量 / ps","累计 / ps"],points.map(point=>el("tr",{className:point.cell==="BUF_X1"?"hold-pin-buffer":null},
+            el("th",{scope:"row"},el("code",{},text(point.pin))),el("td",{},el("code",{},text(point.cell))),
+            el("td",{title:text(point.edge)},point.edge==="^"?"↑":point.edge==="v"?"↓":text(point.edge)),
+            el("td",{},el("code",{},finite(point.delay_ns)?formatter.format(point.delay_ns*1000):missing)),
+            el("td",{},el("code",{},finite(point.time_ns)?formatter.format(point.time_ns*1000):missing)))),
+            {className:"table-scroll hold-pin-table",tabIndex:0,"aria-label":"STA 路径点，可横向滚动"}):el("p",{className:"secondary"},"逐级路径点未记录。"),
+          path.report_url?el("div",{className:"evidence-links"},link("原始精确 STA",path.report_url)):null));
+      return details;
+    });
+    const axis=el("div",{className:"hold-timing-axis","aria-hidden":"true"},el("div",{className:"hold-axis-scale"},
+      [low,(low+maximum)/2,maximum].map((value,index)=>el("span",{className:`hold-axis-tick hold-axis-tick--${index}`,style:`--position:${position(value)}`},ps(value)))));
+    return el("section",{className:"hold-timing","aria-labelledby":"hold-timing-title"},
+      el("div",{className:"hold-timing-heading"},el("h3",{id:"hold-timing-title"},"Hold 路径到达检查"),
+        el("div",{className:"hold-timing-legend"},el("span",{className:"hold-legend-arrival"},"数据到达"),el("span",{className:"hold-legend-required"},"最早允许"))),
+      el("p",{className:"hold-timing-note"},"共用 STA 时间刻度（ps）。数据不得早于最早允许时刻。slack 保留报告原值。展开查看路径点。"),
+      axis,rows);
+  }
   function renderFrontendComparison() {
     const comparison=frontendComparison;
     const metrics=list(comparison.metrics).filter(metric=>metric&&typeof metric.label==="string");
@@ -536,6 +579,8 @@
         (node.getAttribute("scope")==="row"?"rowheader":"columnheader")));
       result.append(measurement);
     }
+    const timing=renderHoldTiming(comparison.timing_paths);
+    if(timing)result.append(timing);
     const rows=frontendStages.map(stage=>el("tr",{"data-stage-id":String(stage.id)},
       el("th",{scope:"row"},text(stage.title||stage.id)),
       ["before","after"].map(side=>{

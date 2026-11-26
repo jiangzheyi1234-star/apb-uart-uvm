@@ -45,7 +45,7 @@ def sta_paths(text: str) -> list[dict]:
         if start and end and slack and arrival and required:
             # Do not append a later global summary to the final individual path.
             block = block.split("\n===", 1)[0].rstrip() + "\n"
-            result.append({"startpoint": start[1], "endpoint": end[1], "slack_ns": float(slack[1]),
+            result.append({"startpoint": start[1], "endpoint": end[1], "slack_ns": float(slack[1]), "status": slack[2],
                            "arrival_ns": float(arrival[1]), "required_ns": float(required[1]), "text": block})
     require(bool(result), "Actual min-path details are missing")
     return sorted(result, key=lambda item: item["slack_ns"])
@@ -152,13 +152,17 @@ def validate_fixed(report: dict, directory: Path, baseline: Path) -> dict:
             require(isinstance(record.get("text"), str) and record["text"].strip() in log,
                     "Structured min path is absent from the actual STA transcript")
             measured = sta_paths(record["text"])[0]
-            require(all(measured[key] == record[key] for key in ("startpoint", "endpoint", "slack_ns", "arrival_ns", "required_ns")),
+            require(all(measured[key] == record[key] for key in ("startpoint", "endpoint", "slack_ns", "arrival_ns", "required_ns", "status")),
                     "Structured min-path numbers differ from its recorded path")
             points = [{"delay_ns": float(delay), "time_ns": float(time), "edge": edge, "pin": pin, "cell": cell}
                       for delay, time, edge, pin, cell in re.findall(
                           r"(?m)^\s*(-?[0-9.]+)\s+(-?[0-9.]+)\s+([\^v])\s+(\S+)\s+\(([^)]+)\)\s*$", record["text"])]
             require(points == record.get("points"), "Structured path pins/delays differ from the actual STA rows")
     target_path = path_records["fixed"]["target_min"]
+    for section, measured in (("baseline", before_paths[0]), ("fixed", after_paths[0])):
+        require(all(path_records[section]["min"][key] == measured[key]
+                    for key in ("startpoint", "endpoint", "slack_ns", "arrival_ns", "required_ns", "status")),
+                "Structured global min path is not the actual worst path from its STA log")
     require(eco.get("baseline_target_path") == path_records["baseline"]["min"] and eco.get("target_path_after") == target_path
             and target_path["endpoint"] == eco["target_instance"]
             and eco.get("target_slack_after_ns") == target_path["slack_ns"]
@@ -191,7 +195,8 @@ def validate_fixed(report: dict, directory: Path, baseline: Path) -> dict:
     chain = frontend.read(directory / "scan_chain.json")
     require(all(chain.get(key) == report["scan"].get(key) for key in chain)
             and chain["length"] == report["synthesis"]["sequential_cells"], "Post-ECO scan chain differs from the executed chain")
-    return {"before_path": before_paths[0], "after_path": after_paths[0], "target_path": target_path, "netlists": netlists, "eco": eco}
+    return {"before_path": before_paths[0], "after_path": after_paths[0], "target_path": target_path,
+            "timing_paths": path_records, "netlists": netlists, "eco": eco}
 
 
 def manifest_inputs(base: Path, root: Path) -> list[dict]:
@@ -305,9 +310,28 @@ def hold_data(base: Path, root: Path, baseline: Path) -> tuple[dict, list[dict],
             return format(value, ("+" if sign else "") + "." + str(precision) + "f") + " " + unit
         metrics.append({"label": label, "before": formatted(before, signed), "after": formatted(after, signed), "delta": formatted(after - before, True)})
     before_path, after_path, eco = details["before_path"], details["after_path"], details["eco"]
+    timing_paths = []
+    for path_id, title, section, name, artifact in (
+        ("baseline-target", "修复前目标路径 · apb_read_pending_q", "baseline", "min", "before_min_path.txt"),
+        ("repaired-target", "修复后同一目标路径 · apb_read_pending_q", "fixed", "target_min", "inputs/fixed_target_min_path.txt"),
+        ("repaired-worst", "修复后全局最差 hold 路径", "fixed", "min", "after_min_path.txt"),
+    ):
+        # These records were re-parsed from the actual STA text above, including
+        # every pin, cell, edge and reported delay. Required time is a separate
+        # scalar; the points retain the source's launch-clock/data-path rows.
+        record = details["timing_paths"][section][name]
+        timing_paths.append({"id": path_id, "title": title,
+                             **{key: record[key] for key in ("startpoint", "endpoint", "arrival_ns", "required_ns", "slack_ns", "status")},
+                             "points": [{key: point[key] for key in ("pin", "cell", "edge", "time_ns", "delay_ns")}
+                                        for point in record["points"]],
+                             "report_url": frontend.relative_file(base, artifact).relative_to(root).as_posix()})
+    require(timing_paths[0]["startpoint"] == timing_paths[1]["startpoint"]
+            and timing_paths[0]["endpoint"] == timing_paths[1]["endpoint"] == eco["target_instance"],
+            "The repaired target path does not retain its original launch/capture endpoints")
     model = {
         "summary": "同一控制器 RTL、原 10 ns SDC 与固定 Nangate45 典型角下，对实际最差 hold 路径实施单 BUF_X1 网表 ECO。保留两版的实际检查结果。",
         "metrics": metrics,
+        "timing_paths": timing_paths,
         "stages": [
             {"id": "synthesis", "title": "标准单元映射与局部 ECO",
              "before": {"status": "PASS", "artifacts": [new("同次 ECO 前网表", "inputs/baseline_mapped.v"), previous("原归档综合统计", "inputs/synthesis_statistics.txt")]},

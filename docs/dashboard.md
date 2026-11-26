@@ -18,6 +18,8 @@
 
 QoR 对照采用基线与候选并排的读法，参考 OpenROAD 的差值表。检查阶段与各自产物的对应关系沿用 OpenTitan 的验证计划和结果分层。[OpenROAD QoR Dashboard](https://openroad-flow-scripts.readthedocs.io/en/latest/user/QoRDashboard.html) · [OpenTitan DV 数据](https://opentitan.org/dvdata/)
 
+「Hold 路径分析」用共同的 ps 时间轴对照数据到达与最早允许到达，分别标出基线违例路径、修复后的同一条路径和修复后全局最差路径。选择路径可查看每级引脚、单元、增量延时、累计到达及对应的 STA 原文。所有时间和余量来自已归档的 OpenSTA 报告，图上显示的精度与报告一致。查看同一路径可定位新增的 `BUF_X1`，切到全局最差路径可核对新的终点。[OpenROAD 时序查看器](https://openroad.readthedocs.io/en/latest/main/openroad/web/README.html)
+
 侧栏“计划与回归”默认打开“验证计划”，可切换到“全部运行”使用原有筛选和 CSV 导出。计划由 [`verification-plan.json`](../web/dashboard/verification-plan.json) 声明，通过套件、UVM 测试、RTL 版本和阶段绑定到精确归档运行；当前为 **6 组、15 个验证项、118 个独立运行身份**。
 
 1. 在“验证范围”选择 APB/寄存器、UART 数据流与 FIFO、错误状态/中断/复位、RAL、独立 APB 或检查器对照。

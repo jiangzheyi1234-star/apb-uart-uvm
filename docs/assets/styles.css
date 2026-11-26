@@ -656,6 +656,67 @@
 .frontend-path-summary { margin: 12px 0 0; color: var(--muted); font-size: .875rem; white-space: pre-line; overflow-wrap: anywhere; }
 .frontend-diagnosis p { max-width: 90ch; margin: 7px 0; white-space: pre-line; overflow-wrap: anywhere; }
 .frontend-comparison-boundary { margin: 12px 0 0; }
+.hold-timing { --path-heading: minmax(165px,23%); --path-values: minmax(218px,30%); margin: 16px 0 20px; min-width: 0; }
+.hold-timing-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 5px 14px; }
+.hold-timing-heading h3 { margin: 0; font-size: 1rem; }
+.hold-timing-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: .8125rem; }
+.hold-timing-legend span { display: inline-flex; align-items: center; gap: 7px; }
+.hold-legend-arrival::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
+.hold-legend-required::before { content: ""; height: 13px; border-left: 2px dashed var(--ink); }
+.hold-timing-note { margin: 5px 0 9px; color: var(--muted); font-size: .8125rem; }
+.hold-timing-axis, .hold-path-summary { display: grid; grid-template-columns: var(--path-heading) minmax(0,1fr) var(--path-values) 30px; gap: 12px; }
+.hold-timing-axis { height: 20px; }
+.hold-axis-scale { position: relative; grid-column: 2; }
+.hold-axis-tick { position: absolute; left: var(--position); color: var(--muted); font: .75rem/1.4 ui-monospace,Consolas,monospace; white-space: nowrap; transform: translateX(-50%); }
+.hold-axis-tick--0 { transform: none; }
+.hold-axis-tick--2 { transform: translateX(-100%); }
+.hold-path { border-top: 1px solid var(--line); }
+.hold-path:last-child { border-bottom: 1px solid var(--line); }
+.hold-path > .hold-path-summary { position: relative; list-style: none; align-items: center; padding: 9px 0; font-size: .875rem; font-weight: 400; }
+.hold-path > .hold-path-summary::-webkit-details-marker { display: none; }
+.hold-path[open] > .hold-path-summary { margin-bottom: 0; }
+.hold-path-summary:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.hold-path-heading { min-width: 0; }
+.hold-path-heading strong { display: block; font-size: .875rem; }
+.hold-path-endpoints { display: block; color: var(--muted); font-size: .75rem; overflow-wrap: anywhere; }
+.hold-path-plot { position: relative; display: block; height: 26px; min-width: 0; }
+.hold-path-plot::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid #b6cbd4; }
+.hold-arrival-bar { position: absolute; top: 50%; left: 0; width: var(--arrival); border-top: 2px solid var(--teal); }
+.hold-required { position: absolute; top: 5px; bottom: 5px; left: var(--required); border-left: 2px dashed var(--ink); }
+.hold-arrival { position: absolute; top: 50%; left: var(--arrival); width: 8px; height: 8px; background: var(--teal); border: 1px solid var(--surface); border-radius: 50%; transform: translate(-50%,-40%); }
+.hold-path-values { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; min-width: 0; font-variant-numeric: tabular-nums; }
+.hold-path-values > span { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.hold-path-values small { font-size: .6875rem; color: var(--muted); }
+.hold-path-values code, .hold-path-slack strong { font-size: .8125rem; white-space: nowrap; }
+.hold-path.is-violated .hold-path-slack strong, .hold-path.is-violated .hold-path-slack small:last-child { color: var(--fail); }
+.hold-path.is-violated .hold-arrival { background: var(--fail); }
+.hold-path.is-violated .hold-arrival-bar { border-color: var(--fail); }
+.hold-path.is-met .hold-path-slack strong, .hold-path.is-met .hold-path-slack small:last-child { color: var(--pass); }
+.hold-path-expand { color: var(--teal-dark); font-size: .75rem; text-decoration: underline; text-underline-offset: 3px; }
+.hold-path-detail { padding: 2px 0 13px; }
+.hold-path-detail .evidence-links { margin-top: 8px; }
+.hold-pin-table { max-height: 20rem; }
+.hold-pin-table table { min-width: 0; }
+.hold-pin-table th, .hold-pin-table td { font-size: .8125rem; padding: 6px 9px; }
+.hold-pin-table code { font-size: .8125rem; white-space: nowrap; }
+.hold-pin-table .hold-pin-buffer { background: var(--teal-pale); }
+.hold-pin-buffer td:nth-child(2) { color: var(--teal-dark); font-weight: 650; }
+@media (max-width: 980px) {
+  .hold-timing { --path-heading: minmax(145px,24%); --path-values: minmax(218px,34%); }
+}
+@media (max-width: 720px) {
+  .hold-timing-axis { display: block; }
+  .hold-axis-scale { height: 20px; }
+  .hold-path > .hold-path-summary { grid-template-columns: minmax(0,1fr); gap: 4px; padding: 9px 0; }
+  .hold-path-heading { padding-right: 38px; }
+  .hold-path-expand { position: absolute; top: 10px; right: 0; }
+  .hold-path-plot { height: 22px; }
+  .hold-path-values { gap: 6px; }
+  .hold-path-values > .hold-path-slack { flex-direction: row; align-items: baseline; flex-wrap: wrap; column-gap: 5px; }
+  .hold-path-slack small:first-child { flex-basis: 100%; }
+  .hold-pin-table { overflow: auto; }
+  .hold-pin-table table { min-width: 460px; }
+}
 @media (max-width: 540px) {
   .coverage-modes[aria-label="计划与回归视图"] { gap: 4px; }
   .coverage-modes[aria-label="计划与回归视图"] .coverage-mode { padding-inline: 8px; min-height: 44px; }
