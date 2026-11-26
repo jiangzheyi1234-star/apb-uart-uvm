@@ -92,6 +92,8 @@ All three RAL seeds have zero `RegModel` warnings. Each run still records two UV
 
 ## Interactive workbench
 
+Choose a verification item to see its mapped UVM tests and recorded outcomes. Select a FAIL to inspect its diagnostic excerpt, full log and same-run waveform when archived. [Plan and regressions](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#plan)
+
 The report homepage uses the [verification workbench](https://jiangzheyi1234-star.github.io/apb-uart-uvm/). UART core, RAL, checker controls and APB qualification retain separate scopes and raw outcomes. Real VCD traces support a cursor, zoom, pan and APB-event navigation. APB responses use values immediately before the rising clock edge, preserving sampled read data when the peripheral updates its outputs after the edge. Trace decoding is diagnostic; it does not replace the UVM checker.
 
 Static evidence pages remain available for [UART regression](docs/release/index.html), [RAL/checker controls](docs/features/index.html) and [APB protocol checks](docs/protocol/index.html). The [workbench documentation](docs/dashboard.md) explains generation, input validation and offline use.

@@ -1,0 +1,114 @@
+{
+  "entries": [
+    {
+      "run_id": "uart_core:upstream:uart_parity_requirement_test:1",
+      "test": "uart_parity_requirement_test",
+      "seed": 1,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_parity_requirement_test_seed_1.vcd",
+      "sha256": "c0c49709d6ac93c32355208c73c3ffa5be53d4fed0fbe3093f540925c48b5d3c",
+      "bytes": 70857,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_1/waves.vcd"
+    },
+    {
+      "run_id": "uart_core:upstream:uart_parity_requirement_test:2",
+      "test": "uart_parity_requirement_test",
+      "seed": 2,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_parity_requirement_test_seed_2.vcd",
+      "sha256": "1b88b41e86d8f207934e4b72c7ca97674396720707cbf14fdcfe517a3ceab289",
+      "bytes": 70857,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_2/waves.vcd"
+    },
+    {
+      "run_id": "uart_core:upstream:uart_parity_requirement_test:3",
+      "test": "uart_parity_requirement_test",
+      "seed": 3,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_parity_requirement_test_seed_3.vcd",
+      "sha256": "b7ee4ffff54297d3f40dbc027466de09c5258df8765cea33207d396086af56d8",
+      "bytes": 70857,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_parity_requirement_test_seed_3/waves.vcd"
+    },
+    {
+      "run_id": "uart_core:upstream:uart_framing_requirement_test:1",
+      "test": "uart_framing_requirement_test",
+      "seed": 1,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_framing_requirement_test_seed_1.vcd",
+      "sha256": "d729652acdec44ee7fe02a3f6e05266669223caf140fa544921c67a61f20e1af",
+      "bytes": 64761,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_1/waves.vcd"
+    },
+    {
+      "run_id": "uart_core:upstream:uart_framing_requirement_test:2",
+      "test": "uart_framing_requirement_test",
+      "seed": 2,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_framing_requirement_test_seed_2.vcd",
+      "sha256": "678f600955ffc1641b377c2f1a7e4d7c572f21f0bf5aaf3ed81a32b674fa6c3d",
+      "bytes": 64761,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_2/waves.vcd"
+    },
+    {
+      "run_id": "uart_core:upstream:uart_framing_requirement_test:3",
+      "test": "uart_framing_requirement_test",
+      "seed": 3,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_framing_requirement_test_seed_3.vcd",
+      "sha256": "dcac9b7714a671caaade2301df07a77564ab5a52b1f4558396413e33fc557141",
+      "bytes": 64761,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_framing_requirement_test_seed_3/waves.vcd"
+    },
+    {
+      "run_id": "uart_core:upstream:uart_error_association_test:2",
+      "test": "uart_error_association_test",
+      "seed": 2,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_error_association_test_seed_2.vcd",
+      "sha256": "589591d6c7ba6b828da96378aac4ff674b7afdb5400005659b6d3c4438ff9228",
+      "bytes": 112869,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_2/waves.vcd"
+    },
+    {
+      "run_id": "uart_core:upstream:uart_error_association_test:3",
+      "test": "uart_error_association_test",
+      "seed": 3,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_error_association_test_seed_3.vcd",
+      "sha256": "6ae86c678d2936997b5ac2b5dd091bad46b213a259b172c3e017fdd41796bad3",
+      "bytes": 112869,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_error_association_test_seed_3/waves.vcd"
+    },
+    {
+      "run_id": "uart_core:upstream:uart_irq_requirement_test:1",
+      "test": "uart_irq_requirement_test",
+      "seed": 1,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_irq_requirement_test_seed_1.vcd",
+      "sha256": "a89c96c09cd31cc57bbb50cbe3d194993901f4ccbac53fc055c5fb77f5559130",
+      "bytes": 910930,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_1/waves.vcd"
+    },
+    {
+      "run_id": "uart_core:upstream:uart_irq_requirement_test:2",
+      "test": "uart_irq_requirement_test",
+      "seed": 2,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_irq_requirement_test_seed_2.vcd",
+      "sha256": "de02ccb580343d30b0742384ec54ed42c4c7567d7f870cb14cc5c98b0519403b",
+      "bytes": 910930,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_2/waves.vcd"
+    },
+    {
+      "run_id": "uart_core:upstream:uart_irq_requirement_test:3",
+      "test": "uart_irq_requirement_test",
+      "seed": 3,
+      "variant": "upstream",
+      "bundled_path": "recovered-vcd/uart_irq_requirement_test_seed_3.vcd",
+      "sha256": "2e3c8913a72a8a93ade634f56d637f6617a3565c61d8b53e2b80d053bc8cf9f3",
+      "bytes": 910930,
+      "original_manifest_path": "/home/runner/work/apb-uart-uvm/apb-uart-uvm/results/ci_upstream/uart_irq_requirement_test_seed_3/waves.vcd"
+    }
+  ]
+}

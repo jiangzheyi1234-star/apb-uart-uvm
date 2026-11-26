@@ -141,5 +141,162 @@ class DashboardInputTests(unittest.TestCase):
                     self.assertNotIn("source_url", result["coverage"][0]["code_files"][0])
 
 
+class FailureEvidenceTests(unittest.TestCase):
+    def test_excerpt_preserves_actual_lines_excludes_counts_and_limits_size(self):
+        first = "  # UVM_ERROR @ 10: env [STATUS] expected 0x65 got 0x61"
+        long = "UVM_ERROR @ 20 [TX_MISMATCH] " + "x" * 600
+        fatal = "UVM_FATAL @ 30 [TIMEOUT] recorded message"
+        log = "UVM_ERROR : 12\n# UVM_FATAL : 0\nUVM_WARNING @ 1 [LIB] warning\n" + "\n".join(
+            [first, long, fatal, "UVM_ERROR @ 40 [EXTRA] fourth record"])
+        self.assertEqual(dashboard.failure_excerpt(log), [first, long[:499] + "…", fatal])
+        self.assertEqual(dashboard.failure_excerpt("UVM_ERROR : 2\nUVM_FATAL : 0\n"), [])
+
+    def test_unavailable_reasons_only_apply_to_unrendered_failures(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "run.log").write_text("UVM_ERROR @ 10 [IRQ] exact log line\nUVM_ERROR : 1\n", encoding="utf-8")
+            rows = [
+                {"id": "rendered", "raw_status": "FAIL", "suite_id": "uart_core", "log_url": "run.log", "waveform_unavailable": "old"},
+                {"id": "fault", "raw_status": "FAIL", "suite_id": "fault_control", "phase": "mutation", "log_url": "run.log"},
+                {"id": "protocol", "raw_status": "FAIL", "suite_id": "apb_protocol", "seed": 2, "log_url": "run.log"},
+                {"id": "pass", "raw_status": "PASS", "suite_id": "uart_core", "log_url": "run.log"},
+            ]
+            dashboard.annotate_failures(root, rows, [{"run_id": "rendered"}])
+            self.assertNotIn("waveform_unavailable", rows[0])
+            self.assertIn("未启用 TRACE", rows[1]["waveform_unavailable"])
+            self.assertIn("未保留", rows[2]["waveform_unavailable"])
+            self.assertNotIn("failure_excerpt", rows[3])
+            self.assertEqual(rows[0]["failure_excerpt"], ["UVM_ERROR @ 10 [IRQ] exact log line"])
+            self.assertEqual([r["raw_status"] for r in rows], ["FAIL", "FAIL", "FAIL", "PASS"])
+
+    def test_verified_supplement_is_decoded_for_exact_run_and_hashed_as_input(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            base = root / "release"
+            folder = base / "recovered-vcd"
+            folder.mkdir(parents=True)
+            (folder / "index.json").write_text("{}", encoding="utf-8")
+            wave = folder / "failed_seed_2.vcd"
+            wave.write_bytes(b"fixture bytes")
+            entry = {"url": "release/recovered-vcd/failed_seed_2.vcd", "sha256": dashboard.digest(wave), "bytes": wave.stat().st_size}
+            row = {"id": "uart_core:upstream:failed:2", "suite_id": "uart_core", "variant": "upstream", "raw_status": "FAIL", "test": "failed", "seed": 2}
+            waves, inputs = [], []
+            with patch.object(dashboard, "recovered_wave_links", return_value={row["id"]: entry}), \
+                    patch.object(dashboard, "waveform", return_value={"run_id": row["id"], "source": {"sha256": entry["sha256"]}}) as decode:
+                dashboard.append_recovered_waveforms(base, root, [row], waves, inputs)
+            self.assertEqual(waves[0]["run_id"], row["id"])
+            self.assertTrue(waves[0]["source"]["recovered"])
+            self.assertEqual(decode.call_args.kwargs["run_id"], row["id"])
+            self.assertEqual({item["path"] for item in inputs}, {"release/recovered-vcd/index.json", entry["url"]})
+            wave.write_bytes(b"tampered")
+            with patch.object(dashboard, "recovered_wave_links", return_value={row["id"]: entry}), \
+                    self.assertRaisesRegex(ValueError, "bytes changed"):
+                dashboard.append_recovered_waveforms(base, root, [row], [], [])
+
+
+class VerificationPlanTests(unittest.TestCase):
+    def rows(self):
+        return [
+            {"id": "core:1", "suite_id": "uart_core", "test": "shared_test", "variant": "fixed", "seed": 1, "raw_status": "PASS"},
+            {"id": "protocol:negative", "suite_id": "apb_protocol", "test": "shared_test", "variant": "agent", "phase": "negative",
+             "seed": 1, "raw_status": "FAIL", "classification": "DETECTED"},
+            {"id": "core:2", "suite_id": "uart_core", "test": "shared_test", "variant": "fixed", "seed": 2, "raw_status": "PASS"},
+            {"id": "core:upstream", "suite_id": "uart_core", "test": "shared_test", "variant": "upstream", "seed": 1, "raw_status": "FAIL"},
+            {"id": "protocol:positive", "suite_id": "apb_protocol", "test": "shared_test", "variant": "agent", "phase": "positive",
+             "seed": 1, "raw_status": "PASS"},
+            {"id": "fault:mutation", "suite_id": "fault_control", "test": "shared_test", "variant": "fixed", "phase": "mutation",
+             "seed": 1, "raw_status": "FAIL", "classification": "DETECTED"},
+        ]
+
+    def plan(self, checks):
+        return {"groups": [{"id": "group", "title": "Authored group", "items": [
+            {"id": "point", "title": "Authored point", "summary": "Intended behavior", "checks": checks}]}]}
+
+    def test_conjunctive_filters_and_point_dedup_keep_suites_and_raw_results_separate(self):
+        rows = self.rows()
+        plan = self.plan([
+            {"suite_id": "uart_core", "tests": ["shared_test", "shared_test"], "variants": ["fixed"]},
+            {"suite_id": "apb_protocol", "tests": ["shared_test"], "phases": ["negative"], "variants": ["agent"]},
+            {"suite_id": "uart_core", "tests": ["shared_test"], "variants": ["fixed"]},
+        ])
+        plan["groups"][0]["items"].append({"id": "other-point", "title": "Cross link", "summary": "Same measured test",
+                                                "checks": [{"suite_id": "uart_core", "tests": ["shared_test"], "variants": ["fixed"]}]})
+        original = copy.deepcopy((plan, rows))
+        result = dashboard.bind_verification_plan(plan, rows)
+        item, other = result["groups"][0]["items"]
+        self.assertEqual(item["checks"][0]["run_ids"], ["core:1", "core:2"])
+        self.assertEqual(item["checks"][1]["run_ids"], ["protocol:negative"])
+        self.assertEqual(item["run_ids"], ["core:1", "protocol:negative", "core:2"])
+        self.assertEqual(other["run_ids"], ["core:1", "core:2"])
+        self.assertEqual(item["binding_status"], "recorded")
+        self.assertEqual(item["title"], "Authored point")
+        self.assertEqual((plan, rows), original)
+        self.assertEqual(rows[1]["raw_status"], "FAIL")
+        self.assertEqual(rows[1]["classification"], "DETECTED")
+        self.assertEqual(result, dashboard.bind_verification_plan(plan, rows))
+
+    def test_missing_unknown_and_empty_filters_remain_partial_or_unrecorded(self):
+        plan = self.plan([
+            {"suite_id": "uart_core", "tests": ["shared_test", "not_archived"], "variants": ["fixed"]},
+            {"suite_id": "unknown_suite", "tests": ["shared_test"]},
+            {"suite_id": "apb_protocol", "tests": ["shared_test"], "phases": ["unknown_phase"]},
+            {"suite_id": "apb_protocol", "tests": ["shared_test"], "phases": ["negative"], "variants": ["fixed"]},
+            {"suite_id": "uart_core", "tests": ["shared_test"], "phases": []},
+            {"suite_id": "uart_core", "tests": ["shared_test"], "variants": []},
+            {"suite_id": "uart_core", "tests": []},
+        ])
+        item = dashboard.bind_verification_plan(plan, self.rows())["groups"][0]["items"][0]
+        self.assertEqual(item["binding_status"], "partial")
+        self.assertEqual(item["checks"][0]["missing_tests"], ["not_archived"])
+        self.assertEqual(item["checks"][0]["binding_status"], "partial")
+        for check in item["checks"][1:]:
+            self.assertEqual(check["run_ids"], [])
+            self.assertEqual(check["binding_status"], "unrecorded")
+        empty = dashboard.bind_verification_plan(self.plan([]), self.rows())["groups"][0]["items"][0]
+        self.assertEqual(empty["run_ids"], [])
+        self.assertEqual(empty["binding_status"], "unrecorded")
+
+    def test_duplicate_ids_and_malformed_selectors_are_rejected(self):
+        plan = self.plan([{"suite_id": "uart_core", "tests": ["shared_test"]}])
+        cases = []
+        duplicate_group = copy.deepcopy(plan)
+        duplicate_group["groups"].append(copy.deepcopy(duplicate_group["groups"][0]))
+        cases.append(duplicate_group)
+        duplicate_item = copy.deepcopy(plan)
+        duplicate_item["groups"].append({"id": "other-group", "title": "Other", "items": copy.deepcopy(plan["groups"][0]["items"])})
+        cases.append(duplicate_item)
+        for name, value in (("tests", "shared_test"), ("phases", "negative"), ("variants", [None]), ("suite_id", "")):
+            malformed = copy.deepcopy(plan)
+            malformed["groups"][0]["items"][0]["checks"][0][name] = value
+            cases.append(malformed)
+        cases.append({"groups": {}})
+        for value in cases:
+            with self.subTest(plan=value), self.assertRaises(ValueError):
+                dashboard.bind_verification_plan(value, self.rows())
+
+    def test_optional_template_mapping_is_added_only_when_present(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            template = root / "template"
+            template.mkdir()
+            for name in ("index.html", "app.js", "styles.css"):
+                (template / name).write_text("", encoding="utf-8")
+            for present in (False, True):
+                if present:
+                    (template / "verification-plan.json").write_text(json.dumps(self.plan([
+                        {"suite_id": "apb_protocol", "tests": ["shared_test"], "phases": ["negative"]}])), encoding="utf-8")
+                rows = self.rows()
+                with patch.object(dashboard, "verify_bundle", return_value=[]), \
+                        patch.object(dashboard, "core_data", return_value=(rows, [], [], [])), \
+                        patch.object(dashboard, "control_data", return_value=[]), \
+                        patch.object(dashboard, "protocol_data", return_value=([], [])):
+                    result = dashboard.build(root, root / "out", template, "unit", "owner/repo")
+                self.assertEqual("verification_plan" in result, present)
+                self.assertEqual(result["runs"], self.rows())
+                self.assertEqual(result["schema_version"], 1)
+                if present:
+                    self.assertEqual(result["verification_plan"]["groups"][0]["items"][0]["run_ids"], ["protocol:negative"])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -7,7 +7,7 @@
   const nav = document.getElementById("workspace-nav");
   const raw = window.UART_DASHBOARD;
   const SVG = "http://www.w3.org/2000/svg";
-  const VIEWS = {overview:"验证总览",regressions:"回归记录",coverage:"覆盖与缺口",waveforms:"波形与总线",architecture:"验证架构",defects:"缺陷对照"};
+  const VIEWS = {overview:"验证总览",plan:"验证计划",regressions:"回归记录",coverage:"覆盖与缺口",waveforms:"波形与总线",architecture:"验证架构",defects:"缺陷对照"};
   const missing = "未记录";
   const list = value => Array.isArray(value) ? value : [];
   const finite = value => typeof value === "number" && Number.isFinite(value);
@@ -71,8 +71,10 @@
     let kind = type || (value === "PASS" ? "pass" : ["FAIL","ERROR","FATAL","TIMEOUT","BUILD_FAIL","INVALID"].includes(value) ? "fail" : "unknown");
     return el("span",{className:`badge badge--${kind}`},text(value));
   }
-  function resultBadges(run) {
-    return el("div",{className:"stack vertical"},badge(run.raw_status),
+  function resultBadges(run, open) {
+    const raw = open ? button(text(run.raw_status), open, {className:"badge badge--fail plan-status-button",
+      "aria-label":`查看 ${text(run.test)} · seed ${text(run.seed)} 的失败证据`}) : badge(run.raw_status);
+    return el("div",{className:"stack vertical"},raw,
       run.classification === "DETECTED" ? badge("DETECTED","detected") :
       run.expected === true && run.raw_status === "FAIL" ? badge("预期失败","expected") :
       run.expected === false && run.raw_status === "FAIL" ? badge("非预期失败","fail") : null);
@@ -116,10 +118,17 @@
   const suites=list(data.suites);
   const coverage=list(data.coverage);
   const waves=list(data.waveforms);
+  const planGroups=list(data.verification_plan?.groups).filter(group=>group&&hasId(group.id)&&list(group.items).length);
+  const planByRun = new Map();
+  for (const group of planGroups) for (const item of list(group.items)) for (const id of list(item?.run_ids)) {
+    if (!planByRun.has(id)) planByRun.set(id,{groupId:group.id,itemId:item.id});
+  }
   const suitesById=new Map(suites.map(suite=>[suite.id,suite]));
   const runsById=new Map(runs.filter(run=>hasId(run.id)).map(run=>[run.id,run]));
   const suiteTitle = id => text(suitesById.get(id)?.title || id);
-  const state={tab:"overview",caseIndex:1,reg:{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,size:25,sort:"recorded"},coverageId:coverage[0]?.id,coverageMode:"source",coverageFile:"",waveId:waves[0]?.id,waveState:new Map(),waveReturn:null};
+  const state={tab:"overview",caseIndex:1,plan:{groupId:"",itemId:"",runId:"",failures:false},
+    reg:{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,size:25,sort:"recorded"},
+    coverageId:coverage[0]?.id,coverageMode:"source",coverageFile:"",waveId:waves[0]?.id,waveState:new Map(),waveReturn:null};
   let cleanupView=()=>{};
 
   function counts(rows) {
@@ -131,16 +140,17 @@
 
   function setView(name, focus=false) {
     if (!VIEWS[name]) name="overview";
+    if (name === "plan" && !planGroups.length) name="regressions";
     if (name !== "waveforms") state.waveReturn = null;
     cleanupView();cleanupView=()=>{};state.tab=name;
     title.textContent=VIEWS[name];
     document.title=`${VIEWS[name]} · ${text(data.project?.title || "APB UART")}`;
     nav.querySelectorAll("button[data-tab]").forEach(node=>{
-      if(node.dataset.tab===name)node.setAttribute("aria-current","page");else node.removeAttribute("aria-current");
+      if(node.dataset.tab===name||(node.dataset.tab==="plan"&&name==="regressions"))node.setAttribute("aria-current","page");else node.removeAttribute("aria-current");
     });
     try { if(location.hash!=="#"+name)history.replaceState(null,"","#"+name); } catch (_) { if(location.hash!=="#"+name)location.hash=name; }
     root.replaceChildren();
-    ({overview:renderOverview,regressions:renderRegressions,coverage:renderCoverage,waveforms:renderWaveforms,architecture:renderArchitecture,defects:renderDefects})[name]();
+    ({overview:renderOverview,plan:renderVerificationPlan,regressions:renderRegressions,coverage:renderCoverage,waveforms:renderWaveforms,architecture:renderArchitecture,defects:renderDefects})[name]();
     if(focus) {
       root.focus({preventScroll:true});
       window.scrollTo(0, 0);
@@ -448,7 +458,148 @@
     }
     return el("div",{},`TX ${number(m.tx)}`,el("span",{className:"row-secondary"},`RX ${number(m.rx)}`));
   }
+
+  function planNavigation() {
+    return el("div", {className:"coverage-modes", role:"group", "aria-label":"计划与回归视图"},
+      [["plan","验证计划"],["regressions","全部运行"]].map(([view,label]) =>
+        button(label, () => setView(view, true), {className:"coverage-mode", "aria-pressed":String(state.tab===view)})));
+  }
+
+  function renderPlanRun(run) {
+    const waveform = waves.find(wave => wave.run_id === run.id);
+    const diagnostics = list(run.failure_excerpt).filter(line => typeof line === "string" && line.trim());
+    const context = [suiteTitle(run.suite_id), variantName(run.variant), `seed ${text(run.seed)}`];
+    if (run.phase) context.push(phaseName(run.phase));
+    if (run.mutation) context.push(run.mutation);
+    return el("section", {className:"plan-run-evidence", "aria-label":"当前运行证据"},
+      el("div", {className:"plan-evidence-header"},
+        el("div", {}, el("h3", {}, el("code", {className:"wrap-anywhere"}, text(run.test))),
+          el("p", {className:"secondary"}, context.join(" · "))),
+        resultBadges(run)),
+      el("div", {className:"row-actions"},
+        run.log_url ? link("原始日志", run.log_url, {target:"_blank", rel:"noopener"}) : null,
+        waveform ? button("查看同次波形", () => showWave(waveform.id), {className:"link-button"}) : null,
+        run.report_url ? link("原始报告", run.report_url, {target:"_blank", rel:"noopener"}) : null),
+      waveform ? null : el("p", {className:"plan-wave-status secondary"}, run.waveform_unavailable || "本次运行未归档波形。"),
+      diagnostics.length ? el("pre", {className:"plan-log-excerpt", tabIndex:0, "aria-label":"原始日志摘录"}, diagnostics.join("\n")) : null);
+  }
+
+  function renderVerificationPlan() {
+    const plan = state.plan;
+    const runsFor = item => [...new Set(list(item?.run_ids))].map(id => runsById.get(id)).filter(Boolean);
+    const itemsOf = group => list(group.items).filter(item => item && hasId(item.id));
+    let group = planGroups.find(candidate => candidate.id === plan.groupId) ||
+      planGroups.find(candidate => itemsOf(candidate).some(item => runsFor(item).some(run => run.raw_status === "FAIL"))) || planGroups[0];
+    const listHost = el("div");
+    const itemHost = el("div", {id:"plan-item-evidence"});
+    const selectGroup = makeSelect(planGroups.map(item => ({value:String(item.id),label:text(item.title)})),
+      String(group.id), id => {
+        group = planGroups.find(candidate => String(candidate.id) === id) || group;
+        Object.assign(plan,{groupId:group.id, itemId:"", runId:"", failures:false});
+        updateItems();
+      }, {"aria-label":"验证范围"});
+    plan.groupId = group.id;
+    root.append(planNavigation(),
+      el("section", {className:"panel plan-points"},
+        el("div", {className:"plan-scope"}, makeField("验证范围", selectGroup),
+          el("span", {className:"secondary"}, "验证项关联用例与已归档运行。")),
+        listHost),
+      itemHost);
+
+    function updateItems() {
+      const items = itemsOf(group);
+      const rowControls = [];
+      const itemRows = items.map(item => {
+        const results = counts(runsFor(item));
+        const tests = new Set(list(item.checks).flatMap(check => list(check?.tests)));
+        const title = button(text(item.title), () => {
+          if (plan.itemId === item.id && !plan.failures) {
+            Object.assign(plan,{itemId:"",runId:""});
+            title.setAttribute("aria-expanded","false");
+            itemHost.replaceChildren();
+          } else open(item, false);
+        }, {
+          className:"link-button plan-point-button", "aria-controls":"plan-item-evidence",
+          "aria-expanded":String(plan.itemId === item.id)
+        });
+        rowControls.push({item, title});
+        const statuses = el("div", {className:"stack plan-statuses"},
+          results.pass ? badge(`PASS ${results.pass}`, "pass") : null,
+          results.fail ? button(`FAIL ${results.fail}`, () => open(item, true), {
+            className:"badge badge--fail plan-status-button",
+            "aria-label":`查看${text(item.title)}的 ${results.fail} 次原始 FAIL`,
+            "aria-controls":"plan-item-evidence"
+          }) : null,
+          results.other ? badge(`其他状态 ${results.other}`, "unknown") : null,
+          results.total ? null : badge("未记录", "unknown"),
+          item.binding_status === "partial" ? el("span", {className:"secondary"}, "部分用例未记录") : null);
+        return el("tr", {}, el("th", {scope:"row"}, title), el("td", {}, `${number(tests.size)} 个用例`), el("td", {}, statuses));
+      });
+      listHost.replaceChildren(table(["验证项", "映射用例", "归档结果"], itemRows, {className:"table-scroll compact plan-point-table"}));
+      function open(item, failures) {
+        if (item.id !== plan.itemId || failures !== plan.failures) plan.runId = "";
+        Object.assign(plan,{itemId:item.id, failures});
+        rowControls.forEach(row => row.title.setAttribute("aria-expanded", String(row.item === item)));
+        updateRuns(item);
+        if (failures) document.getElementById("plan-selected-run")?.scrollIntoView({block:"nearest"});
+      }
+      const selected = items.find(item => item.id === plan.itemId);
+      if (selected) updateRuns(selected);
+      else itemHost.replaceChildren();
+    }
+
+    function updateRuns(item) {
+      const allRuns = runsFor(item);
+      const report = counts(allRuns);
+      const selectedRuns = plan.failures ? allRuns.filter(run=>run.raw_status==="FAIL") : allRuns;
+      const evidence = el("div", {id:"plan-selected-run"});
+      const runButtons = [];
+      const choose = run => {
+        plan.runId = run.id;
+        runButtons.forEach(entry => entry.control.setAttribute("aria-pressed", String(entry.run === run)));
+        evidence.replaceChildren(renderPlanRun(run));
+      };
+      const body = selectedRuns.map(run => {
+        const context = [variantName(run.variant), `seed ${text(run.seed)}`];
+        if (run.mutation) context.push(run.mutation);
+        const control = button(text(run.raw_status), () => {
+          choose(run);
+          evidence.scrollIntoView({block:"nearest"});
+        }, {
+          className:`badge badge--${run.raw_status === "FAIL" ? "fail" : run.raw_status === "PASS" ? "pass" : "unknown"} plan-status-button`,
+          "aria-pressed":"false", "aria-controls":"plan-selected-run",
+          "aria-label":`${text(run.test)} · ${context.join(" · ")} · ${text(run.raw_status)}`
+        });
+        runButtons.push({run, control});
+        return el("tr", {}, el("th", {scope:"row"}, el("code", {className:"wrap-anywhere"}, text(run.test))),
+          el("td", {}, context.join(" · ")),
+          el("td", {}, el("div", {className:"stack plan-statuses"}, control,
+            run.classification === "DETECTED" ? badge("DETECTED","detected") : null)));
+      });
+      const showMode = failures => {
+        plan.failures = failures;
+        updateRuns(item);
+        // Keep keyboard focus on the matching filter within the rebuilt region.
+        itemHost.querySelector(".plan-run-filter[aria-pressed=true]")?.focus({preventScroll:true});
+      };
+      const mode = el("div", {className:"plan-run-modes", role:"group", "aria-label":"当前验证项运行"},
+        button(`全部 ${report.total}`, () => showMode(false), {className:"button small plan-run-filter", "aria-pressed":String(!plan.failures)}),
+        report.fail ? button(`原始 FAIL ${report.fail}`, () => showMode(true),
+          {className:"button small plan-run-filter", "aria-pressed":String(plan.failures)}) : null);
+      const unrecorded = list(item.checks).flatMap(check => list(check?.missing_tests));
+      itemHost.replaceChildren(panel(text(item.title), item.summary || null, mode,
+        unrecorded.length ? el("p", {className:"secondary"}, `未归档用例 · ${unrecorded.join("、")}`) : null,
+        body.length ? table(["UVM 用例", "版本 / seed", "原始状态"], body,
+          {className:"table-scroll compact plan-run-table", tabIndex:0, "aria-label":"归档运行"}) :
+          el("p", {className:"secondary"}, "当前筛选无归档运行。"), evidence));
+      const selected = selectedRuns.find(run => run.id === plan.runId) || (plan.failures ? selectedRuns[0] : null);
+      if (selected) choose(selected);
+    }
+    updateItems();
+  }
+
   function renderRegressions() {
+    if (planGroups.length) root.append(planNavigation());
     intro("通过范围、版本、测试、seed、原始状态及阶段交叉筛选。故障检出是附加分类，原始 FAIL 始终可见。");
     const resultBox=el("div",{});
     const fields=el("div",{className:"filters"});
@@ -476,6 +627,7 @@
       else {
         const body=rows.slice(start,start+state.reg.size).map(run=>{
           const associated=hasId(run.id)?waves.find(wave=>hasId(wave.run_id)&&wave.run_id===run.id):null;
+          const point = run.raw_status === "FAIL" ? planByRun.get(run.id) : null;
           const actions=el("div",{className:"row-actions"},run.log_url?link("原始日志",run.log_url):null,run.report_url?link("原始报告",run.report_url):null,associated?button("查看波形",()=>showWave(associated.id),{className:"link-button"}):null);
           const diagnostics=`${number(run.metrics?.errors)} / ${number(run.metrics?.fatals)}`;
           const duration=finite(run.metrics?.duration_s)?`${number(run.metrics.duration_s)} s`:"用时未记录";
@@ -491,7 +643,11 @@
             el("td",{className:"reg-col-variant","data-label":"版本"},variantName(run.variant)),
             el("td",{className:"reg-col-seed mono","data-label":"Seed"},text(run.seed)),
             el("td",{className:"reg-col-phase","data-label":"阶段"},run.phase?badge(phaseName(run.phase),"phase"):el("span",{className:"secondary"},missing)),
-            el("td",{className:"reg-col-status","data-label":"原始状态 / 分类"},resultBadges(run)),
+            el("td",{className:"reg-col-status","data-label":"原始状态 / 分类"},resultBadges(run, point ? () => {
+              Object.assign(state.plan,point,{runId:run.id,failures:true});
+              setView("plan",true);
+              document.getElementById("plan-selected-run")?.scrollIntoView({block:"nearest"});
+            } : null)),
             el("td",{className:"reg-col-counts","data-label":"日志比对或总线计数"},countersFor(run)),
             el("td",{className:"reg-col-diagnostics nowrap mono","data-label":"ERROR / FATAL"},diagnostics,el("span",{className:"row-secondary"},duration)),
             el("td",{className:"reg-col-evidence","data-label":"证据"},actions,more));
@@ -781,7 +937,7 @@
       issueEvents.some(locatable)?button("下一个异常", () => jumpEvent("issue"), {className:"button small"}):null);
     quickActions.append(jumpControls);
     const origin = state.waveReturn;
-    const returnLabel = {overview:"返回总览", defects:"返回缺陷对照", regressions:"返回筛选结果"}[origin?.view];
+    const returnLabel = {overview:"返回总览", plan:"返回验证计划", defects:"返回缺陷对照", regressions:"返回筛选结果"}[origin?.view];
     if (returnLabel) quickActions.append(button(returnLabel, () => {
       if (origin.filters) Object.assign(state.reg, origin.filters);
       setView(origin.view, true);

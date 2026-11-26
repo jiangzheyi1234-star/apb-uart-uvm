@@ -369,6 +369,53 @@
   color: var(--teal-dark);
   font-weight: 650;
 }
+.plan-points { margin-bottom: 14px; }
+.plan-scope {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px 16px;
+  margin-bottom: 12px;
+  font-size: .875rem;
+}
+.plan-scope .field { width: min(100%, 310px); }
+.plan-scope > span { padding-bottom: 8px; }
+.plan-point-button { text-align: left; }
+.plan-point-button[aria-expanded="true"] { font-weight: 650; }
+.plan-point-table td, .plan-point-table th,
+.plan-run-table td, .plan-run-table th { vertical-align: middle; }
+.plan-point-table tbody tr:has(.plan-point-button[aria-expanded="true"]),
+.plan-run-table tbody tr:has(.plan-status-button[aria-pressed="true"]) { background: var(--teal-pale); }
+.plan-statuses { gap: 4px; }
+.plan-status-button { cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.plan-status-button[aria-pressed="true"] { border-color: currentColor; }
+.plan-run-modes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.plan-run-filter[aria-pressed="true"] { border-color: var(--teal); color: var(--teal-dark); background: var(--teal-pale); }
+.plan-run-table { max-height: 16rem; }
+.plan-run-table thead th { position: sticky; top: 0; }
+.plan-run-evidence { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.plan-evidence-header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; }
+.plan-evidence-header h3 { margin: 0 0 3px; }
+.plan-evidence-header p { margin: 0 0 9px; font-size: .8125rem; }
+.plan-wave-status { margin: 8px 0 0; font-size: .875rem; }
+.plan-log-excerpt {
+  max-height: 12rem;
+  overflow: auto;
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: #f6f9fb;
+  color: var(--ink);
+  font-size: .8125rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 540px) {
+  .plan-point-table td, .plan-point-table th,
+  .plan-run-table td, .plan-run-table th { padding: 7px; }
+  .plan-status-button { min-height: 32px; }
+}
 .coverage-source-panel { margin-bottom: 16px; }
 .coverage-file-list th, .coverage-file-list td { vertical-align: middle; }
 .coverage-file-list tr:has(.coverage-file-button[aria-pressed="true"]) { background: var(--teal-pale); }

@@ -19,6 +19,7 @@ import sys
 
 from build_evidence import read_json, validate_transcript
 from report_coverage import native_summary, parse_records, lcov_summary, lcov_file_details, source_scope
+from recovered_waveforms import recovered_wave_links
 from waveform_data import waveform
 
 
@@ -28,6 +29,7 @@ REQUIREMENTS = {
     "uart_error_association_test", "uart_irq_requirement_test",
 }
 ERROR_IDS = re.compile(r"^\s*(?:#\s*)?UVM_ERROR\b(?!\s*:)[^\r\n]*?\[([^]\r\n]+)\]", re.MULTILINE)
+FAILURE_RECORD = re.compile(r"^\s*(?:#\s*)?UVM_(?:ERROR|FATAL)\b(?!\s*:)")
 
 
 def digest(path: Path) -> str:
@@ -301,6 +303,125 @@ def defects(rows: list[dict], source_url) -> list[dict]:
     return result
 
 
+def bind_verification_plan(plan: dict, rows: list[dict]) -> dict:
+    """Bind authored points to exact archived IDs, without judging run results."""
+    require(isinstance(plan, dict) and isinstance(plan.get("groups"), list), "Verification plan groups must be a list")
+    suites = {}
+    for row in rows:
+        suites.setdefault(row.get("suite_id"), []).append(row)
+
+    def string(value, field):
+        require(isinstance(value, str) and bool(value.strip()), f"Verification plan {field} must be a nonempty string")
+        return value
+
+    def strings(value, field):
+        require(isinstance(value, list), f"Verification plan {field} must be a list")
+        return list(dict.fromkeys(string(item, field) for item in value))
+
+    groups, group_ids, item_ids = [], set(), set()
+    for group in plan["groups"]:
+        require(isinstance(group, dict), "Verification plan groups must be objects")
+        group_id = string(group.get("id"), "group id")
+        require(group_id not in group_ids, f"Duplicate verification plan group id: {group_id}")
+        group_ids.add(group_id)
+        require(isinstance(group.get("items"), list), "Verification plan items must be a list")
+        items = []
+        for item in group["items"]:
+            require(isinstance(item, dict), "Verification plan items must be objects")
+            item_id = string(item.get("id"), "item id")
+            require(item_id not in item_ids, f"Duplicate verification plan item id: {item_id}")
+            item_ids.add(item_id)
+            require(isinstance(item.get("checks"), list), "Verification plan checks must be a list")
+            checks, selected = [], set()
+            for check in item["checks"]:
+                require(isinstance(check, dict), "Verification plan checks must be objects")
+                suite = string(check.get("suite_id"), "suite_id")
+                tests = strings(check.get("tests"), "tests")
+                bound = {"suite_id": suite, "tests": tests}
+                for name in ("phases", "variants"):
+                    if name in check:
+                        bound[name] = strings(check[name], name)
+                matches = [row for row in suites.get(suite, []) if row.get("test") in tests
+                           and ("phases" not in bound or row.get("phase") in bound["phases"])
+                           and ("variants" not in bound or row.get("variant") in bound["variants"])]
+                run_ids = list(dict.fromkeys(row["id"] for row in matches))
+                found = {row.get("test") for row in matches}
+                missing_tests = [test for test in tests if test not in found]
+                bound.update(run_ids=run_ids, missing_tests=missing_tests,
+                             binding_status="unrecorded" if not run_ids else "partial" if missing_tests else "recorded")
+                selected.update(run_ids)
+                checks.append(bound)
+            run_ids = list(dict.fromkeys(row["id"] for row in rows if row["id"] in selected))
+            items.append({"id": item_id, "title": string(item.get("title"), "item title"),
+                          "summary": string(item.get("summary"), "item summary"), "checks": checks, "run_ids": run_ids,
+                          "binding_status": "unrecorded" if not run_ids else
+                          "recorded" if all(check["binding_status"] == "recorded" for check in checks) else "partial"})
+        groups.append({"id": group_id, "title": string(group.get("title"), "group title"), "items": items})
+    return {"groups": groups}
+
+
+def failure_excerpt(text: str) -> list[str]:
+    """Keep the first three actual severity records, not report-summary counts."""
+    result = []
+    for line in text.splitlines():
+        if FAILURE_RECORD.match(line):
+            result.append(line if len(line) <= 500 else line[:499] + "…")
+            if len(result) == 3:
+                break
+    return result
+
+
+def append_recovered_waveforms(base: Path, root: Path, rows: list[dict], waves: list[dict], inputs: list[dict]) -> None:
+    """Append only independently verified bytes from the original failed run."""
+    links = recovered_wave_links(base, root)
+    if not links:
+        return
+    by_id = {row["id"]: row for row in rows}
+    rendered = {wave["run_id"] for wave in waves}
+
+    def add_input(path: Path, expected: dict | None = None):
+        measured = {"path": href(path, root), "sha256": digest(path), "bytes": path.stat().st_size}
+        if expected is not None:
+            require(all(measured[key] == expected[key] for key in ("sha256", "bytes")), "Recovered VCD bytes changed")
+        existing = next((entry for entry in inputs if entry["path"] == measured["path"]), None)
+        require(existing is None or existing == measured, "Recovered input conflicts with an archived input")
+        if existing is None:
+            inputs.append(measured)
+
+    add_input(inside(base, "recovered-vcd/index.json"))
+    for run_id, entry in links.items():
+        row = by_id.get(run_id)
+        require(row is not None and row["suite_id"] == "uart_core" and row["variant"] == "upstream"
+                and row["raw_status"] == "FAIL" and run_id not in rendered, "Recovered VCD does not name one unrendered original failure")
+        path = inside(root, entry["url"])
+        add_input(path, entry)
+        decoded = waveform(path, id=run_id, title=f"upstream / {row['test']} / seed {row['seed']}", run_id=run_id, url=href(path, root))
+        require(decoded["source"]["sha256"] == entry["sha256"], "Recovered VCD changed during decoding")
+        decoded["source"]["recovered"] = True
+        waves.append(decoded)
+        rendered.add(run_id)
+
+
+def annotate_failures(root: Path, rows: list[dict], waves: list[dict]) -> None:
+    rendered = {wave["run_id"] for wave in waves}
+    for row in rows:
+        if row["raw_status"] != "FAIL" or not row.get("log_url"):
+            continue
+        excerpts = failure_excerpt(inside(root, row["log_url"]).read_text(encoding="utf-8"))
+        if excerpts:
+            row["failure_excerpt"] = excerpts
+        if row["id"] in rendered:
+            row.pop("waveform_unavailable", None)
+            continue
+        if row["suite_id"] == "fault_control" and row.get("phase") == "mutation":
+            reason = "该次故障注入未启用 TRACE，原始运行没有生成 VCD。"
+        elif row["suite_id"] == "apb_protocol" and row.get("seed") in (2, 3):
+            reason = "该次 APB seed 2/3 的原始 VCD 未保留在证据包中；已归档的是 seed 1 波形。"
+        else:
+            reason = "当前证据包没有该次运行可解码的原始 VCD，仍可核对同次日志。"
+        row["waveform_unavailable"] = reason
+
+
 def build(root: Path, output: Path, template: Path, version: str, repository: str, commit: str | None = None) -> dict:
     root, output = root.resolve(), output.resolve()
     ref = commit or "main"
@@ -317,6 +438,8 @@ def build(root: Path, output: Path, template: Path, version: str, repository: st
     rows.extend(protocol)
     waves.extend(protocol_waves)
     require(len({r["id"] for r in rows}) == len(rows), "Duplicate dashboard row identity")
+    append_recovered_waveforms(root / "release", root, rows, waves, inputs)
+    annotate_failures(root, rows, waves)
     source_url = lambda path: f"https://github.com/{repository}/blob/{ref}/{path}"
     for record in coverage:
         for file in record.get("code_files", []):
@@ -342,6 +465,10 @@ def build(root: Path, output: Path, template: Path, version: str, repository: st
             "limitations": ["Verilator 动态结果不能代替四态 / X 传播签核。", "UART DUT 的 PREADY 恒为 1；等待状态、超时和取消在独立 APB 测试从设备中验证。",
                             "协议资格验证覆盖选定的 0/1/3/7 等待、复位和超时场景，不宣称穷举所有仲裁与时序组合。",
                             "不包含完整 16550 兼容、任意波特率失配、传输中配置热切换、活跃 TX 清 FIFO或持续 RX 超载。"]}
+    plan_path = template / "verification-plan.json"
+    if plan_path.exists():
+        require(plan_path.is_file(), "Verification plan mapping must be a file")
+        data["verification_plan"] = bind_verification_plan(read_json(plan_path), rows)
     output.mkdir(parents=True, exist_ok=True)
     (output / "assets").mkdir(exist_ok=True)
     (output / "data").mkdir(exist_ok=True)

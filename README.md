@@ -98,6 +98,8 @@ python3 py/validate_acceptance.py --fixed results/core/report.json \
 
 ## 交互工作台
 
+按验证范围选择验证项，可核对映射的 UVM 用例、归档运行和原始状态。点击 FAIL 可查看日志摘录与原始日志，并打开已归档的同次波形。[计划与回归](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#plan)
+
 正式报告首页使用 [验证工作台](https://jiangzheyi1234-star.github.io/apb-uart-uvm/)，集中展示 UART 核心、RAL、检查器对照和独立 APB 协议结果，分别保留各自分母及原始状态。波形来自归档 VCD，支持游标、缩放、平移和 APB 事件定位；读数据按时钟上升沿前的信号值解码，避免把沿后更新误作已采样响应。波形诊断不代替 UVM 检查器结果。
 
 原始静态报告继续保留在 [UART 回归](docs/release/index.html)、[RAL 与检查器](docs/features/index.html)、[APB 协议](docs/protocol/index.html)。工作台的生成、数据校验和离线使用见 [工作台文档](docs/dashboard.md)。
