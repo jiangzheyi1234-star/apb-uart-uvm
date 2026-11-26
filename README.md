@@ -118,7 +118,7 @@ python3 py/validate_acceptance.py --fixed results/core/report.json \
 python py/workbench.py build --junit results/junit.xml --title "My IP" --out results/junit-workbench
 ```
 
-打开 `results/junit-workbench/index.html`。要关联验证计划、每次运行的日志和 VCD，使用清单模式。以下两条命令可先体验带演示标记的计数器数据。
+打开 `results/junit-workbench/index.html`。JUnit 已声明附件时，加入 `--attachments-root` 可把日志和原始 VCD 带入工作台。使用清单模式可进一步关联验证计划、seed 和交互波形。以下两条命令可体验带演示标记的计数器数据。
 
 ```text
 python py/workbench.py init --out results/review-input

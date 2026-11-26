@@ -85,6 +85,67 @@ class PortableWorkbenchTests(unittest.TestCase):
         self.assertEqual(len(data["inputs"]), 1)
         self.assertEqual((self.site / "evidence/project report.xml").read_bytes(), report.read_bytes())
 
+    def test_junit_attachments_bind_each_run_and_archive_shared_files_once(self):
+        evidence_root = self.root / "collection"
+        storage = evidence_root / "runs"
+        storage.mkdir(parents=True)
+        artifacts = {"阶段 #2.log": b"Handshake timed out\n", "seed 2.vcd": b"raw trace\n", "details.json": b"{}\n"}
+        for name, content in artifacts.items():
+            (storage / name).write_bytes(content)
+        report = self.root / "test-results.xml"
+        report.write_text(
+            '<testsuite name="bridge">'
+            '<system-out>[[ATTACHMENT|absent-suite-level.log]]</system-out>'
+            '<testcase name="request"><failure message="Handshake timed out"/><system-out>\n'
+            '[[ATTACHMENT|runs/阶段 #2.log]]\n[[ATTACHMENT|runs\\阶段 #2.log]]\n'
+            '[[ATTACHMENT|runs/seed 2.vcd]]\n[[ATTACHMENT|runs/details.json]]\n'
+            '</system-out></testcase>'
+            '<testcase name="ack"><system-out>[[ATTACHMENT|runs/阶段 #2.log]]</system-out></testcase>'
+            '<testcase name="reset"/>'
+            '</testsuite>', encoding="utf-8")
+        self.run_cli("build", "--junit", report, "--attachments-root", evidence_root, "--out", self.site)
+        data = json.loads((self.site / "data/dashboard.json").read_bytes())
+        failed, other, unrelated = data["runs"]
+        self.assertEqual([run["raw_status"] for run in data["runs"]], ["FAIL", "PASS", "PASS"])
+        self.assertEqual([item["name"] for item in failed["artifacts"]], [f"runs/{name}" for name in artifacts])
+        self.assertEqual(other["artifacts"], failed["artifacts"][:1])
+        self.assertFalse(unrelated.get("artifacts"))
+        self.assertEqual(failed["log_url"], "evidence/attachments/runs/%E9%98%B6%E6%AE%B5%20%232.log")
+        self.assertEqual(failed["vcd_url"], "evidence/attachments/runs/seed%202.vcd")
+        self.assertEqual(failed["report_url"], "evidence/test-results.xml")
+        self.assertEqual((self.site / failed["report_url"]).read_bytes(), report.read_bytes())
+        self.assertEqual(len(data["inputs"]), 4)
+        self.assertEqual(data["waveforms"], [])
+        for item in failed["artifacts"]:
+            archive = (self.site / item["path"]).read_bytes()
+            self.assertEqual(archive, artifacts[Path(item["name"]).name])
+            input_entry = next(entry for entry in data["inputs"] if entry["path"] == item["path"])
+            self.assertEqual(input_entry["sha256"], hashlib.sha256(archive).hexdigest())
+
+    def test_junit_attachments_are_opt_in_and_reject_unavailable_paths_atomically(self):
+        evidence_root = self.root / "collection"
+        evidence_root.mkdir()
+        (self.root / "outside.log").write_text("Outside the collection", encoding="utf-8")
+        (evidence_root / "valid.log").write_text("Would be copied first", encoding="utf-8")
+        (evidence_root / "folder").mkdir()
+        report = self.root / "test-results.xml"
+        for reference in ("../outside.log", "missing.log", "folder", "/outside.log", "https://example.com/remote.log", ""):
+            with self.subTest(reference=reference):
+                report.write_text(
+                    '<testsuite name="bridge"><testcase name="read"><failure/>'
+                    '<system-out>[[ATTACHMENT|valid.log]]\n'
+                    f'[[ATTACHMENT|{reference}]]</system-out></testcase></testsuite>', encoding="utf-8")
+                self.run_cli("build", "--junit", report, "--attachments-root", evidence_root,
+                             "--out", self.site, expected=1)
+                self.assertFalse(self.site.exists())
+
+        self.run_cli("build", "--junit", report, "--out", self.site)
+        data = json.loads((self.site / "data/dashboard.json").read_bytes())
+        self.assertEqual(data["runs"][0]["raw_status"], "FAIL")
+        self.assertFalse(data["runs"][0].get("artifacts"))
+        self.assertEqual(len(data["inputs"]), 1)
+        self.assertFalse((self.site / "evidence/attachments").exists())
+
     def test_invalid_artifact_selection_leaves_no_partial_site(self):
         path, manifest = self.make_demo()
         bad = manifest["runs"][1]

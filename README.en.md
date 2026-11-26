@@ -112,7 +112,7 @@ Run at the repository root with Python 3.10 or later. If your project already pr
 python py/workbench.py build --junit results/junit.xml --title "My IP" --out results/junit-workbench
 ```
 
-Open `results/junit-workbench/index.html`. Use a manifest to attach a verification plan, per-run logs and VCD traces. Try it with a labeled counter demo first.
+Open `results/junit-workbench/index.html`. Add `--attachments-root` to import log files and raw VCDs already declared in the JUnit report. Use a manifest for verification plans, seeds and interactive waveform previews. Try it with a labeled counter demo first.
 
 ```text
 python py/workbench.py init --out results/review-input

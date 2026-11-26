@@ -136,6 +136,7 @@
   const suiteTitle = id => text(suitesById.get(id)?.title || id);
   const state={tab:"overview",caseIndex:1,plan:{groupId:"",itemId:"",runId:"",failures:false},
     reg:{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,size:25,sort:"recorded"},
+    failureBuckets:{open:false,opened:new Set(),runIds:new Map()},
     coverageId:coverage[0]?.id,coverageMode:"source",coverageFile:"",waveId:waves[0]?.id,waveState:new Map(),waveReturn:null,
     timingPathsOpen:new Set()};
   let cleanupView=()=>{};
@@ -197,6 +198,10 @@
   function showRuns(filters) {
     Object.assign(state.reg,{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1},filters);
     setView("regressions",true);
+  }
+  function showFailures() {
+    state.failureBuckets.open = true;
+    showRuns({status:"FAIL"});
   }
   function showRun(run) {
     if(!hasId(run.id))return;
@@ -433,7 +438,7 @@
       return run?.suite_id === "apb_protocol" && run.phase === "negative" && run.raw_status === "FAIL";
     });
     const debugEntries = [
-      failures ? button(`原始 FAIL · ${number(failures)} 次`, () => showRuns({status: "FAIL"}), {className:"link-button"}) : null,
+      failures ? button(`原始 FAIL · ${number(failures)} 次`, showFailures, {className:"link-button"}) : null,
       timeoutWave ? button("APB 超时波形", () => showWave(timeoutWave.id), {className:"link-button"}) : null,
       core ? button("覆盖缺口", () => {
         state.coverageId = core.id;
@@ -478,7 +483,7 @@
       metric(summary.total, "归档运行"), metric(summary.pass, "PASS"), metric(summary.fail, "原始 FAIL"),
       summary.other ? metric(summary.other, "其他状态") : null));
     if (summary.fail) root.append(el("nav", {className:"overview-actions", "aria-label":"调试入口"},
-      button(`查看原始 FAIL · ${number(summary.fail)} 次`, () => showRuns({status:"FAIL"}), {className:"link-button"})));
+      button(`查看原始 FAIL · ${number(summary.fail)} 次`, showFailures, {className:"link-button"})));
 
     const rows = suites.map(suite => {
       const suiteRuns = runs.filter(run => run.suite_id === suite.id);
@@ -656,17 +661,99 @@
   }
 
   function portableEvidenceLinks(run, waveform) {
+    const used = new Set([run.log_url, run.report_url, run.vcd_url]);
+    const additional = [];
+    for (const item of list(run.artifacts)) {
+      if (!safeHref(item?.url) || used.has(item.url)) continue;
+      used.add(item.url);
+      additional.push(link(text(item.name || item.path), item.url, {className:"wrap-anywhere"}));
+    }
     return [
       run.log_url ? link("原始日志", run.log_url, {target:"_blank", rel:"noopener"}) : null,
       run.report_url ? link("原始报告", run.report_url, {target:"_blank", rel:"noopener"}) : null,
       waveform ? button("查看同次波形", () => showWave(waveform.id), {className:"link-button"}) : null,
-      run.vcd_url ? link("打开原始 VCD", run.vcd_url) : null
+      run.vcd_url ? link("打开原始 VCD", run.vcd_url) : null,
+      ...(additional.length > 2 ? [el("details", {className:"run-attachments"},
+        el("summary", {}, `其他附件 · ${number(additional.length)}`), el("div", {className:"evidence-links"}, additional))] : additional)
     ].filter(Boolean);
   }
 
   function runDiagnostics(run) {
     return [...list(run.failure_excerpt), ...list(run.diagnostic_excerpt)]
       .filter(line => typeof line === "string" && line.trim());
+  }
+
+  function firstFailureSignature(run) {
+    const recorded = list(run.failure_excerpt).find(line => typeof line === "string" && line.trim());
+    if (!recorded) return null;
+    const diagnostic = recorded.trim();
+    // An observed UVM timestamp can vary across seeds, even for the same check.
+    const uvm = /^(?:#\s*)?(UVM_(?:ERROR|FATAL))\s+(?:(.*?)\s+)?@\s+\d+(?:\.\d+)?(?:\s*[a-z]+)?\s*:\s*(?:.*?\s+)?\[([^\]]+)\]\s*(.*)$/i.exec(diagnostic);
+    const [severity, source, identifier, message] = uvm ? uvm.slice(1) : [null, null, null, diagnostic];
+    const signature = identifier ? `[${identifier}] ${message}`.trim() : message;
+    const key = JSON.stringify([run.suite_id, run.variant, run.phase, run.raw_status,
+      run.classification, run.expected, severity, source, identifier, message]);
+    return {key, signature, source: source?.split(/[\\/]/).at(-1), severity};
+  }
+
+  function renderFailureBuckets(rows) {
+    const failures = rows.filter(run => failureStatuses.includes(run.raw_status));
+    if (!failures.length) return null;
+    const buckets = new Map();
+    for (const run of failures) {
+      const diagnostic = firstFailureSignature(run);
+      const key = diagnostic?.key ?? null;
+      if (!buckets.has(key)) buckets.set(key, {diagnostic, runs:[]});
+      buckets.get(key).runs.push(run);
+    }
+    const unknownCount = buckets.get(null)?.runs.length || 0;
+    const groupCount = buckets.size - Number(unknownCount > 0);
+    const sorted = [...buckets.values()].sort((a, b) => Number(!a.diagnostic) - Number(!b.diagnostic) || b.runs.length - a.runs.length);
+    const groupState = state.failureBuckets;
+    const details = el("details", {className:"failure-buckets panel",open:groupState.open,
+      onToggle:event=>{if (event.currentTarget.isConnected) groupState.open=event.currentTarget.open;}},
+      el("summary", {className:"failure-buckets-heading"}, "失败归组", el("span", {className:"failure-bucket-count"},
+        `${number(groupCount)} 组 · ${number(failures.length)} 次${unknownCount ? ` · ${number(unknownCount)} 次无摘要` : ""}`)),
+      el("p", {className:"secondary failure-buckets-note"}, "在同一套件、版本、阶段及结果分类内，按首条记载诊断归组。"));
+    for (const [index, bucket] of sorted.entries()) {
+      const {diagnostic, runs: members} = bucket;
+      const key = diagnostic?.key ?? null;
+      const first = members[0];
+      const context = diagnostic ? [suiteTitle(first.suite_id),
+        first.variant ? variantName(first.variant) : null, first.phase ? phaseName(first.phase) : null,
+        first.raw_status, first.classification, diagnostic.severity, diagnostic.source].filter(Boolean) : [];
+      const evidence = el("div", {className:"failure-bucket-evidence", id:`failure-bucket-${index+1}-evidence`});
+      const selectors = new Map();
+      const choose = run => {
+        groupState.runIds.set(key, run.id);
+        for (const [id, control] of selectors) control.setAttribute("aria-pressed", String(id === run.id));
+        evidence.replaceChildren(el("code", {className:"failure-bucket-run-id wrap-anywhere"},text(run.id)), renderPlanRun(run));
+      };
+      const memberList = el("ul", {className:"failure-bucket-run-list"}, members.map(run => {
+        const caption = [suiteTitle(run.suite_id), run.variant ? variantName(run.variant) : null,
+          `seed ${text(run.seed)}`, run.phase ? phaseName(run.phase) : null].filter(Boolean).join(" · ");
+        const control = button(text(run.test), ()=>{
+          groupState.open = true;
+          groupState.opened.add(key);
+          choose(run);
+        }, {className:"link-button failure-bucket-run-select",
+          "aria-label":`${text(run.test)} · ${caption} · ${text(run.raw_status)}`,
+          "aria-controls":evidence.id,"aria-pressed":"false"});
+        selectors.set(run.id, control);
+        return el("li", {className:"failure-bucket-run","data-run-id":String(run.id)},
+          el("div",{},control,el("div",{className:"secondary failure-bucket-run-context"},caption)),resultBadges(run));
+      }));
+      const selected = members.find(run => run.id === groupState.runIds.get(key));
+      if (selected) choose(selected);
+      details.append(el("details", {className:"failure-bucket",open:groupState.opened.has(key),onToggle:event=>{
+        if (!event.currentTarget.isConnected) return;
+        if (event.currentTarget.open) groupState.opened.add(key);else groupState.opened.delete(key);
+      }}, el("summary",{className:"failure-bucket-summary"},
+        el("span",{className:"failure-bucket-signature wrap-anywhere"},diagnostic?.signature || "未记录失败摘要",
+          context.length ? el("span", {className:"secondary failure-bucket-context"},context.join(" · ")) : null),
+        el("span",{className:"failure-bucket-count"},`${number(members.length)} 次`)), memberList,evidence));
+    }
+    return details;
   }
 
   function renderPlanRun(run) {
@@ -894,7 +981,8 @@
         resultPanel.append(el("div",{className:"pagination"},el("span",{},`第 ${start+1}–${Math.min(start+state.reg.size,rows.length)} 条，共 ${rows.length} 条`),el("div",{className:"button-group"},button("上一页",()=>{state.reg.page--;updateResults();},{disabled:state.reg.page<=1,className:"button small"}),el("span",{},`${state.reg.page} / ${pages}`),button("下一页",()=>{state.reg.page++;updateResults();},{disabled:state.reg.page>=pages,className:"button small"}))));
       }
       if (!portable) resultPanel.append(el("p",{className:"table-note"},"TX/RX 为日志中的比对计数。成功帧汇总仅包含明确 UART 范围中的原始 PASS；APB completed、读写与等待周期单独呈现。未提供的计数显示“未记录”。"));
-      resultBox.replaceChildren(resultPanel);
+      const buckets = renderFailureBuckets(rows);
+      resultBox.replaceChildren(...(buckets ? [buckets,resultPanel] : [resultPanel]));
     }
     updateResults();
   }
@@ -1158,6 +1246,9 @@
     const signalCount=el("span",{className:"wave-signal-count"});
     const signalPanel=el("section",{className:"signal-panel wave-signal-picker"},el("h3",{},"显示信号",signalCount));
     const signalList=el("div",{className:"signal-list"});
+    const signalSearch=orderedSignals.length > 6 ? el("input",{type:"search",value:ws.signalQuery || "",
+      placeholder:"名称或层级",onInput:event=>{ws.signalQuery=event.target.value;refreshSignals();}}) : null;
+    const signalMatchesCount=el("span",{className:"wave-signal-matches",role:"status"});
     const svg=svgEl("svg",{class:"wave-chart",tabindex:"0",role:"group","aria-label":`${generic?"VCD 信号波形":scan?"真实扫描波形":"真实波形与 APB 事务轨"}：左右键移动游标，加减键缩放，Shift 加左右键平移，Home 查看全程`});
     const chartFrame=el("div",{className:"wave-chart-frame"},svg);
     const values=el("div",{className:"cursor-values"});
@@ -1203,8 +1294,24 @@
       el("div",{className:"toolbar wave-event-tools"},makeField("事件类型",eventKind),makeField("搜索事件",eventSearch),el("label",{className:"check-field"},inView,"仅当前窗口")),
       el("p",{className:"inline-note"},"点击事件时间定位到对应采样窗口。快捷定位扫描整份波形，并清除事件搜索条件。异常记录包括非 OK 状态或 PSLVERR；复位中止、未完成及未知记录需结合日志判断。"),eventResults)));
     eventSearch.addEventListener("input",()=>{ws.eventQuery=eventSearch.value;ws.eventPage=1;renderEvents();});
-    signalPanel.append(el("div",{className:"button-group"},button("全选",()=>{ws.selected=new Set(wave.signals.map(signal=>signal.id));refreshSignals();scheduleDraw(true);},{className:"button small"}),button("清空",()=>{ws.selected.clear();refreshSignals();scheduleDraw(true);},{className:"button small"})),signalList,values);
-    function refreshSignals(){signalCount.textContent=`${ws.selected.size} / ${wave.signals.length}`;signalList.replaceChildren(...orderedSignals.map(signal=>el("label",{className:"signal-check"},el("input",{type:"checkbox",checked:ws.selected.has(signal.id),onChange:event=>{if(event.target.checked)ws.selected.add(signal.id);else ws.selected.delete(signal.id);signalCount.textContent=`${ws.selected.size} / ${wave.signals.length}`;scheduleDraw(true);}}),el("span",{},text(signal.label||signal.id),finite(signal.width)?el("small",{},`[${signal.width}]`):null))));}
+    const signalActions=el("div",{className:"button-group"},
+      button("全选",()=>{ws.selected=new Set(wave.signals.map(signal=>signal.id));refreshSignals();scheduleDraw(true);},{className:"button small"}),
+      button("清空",()=>{ws.selected.clear();refreshSignals();scheduleDraw(true);},{className:"button small"}));
+    if (signalSearch) signalPanel.append(el("div",{className:"wave-signal-toolbar"},
+      el("div",{},makeField("查找信号",signalSearch),signalMatchesCount),signalActions));
+    else signalPanel.append(signalActions);
+    signalPanel.append(signalList,values);
+    function refreshSignals(){
+      signalCount.textContent=`${ws.selected.size} / ${wave.signals.length}`;
+      const query=(ws.signalQuery || "").trim().toLowerCase();
+      const visible=query ? orderedSignals.filter(signal=>[signal.label,signal.id].some(name=>String(name ?? "").toLowerCase().includes(query))) : orderedSignals;
+      signalMatchesCount.textContent=query ? `${visible.length} 个匹配` : "";
+      signalList.replaceChildren(...visible.map(signal=>el("label",{className:"signal-check"},
+        el("input",{type:"checkbox",checked:ws.selected.has(signal.id),onChange:event=>{
+          if(event.target.checked)ws.selected.add(signal.id);else ws.selected.delete(signal.id);
+          signalCount.textContent=`${ws.selected.size} / ${wave.signals.length}`;scheduleDraw(true);
+        }}),el("span",{},text(signal.label||signal.id),finite(signal.width)?el("small",{},`[${signal.width}]`):null))));
+    }
     refreshSignals();
     let frame=null,pendingEvents=false,drag=null;
     function scheduleDraw(events=false){pendingEvents=pendingEvents||events;if(frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;draw();if(pendingEvents){pendingEvents=false;if(!generic)renderEvents();}});}

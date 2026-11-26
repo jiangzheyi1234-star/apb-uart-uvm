@@ -28,6 +28,8 @@ QoR 对照采用基线与候选并排的读法，参考 OpenROAD 的差值表。
 
 当前 **19 条原始 FAIL** 分别为 12 条上游严格需求失败、4 条指定检查器故障和 3 条 APB 超时负向记录；后两类另有审计 `DETECTED`。这些指定用例在 CI 中保留红色 FAIL，由审计检查预期错误及运行完整性，不能把记录数当作独立 DUT 缺陷数或改写为普通 PASS。
 
+「全部运行」中的失败分组随当前筛选更新。每组按归档首错、测试范围和运行配置归类，UVM 首错保留严重性、检查器位置和报错内容。展开组后选择具体运行，可核对该次原始状态、seed、日志、原始 VCD 或 TRACE 复现波形。缺少诊断的运行单列。分组数量表示观察到的诊断类型，根因仍需核对对应检查器和原始证据。[失败分组参考](https://reports.opentitan.org/hw/ip/uart/dv/latest/report.html) · [在线回归记录](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#regressions)
+
 19 条原始 FAIL 中，**13 条具备经校验的同次原始 VCD**：12 条上游严格需求和 APB 超时 seed 1。其中 11 份 UART 波形由保留副本补回，逐份匹配原 CI 清单已记录的 SHA-256 和字节数，来源见 [补充清单](release/recovered-vcd/index.json) 与 [恢复说明](release/recovered-vcd/README.md)。其余 6 条显示缺失原因：4 条检查器故障运行未启用 TRACE，APB 超时 seeds 2/3 的 VCD 未保留。原封存输入清单、摘要、报告和运行结果保持原样；补回文件不产生新仿真。
 
 验证项与实际测试的映射方式参考 [OpenTitan Testplanner](https://opentitan.org/book/util/dvsim/doc/testplanner.html)。本项目的映射范围见 [验证计划](verification_plan.md#计划与归档运行映射)。
@@ -78,7 +80,15 @@ python3 py/run_linux_regression.py --suite apb_protocol \
 python py/workbench.py build --junit results/junit.xml --title "My IP" --out results/junit-workbench
 ```
 
-工作台按 `testcase` 记录导入 `PASS`、`FAIL`、`ERROR`、`SKIP`，并附上原始 XML。省略 `--title` 时使用不含扩展名的报告名，seed 显示为未记录。需要验证计划、单次日志和 VCD 时，用下方的清单模式补充关联。
+工作台按 `testcase` 记录导入 `PASS`、`FAIL`、`ERROR`、`SKIP`，并附上原始 XML。省略 `--title` 时使用不含扩展名的报告名，seed 显示为未记录。
+
+如果报告的 `testcase` 中已有 `<system-out>[[ATTACHMENT|runs/fifo_42/wave.vcd]]</system-out>` 之类的附件标记，指定产物目录即可归档对应附件并在该次运行下打开。
+
+```text
+python py/workbench.py build --junit results/junit.xml --attachments-root results --title "My IP" --out results/junit-with-evidence
+```
+
+标记使用相对于 `--attachments-root` 的文件路径，以 `/` 分隔。示例中的文件位于 `results/runs/fifo_42/wave.vcd`。工作台只在提供 `--attachments-root` 时读取附件，并对复制的文件记录 SHA-256。JUnit 附件中的 VCD 提供原始文件入口。要关联验证计划、seed 或在网页预览指定信号，使用清单模式。[cocotb 附件示例](https://docs.cocotb.org/en/stable/junit.html#adding-attachments) · [GitLab 附件写法](https://docs.gitlab.com/ci/testing/unit_test_reports/#add-screenshots-to-test-reports)
 
 ### 清单模式演示
 
@@ -189,6 +199,7 @@ APB 解码在上升沿使用严格早于该时间戳的信号值，即 **pre-edg
 - 滚轮或 `+/-` 缩放，拖动背景平移；`Home` 恢复完整记录范围。
 - 单击设置游标、拖动红色手柄移动游标，或直接输入时间；左右键移动，`Shift+左右` 平移窗口。
 - 在波形的 APB 事务轨选择一笔访问，核对地址、数据和等待周期。事务区间与时间游标分别标记，信号标签下显示游标值。展开图下的“信号、缩放与运行证据”，可调整视图、选择信号、查阅日志和原始 VCD。
+- 信号较多时，可以按名称或层级查找信号。搜索仅筛选选择列表，已选信号继续显示在波形中。
 - 从总览直达原始 FAIL、APB 超时波形和核心覆盖缺口。波形上方可跳到下一个等待或异常事件，事件表可按类型筛选。
 - 从波形打开同次运行的日志和报告，或定位到回归表中的唯一一行。“返回总览”、“返回验证计划”和“返回缺陷对照”恢复原案例或选中运行；“返回筛选结果”保留原筛选、排序和页码。
 - 窄屏回归列表优先显示测试、seed、原始状态和证据链接，次要计数可从每行的更多运行信息展开。

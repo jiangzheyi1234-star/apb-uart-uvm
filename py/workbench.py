@@ -8,6 +8,7 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 import json
 from pathlib import Path
+import re
 import shutil
 import sys
 from tempfile import TemporaryDirectory
@@ -23,6 +24,7 @@ from waveform_data import read_interface_vcd
 RUN_STATUSES = {"PASS", "FAIL", "ERROR", "SKIP", "TIMEOUT", "DRY_RUN"}
 ARTIFACT_FIELDS = {"log": "log_url", "report": "report_url", "vcd": "vcd_url"}
 JUNIT_RESULTS = {"failure": "FAIL", "error": "ERROR", "skipped": "SKIP"}
+JUNIT_ATTACHMENT = re.compile(r"\[\[ATTACHMENT\|([^\r\n]*?)\]\]")
 
 
 def string(value, field: str) -> str:
@@ -49,10 +51,10 @@ def new_directory(output: Path):
         staging.rename(output)
 
 
-def artifact_path(base: Path, name: str) -> Path:
+def artifact_path(base: Path, name: str, *, location: str = "manifest directory") -> Path:
     parts = name.split("/")
-    require(not any(part in ("", ".", "..") for part in parts) and not any(c in name for c in "\\:\x00"),
-            f"Artifact must be relative to the manifest directory: {name}")
+    require(not any(part in ("", "..") for part in parts) and not re.search(r"[\\:\x00-\x1f]", name),
+            f"Artifact must be relative to the {location}: {name}")
     path = base
     for part in parts:
         path /= part
@@ -61,7 +63,18 @@ def artifact_path(base: Path, name: str) -> Path:
     return path
 
 
-def build(manifest: dict, base: Path, output: Path) -> dict:
+def stage_artifact(base: Path, source: Path, staging: Path, inputs: dict, *, directory: str) -> dict:
+    relative = f"{directory}/{source.resolve().relative_to(base).as_posix()}"
+    if relative not in inputs:
+        target = staging / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+        inputs[relative] = {"path": relative, "url": quote(relative), "sha256": file_digest(target),
+                            "bytes": target.stat().st_size}
+    return inputs[relative]
+
+
+def build(manifest: dict, base: Path, output: Path, *, attachments_root: Path | None = None) -> dict:
     require(isinstance(manifest, dict) and type(manifest.get("schema_version")) is int and manifest["schema_version"] == 1,
             "Expected workbench manifest schema_version 1")
     meta = manifest.get("project")
@@ -78,6 +91,10 @@ def build(manifest: dict, base: Path, output: Path) -> dict:
     require(suite_ids and len(suite_ids) == len(suites), "Expected one or more suites with unique IDs")
 
     base = base.resolve()
+    if attachments_root is not None:
+        require(not is_link(attachments_root) and attachments_root.is_dir(),
+                f"Attachment root must be a real directory: {attachments_root}")
+        attachments_root = attachments_root.resolve()
     runs, waves, inputs = [], [], {}
     run_ids = set()
     with new_directory(output) as staging:
@@ -107,16 +124,30 @@ def build(manifest: dict, base: Path, output: Path) -> dict:
                     continue
                 name = string(item[field], f"{run_id}.{field}")
                 source = artifact_path(base, name)
-                relative = "evidence/" + source.resolve().relative_to(base).as_posix()
-                target = staging / relative
-                if relative not in inputs:
-                    target.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copyfile(source, target)
-                    inputs[relative] = {"path": relative, "url": quote(relative), "sha256": file_digest(target),
-                                        "bytes": target.stat().st_size}
-                row[key] = inputs[relative]["url"]
+                record = stage_artifact(base, source, staging, inputs, directory="evidence")
+                row[key] = record["url"]
                 if field == "vcd":
-                    vcd_path = target
+                    vcd_path = staging / record["path"]
+
+            if attachments_root is not None and item.get("attachments"):
+                artifacts = []
+                seen = set()
+                for raw_name in item["attachments"]:
+                    name = string(raw_name, f"{run_id} JUnit attachment path")
+                    try:
+                        source = artifact_path(attachments_root, name, location="attachment root")
+                        record = stage_artifact(attachments_root, source, staging, inputs,
+                                                directory="evidence/attachments")
+                    except (ValueError, OSError) as error:
+                        raise ValueError(f"{run_id} JUnit attachment: {error}") from error
+                    if record["path"] in seen:
+                        continue
+                    seen.add(record["path"])
+                    artifacts.append({"name": name, "path": record["path"], "url": record["url"]})
+                    primary = {".log": "log_url", ".vcd": "vcd_url"}.get(source.suffix.lower())
+                    if primary:
+                        row.setdefault(primary, record["url"])
+                row["artifacts"] = artifacts
 
             if "signals" in item:
                 requested = item["signals"]
@@ -150,7 +181,7 @@ def build(manifest: dict, base: Path, output: Path) -> dict:
     return data
 
 
-def read_junit(path: Path, title: str | None) -> dict:
+def read_junit(path: Path, title: str | None, *, include_attachments: bool = False) -> dict:
     root = ElementTree.parse(path).getroot()
     require(root.tag in {"testsuite", "testsuites"}, "Expected a JUnit <testsuite> or <testsuites> root")
     suites, runs = [], []
@@ -170,6 +201,9 @@ def read_junit(path: Path, title: str | None) -> dict:
             excerpt = [child.get("message") or (child.text or "").strip() for child in outcomes]
             if any(excerpt):
                 run["failure_excerpt"] = [message for message in excerpt if message][:3]
+            if include_attachments:
+                run["attachments"] = [name.replace("\\", "/") for output in case.findall("system-out")
+                                      for name in JUNIT_ATTACHMENT.findall("".join(output.itertext()))]
             runs.append(run)
     require(runs, "JUnit report has no testcase records")
     return {"schema_version": 1, "project": {"title": title or path.stem}, "suites": suites, "runs": runs}
@@ -211,6 +245,8 @@ def main(argv: list[str] | None = None) -> int:
     source.add_argument("manifest", type=Path, nargs="?", help="versioned JSON manifest")
     source.add_argument("--junit", type=Path, help="JUnit XML test results")
     generate.add_argument("--title", help="project title for --junit (defaults to the file stem)")
+    generate.add_argument("--attachments-root", type=Path,
+                          help="local directory for paths declared by JUnit testcase attachment markers")
     generate.add_argument("--out", type=Path, required=True, help="new output directory")
     args = parser.parse_args(argv)
     try:
@@ -223,9 +259,11 @@ def main(argv: list[str] | None = None) -> int:
                 with TemporaryDirectory(prefix="workbench-junit-") as temporary:
                     snapshot = Path(temporary) / path.name
                     shutil.copyfile(path, snapshot)
-                    data = build(read_junit(snapshot, args.title), snapshot.parent, args.out)
+                    manifest = read_junit(snapshot, args.title, include_attachments=args.attachments_root is not None)
+                    data = build(manifest, snapshot.parent, args.out, attachments_root=args.attachments_root)
             else:
                 require(args.title is None, "--title applies only to --junit")
+                require(args.attachments_root is None, "--attachments-root applies only to --junit")
                 manifest = json.loads(path.read_text(encoding="utf-8-sig"))
                 data = build(manifest, path.parent, args.out)
             print(f"Workbench: {args.out / 'index.html'} ({len(data['runs'])} run records, "
