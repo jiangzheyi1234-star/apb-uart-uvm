@@ -348,6 +348,70 @@
 
 .coverage-scope { margin-bottom: 12px; }
 .coverage-scope .field { width: min(100%, 390px); }
+.coverage-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 12px;
+}
+.coverage-mode {
+  min-height: 38px;
+  padding: 4px 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: .875rem;
+}
+.coverage-mode[aria-pressed="true"] {
+  border-bottom-color: var(--teal);
+  color: var(--teal-dark);
+  font-weight: 650;
+}
+.coverage-source-panel { margin-bottom: 16px; }
+.coverage-file-list th, .coverage-file-list td { vertical-align: middle; }
+.coverage-file-list tr:has(.coverage-file-button[aria-pressed="true"]) { background: var(--teal-pale); }
+.coverage-file-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--teal-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font: .8125rem/1.35 ui-monospace, Consolas, monospace;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.coverage-file-metric {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  align-items: center;
+  gap: 5px 10px;
+}
+.coverage-file-metric .bar-track { margin: 0; height: 5px; }
+.coverage-file-metric .bar-fill { display: block; }
+.coverage-file-metric code { white-space: nowrap; font-size: .8125rem; }
+.coverage-source-detail { margin-top: 15px; }
+.coverage-source-caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 12px;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: .8125rem;
+}
+.coverage-source-caption h3 { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
+.coverage-source-locations { max-height: 17rem; }
+.coverage-source-locations thead th { position: sticky; top: 0; }
+#coverage-content { margin-bottom: 16px; }
+@media (max-width: 540px) {
+  .coverage-file-list td, .coverage-file-list th,
+  .coverage-source-locations td, .coverage-source-locations th { padding: 6px 7px; }
+  .coverage-file-metric { grid-template-columns: minmax(0, 1fr); }
+  .coverage-file-button { min-height: 32px; }
+}
 .coverage-measures.coverage-metrics {
   display: block;
   padding: 4px 17px;

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Drill down from the selected coverage profile into compact per-RTL-file LCOV line and branch counts, then inspect all unhit source locations through commit-pinned links. Share one inspection area between RTL source coverage and functional-bin gaps, preserving the recorded denominators without adding waivers or simulation results.
 - Trace the overview's directed RX FIFO error-association case to the expected PE sequence, masked `STATUS` check, independent RBR-data scoreboard, FIFO/LSR repair and original/fixed logs. Open its same-test comparison with the exact upstream run selected in the existing requirement matrix, and preserve the originating case or selection when returning from a waveform.
 - Compare archived upstream/fixed VCD samples on one native SVG time axis, with shared PENABLE only when the samples match and separate PRDATA lanes. Switch among three RBR payloads (default `0x96`), mark the exact LSR completion and retain source evidence links; reject mismatched axes without running new simulations.
 - Reserve the offline Apache ECharts 6.1.0 SVG subset for the strict-requirement result matrix. Remove the unused scatter renderer while retaining the pinned build recipe, dependency licenses and SHA-256 manifest.

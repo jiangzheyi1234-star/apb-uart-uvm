@@ -18,7 +18,7 @@ import shutil
 import sys
 
 from build_evidence import read_json, validate_transcript
-from report_coverage import native_summary, parse_records, lcov_summary
+from report_coverage import native_summary, parse_records, lcov_summary, lcov_file_details, source_scope
 from waveform_data import waveform
 
 
@@ -67,6 +67,53 @@ def verify_bundle(base: Path, root: Path) -> list[dict]:
     return results
 
 
+def relative_rtl_source(filename: str, variant: str) -> str | None:
+    """Normalize only repository-relative RTL names, never an absolute suffix."""
+    if not isinstance(filename, str):
+        return None
+    path = filename.replace("\\", "/")
+    if path.startswith("/") or ":" in path:
+        return None
+    parts = path.split("/")
+    if any(part in ("", "..") for part in parts):
+        return None
+    normalized = "/".join(part for part in parts if part != ".")
+    folder = "rtl_fixed" if variant == "fixed" else "rtl" if variant == "upstream" else None
+    return normalized if folder and re.fullmatch(rf"{folder}/[A-Za-z0-9_./-]+\.sv", normalized) else None
+
+
+def coverage_code_files(base: Path, report: dict, lcov_path: Path, summary: dict) -> list[dict] | None:
+    """Link only a complete RTL scope authorized by its archived source snapshot.
+
+    Older evidence without a snapshot, absolute/untrusted SF names, or ambiguous
+    aliases retains its original summary and simply has no optional drilldown.
+    """
+    manifest = report.get("build_source_snapshot", {}).get("manifest_input")
+    if not manifest:
+        return None
+    snapshot = read_json(inside(base, manifest))
+    variant = report["rtl_variant"]
+    authorized = {relative_rtl_source(item.get("path"), variant)
+                  for item in snapshot.get("project_files", []) if isinstance(item, dict)} - {None}
+    selected = []
+    seen = set()
+    for item in lcov_file_details(lcov_path, summary):
+        if source_scope(item["filename"]) != "rtl":
+            continue
+        source = relative_rtl_source(item["filename"], variant)
+        if source is None or source not in authorized or source in seen:
+            return None
+        seen.add(source)
+        selected.append({"source_path": source, "lines": item["lines"],
+                         "branches": item["branches"], "gaps": item["gaps"]})
+    scope = summary["source_scopes"].get("rtl", {})
+    for kind, prefix in (("lines", "lines"), ("branches", "branches")):
+        for field, suffix in (("hit", "hit"), ("total", "total")):
+            require(sum(item[kind][field] for item in selected) == scope.get(f"{prefix}_{suffix}", 0),
+                    "Per-file RTL coverage contradicts LCOV scope")
+    return sorted(selected, key=lambda item: item["source_path"])
+
+
 def core_data(base: Path, root: Path) -> tuple[list[dict], list[dict], list[dict], list[str]]:
     summary = read_json(base / "summary.json")
     rows, coverage, waves, tools = [], [], [], []
@@ -112,7 +159,9 @@ def core_data(base: Path, root: Path) -> tuple[list[dict], list[dict], list[dict
         native = native_summary(parse_records(native_path))
         functional = native["functional"]
         require(all(functional[key] == measured["functional"][key] for key in ("bins_hit", "bins_total")), "Coverage bins contradict the native database")
-        code = lcov_summary(inside(base, measured["lcov_input"]))["source_scopes"].get("rtl", {})
+        lcov_path = inside(base, measured["lcov_input"])
+        lcov = lcov_summary(lcov_path)
+        code = lcov["source_scopes"].get("rtl", {})
         require(code == measured["code_scopes"].get("rtl", {}), "RTL coverage contradicts LCOV")
         groups = []
         for name, values in functional["by_point"].items():
@@ -136,6 +185,9 @@ def core_data(base: Path, root: Path) -> tuple[list[dict], list[dict], list[dict
                          "evidence_urls": [{"label": "原生 coverage.dat", "url": href(native_path, root)},
                                            {"label": "LCOV", "url": href(inside(base, measured["lcov_input"]), root)},
                                            {"label": "覆盖统计 JSON", "url": href(inside(base, measured["summary_input"]), root)}]})
+        code_files = coverage_code_files(base, report, lcov_path, lcov)
+        if code_files is not None:
+            coverage[-1]["code_files"] = code_files
     return rows, coverage, waves, [tool for tool in dict.fromkeys(tools) if tool]
 
 
@@ -251,6 +303,11 @@ def defects(rows: list[dict], source_url) -> list[dict]:
 
 def build(root: Path, output: Path, template: Path, version: str, repository: str, commit: str | None = None) -> dict:
     root, output = root.resolve(), output.resolve()
+    ref = commit or "main"
+    # Preserve legacy repository/ref handling. New drilldown links must name a
+    # repository and immutable commit; named/omitted refs still retain metrics.
+    code_anchor = (bool(re.fullmatch(r"[A-Za-z0-9_-][A-Za-z0-9_.-]*/[A-Za-z0-9_-][A-Za-z0-9_.-]*", repository))
+                   and bool(re.fullmatch(r"[a-fA-F0-9]{40}", commit or "")))
     inputs = []
     for folder in ("release", "features", "protocol"):
         inputs.extend(verify_bundle(root / folder, root))
@@ -260,9 +317,13 @@ def build(root: Path, output: Path, template: Path, version: str, repository: st
     rows.extend(protocol)
     waves.extend(protocol_waves)
     require(len({r["id"] for r in rows}) == len(rows), "Duplicate dashboard row identity")
-    ref = commit or "main"
     source_url = lambda path: f"https://github.com/{repository}/blob/{ref}/{path}"
     for record in coverage:
+        for file in record.get("code_files", []):
+            if code_anchor:
+                file["source_url"] = source_url(file["source_path"])
+            else:
+                file.pop("source_url", None)
         for gap in record["gaps"]:
             if gap.get("source_path"):
                 gap["source_url"] = source_url(gap["source_path"]) + ("#L" + str(gap["source_line"]) if gap.get("source_line") else "")

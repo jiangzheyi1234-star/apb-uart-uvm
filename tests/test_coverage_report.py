@@ -88,6 +88,45 @@ class NativeCoverageTests(unittest.TestCase):
             self.assertEqual(summary["source_scopes"]["rtl"]["branch_percent"], 50.0)
             self.assertEqual(summary["source_scopes"]["library_or_external"]["lines_total"], 1)
 
+    def test_lcov_gap_lines_keep_duplicate_branch_records_and_missing_da(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "coverage.info"
+            path.write_text("SF:rtl_fixed/uart_rx.sv\nDA:10,9\nDA:20,0\nDA:30,4\n"
+                            "BRDA:10,0,0,0\nBRDA:10,0,0,7\nBRDA:10,0,1,-\n"
+                            "BRDA:30,0,0,2\nBRDA:40,0,0,0\nBRDA:40,0,0,-\nend_of_record\n", encoding="utf-8")
+            summary = coverage.lcov_summary(path)
+            self.assertEqual(summary, {
+                "files": {"rtl_fixed/uart_rx.sv": {"lines_hit": 2, "lines_total": 3, "branches_hit": 2,
+                                                  "branches_total": 6, "line_percent": 66.67}},
+                "source_scopes": {"rtl": {"lines_hit": 2, "lines_total": 3, "branches_hit": 2,
+                                          "branches_total": 6, "line_percent": 66.67, "branch_percent": 33.33}},
+                "metric": "LCOV executable line and branch coverage"})
+            detail, = coverage.lcov_file_details(path, summary)
+            self.assertEqual(detail["lines"], {"hit": 2, "total": 3})
+            self.assertEqual(detail["branches"], {"hit": 2, "total": 6})
+            self.assertEqual(detail["gaps"], [
+                {"line": 10, "line_hits": 9, "line_misses": 0, "branches_hit": 1, "branches_total": 3},
+                {"line": 20, "line_hits": 0, "line_misses": 1, "branches_hit": 0, "branches_total": 0},
+                {"line": 40, "line_hits": None, "line_misses": 0, "branches_hit": 0, "branches_total": 2}])
+
+    def test_repeated_lcov_records_keep_denominators_and_aggregate_gap_location(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "coverage.info"
+            path.write_text("SF:rtl/a.sv\nDA:10,0\nend_of_record\n"
+                            "SF:rtl/a.sv\nDA:10,3\nDA:10,0\nend_of_record\n", encoding="utf-8")
+            summary = coverage.lcov_summary(path)
+            self.assertEqual(summary["files"]["rtl/a.sv"]["lines_total"], 3)
+            self.assertEqual(summary["files"]["rtl/a.sv"]["lines_hit"], 1)
+            self.assertEqual(coverage.lcov_file_details(path)[0]["gaps"], [
+                {"line": 10, "line_hits": 3, "line_misses": 2, "branches_hit": 0, "branches_total": 0}])
+
+    def test_lcov_detail_requires_positive_source_lines(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "coverage.info"
+            path.write_text("SF:rtl/a.sv\nBRDA:0,0,0,-\nend_of_record\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "positive"):
+                coverage.lcov_file_details(path)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -5,7 +5,7 @@
     "version": "1.2.0",
     "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm",
     "commit": "127f21e0d695cd0e6aa32b46541b158196058679",
-    "generated_utc": "2026-11-24T04:05:49.221426+00:00",
+    "generated_utc": "2026-11-26T01:52:56.724290+00:00",
     "toolchain": [
       "Verilator 5.054 2026-11-01 rev vUNKNOWN-built20261123",
       "Accellera UVM 1800.2 2020.3.1"
@@ -2732,6 +2732,407 @@
           "label": "覆盖统计 JSON",
           "url": "release/inputs/095_coverage_summary.json"
         }
+      ],
+      "code_files": [
+        {
+          "source_path": "rtl_fixed/apb_uart.sv",
+          "lines": {
+            "hit": 125,
+            "total": 127
+          },
+          "branches": {
+            "hit": 392,
+            "total": 685
+          },
+          "gaps": [
+            {
+              "line": 25,
+              "line_hits": 8101,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 64
+            },
+            {
+              "line": 26,
+              "line_hits": 45,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 27,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 42,
+              "line_hits": 453,
+              "line_misses": 0,
+              "branches_hit": 86,
+              "branches_total": 320
+            },
+            {
+              "line": 51,
+              "line_hits": 171,
+              "line_misses": 0,
+              "branches_hit": 6,
+              "branches_total": 8
+            },
+            {
+              "line": 52,
+              "line_hits": 45937,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 60,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/apb_uart.sv"
+        },
+        {
+          "source_path": "rtl_fixed/io_generic_fifo.sv",
+          "lines": {
+            "hit": 59,
+            "total": 59
+          },
+          "branches": {
+            "hit": 843,
+            "total": 904
+          },
+          "gaps": [
+            {
+              "line": 40,
+              "line_hits": 53,
+              "line_misses": 0,
+              "branches_hit": 517,
+              "branches_total": 576
+            },
+            {
+              "line": 66,
+              "line_hits": 712134,
+              "line_misses": 0,
+              "branches_hit": 12,
+              "branches_total": 14
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/io_generic_fifo.sv"
+        },
+        {
+          "source_path": "rtl_fixed/uart_interrupt.sv",
+          "lines": {
+            "hit": 45,
+            "total": 47
+          },
+          "branches": {
+            "hit": 108,
+            "total": 119
+          },
+          "gaps": [
+            {
+              "line": 21,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 26,
+              "line_hits": 45937,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 28,
+              "line_hits": 171,
+              "line_misses": 0,
+              "branches_hit": 6,
+              "branches_total": 8
+            },
+            {
+              "line": 31,
+              "line_hits": 51,
+              "line_misses": 0,
+              "branches_hit": 8,
+              "branches_total": 10
+            },
+            {
+              "line": 40,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 69,
+              "line_hits": 714671,
+              "line_misses": 0,
+              "branches_hit": 5,
+              "branches_total": 6
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/uart_interrupt.sv"
+        },
+        {
+          "source_path": "rtl_fixed/uart_rx.sv",
+          "lines": {
+            "hit": 85,
+            "total": 99
+          },
+          "branches": {
+            "hit": 152,
+            "total": 199
+          },
+          "gaps": [
+            {
+              "line": 17,
+              "line_hits": 67,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 32
+            },
+            {
+              "line": 18,
+              "line_hits": 45,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 24,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 33,
+              "line_hits": 221598,
+              "line_misses": 0,
+              "branches_hit": 12,
+              "branches_total": 32
+            },
+            {
+              "line": 37,
+              "line_hits": 80,
+              "line_misses": 0,
+              "branches_hit": 5,
+              "branches_total": 6
+            },
+            {
+              "line": 42,
+              "line_hits": 713281,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 3
+            },
+            {
+              "line": 48,
+              "line_hits": 714239,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 49,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 50,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 69,
+              "line_hits": 714239,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 70,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 71,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 72,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 73,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 74,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 75,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 76,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 78,
+              "line_hits": 714239,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 79,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 80,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 97,
+              "line_hits": 1234,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 98,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 139,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/uart_rx.sv"
+        },
+        {
+          "source_path": "rtl_fixed/uart_tx.sv",
+          "lines": {
+            "hit": 139,
+            "total": 142
+          },
+          "branches": {
+            "hit": 175,
+            "total": 213
+          },
+          "gaps": [
+            {
+              "line": 16,
+              "line_hits": 45,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 17,
+              "line_hits": 67,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 32
+            },
+            {
+              "line": 35,
+              "line_hits": 80,
+              "line_misses": 0,
+              "branches_hit": 5,
+              "branches_total": 6
+            },
+            {
+              "line": 42,
+              "line_hits": 245256,
+              "line_misses": 0,
+              "branches_hit": 14,
+              "branches_total": 32
+            },
+            {
+              "line": 75,
+              "line_hits": 225198,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 149,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 150,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 176,
+              "line_hits": 714239,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 179,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/uart_tx.sv"
+        }
       ]
     },
     {
@@ -3241,6 +3642,519 @@
         {
           "label": "覆盖统计 JSON",
           "url": "release/inputs/193_coverage_summary.json"
+        }
+      ],
+      "code_files": [
+        {
+          "source_path": "rtl/apb_uart.sv",
+          "lines": {
+            "hit": 120,
+            "total": 124
+          },
+          "branches": {
+            "hit": 350,
+            "total": 673
+          },
+          "gaps": [
+            {
+              "line": 25,
+              "line_hits": 7027,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 64
+            },
+            {
+              "line": 26,
+              "line_hits": 33,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 27,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 42,
+              "line_hits": 423,
+              "line_misses": 0,
+              "branches_hit": 70,
+              "branches_total": 320
+            },
+            {
+              "line": 43,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 8
+            },
+            {
+              "line": 48,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 49,
+              "line_hits": 33,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 50,
+              "line_hits": 44701,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 58,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 71,
+              "line_hits": 303,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 18
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl/apb_uart.sv"
+        },
+        {
+          "source_path": "rtl/io_generic_fifo.sv",
+          "lines": {
+            "hit": 59,
+            "total": 59
+          },
+          "branches": {
+            "hit": 830,
+            "total": 868
+          },
+          "gaps": [
+            {
+              "line": 25,
+              "line_hits": 377,
+              "line_misses": 0,
+              "branches_hit": 32,
+              "branches_total": 34
+            },
+            {
+              "line": 30,
+              "line_hits": 1853,
+              "line_misses": 0,
+              "branches_hit": 32,
+              "branches_total": 34
+            },
+            {
+              "line": 40,
+              "line_hits": 37,
+              "line_misses": 0,
+              "branches_hit": 512,
+              "branches_total": 544
+            },
+            {
+              "line": 66,
+              "line_hits": 608064,
+              "line_misses": 0,
+              "branches_hit": 12,
+              "branches_total": 14
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl/io_generic_fifo.sv"
+        },
+        {
+          "source_path": "rtl/uart_interrupt.sv",
+          "lines": {
+            "hit": 36,
+            "total": 52
+          },
+          "branches": {
+            "hit": 69,
+            "total": 110
+          },
+          "gaps": [
+            {
+              "line": 21,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 6
+            },
+            {
+              "line": 23,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 26,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 29,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 4
+            },
+            {
+              "line": 31,
+              "line_hits": 44701,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 34,
+              "line_hits": 33,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 37,
+              "line_hits": 33,
+              "line_misses": 0,
+              "branches_hit": 8,
+              "branches_total": 16
+            },
+            {
+              "line": 47,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 48,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 49,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 50,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 51,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 52,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 53,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 54,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 55,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 56,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 69,
+              "line_hits": 1048694,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 70,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 72,
+              "line_hits": 1048610,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 5
+            },
+            {
+              "line": 75,
+              "line_hits": 1048610,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 76,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 78,
+              "line_hits": 1048610,
+              "line_misses": 0,
+              "branches_hit": 3,
+              "branches_total": 5
+            },
+            {
+              "line": 79,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl/uart_interrupt.sv"
+        },
+        {
+          "source_path": "rtl/uart_rx.sv",
+          "lines": {
+            "hit": 165,
+            "total": 173
+          },
+          "branches": {
+            "hit": 199,
+            "total": 245
+          },
+          "gaps": [
+            {
+              "line": 15,
+              "line_hits": 55,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 32
+            },
+            {
+              "line": 16,
+              "line_hits": 33,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 21,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 22,
+              "line_hits": 33,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 39,
+              "line_hits": 68,
+              "line_misses": 0,
+              "branches_hit": 5,
+              "branches_total": 6
+            },
+            {
+              "line": 46,
+              "line_hits": 182035,
+              "line_misses": 0,
+              "branches_hit": 12,
+              "branches_total": 32
+            },
+            {
+              "line": 160,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 161,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 182,
+              "line_hits": 610007,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 185,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 196,
+              "line_hits": 610007,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 199,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 246,
+              "line_hits": 610007,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 251,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 252,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 253,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl/uart_rx.sv"
+        },
+        {
+          "source_path": "rtl/uart_tx.sv",
+          "lines": {
+            "hit": 139,
+            "total": 142
+          },
+          "branches": {
+            "hit": 175,
+            "total": 213
+          },
+          "gaps": [
+            {
+              "line": 16,
+              "line_hits": 33,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 17,
+              "line_hits": 55,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 32
+            },
+            {
+              "line": 35,
+              "line_hits": 68,
+              "line_misses": 0,
+              "branches_hit": 5,
+              "branches_total": 6
+            },
+            {
+              "line": 42,
+              "line_hits": 242262,
+              "line_misses": 0,
+              "branches_hit": 14,
+              "branches_total": 32
+            },
+            {
+              "line": 75,
+              "line_hits": 126828,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 149,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 150,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 176,
+              "line_hits": 610007,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 179,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl/uart_tx.sv"
         }
       ]
     },
@@ -5918,6 +6832,1163 @@
         {
           "label": "覆盖统计 JSON",
           "url": "release/inputs/207_coverage_summary.json"
+        }
+      ],
+      "code_files": [
+        {
+          "source_path": "rtl_fixed/apb_uart.sv",
+          "lines": {
+            "hit": 109,
+            "total": 127
+          },
+          "branches": {
+            "hit": 291,
+            "total": 685
+          },
+          "gaps": [
+            {
+              "line": 19,
+              "line_hits": 948,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 24
+            },
+            {
+              "line": 21,
+              "line_hits": 283,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 64
+            },
+            {
+              "line": 25,
+              "line_hits": 352,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 64
+            },
+            {
+              "line": 26,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 27,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 42,
+              "line_hits": 156,
+              "line_misses": 0,
+              "branches_hit": 130,
+              "branches_total": 320
+            },
+            {
+              "line": 43,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 8
+            },
+            {
+              "line": 46,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 16
+            },
+            {
+              "line": 48,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 50,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 51,
+              "line_hits": 11,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 52,
+              "line_hits": 12,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 60,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 63,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 4
+            },
+            {
+              "line": 64,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 4
+            },
+            {
+              "line": 70,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 72,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 8,
+              "branches_total": 16
+            },
+            {
+              "line": 73,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 8,
+              "branches_total": 20
+            },
+            {
+              "line": 75,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 8,
+              "branches_total": 16
+            },
+            {
+              "line": 76,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 10
+            },
+            {
+              "line": 77,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 10
+            },
+            {
+              "line": 212,
+              "line_hits": 14064,
+              "line_misses": 0,
+              "branches_hit": 3,
+              "branches_total": 4
+            },
+            {
+              "line": 213,
+              "line_hits": 14064,
+              "line_misses": 0,
+              "branches_hit": 3,
+              "branches_total": 4
+            },
+            {
+              "line": 216,
+              "line_hits": 14064,
+              "line_misses": 0,
+              "branches_hit": 3,
+              "branches_total": 7
+            },
+            {
+              "line": 217,
+              "line_hits": 14064,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 247,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 248,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 249,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 250,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 251,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 254,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 304,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 305,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 306,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 307,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 310,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/apb_uart.sv"
+        },
+        {
+          "source_path": "rtl_fixed/io_generic_fifo.sv",
+          "lines": {
+            "hit": 51,
+            "total": 59
+          },
+          "branches": {
+            "hit": 189,
+            "total": 904
+          },
+          "gaps": [
+            {
+              "line": 21,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 4
+            },
+            {
+              "line": 23,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 20
+            },
+            {
+              "line": 25,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 16,
+              "branches_total": 36
+            },
+            {
+              "line": 30,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 12,
+              "branches_total": 36
+            },
+            {
+              "line": 31,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 36,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 16
+            },
+            {
+              "line": 37,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 16
+            },
+            {
+              "line": 39,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 20
+            },
+            {
+              "line": 40,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 8,
+              "branches_total": 576
+            },
+            {
+              "line": 42,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 4
+            },
+            {
+              "line": 55,
+              "line_hits": 4560,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 56,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 63,
+              "line_hits": 4557,
+              "line_misses": 0,
+              "branches_hit": 10,
+              "branches_total": 12
+            },
+            {
+              "line": 66,
+              "line_hits": 4554,
+              "line_misses": 0,
+              "branches_hit": 9,
+              "branches_total": 14
+            },
+            {
+              "line": 83,
+              "line_hits": 4557,
+              "line_misses": 0,
+              "branches_hit": 8,
+              "branches_total": 10
+            },
+            {
+              "line": 97,
+              "line_hits": 4560,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 98,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 99,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 100,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 108,
+              "line_hits": 4557,
+              "line_misses": 0,
+              "branches_hit": 8,
+              "branches_total": 10
+            },
+            {
+              "line": 110,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 111,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 123,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 124,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 137,
+              "line_hits": 4614,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/io_generic_fifo.sv"
+        },
+        {
+          "source_path": "rtl_fixed/uart_interrupt.sv",
+          "lines": {
+            "hit": 32,
+            "total": 47
+          },
+          "branches": {
+            "hit": 59,
+            "total": 119
+          },
+          "gaps": [
+            {
+              "line": 21,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 22,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 23,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 10
+            },
+            {
+              "line": 24,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 10
+            },
+            {
+              "line": 25,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 4
+            },
+            {
+              "line": 26,
+              "line_hits": 12,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 28,
+              "line_hits": 11,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 8
+            },
+            {
+              "line": 30,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 4
+            },
+            {
+              "line": 31,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 10
+            },
+            {
+              "line": 32,
+              "line_hits": 8,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 6
+            },
+            {
+              "line": 37,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 38,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 39,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 40,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 55,
+              "line_hits": 1104,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 5
+            },
+            {
+              "line": 56,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 58,
+              "line_hits": 4560,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 5
+            },
+            {
+              "line": 60,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 61,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 66,
+              "line_hits": 4614,
+              "line_misses": 0,
+              "branches_hit": 3,
+              "branches_total": 5
+            },
+            {
+              "line": 69,
+              "line_hits": 4614,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 6
+            },
+            {
+              "line": 70,
+              "line_hits": 4614,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 5
+            },
+            {
+              "line": 72,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 73,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 74,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 75,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/uart_interrupt.sv"
+        },
+        {
+          "source_path": "rtl_fixed/uart_rx.sv",
+          "lines": {
+            "hit": 76,
+            "total": 99
+          },
+          "branches": {
+            "hit": 123,
+            "total": 199
+          },
+          "gaps": [
+            {
+              "line": 17,
+              "line_hits": 18,
+              "line_misses": 0,
+              "branches_hit": 26,
+              "branches_total": 32
+            },
+            {
+              "line": 18,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 22,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 23,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 24,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 25,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 16
+            },
+            {
+              "line": 27,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 33,
+              "line_hits": 456,
+              "line_misses": 0,
+              "branches_hit": 10,
+              "branches_total": 32
+            },
+            {
+              "line": 34,
+              "line_hits": 12,
+              "line_misses": 0,
+              "branches_hit": 5,
+              "branches_total": 6
+            },
+            {
+              "line": 35,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 16
+            },
+            {
+              "line": 37,
+              "line_hits": 17,
+              "line_misses": 0,
+              "branches_hit": 5,
+              "branches_total": 6
+            },
+            {
+              "line": 42,
+              "line_hits": 4611,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 3
+            },
+            {
+              "line": 48,
+              "line_hits": 4560,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 49,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 50,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 69,
+              "line_hits": 4560,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 4
+            },
+            {
+              "line": 70,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 71,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 72,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 73,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 74,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 75,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 76,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 78,
+              "line_hits": 4560,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 79,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 80,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 84,
+              "line_hits": 3642,
+              "line_misses": 0,
+              "branches_hit": 4,
+              "branches_total": 5
+            },
+            {
+              "line": 97,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 98,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 112,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 3,
+              "branches_total": 5
+            },
+            {
+              "line": 117,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 118,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 119,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 120,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 121,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 122,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 123,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 130,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 2,
+              "branches_total": 3
+            },
+            {
+              "line": 136,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 139,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/uart_rx.sv"
+        },
+        {
+          "source_path": "rtl_fixed/uart_tx.sv",
+          "lines": {
+            "hit": 123,
+            "total": 142
+          },
+          "branches": {
+            "hit": 167,
+            "total": 213
+          },
+          "gaps": [
+            {
+              "line": 16,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 17,
+              "line_hits": 18,
+              "line_misses": 0,
+              "branches_hit": 26,
+              "branches_total": 32
+            },
+            {
+              "line": 21,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 8,
+              "branches_total": 16
+            },
+            {
+              "line": 35,
+              "line_hits": 17,
+              "line_misses": 0,
+              "branches_hit": 5,
+              "branches_total": 6
+            },
+            {
+              "line": 42,
+              "line_hits": 483,
+              "line_misses": 0,
+              "branches_hit": 10,
+              "branches_total": 32
+            },
+            {
+              "line": 75,
+              "line_hits": 3651,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 104,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 105,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 106,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 121,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 122,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 123,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 124,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 125,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 126,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 134,
+              "line_hits": 3,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 135,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 140,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 141,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 142,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 143,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 144,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 2
+            },
+            {
+              "line": 145,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 146,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 149,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 150,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            },
+            {
+              "line": 176,
+              "line_hits": 4560,
+              "line_misses": 0,
+              "branches_hit": 1,
+              "branches_total": 2
+            },
+            {
+              "line": 179,
+              "line_hits": 0,
+              "line_misses": 1,
+              "branches_hit": 0,
+              "branches_total": 0
+            }
+          ],
+          "source_url": "https://github.com/jiangzheyi1234-star/apb-uart-uvm/blob/127f21e0d695cd0e6aa32b46541b158196058679/rtl_fixed/uart_tx.sv"
         }
       ]
     }

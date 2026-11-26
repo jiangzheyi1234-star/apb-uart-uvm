@@ -119,7 +119,7 @@
   const suitesById=new Map(suites.map(suite=>[suite.id,suite]));
   const runsById=new Map(runs.filter(run=>hasId(run.id)).map(run=>[run.id,run]));
   const suiteTitle = id => text(suitesById.get(id)?.title || id);
-  const state={tab:"overview",caseIndex:1,reg:{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,size:25,sort:"recorded"},coverageId:coverage[0]?.id,waveId:waves[0]?.id,waveState:new Map(),waveReturn:null};
+  const state={tab:"overview",caseIndex:1,reg:{runId:"",suite:"",variant:"",test:"",seed:"",status:"",phase:"",query:"",page:1,size:25,sort:"recorded"},coverageId:coverage[0]?.id,coverageMode:"source",coverageFile:"",waveId:waves[0]?.id,waveState:new Map(),waveReturn:null};
   let cleanupView=()=>{};
 
   function counts(rows) {
@@ -389,6 +389,7 @@
       timeoutWave ? button("APB 超时波形", () => showWave(timeoutWave.id), {className:"link-button"}) : null,
       core ? button("覆盖缺口", () => {
         state.coverageId = core.id;
+        state.coverageMode = "functional";
         setView("coverage", true);
         const gaps = document.getElementById("coverage-gaps");
         gaps?.focus({preventScroll:true});
@@ -527,6 +528,69 @@
         "aria-valuemin":m?0:null,"aria-valuemax":m?m.total:null,"aria-valuenow":m?m.hit:null,"aria-valuetext":description},
         m?el("div",{className:`bar-fill ${kind||""}`,style:{width:`${100*m.hit/m.total}%`}}):null));
   }
+
+  function renderCoverageSources(profile) {
+    const absent = metric => {
+      const pair = metricPair(metric);
+      return pair ? pair.total - pair.hit : metric?.total === 0 ? 0 : null;
+    };
+    const files = list(profile.code_files).filter(file => file && hasId(file.source_path))
+      .sort((a,b) => absent(b.branches) - absent(a.branches) || collator.compare(a.source_path, b.source_path));
+    if (!files.length) return null;
+    const detail = el("div", {className:"coverage-source-detail"});
+    const sourceName = file => text(file.source_path).split("/").at(-1);
+    const fileMetric = (value, color) => {
+      const pair = metricPair(value);
+      if (!pair) return el("span", {className:"secondary"}, value?.total === 0 ? "无计数项" : missing);
+      return el("div", {className:"coverage-file-metric"},
+        el("span", {className:"bar-track", "aria-hidden":"true"},
+          el("span", {className:`bar-fill ${color}`, style:{width:percent(pair)}})),
+        el("code", {}, metricText(pair)));
+    };
+    const rows = files.map(file => {
+      const control = button(sourceName(file), () => select(file, true), {
+        className:"coverage-file-button", title:file.source_path, "aria-pressed":"false"
+      });
+      const tr = el("tr", {}, el("th", {scope:"row"}, control),
+        el("td", {}, fileMetric(file.lines, "code-line")), el("td", {}, fileMetric(file.branches, "code-branch")));
+      return {file, control, tr};
+    });
+    const fileTable = table(["RTL 文件","可执行行","分支记录"], rows.map(row => row.tr),
+      {className:"table-scroll compact coverage-file-list"});
+    const archive = list(profile.evidence_urls).find(item => item?.label === "LCOV");
+    const section = panel("RTL 源码覆盖", "分支列按 Verilator 的 LCOV 导出记录计数。选择文件查看未命中位置。", fileTable, detail);
+    section.classList.add("coverage-source-panel");
+
+    function select(file, notify=false) {
+      state.coverageFile = file.source_path;
+      rows.forEach(row => { row.control.setAttribute("aria-pressed", String(row.file === file)); });
+      const gaps = list(file.gaps).filter(gap => gap && Number.isInteger(gap.line) && gap.line > 0);
+      const gapRows = gaps.map(gap => {
+        const offset = `L${gap.line}`;
+        return el("tr", {},
+          el("th", {scope:"row"}, file.source_url ? link(offset, `${file.source_url}#${offset}`, {
+            "aria-label":`打开 ${sourceName(file)} 第 ${gap.line} 行`
+          }) : offset),
+          el("td", {className:"mono"}, number(gap.line_hits),
+            gap.line_hits > 0 && gap.line_misses > 0 ?
+              el("span", {className:"row-secondary"}, `${number(gap.line_misses)} 条行记录未命中`) : null),
+          el("td", {className:"mono"}, gap.branches_total > 0 ?
+            `${number(gap.branches_total - gap.branches_hit)} / ${number(gap.branches_total)}` : "—"));
+      });
+      const remaining = `未命中 ${number(absent(file.lines))} 行 · ${number(absent(file.branches))} 条分支记录`;
+      detail.replaceChildren(el("div", {className:"coverage-source-caption"},
+        el("h3", {}, el("code", {}, file.source_path)),
+        el("span", {}, remaining),
+        archive?.url ? link("原始 LCOV", archive.url) : null),
+        gapRows.length ? table(["源码位置","行命中次数","未命中 / 分支记录"], gapRows,
+          {className:"table-scroll compact coverage-source-locations", tabIndex:0, "aria-label":"未命中位置"})
+          : el("p", {className:"secondary"}, Array.isArray(file.gaps) ? "当前 LCOV 没有列出此文件的缺口。" : "未提供逐行明细。"));
+      if (notify) announce(`${sourceName(file)}，${remaining}`);
+    }
+    select(files.find(file => file.source_path === state.coverageFile) || files[0]);
+    return section;
+  }
+
   function renderCoverage() {
     const profiles=coverage.filter(item=>item&&typeof item==="object");
     if(!profiles.length){root.append(empty("没有覆盖率数据","尚未提供可复核的覆盖率记录。"));return;}
@@ -559,7 +623,27 @@
       gapResults.replaceChildren(el("p",{className:"count-label"},Array.isArray(selected.gaps)?`显示 ${number(filtered.length)} / ${number(gaps.length)} 条缺口记录`:"缺口明细未记录"),
         rows.length?table(["未命中 bin","记录的原因","源码"],rows):empty(gaps.length?"没有匹配的缺口":"数据中未列出缺口",gaps.length?"调整关键词后重试。":"空列表本身不证明完整覆盖；请核对实际分子、分母及原生数据库。"));
     }
-    search.addEventListener("input",updateGaps);updateGaps();root.append(gapPanel);
+    search.addEventListener("input",updateGaps);updateGaps();
+    const sourcePanel = renderCoverageSources(selected);
+    if (sourcePanel) {
+      const content = el("div", {id:"coverage-content"});
+      const modes = [
+        {id:"source", label:"RTL 源码", panel:sourcePanel},
+        {id:"functional", label:"功能缺口", panel:gapPanel},
+      ];
+      const modeButtons = modes.map(mode => button(mode.label, () => selectMode(mode), {
+        className:"coverage-mode", "aria-pressed":"false", "aria-controls":"coverage-content"
+      }));
+      function selectMode(mode) {
+        state.coverageMode = mode.id;
+        modeButtons.forEach((node,index) => node.setAttribute("aria-pressed", String(modes[index] === mode)));
+        content.replaceChildren(mode.panel);
+      }
+      root.append(el("div", {className:"coverage-modes", role:"group", "aria-label":"覆盖明细"}, modeButtons), content);
+      selectMode(modes.find(mode => mode.id === state.coverageMode) || modes[0]);
+    } else {
+      root.append(gapPanel);
+    }
     const groups=list(selected.groups).filter(group=>group&&typeof group==="object");
     const groupRows=groups.map(group=>el("tr",{},el("td",{},el("code",{title:text(group.id)},text(group.title||group.id))),el("td",{className:"mono nowrap"},metricText(group)),el("td",{className:"mono nowrap"},percent(group))));
     root.append(el("details",{className:"panel coverage-details"},el("summary",{},"分组、度量定义与原始证据"),

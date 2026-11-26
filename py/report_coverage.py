@@ -117,23 +117,34 @@ def native_summary(records: list[dict]) -> dict:
     }
 
 
-def lcov_summary(path: Path) -> dict:
-    files = {}
+def _lcov_records(path: Path):
+    """Yield source and counter rows; repeated LCOV rows remain repeated."""
     current = None
     for line in path.read_text(encoding="utf-8").splitlines():
         if line.startswith("SF:"):
             current = line[3:]
-            files.setdefault(current, {"lines_hit": 0, "lines_total": 0, "branches_hit": 0, "branches_total": 0})
+            yield current, "SF", []
         elif current and line.startswith("DA:"):
-            _, hits, *_ = line[3:].split(",")
-            files[current]["lines_total"] += 1
-            files[current]["lines_hit"] += int(int(hits) > 0)
+            yield current, "DA", line[3:].split(",")
         elif current and line.startswith("BRDA:"):
-            hits = line[5:].split(",")[-1]
-            files[current]["branches_total"] += 1
-            files[current]["branches_hit"] += int(hits != "-" and int(hits) > 0)
+            yield current, "BRDA", line[5:].split(",")
         elif line == "end_of_record":
             current = None
+
+
+def lcov_summary(path: Path) -> dict:
+    files = {}
+    for current, kind, values in _lcov_records(path):
+        if kind == "SF":
+            files.setdefault(current, {"lines_hit": 0, "lines_total": 0, "branches_hit": 0, "branches_total": 0})
+        elif kind == "DA":
+            _, hits, *_ = values
+            files[current]["lines_total"] += 1
+            files[current]["lines_hit"] += int(int(hits) > 0)
+        elif kind == "BRDA":
+            hits = values[-1]
+            files[current]["branches_total"] += 1
+            files[current]["branches_hit"] += int(hits != "-" and int(hits) > 0)
     scopes = defaultdict(lambda: {"lines_hit": 0, "lines_total": 0, "branches_hit": 0, "branches_total": 0})
     for filename, metrics in files.items():
         for key in scopes[source_scope(filename)]:
@@ -143,6 +154,45 @@ def lcov_summary(path: Path) -> dict:
         metrics["line_percent"] = ratio(metrics["lines_hit"], metrics["lines_total"])
         metrics["branch_percent"] = ratio(metrics["branches_hit"], metrics["branches_total"])
     return {"files": files, "source_scopes": dict(scopes), "metric": "LCOV executable line and branch coverage"}
+
+
+def lcov_file_details(path: Path, summary: dict | None = None) -> list[dict]:
+    """Add measured gap locations without changing LCOV summary denominators.
+
+    BRDA rows are counted individually, including repeated block/branch keys.
+    Gaps are grouped by source line. Repeated DA hit counts are summed for the
+    line readout, while every original zero-hit DA row still marks a gap.
+    """
+    summary = lcov_summary(path) if summary is None else summary
+    locations = defaultdict(dict)
+    for filename, kind, values in _lcov_records(path):
+        if kind == "SF":
+            continue
+        lineno = int(values[0])
+        if lineno <= 0:
+            raise ValueError(f"LCOV source lines must be positive: {filename}:{lineno}")
+        item = locations[filename].setdefault(lineno, {"line": lineno, "line_hits": None, "line_misses": 0,
+                                                     "branches_hit": 0, "branches_total": 0, "gap": False})
+        if kind == "DA":
+            hits = int(values[1])
+            item["line_hits"] = (item["line_hits"] or 0) + hits
+            item["line_misses"] += int(hits == 0)
+            item["gap"] |= hits == 0
+        else:
+            hits = values[-1]
+            hit = hits != "-" and int(hits) > 0
+            item["branches_total"] += 1
+            item["branches_hit"] += int(hit)
+            item["gap"] |= not hit
+    result = []
+    for filename, metrics in summary["files"].items():
+        gaps = [{key: value for key, value in item.items() if key != "gap"}
+                for _, item in sorted(locations[filename].items()) if item["gap"]]
+        result.append({"filename": filename,
+                       "lines": {"hit": metrics["lines_hit"], "total": metrics["lines_total"]},
+                       "branches": {"hit": metrics["branches_hit"], "total": metrics["branches_total"]},
+                       "gaps": gaps})
+    return result
 
 
 def generate_report(database: Path, output: Path, lcov: Path | None = None) -> dict:
