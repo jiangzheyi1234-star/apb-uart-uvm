@@ -2,7 +2,7 @@
 
 [![Verification](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/workflows/verification.yml/badge.svg?branch=main)](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/workflows/verification.yml)
 
-[English](README.en.md) · [技术文档](docs/README.md) · [验证工作台](https://jiangzheyi1234-star.github.io/apb-uart-uvm/) · [Releases](https://github.com/jiangzheyi1234-star/apb-uart-uvm/releases/latest)
+[English](README.en.md) · [技术文档](docs/README.md) · [验证工作台](https://jiangzheyi1234-star.github.io/apb-uart-uvm/) · [接入自己的项目](#接入自己的项目) · [Releases](https://github.com/jiangzheyi1234-star/apb-uart-uvm/releases/latest)
 
 基于 PULP APB UART 的 SystemVerilog/UVM 模块级功能验证环境。包含独立 APB/UART Agent、双向 Scoreboard、周期级 FIFO 模型、DLAB 感知寄存器模型、断言、覆盖率与自动回归。
 
@@ -109,6 +109,23 @@ python3 py/validate_acceptance.py --fixed results/core/report.json \
 正式报告首页使用 [验证工作台](https://jiangzheyi1234-star.github.io/apb-uart-uvm/)，集中展示 UART 核心、RAL、检查器对照和独立 APB 协议结果，分别保留各自分母及原始状态。波形来自归档 VCD，支持游标、缩放、平移和 APB 事件定位；读数据按时钟上升沿前的信号值解码，避免把沿后更新误作已采样响应。波形诊断不代替 UVM 检查器结果。
 
 原始静态报告继续保留在 [UART 回归](docs/release/index.html)、[RAL 与检查器](docs/features/index.html)、[APB 协议](docs/protocol/index.html)。工作台的生成、数据校验和离线使用见 [工作台文档](docs/dashboard.md)。
+
+### 接入自己的项目
+
+从本仓库根目录运行，使用 Python 3.10 及以上的标准库。已有 JUnit XML 的工程可以一条命令生成离线回归页。Linux 上也可用 `python3`。
+
+```text
+python py/workbench.py build --junit results/junit.xml --title "My IP" --out results/junit-workbench
+```
+
+打开 `results/junit-workbench/index.html`。要关联验证计划、每次运行的日志和 VCD，使用清单模式。以下两条命令可先体验带演示标记的计数器数据。
+
+```text
+python py/workbench.py init --out results/review-input
+python py/workbench.py build results/review-input/manifest.json --out results/review-site
+```
+
+打开 `results/review-site/index.html` 查看失败日志和交互波形。接入真实项目时，把仿真结果导出为 `manifest.json`，按运行关联已有产物，生成到新的目录。整份输出目录可以作为 CI 产物交付给评审者。[输入格式和 CI 示例](docs/dashboard.md#接入其他项目)
 
 ## 源码与文档
 

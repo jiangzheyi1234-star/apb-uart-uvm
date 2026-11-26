@@ -6,6 +6,7 @@
   const title = document.getElementById("page-title");
   const nav = document.getElementById("workspace-nav");
   const raw = window.UART_DASHBOARD;
+  const portable = raw?.mode === "portable";
   const SVG = "http://www.w3.org/2000/svg";
   const VIEWS = {overview:"验证总览",plan:"验证计划",regressions:"回归记录",frontend:"实现与 DFT",coverage:"覆盖与缺口",waveforms:"波形与总线",architecture:"验证架构",defects:"缺陷对照"};
   const missing = "未记录";
@@ -18,8 +19,9 @@
   const time = value => finite(value) ? new Intl.NumberFormat("zh-CN", {maximumFractionDigits:3}).format(value) : missing;
   const plural = (count, noun) => `${number(count)} ${noun}`;
   const collator = new Intl.Collator("zh-CN", {numeric:true, sensitivity:"base"});
-  const phaseName = value => ({positive:"正向",negative:"负向",recovery:"故障后恢复",control_before:"注入前控制",control_after:"注入后控制",mutation:"指定故障"})[value] || text(value);
-  const variantName = value => ({fixed:"修复版",upstream:"未修改原版"})[value] || text(value);
+  const phaseName = value => (!portable && ({positive:"正向",negative:"负向",recovery:"故障后恢复",control_before:"注入前控制",control_after:"注入后控制",mutation:"指定故障"})[value]) || text(value);
+  const variantName = value => (!portable && ({fixed:"修复版",upstream:"未修改原版"})[value]) || text(value);
+  const failureStatuses = ["FAIL","ERROR","FATAL","TIMEOUT","BUILD_FAIL","INVALID"];
 
   function el(tag, props, ...children) {
     const node = document.createElement(tag);
@@ -68,7 +70,7 @@
     return el("div",{className:"table-scroll",...props},el("table",{},el("thead",{},el("tr",{},headers.map(item=>el("th",{scope:"col"},item)))),el("tbody",{},rows)));
   }
   function badge(value, type) {
-    let kind = type || (value === "PASS" ? "pass" : ["FAIL","ERROR","FATAL","TIMEOUT","BUILD_FAIL","INVALID"].includes(value) ? "fail" : "unknown");
+    const kind = type || (value === "PASS" ? "pass" : failureStatuses.includes(value) ? "fail" : "unknown");
     return el("span",{className:`badge badge--${kind}`},text(value));
   }
   function resultBadges(run, open) {
@@ -122,6 +124,9 @@
   const frontendComparison=data.frontend_comparison&&typeof data.frontend_comparison==="object"?data.frontend_comparison:null;
   const frontendStages=list(frontendComparison?.stages).filter(stage=>stage&&hasId(stage.id));
   const planGroups=list(data.verification_plan?.groups).filter(group=>group&&hasId(group.id)&&list(group.items).length);
+  const portableViews = {overview:"验证总览", ...(planGroups.length ? {plan:"验证计划"} : {}),
+    regressions:"回归记录", ...(waves.length ? {waveforms:"波形"} : {})};
+  const viewTitles = portable ? portableViews : VIEWS;
   const planByRun = new Map();
   for (const group of planGroups) for (const item of list(group.items)) for (const id of list(item?.run_ids)) {
     if (!planByRun.has(id)) planByRun.set(id,{groupId:group.id,itemId:item.id});
@@ -171,18 +176,18 @@
   }
 
   function setView(name, focus=false) {
-    if (!VIEWS[name]) name="overview";
     if (name === "plan" && !planGroups.length) name="regressions";
+    if (!Object.hasOwn(viewTitles, name)) name="overview";
     if (name !== "waveforms") state.waveReturn = null;
     cleanupView();cleanupView=()=>{};state.tab=name;
-    title.textContent=VIEWS[name];
-    document.title=`${VIEWS[name]} · ${text(data.project?.title || "APB UART")}`;
+    title.textContent=viewTitles[name];
+    document.title=`${viewTitles[name]} · ${text(data.project?.title || (portable ? "验证工作台" : "APB UART"))}`;
     nav.querySelectorAll("button[data-tab]").forEach(node=>{
-      if(node.dataset.tab===name||(node.dataset.tab==="plan"&&["regressions","frontend"].includes(name)))node.setAttribute("aria-current","page");else node.removeAttribute("aria-current");
+      if(node.dataset.tab===name||(!portable&&node.dataset.tab==="plan"&&["regressions","frontend"].includes(name)))node.setAttribute("aria-current","page");else node.removeAttribute("aria-current");
     });
     try { if(location.hash!=="#"+name)history.replaceState(null,"","#"+name); } catch (_) { if(location.hash!=="#"+name)location.hash=name; }
     root.replaceChildren();
-    ({overview:renderOverview,plan:renderVerificationPlan,regressions:renderRegressions,frontend:renderFrontend,coverage:renderCoverage,waveforms:renderWaveforms,architecture:renderArchitecture,defects:renderDefects})[name]();
+    ({overview:portable ? renderPortableOverview : renderOverview,plan:renderVerificationPlan,regressions:renderRegressions,frontend:renderFrontend,coverage:renderCoverage,waveforms:renderWaveforms,architecture:renderArchitecture,defects:renderDefects})[name]();
     if(focus) {
       root.focus({preventScroll:true});
       window.scrollTo(0, 0);
@@ -466,6 +471,35 @@
         empty("没有范围记录", "数据中尚未提供可分组的运行。")), provenance));
   }
 
+  function renderPortableOverview() {
+    const summary = counts(runs);
+    const metric = (value, label) => el("li", {}, el("strong", {}, number(value)), el("span", {}, label));
+    root.append(el("ul", {className:"overview-metrics", "aria-label":"归档运行结果"},
+      metric(summary.total, "归档运行"), metric(summary.pass, "PASS"), metric(summary.fail, "原始 FAIL"),
+      summary.other ? metric(summary.other, "其他状态") : null));
+    if (summary.fail) root.append(el("nav", {className:"overview-actions", "aria-label":"调试入口"},
+      button(`查看原始 FAIL · ${number(summary.fail)} 次`, () => showRuns({status:"FAIL"}), {className:"link-button"})));
+
+    const rows = suites.map(suite => {
+      const suiteRuns = runs.filter(run => run.suite_id === suite.id);
+      const summary = counts(suiteRuns);
+      return el("tr", {}, el("th", {scope:"row"},
+        button(text(suite.title), () => showRuns({suite:suite.id}), {className:"link-button"})),
+        el("td", {}, number(summary.total)), el("td", {}, number(summary.pass)),
+        el("td", {}, number(summary.fail)), el("td", {}, number(summary.other)));
+    });
+    root.append(panel("套件结果", null, rows.length ? table(["测试套件","归档运行","PASS","原始 FAIL","其他状态"], rows) :
+      el("p", {className:"secondary"}, "尚未归档套件结果。")));
+
+    const inputs = list(data.inputs);
+    if (data.project?.commit || inputs.length) root.append(el("details", {className:"overview-details"},
+      el("summary", {}, "证据来源"),
+      data.project?.commit ? el("p", {className:"hash"}, `实测提交 ${data.project.commit}`) : null,
+      inputs.length ? table(["文件","大小","SHA-256"], inputs.map(input => el("tr", {},
+        el("td", {}, link(text(input.path), input.url || input.path)), el("td", {className:"nowrap"}, `${number(input.bytes)} bytes`),
+        el("td", {className:"hash"}, text(input.sha256)))), {className:"table-scroll file-list"}) : null));
+  }
+
   function distinctOptions(key, labeler=text) {
     const values=[...new Set(runs.map(run=>run[key]))].sort((a,b)=>collator.compare(text(a),text(b)));
     return [{value:"",label:"全部"},...values.map(value=>({value:value===null||value===undefined?"__missing__":String(value),label:labeler(value)}))];
@@ -621,10 +655,23 @@
       el("p",{className:"inline-note frontend-boundary"},"扫描证据覆盖定向图样移位与功能捕获。面积和时序的测量范围见各项报告。")));
   }
 
+  function portableEvidenceLinks(run, waveform) {
+    return [
+      run.log_url ? link("原始日志", run.log_url, {target:"_blank", rel:"noopener"}) : null,
+      run.report_url ? link("原始报告", run.report_url, {target:"_blank", rel:"noopener"}) : null,
+      waveform ? button("查看同次波形", () => showWave(waveform.id), {className:"link-button"}) : null,
+      run.vcd_url ? link("打开原始 VCD", run.vcd_url) : null
+    ].filter(Boolean);
+  }
+
+  function runDiagnostics(run) {
+    return [...list(run.failure_excerpt), ...list(run.diagnostic_excerpt)]
+      .filter(line => typeof line === "string" && line.trim());
+  }
+
   function renderPlanRun(run) {
     const waveform = originalWaveFor(run);
-    const diagnostics = [...list(run.failure_excerpt), ...list(run.diagnostic_excerpt)]
-      .filter(line => typeof line === "string" && line.trim());
+    const diagnostics = runDiagnostics(run);
     const context = [suiteTitle(run.suite_id), variantName(run.variant), `seed ${text(run.seed)}`];
     if (run.phase) context.push(phaseName(run.phase));
     if (run.mutation) context.push(run.mutation);
@@ -633,11 +680,11 @@
         el("div", {}, el("h3", {}, el("code", {className:"wrap-anywhere"}, text(run.test))),
           el("p", {className:"secondary"}, context.join(" · "))),
         resultBadges(run)),
-      el("div", {className:"row-actions"},
+      el("div", {className:"row-actions"}, portable ? portableEvidenceLinks(run, waveform) : [
         run.log_url ? link("原始日志", run.log_url, {target:"_blank", rel:"noopener"}) : null,
         waveform ? button("查看同次波形", () => showWave(waveform.id), {className:"link-button"}) : null,
-        run.report_url ? link("原始报告", run.report_url, {target:"_blank", rel:"noopener"}) : null),
-      waveform ? null : el("p", {className:"plan-wave-status secondary"}, run.waveform_unavailable || "本次运行未归档波形。"),
+        run.report_url ? link("原始报告", run.report_url, {target:"_blank", rel:"noopener"}) : null]),
+      waveform || (portable && run.vcd_url) ? null : el("p", {className:"plan-wave-status secondary"}, run.waveform_unavailable || "本次运行未归档波形。"),
       diagnostics.length ? el("pre", {className:"plan-log-excerpt", tabIndex:0, "aria-label":"原始日志摘录"}, diagnostics.join("\n")) : null,
       reproductionEvidence(run));
   }
@@ -657,7 +704,8 @@
         updateItems();
       }, {"aria-label":"验证范围"});
     plan.groupId = group.id;
-    root.append(planNavigation(),
+    if (!portable) root.append(planNavigation());
+    root.append(
       el("section", {className:"panel plan-points"},
         el("div", {className:"plan-scope"}, makeField("验证范围", selectGroup),
           el("span", {className:"secondary"}, "验证项关联用例与已归档运行。")),
@@ -724,7 +772,7 @@
           choose(run);
           evidence.scrollIntoView({block:"nearest"});
         }, {
-          className:`badge badge--${run.raw_status === "FAIL" ? "fail" : run.raw_status === "PASS" ? "pass" : "unknown"} plan-status-button`,
+          className:`badge badge--${(portable ? failureStatuses.includes(run.raw_status) : run.raw_status === "FAIL") ? "fail" : run.raw_status === "PASS" ? "pass" : "unknown"} plan-status-button`,
           "aria-pressed":"false", "aria-controls":"plan-selected-run",
           "aria-label":`${text(run.test)} · ${context.join(" · ")} · ${text(run.raw_status)}`
         });
@@ -747,7 +795,7 @@
       const unrecorded = list(item.checks).flatMap(check => list(check?.missing_tests));
       itemHost.replaceChildren(panel(text(item.title), item.summary || null, mode,
         unrecorded.length ? el("p", {className:"secondary"}, `未归档用例 · ${unrecorded.join("、")}`) : null,
-        body.length ? table(["UVM 用例", "版本 / seed", "原始状态"], body,
+        body.length ? table([portable ? "测试用例" : "UVM 用例", "版本 / seed", "原始状态"], body,
           {className:"table-scroll compact plan-run-table", tabIndex:0, "aria-label":"归档运行"}) :
           el("p", {className:"secondary"}, "当前筛选无归档运行。"), evidence));
       const selected = selectedRuns.find(run => run.id === plan.runId) || (plan.failures ? selectedRuns[0] : null);
@@ -757,18 +805,20 @@
   }
 
   function renderRegressions() {
-    if (planGroups.length) root.append(planNavigation());
-    intro("通过范围、版本、测试、seed、原始状态及阶段交叉筛选。故障检出是附加分类，原始 FAIL 始终可见。");
+    if (!portable && planGroups.length) root.append(planNavigation());
+    if (!portable) intro("通过范围、版本、测试、seed、原始状态及阶段交叉筛选。故障检出是附加分类，原始 FAIL 始终可见。");
     const resultBox=el("div",{});
     const fields=el("div",{className:"filters"});
     const add=(label,name,options)=>fields.append(makeField(label,makeSelect(options,state.reg[name],value=>{state.reg[name]=value;state.reg.page=1;updateResults();})));
-    add("范围","suite",[{value:"",label:"全部"},...suites.map(suite=>({value:String(suite.id),label:text(suite.title)}))]);
-    add("版本","variant",distinctOptions("variant",variantName));
+    const hasVariant = !portable || runs.some(run=>hasId(run.variant));
+    const hasPhase = !portable || runs.some(run=>hasId(run.phase));
+    add(portable ? "套件" : "范围","suite",[{value:"",label:"全部"},...suites.map(suite=>({value:String(suite.id),label:text(suite.title)}))]);
+    if (hasVariant) add("版本","variant",distinctOptions("variant",variantName));
     add("测试","test",distinctOptions("test"));
     add("Seed","seed",distinctOptions("seed"));
     add("原始状态","status",distinctOptions("raw_status"));
-    add("运行阶段","phase",distinctOptions("phase",phaseName));
-    const search=el("input",{type:"search",value:state.reg.query,placeholder:"测试名、记录 ID、分类…",onInput:event=>{state.reg.query=event.target.value;state.reg.page=1;updateResults();}});
+    if (hasPhase) add("运行阶段","phase",distinctOptions("phase",phaseName));
+    const search=el("input",{type:"search",value:state.reg.query,placeholder:portable ? "测试名或运行 ID" : "测试名、记录 ID、分类…",onInput:event=>{state.reg.query=event.target.value;state.reg.page=1;updateResults();}});
     fields.append(makeField("搜索记录",search,{wide:true}));
     fields.append(makeField("排序",makeSelect([{value:"recorded",label:"记录顺序"},{value:"fail_first",label:"原始 FAIL 优先"},{value:"test",label:"测试名称 / seed"}],state.reg.sort,value=>{state.reg.sort=value;state.reg.page=1;updateResults();})));
     const filterPanel=panel("筛选记录",null,fields,
@@ -779,51 +829,71 @@
       const rows=filteredRuns(), c=counts(rows), pages=Math.max(1,Math.ceil(rows.length/state.reg.size));
       state.reg.page=Math.min(Math.max(1,state.reg.page),pages);
       const start=(state.reg.page-1)*state.reg.size;
-      const toolbar=el("div",{className:"toolbar"},el("span",{className:"count-label",role:"status","aria-live":"polite"},`筛选 ${rows.length} / ${runs.length} 条 · PASS ${c.pass} · 原始 FAIL ${c.fail} · DETECTED ${c.detected}`),el("div",{className:"toolbar-end"},makeField("每页",makeSelect([25,50,100].map(value=>({value:String(value),label:String(value)})),String(state.reg.size),value=>{state.reg.size=Number(value);state.reg.page=1;updateResults();})),button("导出筛选 CSV",()=>downloadCSV("uart-regressions.csv",["run_id","suite","variant","test","seed","phase","raw_status","classification","expected","TX","RX","UVM_ERROR","UVM_FATAL","APB_completed","duration_s","log_url"],rows.map(run=>[run.id,run.suite_id,run.variant,run.test,run.seed,run.phase,run.raw_status,run.classification,run.expected,run.metrics?.tx,run.metrics?.rx,run.metrics?.errors,run.metrics?.fatals,run.metrics?.apb_completed,run.metrics?.duration_s,run.log_url])),{disabled:!rows.length})));
+      const resultCounts = `筛选 ${rows.length} / ${runs.length} 条 · PASS ${c.pass} · 原始 FAIL ${c.fail}`;
+      const otherCounts = portable ? (c.other ? ` · 其他状态 ${c.other}` : "") : ` · DETECTED ${c.detected}`;
+      const exportRows = () => {
+        if (portable) downloadCSV("regression-runs.csv",
+          ["run_id","suite","variant","test","seed","phase","raw_status","duration_s","log_url","report_url","vcd_url"],
+          rows.map(run=>[run.id,run.suite_id,run.variant,run.test,run.seed,run.phase,run.raw_status,run.metrics?.duration_s,run.log_url,run.report_url,run.vcd_url]));
+        else downloadCSV("uart-regressions.csv",
+          ["run_id","suite","variant","test","seed","phase","raw_status","classification","expected","TX","RX","UVM_ERROR","UVM_FATAL","APB_completed","duration_s","log_url"],
+          rows.map(run=>[run.id,run.suite_id,run.variant,run.test,run.seed,run.phase,run.raw_status,run.classification,run.expected,run.metrics?.tx,run.metrics?.rx,run.metrics?.errors,run.metrics?.fatals,run.metrics?.apb_completed,run.metrics?.duration_s,run.log_url]));
+      };
+      const toolbar=el("div",{className:"toolbar"},el("span",{className:"count-label",role:"status","aria-live":"polite"},resultCounts+otherCounts),
+        el("div",{className:"toolbar-end"},makeField("每页",makeSelect([25,50,100].map(value=>({value:String(value),label:String(value)})),String(state.reg.size),value=>{state.reg.size=Number(value);state.reg.page=1;updateResults();})),
+          button("导出筛选 CSV",exportRows,{disabled:!rows.length})));
       const resultPanel=el("section",{className:"panel"},toolbar);
       if(!rows.length)resultPanel.append(empty("没有符合条件的记录","调整筛选条件，或清除筛选后重新查看。没有记录不代表测试通过。"));
       else {
         const body=rows.slice(start,start+state.reg.size).map(run=>{
           const associated=originalWaveFor(run);
-          const point = run.raw_status === "FAIL" ? planByRun.get(run.id) : null;
-          const actions=el("div",{className:"row-actions"},run.log_url?link("原始日志",run.log_url):null,run.report_url?link("原始报告",run.report_url):null,associated?button("查看同次波形",()=>showWave(associated.id),{className:"link-button"}):null);
+          const failed = portable ? failureStatuses.includes(run.raw_status) : run.raw_status === "FAIL";
+          const point = failed ? planByRun.get(run.id) : null;
+          const links = portable ? portableEvidenceLinks(run, associated) :
+            [run.log_url?link("原始日志",run.log_url):null,run.report_url?link("原始报告",run.report_url):null,associated?button("查看同次波形",()=>showWave(associated.id),{className:"link-button"}):null];
+          const actions=el("div",{className:"row-actions"},links.length || !portable ? links : el("span",{className:"secondary"},"未归档证据"));
           const diagnostics=`${number(run.metrics?.errors)} / ${number(run.metrics?.fatals)}`;
           const duration=finite(run.metrics?.duration_s)?`${number(run.metrics.duration_s)} s`:"用时未记录";
-          const more=el("details",{className:"regression-more"},el("summary",{},"更多运行信息"),
+          const excerpt=portable ? runDiagnostics(run) : [];
+          const more=el("details",{className:"regression-more",style:portable ? {display:"block"} : null},el("summary",{},"更多运行信息"),
             el("dl",{className:"detail-list"},
-              el("dt",{},"版本"),el("dd",{},variantName(run.variant)),
-              el("dt",{},"运行阶段"),el("dd",{},run.phase?phaseName(run.phase):missing),
-              el("dt",{},"比对 / 总线计数"),el("dd",{},countersFor(run)),
-              el("dt",{},"ERROR / FATAL"),el("dd",{className:"mono"},diagnostics),
-              el("dt",{},"用时"),el("dd",{},duration)));
+              portable ? [el("dt",{},"运行 ID"),el("dd",{className:"mono wrap-anywhere"},text(run.id))] : null,
+              hasVariant ? [el("dt",{},"版本"),el("dd",{},variantName(run.variant))] : null,
+              hasPhase ? [el("dt",{},"运行阶段"),el("dd",{},run.phase?phaseName(run.phase):missing)] : null,
+              portable ? null : [el("dt",{},"比对 / 总线计数"),el("dd",{},countersFor(run)),
+                el("dt",{},"ERROR / FATAL"),el("dd",{className:"mono"},diagnostics)],
+              !portable || finite(run.metrics?.duration_s) ? [el("dt",{},"用时"),el("dd",{},duration)] : null),
+            excerpt.length ? el("pre",{className:"plan-log-excerpt",tabIndex:0,"aria-label":"原始日志摘录"},excerpt.join("\n")) : null);
           return el("tr",{className:"regression-row"},
-            el("td",{className:"reg-col-test","data-label":"测试 / 范围"},el("code",{},text(run.test)),el("span",{className:"row-secondary"},suiteTitle(run.suite_id))),
-            el("td",{className:"reg-col-variant","data-label":"版本"},variantName(run.variant)),
+            el("td",{className:"reg-col-test","data-label":"测试 / 范围"},el("code",{className:portable ? "wrap-anywhere" : null},text(run.test)),el("span",{className:"row-secondary"},suiteTitle(run.suite_id))),
+            hasVariant ? el("td",{className:"reg-col-variant","data-label":"版本"},variantName(run.variant)) : null,
             el("td",{className:"reg-col-seed mono","data-label":"Seed"},text(run.seed)),
-            el("td",{className:"reg-col-phase","data-label":"阶段"},run.phase?badge(phaseName(run.phase),"phase"):el("span",{className:"secondary"},missing)),
+            hasPhase ? el("td",{className:"reg-col-phase","data-label":"阶段"},run.phase?badge(phaseName(run.phase),"phase"):el("span",{className:"secondary"},missing)) : null,
             el("td",{className:"reg-col-status","data-label":"原始状态 / 分类"},resultBadges(run, point ? () => {
-              Object.assign(state.plan,point,{runId:run.id,failures:true});
+              Object.assign(state.plan,point,{runId:run.id,failures:run.raw_status === "FAIL"});
               setView("plan",true);
               document.getElementById("plan-selected-run")?.scrollIntoView({block:"nearest"});
-            } : null)),
-            el("td",{className:"reg-col-counts","data-label":"日志比对或总线计数"},countersFor(run)),
-            el("td",{className:"reg-col-diagnostics nowrap mono","data-label":"ERROR / FATAL"},diagnostics,el("span",{className:"row-secondary"},duration)),
+            } : portable && failed ? () => {more.open=true;more.querySelector("summary")?.focus();} : null)),
+            portable ? null : el("td",{className:"reg-col-counts","data-label":"日志比对或总线计数"},countersFor(run)),
+            portable ? null : el("td",{className:"reg-col-diagnostics nowrap mono","data-label":"ERROR / FATAL"},diagnostics,el("span",{className:"row-secondary"},duration)),
             el("td",{className:"reg-col-evidence","data-label":"证据"},actions,reproductionEvidence(run),more));
         });
-        const regressionTable=table(["测试 / 范围","版本","Seed","阶段","原始状态 / 分类","日志比对或总线计数","ERROR / FATAL","证据"],body,{className:"table-scroll regression-table"});
-        const columns=["test","variant","seed","phase","status","counts","diagnostics","evidence"];
+        const columns = [["test",portable ? "测试 / 套件" : "测试 / 范围"], ...(hasVariant ? [["variant","版本"]] : []),
+          ["seed","Seed"], ...(hasPhase ? [["phase","阶段"]] : []), ["status",portable ? "原始状态" : "原始状态 / 分类"],
+          ...(portable ? [] : [["counts","日志比对或总线计数"],["diagnostics","ERROR / FATAL"]]), ["evidence","证据"]];
+        const regressionTable=table(columns.map(([,label])=>label),body,{className:"table-scroll regression-table"});
         regressionTable.querySelector("table").setAttribute("role","table");
         regressionTable.querySelectorAll("thead,tbody").forEach(node=>node.setAttribute("role","rowgroup"));
         regressionTable.querySelectorAll("tr").forEach(node=>node.setAttribute("role","row"));
         regressionTable.querySelectorAll("th").forEach((node,index)=>{
           node.setAttribute("role","columnheader");
-          node.classList.add(`reg-col-${columns[index]}`);
+          node.classList.add(`reg-col-${columns[index][0]}`);
         });
         regressionTable.querySelectorAll("td").forEach(node=>node.setAttribute("role","cell"));
         resultPanel.append(regressionTable);
         resultPanel.append(el("div",{className:"pagination"},el("span",{},`第 ${start+1}–${Math.min(start+state.reg.size,rows.length)} 条，共 ${rows.length} 条`),el("div",{className:"button-group"},button("上一页",()=>{state.reg.page--;updateResults();},{disabled:state.reg.page<=1,className:"button small"}),el("span",{},`${state.reg.page} / ${pages}`),button("下一页",()=>{state.reg.page++;updateResults();},{disabled:state.reg.page>=pages,className:"button small"}))));
       }
-      resultPanel.append(el("p",{className:"table-note"},"TX/RX 为日志中的比对计数。成功帧汇总仅包含明确 UART 范围中的原始 PASS；APB completed、读写与等待周期单独呈现。未提供的计数显示“未记录”。"));
+      if (!portable) resultPanel.append(el("p",{className:"table-note"},"TX/RX 为日志中的比对计数。成功帧汇总仅包含明确 UART 范围中的原始 PASS；APB completed、读写与等待周期单独呈现。未提供的计数显示“未记录”。"));
       resultBox.replaceChildren(resultPanel);
     }
     updateResults();
@@ -987,6 +1057,7 @@
   function eventHasIssue(event) {return event.slverr===true||(finite(event.slverr)&&event.slverr!==0)||(typeof event.status==="string"&&event.status.trim()!==""&&event.status.toUpperCase()!=="OK");}
   function validRange(range) {return Array.isArray(range)&&finite(range[0])&&finite(range[1])&&range[1]>range[0];}
   function defaultWaveSignals(signals,kind) {
+    if(kind==="generic")return signals.slice(0,9);
     const matches=(signal,name)=>[signal.id,signal.label].some(value=>typeof value==="string"&&(value===name||value.endsWith("."+name)||(name==="apb.rst_n"&&value==="rst_n")));
     if(kind==="scan")return ["scan.clk","scan.en","scan.in","scan.out","scan.capture_checks"].map(name=>signals.find(signal=>matches(signal,name))).filter(Boolean);
     if(kind==="gate")return ["apb.rst_n","apb.psel","apb.penable","apb.pready","apb.pwrite","apb.paddr","apb.prdata","gate.prdata","scan_gate.prdata"].map(name=>signals.find(signal=>matches(signal,name))).filter(Boolean);
@@ -1004,7 +1075,7 @@
     if(!waves.length){root.append(empty("没有波形记录","尚未提供 VCD 采样事件。可从回归日志继续核对运行结果。"));return;}
     const source=waves.find(wave=>String(wave.id)===String(state.waveId))||waves[0];state.waveId=source.id;
     const wave=prepareWave(source);
-    const scan=wave.kind==="scan",frontend=scan||wave.kind==="gate";
+    const scan=wave.kind==="scan",frontend=scan||wave.kind==="gate",generic=wave.kind==="generic";
     const frontendCheck=frontend?frontendWaveContext(wave.id):null;
     const reproduced=isReproductionWave(wave),reproduction=reproductionInfo(wave);
     if(reproduced&&!reproduction){root.append(empty("复现来源无法核对","复现波形需要独立执行身份与对应原始运行的明确关联。请核对归档元数据。"));return;}
@@ -1018,10 +1089,10 @@
       document.title=`${title.textContent} · ${text(data.project?.title||"APB UART")}`;
     }
     if(!validRange(wave.range)){root.append(empty("波形时间范围未记录","需要有效的 range:[start,end] 才能显示真实时间轴。"));return;}
-    const domain=wave.range, domainSpan=domain[1]-domain[0], minSpan=Math.max(domainSpan/100000,0.001);
+    const domain=wave.range, domainSpan=domain[1]-domain[0], minSpan=Math.max(domainSpan/100000,generic ? Number.EPSILON : 0.001);
     const defaults = defaultWaveSignals(wave.signals,wave.kind);
     const signalMatches=(signal,name)=>[signal.id,signal.label].some(value=>typeof value==="string"&&(value===name||value.endsWith("."+name)||(name==="apb.rst_n"&&value==="rst_n")));
-    const priority=scan?["scan.clk","scan.en","scan.in","scan.out","scan.capture_checks"]:["apb.rst_n","apb.psel","apb.penable","apb.pready","apb.pwrite","uart.rx","uart.tx","uart.irq"];
+    const priority=generic?[]:scan?["scan.clk","scan.en","scan.in","scan.out","scan.capture_checks"]:["apb.rst_n","apb.psel","apb.penable","apb.pready","apb.pwrite","uart.rx","uart.tx","uart.irq"];
     const firstSignals=priority.map(name=>wave.signals.find(signal=>signalMatches(signal,name))).filter(Boolean);
     const orderedSignals=firstSignals.concat(wave.signals.filter(signal=>!firstSignals.includes(signal)));
     let ws=state.waveState.get(wave.id);
@@ -1087,7 +1158,7 @@
     const signalCount=el("span",{className:"wave-signal-count"});
     const signalPanel=el("section",{className:"signal-panel wave-signal-picker"},el("h3",{},"显示信号",signalCount));
     const signalList=el("div",{className:"signal-list"});
-    const svg=svgEl("svg",{class:"wave-chart",tabindex:"0",role:"group","aria-label":`${scan?"真实扫描波形":"真实波形与 APB 事务轨"}：左右键移动游标，加减键缩放，Shift 加左右键平移，Home 查看全程`});
+    const svg=svgEl("svg",{class:"wave-chart",tabindex:"0",role:"group","aria-label":`${generic?"VCD 信号波形":scan?"真实扫描波形":"真实波形与 APB 事务轨"}：左右键移动游标，加减键缩放，Shift 加左右键平移，Home 查看全程`});
     const chartFrame=el("div",{className:"wave-chart-frame"},svg);
     const values=el("div",{className:"cursor-values"});
     const status=el("p",{className:"wave-status",role:"status"});
@@ -1096,11 +1167,11 @@
     const cursorInput=el("input",{type:"number",step:"any","aria-label":`时间游标 ${wave.unit||"ns"}`});
     const windowForm=el("form",{className:"wave-window-form",onSubmit:event=>{event.preventDefault();applyWindow();}},makeField(`窗口起点 (${wave.unit||"ns"})`,startInput),makeField(`窗口终点 (${wave.unit||"ns"})`,endInput),button("应用范围",applyWindow,{className:"button small"}),makeField(`游标 (${wave.unit||"ns"})`,cursorInput),button("定位",()=>{const t=inputNumber(cursorInput);if(!finite(t)||t<domain[0]||t>domain[1]){invalid("请输入记录范围内的游标时间。");return;}ws.cursor=t;centerCursor();},{className:"button small"}));
     const density=makeSelect([{value:"compact",label:"紧凑"},{value:"comfortable",label:"舒展"}],ws.density,value=>{ws.density=value;scheduleDraw();},{"aria-label":"波形行密度"});
-    const viewOptions=el("div",{className:"wave-view-options"},el("div",{className:"wave-chart-legend"},!scan?el("span",{},el("i",{className:"wave-key--transaction","aria-hidden":"true"}),"事务范围"):null,el("span",{},el("i",{className:"wave-key--cursor","aria-hidden":"true"}),"时间游标")),el("label",{className:"wave-density"},el("span",{},"行密度"),density));
+    const viewOptions=el("div",{className:"wave-view-options"},el("div",{className:"wave-chart-legend"},!scan&&!generic?el("span",{},el("i",{className:"wave-key--transaction","aria-hidden":"true"}),"事务范围"):null,el("span",{},el("i",{className:"wave-key--cursor","aria-hidden":"true"}),"时间游标")),el("label",{className:"wave-density"},el("span",{},"行密度"),density));
     const transactionDetails=el("div",{className:"wave-transaction-details wave-selection-details"});
     // Only link the project's published archives; never forward arbitrary data URLs.
     const publishedArchives=new Set(["release/inputs/018_waves.vcd","release/inputs/024_waves.vcd","release/inputs/066_waves.vcd","release/inputs/116_waves.vcd","release/inputs/164_waves.vcd","protocol/inputs/008_waves.vcd","protocol/inputs/012_waves.vcd","protocol/inputs/025_waves.vcd"]);
-    const publicWave=data.project?.source_url==="https://github.com/jiangzheyi1234-star/apb-uart-uvm"&&publishedArchives.has(wave.source?.url)&&/^[a-f0-9]{64}$/i.test(wave.source?.sha256||"")&&list(data.inputs).some(input=>input&&input.path===wave.source.url&&input.sha256===wave.source.sha256);
+    const publicWave=!portable&&data.project?.source_url==="https://github.com/jiangzheyi1234-star/apb-uart-uvm"&&publishedArchives.has(wave.source?.url)&&/^[a-f0-9]{64}$/i.test(wave.source?.sha256||"")&&list(data.inputs).some(input=>input&&input.path===wave.source.url&&input.sha256===wave.source.sha256);
     function surferUrl(){
       const viewer=new URL("https://app.surfer-project.org/");
       viewer.searchParams.set("load_url","https://jiangzheyi1234-star.github.io/apb-uart-uvm/"+wave.source.url);
@@ -1119,16 +1190,16 @@
       signalPanel,
       el("section",{className:"wave-evidence"},el("h3",{},reproduced?"复现执行与文件":frontend?"实现检查与原始文件":"同次运行与原始文件"),runContext,
         wave.source?el("div",{className:"provenance"},el("div",{className:"evidence-links"},wave.source.url?link(reproduced?"打开复现 VCD":"打开原始 VCD",wave.source.url):el("span",{className:"secondary"},reproduced?"复现 VCD 链接未记录":"原始 VCD 链接未记录"),professionalLink),wave.source.sha256?el("p",{className:"hash",style:{marginTop:"8px"}},"SHA-256 ",wave.source.sha256):null,wave.source.note?el("p",{className:"secondary"},wave.source.note):null):null),
-      el("p",{className:"wave-help"},`${scan?"":"点击事务轨选中事务；"}滚轮缩放、拖动平移。← → 移动游标，+ / − 缩放，Shift + ← → 平移，Home 全程。`)));
+      el("p",{className:"wave-help"},`${scan||generic?"":"点击事务轨选中事务；"}滚轮缩放、拖动平移。← → 移动游标，+ / − 缩放，Shift + ← → 平移，Home 全程。`)));
     const waveMain=el("div",{className:"wave-main"},chartFrame,more);
     waveformPanel.append(el("div",{className:"wave-layout wave-layout--full"},waveMain));
     root.append(waveformPanel);
-    const eventResults=el("div",{}),allEvents=list(wave.apb_events),waitEvents=allEvents.filter(eventHasWait),issueEvents=allEvents.filter(eventHasIssue);
+    const eventResults=el("div",{}),allEvents=generic?[]:list(wave.apb_events),waitEvents=allEvents.filter(eventHasWait),issueEvents=allEvents.filter(eventHasIssue);
     const eventSearch=el("input",{type:"search",value:ws.eventQuery,placeholder:"地址、数据、状态…","aria-label":"筛选 APB 事件"});
     const eventKind=makeSelect([{value:"all",label:`全部记录 (${allEvents.length})`},{value:"wait",label:`有等待 (${waitEvents.length})`},{value:"issue",label:`异常记录 (${issueEvents.length})`}],ws.eventKind,value=>{ws.eventKind=value;ws.eventPage=1;renderEvents();},{"aria-label":"APB 事件类型"});
     const inView=el("input",{type:"checkbox",checked:ws.eventsInView,onChange:event=>{ws.eventsInView=event.target.checked;ws.eventPage=1;renderEvents();}});
     const locatable=event=>finite(event.start)&&event.start>=domain[0]&&event.start<=domain[1];
-    if(!scan||allEvents.length)root.append(el("details",{className:"wave-event-disclosure"},el("summary",{},"APB 事件记录"),el("div",{className:"wave-event-body"},
+    if(!generic&&(!scan||allEvents.length))root.append(el("details",{className:"wave-event-disclosure"},el("summary",{},"APB 事件记录"),el("div",{className:"wave-event-body"},
       el("div",{className:"toolbar wave-event-tools"},makeField("事件类型",eventKind),makeField("搜索事件",eventSearch),el("label",{className:"check-field"},inView,"仅当前窗口")),
       el("p",{className:"inline-note"},"点击事件时间定位到对应采样窗口。快捷定位扫描整份波形，并清除事件搜索条件。异常记录包括非 OK 状态或 PSLVERR；复位中止、未完成及未知记录需结合日志判断。"),eventResults)));
     eventSearch.addEventListener("input",()=>{ws.eventQuery=eventSearch.value;ws.eventPage=1;renderEvents();});
@@ -1136,7 +1207,7 @@
     function refreshSignals(){signalCount.textContent=`${ws.selected.size} / ${wave.signals.length}`;signalList.replaceChildren(...orderedSignals.map(signal=>el("label",{className:"signal-check"},el("input",{type:"checkbox",checked:ws.selected.has(signal.id),onChange:event=>{if(event.target.checked)ws.selected.add(signal.id);else ws.selected.delete(signal.id);signalCount.textContent=`${ws.selected.size} / ${wave.signals.length}`;scheduleDraw(true);}}),el("span",{},text(signal.label||signal.id),finite(signal.width)?el("small",{},`[${signal.width}]`):null))));}
     refreshSignals();
     let frame=null,pendingEvents=false,drag=null;
-    function scheduleDraw(events=false){pendingEvents=pendingEvents||events;if(frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;draw();if(pendingEvents){pendingEvents=false;renderEvents();}});}
+    function scheduleDraw(events=false){pendingEvents=pendingEvents||events;if(frame!==null)return;frame=requestAnimationFrame(()=>{frame=null;draw();if(pendingEvents){pendingEvents=false;if(!generic)renderEvents();}});}
     function clampWindow(start,end){let span=Math.min(domainSpan,Math.max(minSpan,end-start));let left=Math.max(domain[0],Math.min(domain[1]-span,start));return [left,left+span];}
     function setWindow(start,end){[ws.start,ws.end]=clampWindow(start,end);ws.eventPage=1;scheduleDraw(true);}
     function zoom(factor,anchor=ws.cursor){const ratio=Math.max(0,Math.min(1,(anchor-ws.start)/(ws.end-ws.start)));const span=Math.min(domainSpan,Math.max(minSpan,(ws.end-ws.start)*factor));setWindow(anchor-ratio*span,anchor+(1-ratio)*span);}
@@ -1158,7 +1229,7 @@
     const jumpControls = el("div", {className:"button-group wave-jump-controls", "aria-label":"APB 事件定位"},
       waitEvents.some(locatable)?button("下一个等待", () => jumpEvent("wait"), {className:"button small"}):null,
       issueEvents.some(locatable)?button("下一个异常", () => jumpEvent("issue"), {className:"button small"}):null);
-    quickActions.append(jumpControls);
+    if (!generic) quickActions.append(jumpControls);
     const origin = state.waveReturn;
     const returnLabel = {overview:"返回总览", plan:"返回验证计划", frontend:"返回实现与 DFT", defects:"返回缺陷对照", regressions:"返回筛选结果"}[origin?.view];
     if (returnLabel) quickActions.append(button(returnLabel, () => {
@@ -1180,7 +1251,7 @@
       return ticks;
     }
     function draw(){
-      const d=dimensions(),selected=orderedSignals.filter(signal=>ws.selected.has(signal.id)),axis=78,row=ws.density==="comfortable"?54:40,height=axis+Math.max(1,selected.length)*row+16,span=ws.end-ws.start;
+      const d=dimensions(),selected=orderedSignals.filter(signal=>ws.selected.has(signal.id)),axis=generic?57:78,row=ws.density==="comfortable"?54:40,height=axis+Math.max(1,selected.length)*row+16,span=ws.end-ws.start;
       svg.setAttribute("viewBox",`0 0 ${d.width} ${height}`);svg.setAttribute("height",String(height));svg.replaceChildren();
       const x=t=>d.left+(t-ws.start)/span*d.plot;
       const fit=(value,pixels)=>{const string=String(value),limit=Math.max(0,Math.floor(pixels/8.5));return string.length<=limit?string:limit>=3?string.slice(0,limit-1)+"…":"";};
@@ -1192,7 +1263,8 @@
       if(activeEvent&&finite(activeEvent.start)&&finite(activeEvent.end)&&activeEvent.end>=ws.start&&activeEvent.start<=ws.end){const a=x(Math.max(ws.start,activeEvent.start)),b=x(Math.min(ws.end,activeEvent.end));svg.append(svgEl("rect",{x:a,y:axis-3,width:Math.max(1,b-a),height:height-axis-9,fill:"#0c8b88","fill-opacity":.09,class:"wave-selected-range"}));for(const t of [activeEvent.start,activeEvent.end])if(t>=ws.start&&t<=ws.end)svg.append(svgEl("line",{x1:x(t),y1:70,x2:x(t),y2:height-12,stroke:"#087f83","stroke-width":1.5,"stroke-dasharray":"3 3",class:"wave-selected-boundary"}));}
       let previousLabelRight=-Infinity;
       for(const tick of axisTicks(ws.start,ws.end,d.plot)){const px=x(tick.value),labelWidth=tick.label.length*8.5,anchor=px-d.left<labelWidth/2?"start":d.width-d.right-px<labelWidth/2?"end":"middle",labelLeft=px-(anchor==="end"?labelWidth:anchor==="middle"?labelWidth/2:0);svg.append(svgEl("line",{x1:px,y1:24,x2:px,y2:height-12,stroke:"#d9e5ed","stroke-width":1,class:"wave-time-grid"}));if(labelLeft>=previousLabelRight+12){const label=svgEl("text",{x:px,y:18,"text-anchor":anchor,class:"wave-axis wave-time-tick","data-time":String(tick.value)},tick.label);label.append(svgEl("title",{},`绝对时间 ${absoluteTime(tick.value)} ${wave.unit||"ns"}`));svg.append(label);previousLabelRight=labelLeft+labelWidth;}}
-      svg.append(svgEl("text",{x:12,y:18,class:"wave-axis"},"信号 / 游标值"),svgEl("text",{x:12,y:38,class:"wave-axis"},`绝对时间 ${wave.unit||"ns"}`),svgEl("text",{x:12,y:65,class:"wave-axis"},scan&&!allEvents.length?"扫描时序":"APB 事务"));
+      svg.append(svgEl("text",{x:12,y:18,class:"wave-axis"},"信号 / 游标值"),svgEl("text",{x:12,y:38,class:"wave-axis"},`绝对时间 ${wave.unit||"ns"}`));
+      if (!generic) svg.append(svgEl("text",{x:12,y:65,class:"wave-axis"},scan&&!allEvents.length?"扫描时序":"APB 事务"));
       for(const event of allEvents){if(!finite(event.start)||!finite(event.end)||event.end<ws.start||event.start>ws.end)continue;const a=x(Math.max(ws.start,event.start)),b=x(Math.min(ws.end,event.end)),isSelected=event.id===ws.eventId,issue=eventHasIssue(event),direction=event.write===true?"W":event.write===false?"R":"?",label=`${direction} ${formatBus(event.address)}`,description=`${label} · ${text(event.status)} · 等待 ${number(event.wait_cycles)} 周期 · ${time(event.start)}–${time(event.end)} ${wave.unit||"ns"}`;
         const group=svgEl("g",{class:"wave-event-track",tabindex:"0",role:"button","aria-label":description,"aria-pressed":isSelected?"true":"false","data-apb-event-id":String(event.id),style:"cursor:pointer"});
         group.append(svgEl("rect",{x:a,y:51,width:Math.max(1,b-a),height:20,rx:3,fill:isSelected?"#0a7c80":issue?"#f5e3bd":event.write===true?"#d7eceb":"#dce9f7",stroke:isSelected?"#075d60":issue?"#a97727":event.write===true?"#71aaa6":"#87a8c7","stroke-width":isSelected?2:1,class:`wave-event-band wave-event-band--${issue?"issue":event.write===true?"write":"read"}${isSelected?" wave-event-band--selected":""}`}));
@@ -1221,7 +1293,8 @@
         }else{for(const [a,b,v] of segments){if(b<ws.start||a>ws.end)continue;const pa=x(Math.max(a,ws.start)),pb=x(Math.min(b,ws.end)),cut=Math.min(4,Math.max(0,(pb-pa)/4));if(v===null){svg.append(svgEl("line",{x1:pa,y1:middle,x2:pb,y2:middle,class:"wave-unknown"}));continue;}const busValue=formatBits(v,signal.width),shape=svgEl("path",{d:`M${pa},${middle}L${pa+cut},${high+2}L${pb-cut},${high+2}L${pb},${middle}L${pb-cut},${low-2}L${pa+cut},${low-2}Z`,class:`wave-bus${/[xz]/i.test(v)?" wave-bus--unknown":""}`});shape.append(svgEl("title",{},`${label}: ${busValue} · ${time(a)}–${time(b)} ${wave.unit||"ns"}`));svg.append(shape);const display=fit(busValue,pb-pa-16);if(display)svg.append(svgEl("text",{x:(pa+pb)/2,y:middle+5,"text-anchor":"middle",class:"wave-value"},display));}}
       }
       if(ws.cursor>=ws.start&&ws.cursor<=ws.end){const px=x(ws.cursor),label=`t=${absoluteTime(ws.cursor)} ${wave.unit||"ns"}`,width=Math.min(d.plot,Math.max(78,label.length*8+18)),left=Math.max(d.left,Math.min(d.width-d.right-width,px-width/2)),text=svgEl("text",{x:left+width/2,y:40,"text-anchor":"middle",fill:"#ffffff","font-size":12,"font-family":"ui-monospace,Consolas,monospace",class:"wave-cursor-text"},fit(label,width-12));text.append(svgEl("title",{},`游标绝对时间 ${absoluteTime(ws.cursor)} ${wave.unit||"ns"}`));svg.append(svgEl("line",{x1:px,y1:44,x2:px,y2:height-11,class:"cursor-line"}),svgEl("rect",{x:left,y:26,width:width,height:19,rx:4,fill:"#b83c4d",class:"wave-cursor-label"}),text,svgEl("path",{d:`M${px-5},44L${px+5},44L${px},50Z`,class:"cursor-handle","data-cursor-handle":"true"}),svgEl("rect",{x:px-8,y:73,width:16,height:height-84,fill:"transparent","data-cursor-handle":"true",style:"cursor:ew-resize"}));}
-      if(document.activeElement!==startInput)startInput.value=String(Number(ws.start.toFixed(6)));if(document.activeElement!==endInput)endInput.value=String(Number(ws.end.toFixed(6)));if(document.activeElement!==cursorInput)cursorInput.value=String(Number(ws.cursor.toFixed(6)));
+      const inputPrecision = generic ? 9 : 6;
+      if(document.activeElement!==startInput)startInput.value=String(Number(ws.start.toFixed(inputPrecision)));if(document.activeElement!==endInput)endInput.value=String(Number(ws.end.toFixed(inputPrecision)));if(document.activeElement!==cursorInput)cursorInput.value=String(Number(ws.cursor.toFixed(inputPrecision)));
       if(professionalLink)professionalLink.setAttribute("href",surferUrl());
       status.classList.remove("invalid");status.textContent=`窗口 ${absoluteTime(ws.start)}–${absoluteTime(ws.end)} ${wave.unit||"ns"} · 游标绝对时间 ${absoluteTime(ws.cursor)} ${wave.unit||"ns"} · ${selected.length}/${wave.signals.length} 个信号`;
       values.replaceChildren(...selected.map(signal=>el("div",{className:"cursor-value"},el("span",{},text(signal.label||signal.id)),el("code",{},formatBits(valueAt(signal,ws.cursor),signal.width)))));
@@ -1245,7 +1318,7 @@
     svg.addEventListener("keydown",event=>{const span=ws.end-ws.start,step=span/100;let handled=true;if(event.key==="ArrowLeft"||event.key==="ArrowRight"){const direction=event.key==="ArrowRight"?1:-1;if(event.shiftKey)setWindow(ws.start+direction*span*.1,ws.end+direction*span*.1);else{ws.cursor=Math.max(domain[0],Math.min(domain[1],ws.cursor+direction*step));if(ws.cursor<ws.start||ws.cursor>ws.end)centerCursor();else scheduleDraw();}}else if(["+","="].includes(event.key))zoom(.5);else if(["-","−"].includes(event.key))zoom(2);else if(event.key==="Home")setWindow(...domain);else handled=false;if(handled){event.preventDefault();announce(`游标 ${time(ws.cursor)} ${wave.unit||"ns"}`);}});
     let observer=null;const onResize=()=>scheduleDraw();if(typeof ResizeObserver!=="undefined"){observer=new ResizeObserver(onResize);observer.observe(chartFrame);}else window.addEventListener("resize",onResize);
     cleanupView=()=>{if(frame!==null)cancelAnimationFrame(frame);if(observer)observer.disconnect();else window.removeEventListener("resize",onResize);};
-    draw();renderEvents();
+    draw();if(!generic)renderEvents();
     if(hasId(state.waveFocusEventId)){const event=allEvents.find(event=>event.id===state.waveFocusEventId);if(event){state.waveFocusEventId=null;focusEvent(event);}}
   }
 
@@ -1364,11 +1437,25 @@
 
   const project=data.project||{};
   const meta=document.getElementById("project-meta");
+  if (portable) {
+    const projectTitle = text(project.title || "验证工作台");
+    const brand = document.querySelector(".brand");
+    if (brand) {
+      brand.setAttribute("aria-label", projectTitle+" · 验证总览");
+      brand.replaceChildren(el("strong", {className:"wrap-anywhere"}, projectTitle));
+    }
+    const footer = document.querySelector(".page-footer span:first-child");
+    if (footer) footer.textContent = project.source_note || "状态按导入的回归记录显示。";
+    nav.replaceChildren(...Object.entries(portableViews).map(([view,label]) =>
+      el("button", {type:"button","data-tab":view,"aria-controls":"workspace"}, view==="overview" ? "总览" : label)));
+  }
   if(project.version)meta.append(el("span",{className:"secondary"},`证据 ${text(project.version)}`));
   if(project.source_url)meta.append(link("源码",project.source_url));
+  if(!portable&&project.source_url==="https://github.com/jiangzheyi1234-star/apb-uart-uvm")
+    meta.append(link("接入自己的项目",project.source_url+"/blob/main/docs/dashboard.md#接入其他项目"));
   document.getElementById("generated-at").textContent=project.generated_utc?`数据生成 UTC：${String(project.generated_utc).replace("T"," ").replace(/Z$/,"")}`:"数据生成时间未记录";
   nav.addEventListener("click",event=>{const target=event.target.closest("button[data-tab]");if(target)setView(target.dataset.tab,true);});
   nav.addEventListener("keydown",event=>{const buttons=[...nav.querySelectorAll("button[data-tab]")],index=buttons.indexOf(document.activeElement);if(index<0)return;let next=null;if(["ArrowDown","ArrowRight"].includes(event.key))next=(index+1)%buttons.length;if(["ArrowUp","ArrowLeft"].includes(event.key))next=(index-1+buttons.length)%buttons.length;if(event.key==="Home")next=0;if(event.key==="End")next=buttons.length-1;if(next!==null){event.preventDefault();buttons[next].focus();}});
-  window.addEventListener("hashchange",()=>{const requested=location.hash.slice(1);if(VIEWS[requested]&&requested!==state.tab)setView(requested);});
-  setView(VIEWS[location.hash.slice(1)]?location.hash.slice(1):"overview");
+  window.addEventListener("hashchange",()=>{const requested=location.hash.slice(1);if(Object.hasOwn(viewTitles,requested)&&requested!==state.tab)setView(requested);});
+  setView(location.hash.slice(1));
 })();

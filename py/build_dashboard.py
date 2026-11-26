@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
 import hashlib
+from html import escape
 import json
 from pathlib import Path
 import re
@@ -646,20 +647,38 @@ def build(root: Path, output: Path, template: Path, version: str, repository: st
         plan = read_json(plan_path)
         plan["groups"].extend(extra_plan)
         data["verification_plan"] = bind_verification_plan(plan, rows)
+    write_dashboard(output, template, data)
+    return data
+
+
+def write_dashboard(output: Path, template: Path, data: dict) -> None:
     output.mkdir(parents=True, exist_ok=True)
     (output / "assets").mkdir(exist_ok=True)
     (output / "data").mkdir(exist_ok=True)
-    shutil.copyfile(template / "index.html", output / "index.html")
+    portable = data.get("mode") == "portable"
+    if portable:
+        title = escape(data["project"]["title"], quote=True)
+        shell = (template / "index.html").read_text(encoding="utf-8")
+        shell = shell.replace("APB UART verification workbench: recorded regressions, coverage, waveform inspection and source-linked design evidence.",
+                              "Verification plan, recorded test runs and evidence.")
+        shell = shell.replace("波形与总线", "波形")
+        shell = re.sub(r'^  <script src="assets/(?:vendor/echarts.min|chart-view)\.js" defer></script>\n', "", shell, flags=re.MULTILINE)
+        shell = re.sub(r'<noscript>.*?</noscript>', '<noscript><div class="noscript">请启用 JavaScript 查看验证结果和证据。</div></noscript>', shell)
+        shell = shell.replace("请保留同版本证据包的目录结构。", "请保留生成目录的结构。")
+        shell = shell.replace("原始 FAIL 保留；DETECTED 只表示指定负向控制被检查器发现。", "状态来自导入的运行记录。")
+        shell = shell.replace("APB UART", title)
+        (output / "index.html").write_text(shell, encoding="utf-8", newline="\n")
+    else:
+        shutil.copyfile(template / "index.html", output / "index.html")
     for name in ("app.js", "styles.css"):
         shutil.copyfile(template / name, output / "assets" / name)
     chart_view = template / "chart-view.js"
-    if chart_view.is_file():
+    if not portable and chart_view.is_file():
         shutil.copyfile(chart_view, output / "assets" / chart_view.name)
         shutil.copytree(template / "vendor", output / "assets" / "vendor", dirs_exist_ok=True)
     serialized = json.dumps(data, ensure_ascii=False, allow_nan=False, separators=(",", ":")).replace("<", "\\u003c").replace(">", "\\u003e")
     (output / "data/dashboard.js").write_text("window.UART_DASHBOARD=" + serialized + ";\n", encoding="utf-8", newline="\n")
     (output / "data/dashboard.json").write_text(json.dumps(data, ensure_ascii=False, allow_nan=False, indent=2) + "\n", encoding="utf-8", newline="\n")
-    return data
 
 
 def main() -> int:

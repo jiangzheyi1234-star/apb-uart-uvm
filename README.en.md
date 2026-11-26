@@ -2,7 +2,7 @@
 
 [![Verification](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/workflows/verification.yml/badge.svg?branch=main)](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/workflows/verification.yml)
 
-[中文](README.md) · [Documentation](docs/README.md) · [Verification workbench](https://jiangzheyi1234-star.github.io/apb-uart-uvm/) · [Releases](https://github.com/jiangzheyi1234-star/apb-uart-uvm/releases/latest)
+[中文](README.md) · [Documentation](docs/README.md) · [Verification workbench](https://jiangzheyi1234-star.github.io/apb-uart-uvm/) · [Use with your project](#use-with-your-project) · [Releases](https://github.com/jiangzheyi1234-star/apb-uart-uvm/releases/latest)
 
 A SystemVerilog/UVM verification environment for a pinned PULP APB UART, with independent APB/UART agents, bidirectional checking, a cycle-level FIFO model, bank-aware register access, assertions, coverage and automated regression.
 
@@ -103,6 +103,23 @@ Choose a verification item to see its mapped UVM tests and recorded outcomes. Se
 The report homepage uses the [verification workbench](https://jiangzheyi1234-star.github.io/apb-uart-uvm/). UART core, RAL, checker controls and APB qualification retain separate scopes and raw outcomes. Real VCD traces support a cursor, zoom, pan and APB-event navigation. APB responses use values immediately before the rising clock edge, preserving sampled read data when the peripheral updates its outputs after the edge. Trace decoding is diagnostic; it does not replace the UVM checker.
 
 Static evidence pages remain available for [UART regression](docs/release/index.html), [RAL/checker controls](docs/features/index.html) and [APB protocol checks](docs/protocol/index.html). The [workbench documentation](docs/dashboard.md) explains generation, input validation and offline use.
+
+### Use with your project
+
+Run at the repository root with Python 3.10 or later. If your project already produces JUnit XML, one command builds the offline regression view. Use `python3` on systems where that is the Python 3 executable.
+
+```text
+python py/workbench.py build --junit results/junit.xml --title "My IP" --out results/junit-workbench
+```
+
+Open `results/junit-workbench/index.html`. Use a manifest to attach a verification plan, per-run logs and VCD traces. Try it with a labeled counter demo first.
+
+```text
+python py/workbench.py init --out results/review-input
+python py/workbench.py build results/review-input/manifest.json --out results/review-site
+```
+
+Open `results/review-site/index.html` to inspect the failing run, log and interactive waveform. For a real project, export your simulator results to `manifest.json`, link the artifacts by run, and build into a fresh directory. The entire output folder can be shared as a CI artifact. [Input format and CI example](docs/dashboard.md#接入其他项目)
 
 ## Documentation and distributions
 

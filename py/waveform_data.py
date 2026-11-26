@@ -41,7 +41,7 @@ def binary_value(value: str, width: int) -> str:
     return value.rjust(width, fill)
 
 
-def read_interface_vcd(path: Path, *, subsystem: bool = False) -> dict:
+def read_interface_vcd(path: Path, *, subsystem: bool = False, signal_names: list[str] | None = None) -> dict:
     path = Path(path)
     selected: dict[str, list[str]] = {}
     signals: dict[str, dict] = {}
@@ -55,6 +55,7 @@ def read_interface_vcd(path: Path, *, subsystem: bool = False) -> dict:
     sample_count = 0
     comment = False
     monitored = (*SIGNALS, *SUBSYSTEM_SIGNALS) if subsystem else SIGNALS
+    exact_names = set(signal_names or ())
     with path.open(encoding="utf-8", errors="strict") as stream:
         for raw in stream:
             line = raw.strip()
@@ -81,14 +82,19 @@ def read_interface_vcd(path: Path, *, subsystem: bool = False) -> dict:
                     if len(fields) < 6:
                         raise ValueError("Malformed VCD declaration")
                     full_name = ".".join(scopes + [fields[4]])
-                    for name in monitored:
-                        if full_name.endswith("." + name) and name not in signals:
-                            width = int(fields[2])
-                            if not 1 <= width <= 64:
-                                raise ValueError("Unsupported interface signal width")
-                            signals[name] = {"id": name, "label": SUBSYSTEM_SIGNALS.get(name, name), "width": width,
-                                             "full_name": full_name, "events": []}
-                            selected.setdefault(fields[3], []).append(name)
+                    if signal_names is None:
+                        matches = [name for name in monitored if full_name.endswith("." + name) and name not in signals]
+                    else:
+                        matches = [full_name] if full_name in exact_names else []
+                    for name in matches:
+                        width = int(fields[2])
+                        if not 1 <= width <= 64:
+                            raise ValueError(f"Unsupported signal width: {name}")
+                        if signal_names is not None and (name in signals or fields[1] in {"real", "realtime", "string", "event"}):
+                            raise ValueError(f"Ambiguous or unsupported VCD signal: {name}")
+                        signals[name] = {"id": name, "label": SUBSYSTEM_SIGNALS.get(name, name), "width": width,
+                                         "full_name": full_name, "events": []}
+                        selected.setdefault(fields[3], []).append(name)
                 elif line.startswith("$enddefinitions"):
                     if timescale is None:
                         raise ValueError("VCD has no declared timescale")
@@ -128,6 +134,10 @@ def read_interface_vcd(path: Path, *, subsystem: bool = False) -> dict:
                     sample_count += 1
                 if sample_count > 500_000:
                     raise ValueError("Interface trace exceeds the viewer sample limit; select a shorter VCD")
+    if signal_names is not None:
+        missing = [name for name in signal_names if not signals.get(name, {}).get("events")]
+        if missing:
+            raise ValueError(f"Selected VCD signals have no samples: {', '.join(missing)}")
     if header or not signals or not any(s["events"] for s in signals.values()):
         raise ValueError("No interface samples were recorded")
     return {"range": [0.0, timestamp], "unit": "ns", "signals": signals,

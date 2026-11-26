@@ -66,6 +66,100 @@ python3 py/run_linux_regression.py --suite apb_protocol \
 
 默认协议矩阵为三类正向 × seeds 1/2/3，共 9 次；专门超时需求类 × 3，共 3 次；随后正常等待类恢复对照 × 3，共 3 次。15 次进程的原始结果分别保存。审计仅接受同一二进制和源码快照，且超时负向必须恰好出现一次 `APB_TIMEOUT`、零 FATAL、正常退出、无正常 PASS 标记，以及按顺序出现的 `APB_TIMEOUT_ARMED` 和 `APB_TIMEOUT_SCENARIO_COMPLETE`。后者还必须记录超时后的恢复传输。协议要求见 [APB 文档](apb_protocol.md)；实际结论以对应提交的运行报告为准。
 
+## 接入其他项目
+
+[`py/workbench.py`](../py/workbench.py) 接收项目自己的测试结果和证据，生成可离线打开的计划、回归和波形视图。生成工具使用 Python 3.10 及以上的标准库，推荐 Python 3.12。已有仿真流程继续负责执行用例并输出结果。
+
+### JUnit XML 快速导入
+
+已有 JUnit 报告时，生成并打开 `results/junit-workbench/index.html`。
+
+```text
+python py/workbench.py build --junit results/junit.xml --title "My IP" --out results/junit-workbench
+```
+
+工作台按 `testcase` 记录导入 `PASS`、`FAIL`、`ERROR`、`SKIP`，并附上原始 XML。省略 `--title` 时使用不含扩展名的报告名，seed 显示为未记录。需要验证计划、单次日志和 VCD 时，用下方的清单模式补充关联。
+
+### 清单模式演示
+
+```text
+python py/workbench.py init --out results/review-input
+python py/workbench.py build results/review-input/manifest.json --out results/review-site
+```
+
+`init` 提供标明为演示的计数器记录及其配套日志和 VCD。打开 `results/review-site/index.html`，进入「验证计划」，展开验证项并选择 FAIL，可查看该次运行关联的日志和波形。正式接入时，由项目自己的回归脚本生成清单，并为每次 `build` 使用新目录。
+
+### 输入格式 v1
+
+将 `manifest.json` 和所引用的产物放在同一个输入目录下，产物可以位于子目录。以下示例为桥接模块的一次回归，`runs` 中的状态与 seed 由回归流程提供。
+
+```json
+{
+  "schema_version": 1,
+  "project": {"title": "Bridge IP", "version": "nightly"},
+  "suites": [{"id": "bridge", "title": "桥接模块回归"}],
+  "runs": [
+    {
+      "id": "bridge-write-42",
+      "suite_id": "bridge",
+      "test": "write_smoke",
+      "seed": 42,
+      "raw_status": "FAIL",
+      "failure_excerpt": ["Expected write response after request handshake."],
+      "log": "runs/write-42/simulation.log",
+      "report": "runs/write-42/result.json",
+      "vcd": "runs/write-42/waves.vcd",
+      "signals": ["tb.dut.clk", "tb.dut.write_valid", "tb.dut.write_data"]
+    }
+  ],
+  "verification_plan": {
+    "groups": [{
+      "id": "bus",
+      "title": "写通路",
+      "items": [{
+        "id": "write-handshake",
+        "title": "写事务握手",
+        "summary": "检查写请求与响应的握手顺序。",
+        "checks": [{"suite_id": "bridge", "tests": ["write_smoke"]}]
+      }]
+    }]
+  }
+}
+```
+
+| 字段 | 约定 |
+| --- | --- |
+| `schema_version` | 固定为 `1`。 |
+| `project` | `title` 必填。可选 `version`、`commit` 和 `source_note` 用于标识构建和证据来源。 |
+| `suites` | 每个套件声明唯一的 `id` 与可读的 `title`。 |
+| `runs` | 每次执行声明唯一的 `id`、已登记的 `suite_id`、`test` 和 `raw_status`，可选 `seed`、`variant` 和 `phase`。seed 为 `0` 到 `2^53−1` 的整数，空值表示未记录。重复执行同一测试时给各次运行独立 ID。 |
+| `raw_status` | `PASS`、`FAIL`、`SKIP`、`ERROR`、`TIMEOUT` 或 `DRY_RUN`。状态沿用回归输出。 |
+| `failure_excerpt` | 可选的诊断文本行列表，便于从失败记录直接查看关键信息。 |
+| `log`、`report`、`vcd` | 可选产物。使用相对于清单目录的文件路径，以 `/` 分隔。工具复制已声明文件并记录 SHA-256，可从对应运行打开。 |
+| `signals` | 可选的 VCD 信号完整层级名列表。选择有时间范围和采样值的 1–64 位数字信号，可在浏览器查看交互波形。仅提供 `vcd` 时，可打开原始文件。 |
+| `verification_plan` | 可选。每个验证项通过 `suite_id` 和 `tests` 关联套件与用例，可用 `variants` 或 `phases` 缩小范围。没有匹配运行的验证项显示为未记录。 |
+
+### CI 归档
+
+生成目录包含 `index.html`、本地资源、数据及声明的 `evidence/` 产物。SHA-256 用于核验复制后的文件完整性，运行状态来自输入报告或清单。归档整个目录，解压后用浏览器打开 `index.html`。工程内部的日志或波形可按团队已有的权限在本地或内部制品库共享。
+
+以下两步可加到已准备 Python 和工作台脚本的 GitHub Actions job。只要仿真留下了 JUnit XML，失败后也会生成报告，仿真步骤保留原来的状态。清单模式可替换其中的生成命令。
+
+```yaml
+- name: Build verification workbench
+  id: workbench
+  if: ${{ !cancelled() && hashFiles('results/junit.xml') != '' }}
+  run: python py/workbench.py build --junit results/junit.xml --title "My IP" --out results/junit-workbench
+
+- name: Archive verification workbench
+  if: ${{ !cancelled() && steps.workbench.outcome == 'success' }}
+  uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+  with:
+    name: verification-workbench
+    path: results/junit-workbench/
+    if-no-files-found: error
+```
+
 ## 从证据生成页面
 
 页面生成器读取三个已审计的证据目录：`release/`、`features/`、`protocol/`。前两者保存 UART 核心/RAL 与检查器证据；协议证据由下列命令从真实审计结果打包。输出目录必须为空或尚不存在。
