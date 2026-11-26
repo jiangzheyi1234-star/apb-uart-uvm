@@ -23,7 +23,7 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DIRECTORIES = ("rtl", "rtl_fixed", "tb", "sim", "py", "tests", "third_party",
+DIRECTORIES = ("rtl", "rtl_fixed", "rtl_subsystem", "tb", "sim", "py", "tests", "third_party",
                ".tools/verilator", ".tools/uvm-core-2020.3.1")
 SKIP = {"__pycache__", ".git", ".pytest_cache"}
 FILES = (".tools/uvm-core-2020.3.1.tar.gz", ".tools/verilator-v5.054.tar.gz")
@@ -79,7 +79,7 @@ def copy_stage(project: Path, stage: Path) -> dict:
     # Avoid silently compiling obsolete SV files left from a different project.
     # A fresh stage is the recovery path; this wrapper never deletes user files.
     active = {record["path"] for record in records}
-    for name in ("rtl", "rtl_fixed", "tb"):
+    for name in ("rtl", "rtl_fixed", "rtl_subsystem", "tb"):
         directory = stage / name
         if directory.is_dir():
             for candidate in directory.rglob("*"):
@@ -129,18 +129,24 @@ def staged_path(raw: str | None, project: Path, stage: Path, default: Path) -> P
 
 
 def default_stage_directory(suite: str) -> Path:
-    return Path("/var/tmp/apb-agent-protocol-workspace" if suite == "apb_protocol" else "/var/tmp/apb-uart-uvm-workspace")
+    return Path({
+        "apb_protocol": "/var/tmp/apb-agent-protocol-workspace",
+        "subsystem": "/var/tmp/apb-subsystem-workspace",
+    }.get(suite, "/var/tmp/apb-uart-uvm-workspace"))
 
 
 def default_build_directory(suite: str, variant: str) -> Path:
-    return Path("/var/tmp/apb-agent-protocol-build" if suite == "apb_protocol" else f"/var/tmp/apb-uart-uvm-build-{variant}")
+    return Path({
+        "apb_protocol": "/var/tmp/apb-agent-protocol-build",
+        "subsystem": "/var/tmp/apb-subsystem-build",
+    }.get(suite, f"/var/tmp/apb-uart-uvm-build-{variant}"))
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter,
                                      epilog="Other arguments are passed to run_regression.py. Use that script's --help for runner options.")
     parser.add_argument("--stage-dir", type=Path)
-    parser.add_argument("--suite", choices=("uart", "apb_protocol"), default="uart")
+    parser.add_argument("--suite", choices=("uart", "apb_protocol", "subsystem"), default="uart")
     parser.add_argument("--source-root", type=Path, default=ROOT)
     args, forwarded = parser.parse_known_args()
     if forwarded[:1] == ["--"]:
@@ -156,9 +162,11 @@ def main() -> int:
         if simulator not in (None, "verilator"):
             raise ValueError("This staging helper is for --sim verilator")
         forwarded, variant = take_option(forwarded, "--rtl")
-        variant = variant or "upstream"
+        variant = variant or ("fixed" if args.suite == "subsystem" else "upstream")
         if variant not in ("upstream", "fixed"):
             raise ValueError("--rtl must be upstream or fixed")
+        if args.suite == "subsystem" and variant != "fixed":
+            raise ValueError("--suite subsystem requires --rtl fixed")
         forwarded, out_value = take_option(forwarded, "--out")
         output = (Path(out_value) if out_value else Path("results") / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S_%fZ"))
         output = (project / output).resolve() if not output.is_absolute() else output.resolve()

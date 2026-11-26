@@ -49,6 +49,8 @@ def parse_records(path: Path) -> list[dict]:
 
 def source_scope(filename: str) -> str:
     path = "/" + filename.replace("\\", "/").lstrip("/")
+    if "/rtl_subsystem/" in path:
+        return "rtl_subsystem"
     if "/rtl/" in path or "/rtl_fixed/" in path:
         return "rtl"
     if "/tb/" in path:

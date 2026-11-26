@@ -1,0 +1,20 @@
+package subsystem_pkg;
+  timeunit 1ns;
+  timeprecision 1ps;
+  import uvm_pkg::*;
+  `include "uvm_macros.svh"
+  `include "apb_agent/apb_seq_item.sv"
+  `include "apb_agent/apb_sequencer.sv"
+  `include "apb_agent/apb_driver.sv"
+  `include "apb_agent/apb_monitor.sv"
+  `include "apb_agent/apb_agent.sv"
+  `include "uart_agent/uart_config.sv"
+  `include "uart_agent/uart_seq_item.sv"
+  `include "uart_agent/uart_sequencer.sv"
+  `include "uart_agent/uart_driver.sv"
+  `include "uart_agent/uart_monitor.sv"
+  `include "uart_agent/uart_agent.sv"
+  `include "protocol/apb_protocol_checker.sv"
+  `include "subsystem/subsystem_checker.sv"
+  `include "subsystem/subsystem_tests.sv"
+endpackage

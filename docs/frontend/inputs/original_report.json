@@ -1,0 +1,796 @@
+{
+  "schema_version": 1,
+  "status": "TIMING_VIOLATION",
+  "started_utc": "2026-11-26T12:51:35.505268+00:00",
+  "processes": [
+    {
+      "command": [
+        "yosys",
+        "-V"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.033,
+      "log": "version_yosys.log"
+    },
+    {
+      "command": [
+        "/var/tmp/apb-frontend-tools/opensta-build/sta",
+        "-version"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.004,
+      "log": "version_opensta.log"
+    },
+    {
+      "command": [
+        "iverilog",
+        "-V"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.032,
+      "log": "version_iverilog.log"
+    },
+    {
+      "command": [
+        "yosys",
+        "-s",
+        "/var/tmp/apb-frontend-20261126T125135505268Z/synthesize.ys"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.966,
+      "log": "synthesis.log"
+    },
+    {
+      "command": [
+        "yosys",
+        "-s",
+        "/var/tmp/apb-frontend-20261126T125135505268Z/cell_models.ys"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.114,
+      "log": "cell_models.log"
+    },
+    {
+      "command": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "frontend_gate_smoke",
+        "-Pfrontend_gate_smoke.SCAN_LENGTH=58",
+        "-o",
+        "gate_smoke.vvp",
+        "rtl_reference.sv",
+        "mapped.v",
+        "scan_mapped.v",
+        "cells.v",
+        "gate_smoke.sv"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.114,
+      "log": "gate_compile.log"
+    },
+    {
+      "command": [
+        "vvp",
+        "gate_smoke.vvp"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.516,
+      "log": "gate_simulation.log"
+    },
+    {
+      "command": [
+        "/var/tmp/apb-frontend-tools/opensta-build/sta",
+        "-exit",
+        "/var/tmp/apb-frontend-20261126T125135505268Z/controller_sta.tcl"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.266,
+      "log": "sta.log"
+    }
+  ],
+  "top": "apb_ram_mbist",
+  "scope": "Mapped controller only; external 64x32 RAM is excluded from area and internal timing",
+  "limitations": [
+    "Single typical 25C/1.1V Nangate45 corner, ideal clock, pre-layout, no extracted parasitics.",
+    "RAM I/O delay budgets are assumptions, not a characterized memory macro.",
+    "Functional reset is deasserted; reset distribution and recovery/removal are not analyzed.",
+    "Gate simulation is zero-delay and covers the recorded stimuli; it is not formal equivalence or SDF timing simulation.",
+    "Scan is logical standard-cell substitution plus shift/functional testing; no physical DFT closure, ATPG or fault coverage."
+  ],
+  "source_snapshot": [
+    {
+      "path": "rtl_subsystem/apb_ram_mbist.sv",
+      "sha256": "3743009dcec9bee56d361beb5167dc9709d967d7d16a086ca4cd80ba72d074f0",
+      "bytes": 9673
+    },
+    {
+      "path": "flow/frontend/controller.sdc",
+      "sha256": "412e2b4cfbbe507d5eaa34a448e9e4534c9b2d821b6701776b361c0cf501e377",
+      "bytes": 864
+    },
+    {
+      "path": "flow/frontend/controller_sta.tcl",
+      "sha256": "4793e6cbc0bfcfc9627e782010c4002848b05e93ffc5f62a3ceb8739a32687c4",
+      "bytes": 624
+    },
+    {
+      "path": "flow/frontend/gate_smoke.sv",
+      "sha256": "6ba69017648c3a9aa2b4b48ba55b06017aff237178905c5eeebd3e2df09e19ae",
+      "bytes": 7400
+    },
+    {
+      "path": "flow/frontend/toolchain.lock.json",
+      "sha256": "47de5c6980ee2df47d8cf8e65b6a62e19e0e6e4964520ba01bfaf811d8768c6c",
+      "bytes": 1538
+    },
+    {
+      "path": "scripts/frontend/run_flow.py",
+      "sha256": "a3df75bf0c506151776188041cfd7d0a56e5f754b03486169c0862759719ce1a",
+      "bytes": 15669
+    }
+  ],
+  "library": {
+    "file": "NangateOpenCellLibrary_typical.lib",
+    "url": "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD-flow-scripts/7aee0ab06c2d77b794ed8ae8f21883af676ce8d0/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib",
+    "sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+    "bytes": 6692032,
+    "license": "Nangate Open Cell Library license in file header; preserve alongside platform Apache-2.0 LICENSE"
+  },
+  "toolchain_lock": {
+    "schema_version": 1,
+    "opensta_commit": "28d7a0b5123d59cbff8c1def4e3830c840fe5d50",
+    "cudd_commit": "f54f533303640afd5dbe47a05ebeabb3066f2a25",
+    "nangate_repository_commit": "7aee0ab06c2d77b794ed8ae8f21883af676ce8d0",
+    "artifacts": [
+      {
+        "file": "opensta.tar.gz",
+        "url": "https://codeload.github.com/parallaxsw/OpenSTA/tar.gz/28d7a0b5123d59cbff8c1def4e3830c840fe5d50",
+        "sha256": "2451385cd051949bb8bd64244f2797447c7386897cefb5fa6468fd35c656e22c",
+        "bytes": 13571570,
+        "license": "GPL-3.0-or-later; source LICENSE retained"
+      },
+      {
+        "file": "cudd.tar.gz",
+        "url": "https://codeload.github.com/cuddorg/cudd/tar.gz/f54f533303640afd5dbe47a05ebeabb3066f2a25",
+        "sha256": "dbe6b90f8745bf1f755953b76f1c639e07f7ee079f4abf18c871ae878f47431d",
+        "bytes": 1172209,
+        "license": "BSD-style; source LICENSE retained"
+      },
+      {
+        "file": "NangateOpenCellLibrary_typical.lib",
+        "url": "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD-flow-scripts/7aee0ab06c2d77b794ed8ae8f21883af676ce8d0/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib",
+        "sha256": "8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1",
+        "bytes": 6692032,
+        "license": "Nangate Open Cell Library license in file header; preserve alongside platform Apache-2.0 LICENSE"
+      },
+      {
+        "file": "NANGATE_LICENSE",
+        "url": "https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD-flow-scripts/7aee0ab06c2d77b794ed8ae8f21883af676ce8d0/flow/platforms/nangate45/LICENSE",
+        "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+        "bytes": 10174,
+        "license": "Apache-2.0"
+      }
+    ]
+  },
+  "sta_binary_sha256": "15ed20afb58dcb1d3dcd4eb63bc34e6a45b5c20b17a805432ed0b0ed724e4d84",
+  "versions": {
+    "yosys": "Yosys 0.33 (git sha1 2584903a060)",
+    "opensta": "3.2.0",
+    "iverilog": "Icarus Verilog version 12.0 (stable) ()"
+  },
+  "synthesis": {
+    "cells": {
+      "AND2_X1": 7,
+      "AND3_X1": 32,
+      "AND4_X1": 1,
+      "AOI211_X1": 33,
+      "AOI21_X1": 136,
+      "AOI221_X1": 1,
+      "AOI22_X1": 12,
+      "DFFR_X1": 58,
+      "INV_X1": 55,
+      "MUX2_X1": 14,
+      "NAND2_X1": 54,
+      "NAND3_X1": 15,
+      "NAND4_X1": 11,
+      "NOR2_X1": 53,
+      "NOR3_X1": 20,
+      "NOR4_X1": 16,
+      "OAI21_X1": 21,
+      "OAI22_X1": 3,
+      "OR2_X1": 6,
+      "OR3_X1": 4,
+      "XNOR2_X1": 5,
+      "XOR2_X1": 2
+    },
+    "cell_count": 559,
+    "sequential_cells": 58,
+    "area_um2": 829.388,
+    "scope": "Controller standard-cell area; excludes external RAM, placement, routing and physical overhead"
+  },
+  "scan": {
+    "chains": 1,
+    "length": 58,
+    "cells": [
+      {
+        "instance": "_0982_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[0]",
+        "index": 0
+      },
+      {
+        "instance": "_0983_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[1]",
+        "index": 1
+      },
+      {
+        "instance": "_0984_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[2]",
+        "index": 2
+      },
+      {
+        "instance": "_0985_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[3]",
+        "index": 3
+      },
+      {
+        "instance": "_0986_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[4]",
+        "index": 4
+      },
+      {
+        "instance": "_0987_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[5]",
+        "index": 5
+      },
+      {
+        "instance": "_0988_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[6]",
+        "index": 6
+      },
+      {
+        "instance": "_0989_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[7]",
+        "index": 7
+      },
+      {
+        "instance": "_0990_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[8]",
+        "index": 8
+      },
+      {
+        "instance": "_0991_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[9]",
+        "index": 9
+      },
+      {
+        "instance": "_0992_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[10]",
+        "index": 10
+      },
+      {
+        "instance": "_0993_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[11]",
+        "index": 11
+      },
+      {
+        "instance": "_0994_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[12]",
+        "index": 12
+      },
+      {
+        "instance": "_0995_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[13]",
+        "index": 13
+      },
+      {
+        "instance": "_0996_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[14]",
+        "index": 14
+      },
+      {
+        "instance": "_0997_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[15]",
+        "index": 15
+      },
+      {
+        "instance": "_0998_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[16]",
+        "index": 16
+      },
+      {
+        "instance": "_0999_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[17]",
+        "index": 17
+      },
+      {
+        "instance": "_1000_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[18]",
+        "index": 18
+      },
+      {
+        "instance": "_1001_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[19]",
+        "index": 19
+      },
+      {
+        "instance": "_1002_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[20]",
+        "index": 20
+      },
+      {
+        "instance": "_1003_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[21]",
+        "index": 21
+      },
+      {
+        "instance": "_1004_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[22]",
+        "index": 22
+      },
+      {
+        "instance": "_1005_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[23]",
+        "index": 23
+      },
+      {
+        "instance": "_1006_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[24]",
+        "index": 24
+      },
+      {
+        "instance": "_1007_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[25]",
+        "index": 25
+      },
+      {
+        "instance": "_1008_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[26]",
+        "index": 26
+      },
+      {
+        "instance": "_1009_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[27]",
+        "index": 27
+      },
+      {
+        "instance": "_1010_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[28]",
+        "index": 28
+      },
+      {
+        "instance": "_1011_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[29]",
+        "index": 29
+      },
+      {
+        "instance": "_1012_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[30]",
+        "index": 30
+      },
+      {
+        "instance": "_1013_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "actual_q[31]",
+        "index": 31
+      },
+      {
+        "instance": "_1014_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "state_q[0]",
+        "index": 32
+      },
+      {
+        "instance": "_1015_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "state_q[1]",
+        "index": 33
+      },
+      {
+        "instance": "_1016_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "state_q[2]",
+        "index": 34
+      },
+      {
+        "instance": "_1017_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "step_q[0]",
+        "index": 35
+      },
+      {
+        "instance": "_1018_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "step_q[1]",
+        "index": 36
+      },
+      {
+        "instance": "_1019_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "step_q[2]",
+        "index": 37
+      },
+      {
+        "instance": "_1020_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[0]",
+        "index": 38
+      },
+      {
+        "instance": "_1021_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[1]",
+        "index": 39
+      },
+      {
+        "instance": "_1022_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[2]",
+        "index": 40
+      },
+      {
+        "instance": "_1023_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[3]",
+        "index": 41
+      },
+      {
+        "instance": "_1024_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[4]",
+        "index": 42
+      },
+      {
+        "instance": "_1025_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "address_q[5]",
+        "index": 43
+      },
+      {
+        "instance": "_1026_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "busy_q",
+        "index": 44
+      },
+      {
+        "instance": "_1027_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "done_q",
+        "index": 45
+      },
+      {
+        "instance": "_1028_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_q",
+        "index": 46
+      },
+      {
+        "instance": "_1029_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[0]",
+        "index": 47
+      },
+      {
+        "instance": "_1030_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[1]",
+        "index": 48
+      },
+      {
+        "instance": "_1031_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[2]",
+        "index": 49
+      },
+      {
+        "instance": "_1032_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[3]",
+        "index": 50
+      },
+      {
+        "instance": "_1033_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[4]",
+        "index": 51
+      },
+      {
+        "instance": "_1034_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_address_q[5]",
+        "index": 52
+      },
+      {
+        "instance": "_1035_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_step_q[0]",
+        "index": 53
+      },
+      {
+        "instance": "_1036_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_step_q[1]",
+        "index": 54
+      },
+      {
+        "instance": "_1037_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "fail_step_q[2]",
+        "index": 55
+      },
+      {
+        "instance": "_1038_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "expected_q[30]",
+        "index": 56
+      },
+      {
+        "instance": "_1039_",
+        "original_cell": "DFFR_X1",
+        "scan_cell": "SDFFR_X1",
+        "q": "apb_read_pending_q",
+        "index": 57
+      }
+    ],
+    "scope": "Deterministic logical gate-level scan substitution; actual Nangate scan cells, no placement-aware stitching or ATPG",
+    "status": "PASS",
+    "patterns": [
+      "all zero",
+      "all one",
+      "one at first chain position",
+      "alternating"
+    ],
+    "bits_checked": 232,
+    "capture_bits_checked": 32,
+    "capture_expected": "0xfffffff7",
+    "capture_scope": "actual_q[31:0] after functional-mode March failure capture; other scan bits are not capture-graded"
+  },
+  "gate_simulation": {
+    "status": "PASS",
+    "comparisons": 2711,
+    "apb_transactions": 877,
+    "clean_march_native_operations": 640,
+    "scope": "RTL, mapped gates and scan gates compared at every checked cycle; zero-delay"
+  },
+  "sta": {
+    "status": "VIOLATED",
+    "setup_worst_slack_ns": 4.8806,
+    "hold_worst_slack_ns": -0.00636,
+    "clock_period_ns": 10,
+    "input_delay_max_ns": 2,
+    "input_delay_min_ns": 0.2,
+    "output_delay_max_ns": 2,
+    "output_delay_min_ns": 0.2,
+    "load_pf": 0.01,
+    "clock_uncertainty_ns": 0.1,
+    "scope": "One typical pre-layout corner; controller external RAM interface budgets only"
+  },
+  "execution_status": "PASS",
+  "reason": "Real controller STA reports a timing violation; constraints and raw paths are retained unchanged",
+  "completed_utc": "2026-11-26T12:51:37.714907+00:00",
+  "artifacts": [
+    {
+      "path": "NANGATE_LICENSE",
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+      "bytes": 10174
+    },
+    {
+      "path": "apb_ram_mbist.sv",
+      "sha256": "3743009dcec9bee56d361beb5167dc9709d967d7d16a086ca4cd80ba72d074f0",
+      "bytes": 9673
+    },
+    {
+      "path": "cell_models.log",
+      "sha256": "5f573c4847abcd96ca34343261ec72e195651f27a05c127a8077c1d2eaeb0f24",
+      "bytes": 6180
+    },
+    {
+      "path": "cell_models.ys",
+      "sha256": "3f4873901d9625f2ca933df43ad96d2e4428299e19fa51b9ca9f3908300a55d1",
+      "bytes": 143
+    },
+    {
+      "path": "cells.v",
+      "sha256": "a7563929afb4fe158914b4897dd849cbe59f3d82218126bd1d301c142ac64977",
+      "bytes": 35639
+    },
+    {
+      "path": "controller.sdc",
+      "sha256": "412e2b4cfbbe507d5eaa34a448e9e4534c9b2d821b6701776b361c0cf501e377",
+      "bytes": 864
+    },
+    {
+      "path": "controller_sta.tcl",
+      "sha256": "4793e6cbc0bfcfc9627e782010c4002848b05e93ffc5f62a3ceb8739a32687c4",
+      "bytes": 624
+    },
+    {
+      "path": "gate_compile.log",
+      "sha256": "e9de95acc0a5cef70ec6c0dc84c9251f12f61df2777562df0b35eb1cf599951a",
+      "bytes": 450
+    },
+    {
+      "path": "gate_simulation.log",
+      "sha256": "68874eb6deefbe9277c638f21886e52dc73783948da2d556fda9edf62ab0397b",
+      "bytes": 442
+    },
+    {
+      "path": "gate_smoke.sv",
+      "sha256": "6ba69017648c3a9aa2b4b48ba55b06017aff237178905c5eeebd3e2df09e19ae",
+      "bytes": 7400
+    },
+    {
+      "path": "gate_smoke.vcd",
+      "sha256": "17acfc59b6f764f9cf6a63ca4cf079ea15a0879def6150f95aac88410ad20485",
+      "bytes": 335639
+    },
+    {
+      "path": "gate_smoke.vvp",
+      "sha256": "36086fbd2cfe46e22ebd3ccbdbe9b9dc05b0f0c18da6f6dfc1a592c9cb0286f4",
+      "bytes": 1344189
+    },
+    {
+      "path": "mapped.json",
+      "sha256": "1cac0e544b98311ad9932bd9b52bc13adcf5e70538d3bdddc159202a275f9651",
+      "bytes": 489407
+    },
+    {
+      "path": "mapped.v",
+      "sha256": "dddab7a96309fdaac438738ab0be1ea95a337bfac779c274af9485af455b5a4f",
+      "bytes": 61022
+    },
+    {
+      "path": "rtl_reference.sv",
+      "sha256": "02a664eddd4eeb09cd25f1c388a5cddc551201115a60609df4bae2cbc080155a",
+      "bytes": 9677
+    },
+    {
+      "path": "run_flow.py",
+      "sha256": "a3df75bf0c506151776188041cfd7d0a56e5f754b03486169c0862759719ce1a",
+      "bytes": 15669
+    },
+    {
+      "path": "scan_capture.vh",
+      "sha256": "308dfa8315fbce4a92566e8fa8920c4552326dc399d2a9d3fa6b6cdc95b42c70",
+      "bytes": 126
+    },
+    {
+      "path": "scan_chain.json",
+      "sha256": "9a84626644ab72b3ec2651ebd143de4a90376862a175eabf4bd5662569551685",
+      "bytes": 8930
+    },
+    {
+      "path": "scan_mapped.v",
+      "sha256": "8200090c5f54d566c89f6cce2cc5ed230ad13b1e971ac23b73105ea5ea36523d",
+      "bytes": 65970
+    },
+    {
+      "path": "sta.log",
+      "sha256": "4ad787e720cd3d1b658503f0ec76a5b2d8659172e7f11bbb143dffc44578f6de",
+      "bytes": 26569
+    },
+    {
+      "path": "synthesis.log",
+      "sha256": "2d4dcf58ac6634f5357814039b584703e55fe81b517568f9c5ce783e4d98a1cf",
+      "bytes": 58427
+    },
+    {
+      "path": "synthesis_statistics.txt",
+      "sha256": "9c28acbda97ea069423fe34a1b84140d10c0620ffc71cc9c697b352430482b6a",
+      "bytes": 1274
+    },
+    {
+      "path": "synthesize.ys",
+      "sha256": "ebf22dcbe47d81d34973f64b5917efa4039c5e6c9e4d58125982dcffc0ae0858",
+      "bytes": 596
+    },
+    {
+      "path": "toolchain.lock.json",
+      "sha256": "47de5c6980ee2df47d8cf8e65b6a62e19e0e6e4964520ba01bfaf811d8768c6c",
+      "bytes": 1538
+    },
+    {
+      "path": "version_iverilog.log",
+      "sha256": "045adcf6dab2b32e42c6c3ea0cb5d709595bdbcb4bc9bea71c8eaae134856d38",
+      "bytes": 3321
+    },
+    {
+      "path": "version_opensta.log",
+      "sha256": "4900986173909fae9af00c3c6b4bf60bfaeca514959feaa6d515f6487da6fcf8",
+      "bytes": 76
+    },
+    {
+      "path": "version_yosys.log",
+      "sha256": "49a8640645dc554d17e8dde2f8cb941fb939605aec51eb4468682df552fa80c5",
+      "bytes": 58
+    }
+  ]
+}

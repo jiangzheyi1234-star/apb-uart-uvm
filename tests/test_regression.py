@@ -187,6 +187,43 @@ class SubprocessTests(unittest.TestCase):
 
 
 class CommandPlanTests(unittest.TestCase):
+    def test_subsystem_plan_uses_its_own_tests_and_completion_marker(self):
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp)
+            argv = ["--sim", "verilator", "--suite", "subsystem", "--dry-run", "--seeds", "1", "2",
+                    "--trace", "--out", str(output)]
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(regression.main(argv), 0)
+            report = json.loads((output / "report.json").read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "DRY_RUN")
+        self.assertEqual(report["rtl_variant"], "fixed")
+        self.assertEqual(report["completion_marker"], "SUBSYSTEM_UVM_TEST_PASS")
+        self.assertTrue(report["source_file_list"].endswith("files_subsystem.f"))
+        self.assertEqual(len(report["runs"]), 8)
+        self.assertEqual({row["test"] for row in report["runs"]}, set(regression.DEFAULT_SUBSYSTEM_TESTS))
+        for row in report["runs"]:
+            self.assertIn("+TRACE", row["command"])
+            self.assertNotIn("+RTL_FIXED=1", row["command"])
+
+    def test_subsystem_snapshot_is_independent_of_legacy_suites(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            files = ["tb/uart.sv", "tb/subsystem/suite.sv", "rtl_fixed/uart.sv", "rtl_subsystem/ram.sv",
+                     "sim/files_subsystem.f", "sim/files_fixed.f", "sim/files_protocol.f"]
+            for filename in files:
+                path = root / filename
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(filename, encoding="utf-8")
+            scopes = {}
+            with patch.object(regression, "ROOT", root):
+                for suite in regression.SUITE_DEFAULT_TESTS:
+                    args = regression.parser().parse_args(["--suite", suite, "--rtl", "fixed"])
+                    snapshot = regression.capture_source_manifest(args, None)
+                    scopes[suite] = {item["path"] for item in snapshot["project_files"]}
+        self.assertEqual(scopes["subsystem"], set(files[:5]))
+        self.assertEqual(scopes["apb_protocol"], {"tb/uart.sv", "sim/files_protocol.f"})
+        self.assertEqual(scopes["uart"], {"tb/uart.sv", "rtl_fixed/uart.sv", "sim/files_fixed.f"})
+
     def test_protocol_suite_is_independent_for_every_simulator(self):
         for simulator in ("questa", "vcs", "verilator"):
             with self.subTest(simulator=simulator):

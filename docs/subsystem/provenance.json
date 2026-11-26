@@ -1,0 +1,326 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "execution_started_utc": "2026-11-26T12:44:05.910751+00:00",
+  "scope": "Completed 12-run subsystem execution; no simulation or compilation performed during archival",
+  "source_snapshot_sha256": "d4f9aa8c37c1930c6cea902b4007a98c547f6ec4c1082dcd34502ecb69dced2a",
+  "working_project_sources_verified": 48,
+  "working_uvm_sources_verified": 170,
+  "compiled_binary": {
+    "path": "/var/tmp/apb-subsystem-build/Vtb_top",
+    "sha256": "8abd161ba6732f5ae2d169724dd338fddd9a448ec2c3e0bf04c65f0e60cbd2ce",
+    "bytes": 30434048
+  },
+  "metrics": {
+    "runs": 12,
+    "apb_completed": 3468,
+    "ram_reads": 1032,
+    "expected_slverr": 60,
+    "mbist_starts": 15,
+    "mbist_passes": 9,
+    "mbist_faults": 3,
+    "reset_aborts": 3
+  },
+  "artifacts": [
+    {
+      "bundled_path": "compiler/build_0.log",
+      "role": "compiler_transcript",
+      "sha256": "6ee88bf61cf1276a50490add1c0fb896bb66947a049252a731cc294df68ed045",
+      "bytes": 350919,
+      "transformation": "byte-identical",
+      "raw_sha256": "6ee88bf61cf1276a50490add1c0fb896bb66947a049252a731cc294df68ed045",
+      "raw_bytes": 350919,
+      "raw_reference": "compiler/build_0.log"
+    },
+    {
+      "bundled_path": "compiler/version.log",
+      "role": "simulator_version_transcript",
+      "sha256": "cbb245597bcd4cedc087b46300e93dca970115ba5c5fdec4121449b7a060538d",
+      "bytes": 143,
+      "transformation": "byte-identical",
+      "raw_sha256": "cbb245597bcd4cedc087b46300e93dca970115ba5c5fdec4121449b7a060538d",
+      "raw_bytes": 143,
+      "raw_reference": "compiler/version.log"
+    },
+    {
+      "bundled_path": "coverage/coverage_summary.json",
+      "role": "recorded_coverage_summary",
+      "sha256": "e4a5ba6c11158750d10cc0995273b532fdbbfffb4e80b1a75027533b67819a09",
+      "bytes": 38696,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "a1c8b112685794283c3a8d3381d060d7c7c56ec0e50a44fae58d795e53653190",
+      "raw_bytes": 38713,
+      "raw_reference": "coverage/coverage_summary.json"
+    },
+    {
+      "bundled_path": "report.json",
+      "role": "path_normalized_runner_report",
+      "sha256": "f1f49fcba76dce49a94609c582e231c5391d6d136099c4fc2801506a6492ab09",
+      "bytes": 100554,
+      "transformation": "private project-root prefixes normalized and local artifact references relocated; runner outcomes preserved",
+      "raw_sha256": "2f142c7375fc4d756d4d69a73edac5aeb0534b831e7dc8db693c1b3eb18d564b",
+      "raw_bytes": 100434,
+      "raw_reference": "report.json"
+    },
+    {
+      "bundled_path": "source_snapshot.json",
+      "role": "build_time_source_snapshot",
+      "sha256": "36d4f561c04f89d2e7dc6e4b22b87ce9200e4a1d7eb4193c431a77fa33d0a57c",
+      "bytes": 35841,
+      "transformation": "byte-identical",
+      "raw_sha256": "36d4f561c04f89d2e7dc6e4b22b87ce9200e4a1d7eb4193c431a77fa33d0a57c",
+      "raw_bytes": 35841,
+      "raw_reference": "source_snapshot.json"
+    },
+    {
+      "bundled_path": "stage_origin.json",
+      "role": "recorded_stage_origin",
+      "sha256": "aeb68324dd532809d463660fe8a0dcbadd101498618d51359d9fe447adcd741b",
+      "bytes": 157268,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "a676cad9a3e948aa2debcbc85f3e0db8685c6300c5a4720f5f133f73f72daf0f",
+      "raw_bytes": 157302,
+      "raw_reference": "stage_origin.json"
+    },
+    {
+      "bundled_path": "subsystem_apb_test_seed_1/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "874a00aef0616533b044bd2d7c27e64c8f437e7e76d2aa21c1cc013713bfef70",
+      "bytes": 3194,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "81529132175ee113aa96bece0363df9d2969255ae6e307a0c7edee2320b524fd",
+      "raw_bytes": 3228,
+      "raw_reference": "subsystem_apb_test_seed_1/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_apb_test_seed_1/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "9749c4c4aed9b8ea33512aa06ed47d7765810a8ccd2565bdb45f6fb7faac6c1a",
+      "bytes": 143088,
+      "transformation": "byte-identical",
+      "raw_sha256": "9749c4c4aed9b8ea33512aa06ed47d7765810a8ccd2565bdb45f6fb7faac6c1a",
+      "raw_bytes": 143088,
+      "raw_reference": "subsystem_apb_test_seed_1/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_apb_test_seed_2/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "20bdcf0fc354f0fe745dd0a7e6716da2b5c5dd44d796e06484660976f13cd701",
+      "bytes": 3194,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "965e196fe68e414fddd62106b2953e86e83f22414ce3850e63f448c9d78dd701",
+      "raw_bytes": 3228,
+      "raw_reference": "subsystem_apb_test_seed_2/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_apb_test_seed_2/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "fdf0332be8a8d06c3040b37e14c70dd59dd1d26080c25259b21fe9921c5b8f40",
+      "bytes": 143308,
+      "transformation": "byte-identical",
+      "raw_sha256": "fdf0332be8a8d06c3040b37e14c70dd59dd1d26080c25259b21fe9921c5b8f40",
+      "raw_bytes": 143308,
+      "raw_reference": "subsystem_apb_test_seed_2/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_apb_test_seed_3/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "a614efc273ed042d61bc418800fe661a19e67f07e2231ce63185d11d95c0d74d",
+      "bytes": 3194,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "f4062aff4627a7ba9dc411eee72178e8b5ebe505a05a9d6dde1594550e23c105",
+      "raw_bytes": 3228,
+      "raw_reference": "subsystem_apb_test_seed_3/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_apb_test_seed_3/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "499c12958c3d2a87fe59bc81924e1d6e1a4e250979ac5094e522b521914689c4",
+      "bytes": 143321,
+      "transformation": "byte-identical",
+      "raw_sha256": "499c12958c3d2a87fe59bc81924e1d6e1a4e250979ac5094e522b521914689c4",
+      "raw_bytes": 143321,
+      "raw_reference": "subsystem_apb_test_seed_3/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_mbist_fault_test_seed_1/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "d7de7a1977a2ff806e1d04d41b02b5a0fe0a185c68d0b9b8760c8c9410900cba",
+      "bytes": 3829,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "cf03492154ede48e9a041133e076a2c75f4efb8ef9e4fad7a257e262f10e08a1",
+      "raw_bytes": 3863,
+      "raw_reference": "subsystem_mbist_fault_test_seed_1/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_mbist_fault_test_seed_1/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "728457ce5dcc0ea0f0b22b6067ed82a2de3f5e7aabc285afa5ed67e49b133d54",
+      "bytes": 214545,
+      "transformation": "byte-identical",
+      "raw_sha256": "728457ce5dcc0ea0f0b22b6067ed82a2de3f5e7aabc285afa5ed67e49b133d54",
+      "raw_bytes": 214545,
+      "raw_reference": "subsystem_mbist_fault_test_seed_1/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_mbist_fault_test_seed_2/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "ce5913876f781fa4d78d9d302f06bbec927b5a140373732e07fd231ddbd88837",
+      "bytes": 3829,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "60e1068f76ec4017f1cd1efed8c4428736ef8510a5d17088212112817971a186",
+      "raw_bytes": 3863,
+      "raw_reference": "subsystem_mbist_fault_test_seed_2/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_mbist_fault_test_seed_2/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "6882ddf242e110934ba2e451ebaf5961d50a33f48e7b64b4443185ce18e10584",
+      "bytes": 214558,
+      "transformation": "byte-identical",
+      "raw_sha256": "6882ddf242e110934ba2e451ebaf5961d50a33f48e7b64b4443185ce18e10584",
+      "raw_bytes": 214558,
+      "raw_reference": "subsystem_mbist_fault_test_seed_2/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_mbist_fault_test_seed_3/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "883418c7dab6845bc216a3c03b91e6b92d86d65639336d29e5f9ca126549134e",
+      "bytes": 3829,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "76286cb8f1e41b6922bc58914c43b9499878d23ef0bb48ecd146eb8c944cbc99",
+      "raw_bytes": 3863,
+      "raw_reference": "subsystem_mbist_fault_test_seed_3/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_mbist_fault_test_seed_3/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "253df1b60736e857e56bdf2cd9387c3184d2acb47f98c45e58a653f6b5c807d6",
+      "bytes": 214519,
+      "transformation": "byte-identical",
+      "raw_sha256": "253df1b60736e857e56bdf2cd9387c3184d2acb47f98c45e58a653f6b5c807d6",
+      "raw_bytes": 214519,
+      "raw_reference": "subsystem_mbist_fault_test_seed_3/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_mbist_reset_test_seed_1/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "43fdaa4df5f7c2b6ecd9814ad16b04cacf662bba89f57e2e1f4f91a974d0df11",
+      "bytes": 3433,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "7dc2ec3f9460725d4e4a539aa3f5601bc590b8e74e971ce1d38cf0f440ccd794",
+      "raw_bytes": 3467,
+      "raw_reference": "subsystem_mbist_reset_test_seed_1/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_mbist_reset_test_seed_1/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "5b6eb18d38493f0e3166c522b2e129280a73b1493fb562bd013f8e875be986b5",
+      "bytes": 176260,
+      "transformation": "byte-identical",
+      "raw_sha256": "5b6eb18d38493f0e3166c522b2e129280a73b1493fb562bd013f8e875be986b5",
+      "raw_bytes": 176260,
+      "raw_reference": "subsystem_mbist_reset_test_seed_1/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_mbist_reset_test_seed_2/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "3e170e8e497b25163dd3b8f21f657416ce85e855a4dba570179e5d91c20c156b",
+      "bytes": 3433,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "0f70b5b3490a7f9a7ad352962edaacdbff4b368dd4b0678a2d3313435c3a9353",
+      "raw_bytes": 3467,
+      "raw_reference": "subsystem_mbist_reset_test_seed_2/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_mbist_reset_test_seed_2/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "1ff8e819b9b51d1b5f1510a1df55eb753f3092465a2be903a0c4168287b89426",
+      "bytes": 176172,
+      "transformation": "byte-identical",
+      "raw_sha256": "1ff8e819b9b51d1b5f1510a1df55eb753f3092465a2be903a0c4168287b89426",
+      "raw_bytes": 176172,
+      "raw_reference": "subsystem_mbist_reset_test_seed_2/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_mbist_reset_test_seed_3/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "363ca21c31c0e7c53d5a0b596f7e8674a6cf7a8d113671dc4318d84f6861c2c0",
+      "bytes": 3433,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "7a830ecdd02452ea629cd69d35cbfef1e9ee431799dd1d199a0ea374310e5af5",
+      "raw_bytes": 3467,
+      "raw_reference": "subsystem_mbist_reset_test_seed_3/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_mbist_reset_test_seed_3/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "b5ec20711cca1a052afcea7615c99b4d76a186f8560424dd132d33639ede60c4",
+      "bytes": 176189,
+      "transformation": "byte-identical",
+      "raw_sha256": "b5ec20711cca1a052afcea7615c99b4d76a186f8560424dd132d33639ede60c4",
+      "raw_bytes": 176189,
+      "raw_reference": "subsystem_mbist_reset_test_seed_3/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_mbist_test_seed_1/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "9b44f1dfd6978e687eb099c5f576863675c30500f4acd36ac73b16d2f145db36",
+      "bytes": 3397,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "f96c2c824192ade1ec6b4f27f7d1988ef3d35d4619d812d156b934135c1fe01a",
+      "raw_bytes": 3431,
+      "raw_reference": "subsystem_mbist_test_seed_1/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_mbist_test_seed_1/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "61d9781c93ed7498ab8ec7a48588c30ba4f8648b5899eb8bd7e07d4ab4eb6392",
+      "bytes": 168286,
+      "transformation": "byte-identical",
+      "raw_sha256": "61d9781c93ed7498ab8ec7a48588c30ba4f8648b5899eb8bd7e07d4ab4eb6392",
+      "raw_bytes": 168286,
+      "raw_reference": "subsystem_mbist_test_seed_1/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_mbist_test_seed_2/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "c1b06082771452653d90ee52a009f2f186d9e41279c46cc6b3c9259d968cb595",
+      "bytes": 3397,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "6f9224885582b6b18319f1290a47c1a0c7dda2dbdea101ac5f4ab30750782e46",
+      "raw_bytes": 3431,
+      "raw_reference": "subsystem_mbist_test_seed_2/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_mbist_test_seed_2/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "a055e2de81e6e8e81b80a16e8da1c8f178954d816088e94cb72fd7298e559ebf",
+      "bytes": 168178,
+      "transformation": "byte-identical",
+      "raw_sha256": "a055e2de81e6e8e81b80a16e8da1c8f178954d816088e94cb72fd7298e559ebf",
+      "raw_bytes": 168178,
+      "raw_reference": "subsystem_mbist_test_seed_2/waves.vcd"
+    },
+    {
+      "bundled_path": "subsystem_mbist_test_seed_3/simulation.log",
+      "role": "same_run_transcript",
+      "sha256": "add82a31355fcb1c356866173e1442cc358cd917f9c1c48473ba220b11de9321",
+      "bytes": 3397,
+      "transformation": "private project-root prefixes replaced with /project",
+      "raw_sha256": "3bc2f92b6ec9729835964f3f0a78b6a399f8d066ff90d67fd6b0cea858ca10d2",
+      "raw_bytes": 3431,
+      "raw_reference": "subsystem_mbist_test_seed_3/simulation.log"
+    },
+    {
+      "bundled_path": "subsystem_mbist_test_seed_3/waves.vcd",
+      "role": "same_run_vcd",
+      "sha256": "6e7d777418418198de776622ac70089110971f310e3c121db8e4528b30d4744f",
+      "bytes": 168207,
+      "transformation": "byte-identical",
+      "raw_sha256": "6e7d777418418198de776622ac70089110971f310e3c121db8e4528b30d4744f",
+      "raw_bytes": 168207,
+      "raw_reference": "subsystem_mbist_test_seed_3/waves.vcd"
+    }
+  ]
+}

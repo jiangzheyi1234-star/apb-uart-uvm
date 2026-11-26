@@ -18,6 +18,18 @@ SIGNALS = (
     "apb.pwrite", "apb.paddr", "apb.pwdata", "apb.prdata", "apb.pslverr",
     "uart.rx", "uart.tx", "uart.irq",
 )
+SUBSYSTEM_SIGNALS = {
+    "control.fault_enable": "Test fault enable",
+    "control.ram_en": "RAM enable",
+    "control.ram_we": "RAM write",
+    "control.ram_addr": "RAM word index",
+    "dut.memory_controller_i.busy_q": "MBIST busy",
+    "dut.memory_controller_i.done_q": "MBIST done",
+    "dut.memory_controller_i.fail_q": "MBIST fail",
+    "dut.memory_controller_i.step_q": "March element",
+    "dut.memory_controller_i.ram_wdata": "RAM write data",
+    "dut.memory_controller_i.ram_rdata": "RAM read response",
+}
 SCALE_NS = {"s": 1e9, "ms": 1e6, "us": 1e3, "ns": 1.0, "ps": 1e-3, "fs": 1e-6}
 
 
@@ -29,7 +41,7 @@ def binary_value(value: str, width: int) -> str:
     return value.rjust(width, fill)
 
 
-def read_interface_vcd(path: Path) -> dict:
+def read_interface_vcd(path: Path, *, subsystem: bool = False) -> dict:
     path = Path(path)
     selected: dict[str, list[str]] = {}
     signals: dict[str, dict] = {}
@@ -42,6 +54,7 @@ def read_interface_vcd(path: Path) -> dict:
     last_tick = 0
     sample_count = 0
     comment = False
+    monitored = (*SIGNALS, *SUBSYSTEM_SIGNALS) if subsystem else SIGNALS
     with path.open(encoding="utf-8", errors="strict") as stream:
         for raw in stream:
             line = raw.strip()
@@ -68,12 +81,12 @@ def read_interface_vcd(path: Path) -> dict:
                     if len(fields) < 6:
                         raise ValueError("Malformed VCD declaration")
                     full_name = ".".join(scopes + [fields[4]])
-                    for name in SIGNALS:
+                    for name in monitored:
                         if full_name.endswith("." + name) and name not in signals:
                             width = int(fields[2])
                             if not 1 <= width <= 64:
                                 raise ValueError("Unsupported interface signal width")
-                            signals[name] = {"id": name, "label": name, "width": width,
+                            signals[name] = {"id": name, "label": SUBSYSTEM_SIGNALS.get(name, name), "width": width,
                                              "full_name": full_name, "events": []}
                             selected.setdefault(fields[3], []).append(name)
                 elif line.startswith("$enddefinitions"):
@@ -209,8 +222,46 @@ def apb_transactions(signals: dict) -> list[dict]:
     return result
 
 
-def waveform(path: Path, *, id: str, title: str, run_id: str, url: str, uart_registers: bool = True) -> dict:
-    trace = read_interface_vcd(path)
+def mbist_transactions(signals: dict) -> list[dict]:
+    """Independently replay the native requests within each observed BUSY interval."""
+    busy = "dut.memory_controller_i.busy_q"
+    if busy not in signals:
+        return []
+    waves = signals[busy]["events"]
+    clock = signals["apb.clk"]["events"]
+    rising = [time for (_, previous), (time, value) in zip(clock, clock[1:]) if previous == "0" and value == "1"]
+    # (direction, write sequence). None is a read, integers are data written.
+    sequences = ((1, (0,)), (1, (None, 0xffffffff)), (1, (None, 0)),
+                 (-1, (None, 0xffffffff)), (-1, (None, 0)), (1, (None,)))
+    expected = [(step, address, word is not None, word) for step, (direction, operations) in enumerate(sequences)
+                for address in range(64)[::direction] for word in operations]
+    observed = []
+    for (start, active), (end, _) in zip(waves, waves[1:]):
+        if active != "1":
+            continue
+        operations = []
+        for time in rising[bisect_right(rising, start):bisect_right(rising, end)]:
+            if _value(signals.get("control.ram_en"), time) != "1":
+                continue
+            step = _number(_value(signals.get("dut.memory_controller_i.step_q"), time))
+            address = _number(_value(signals.get("control.ram_addr"), time))
+            write = _value(signals.get("control.ram_we"), time)
+            data = _number(_value(signals.get("dut.memory_controller_i.ram_wdata"), time)) if write == "1" else None
+            operations.append((step, address, {"0": False, "1": True}.get(write), data))
+        reset = _value(signals.get("apb.rst_n"), end, before=False) == "0"
+        done = _value(signals.get("dut.memory_controller_i.done_q"), end, before=False) == "1"
+        fail = _value(signals.get("dut.memory_controller_i.fail_q"), end, before=False) == "1"
+        status = "RESET_ABORT" if reset else "FAIL" if done and fail else "PASS" if done else "INCOMPLETE"
+        compared = expected if status == "PASS" else expected[:len(operations)]
+        step, address, _, _ = operations[-1] if operations else (None, None, None, None)
+        observed.append({"start_ns": start, "end_ns": end, "status": status, "operations": len(operations),
+                         "last_step": step, "last_word": address, "march_sequence_matches": operations == compared})
+    return observed
+
+
+def waveform(path: Path, *, id: str, title: str, run_id: str, url: str, uart_registers: bool = True,
+             subsystem: bool = False) -> dict:
+    trace = read_interface_vcd(path, subsystem=subsystem)
     transactions = apb_transactions(trace["signals"])
     if not uart_registers:
         for event in transactions:
@@ -219,9 +270,18 @@ def waveform(path: Path, *, id: str, title: str, run_id: str, url: str, uart_reg
     resets = [time for time, value in trace["signals"].get("apb.rst_n", {}).get("events", []) if value == "0" and time > 0]
     window_start = max(0, resets[0] - 1000) if resets else 0
     window_end = min(duration, window_start + 12000)
+    if subsystem:
+        failures = trace["signals"].get("dut.memory_controller_i.fail_q", {}).get("events", [])
+        first_failure = next((time for time, value in failures if value == "1"), None)
+        if first_failure is not None:
+            window_start = max(0, first_failure - 250)
+            window_end = min(duration, first_failure + 600)
     signals = [{key: signal[key] for key in ("id", "label", "width", "events")}
                for name, signal in trace["signals"].items() if name != "apb.clk"]
-    return {"id": id, "title": title, "run_id": run_id, "unit": "ns", "range": trace["range"],
-            "default_window": [window_start, window_end], "signals": signals, "apb_events": transactions,
-            "source": {"url": url, "sha256": trace["sha256"],
-                       "note": "Actual interface VCD samples. APB observations use pre-edge values; X/Z are preserved. Trace decoding is a diagnostic view, not a checker result."}}
+    result = {"id": id, "title": title, "run_id": run_id, "unit": "ns", "range": trace["range"],
+              "default_window": [window_start, window_end], "signals": signals, "apb_events": transactions,
+              "source": {"url": url, "sha256": trace["sha256"],
+                         "note": "Actual interface VCD samples. APB observations use pre-edge values; X/Z are preserved. Trace decoding is a diagnostic view, not a checker result."}}
+    if subsystem:
+        result["mbist_runs"] = mbist_transactions(trace["signals"])
+    return result

@@ -29,7 +29,17 @@ DEFAULT_TESTS = (
 DEFAULT_PROTOCOL_TESTS = (
     "apb_wait_state_test", "apb_reset_abort_test", "apb_timeout_control_test"
 )
-SUITE_PASS_MARKERS = {"uart": "UART_UVM_TEST_PASS", "apb_protocol": "APB_AGENT_TEST_PASS"}
+DEFAULT_SUBSYSTEM_TESTS = (
+    "subsystem_apb_test", "subsystem_mbist_test", "subsystem_mbist_fault_test", "subsystem_mbist_reset_test"
+)
+SUITE_PASS_MARKERS = {
+    "uart": "UART_UVM_TEST_PASS", "apb_protocol": "APB_AGENT_TEST_PASS", "subsystem": "SUBSYSTEM_UVM_TEST_PASS"
+}
+SUITE_DEFAULT_TESTS = {"uart": DEFAULT_TESTS, "apb_protocol": DEFAULT_PROTOCOL_TESTS, "subsystem": DEFAULT_SUBSYSTEM_TESTS}
+SUITE_TITLES = {
+    "uart": "APB UART UVM regression", "apb_protocol": "APB agent protocol regression",
+    "subsystem": "APB UART and RAM/MBIST subsystem regression",
+}
 PASS_MARKER = re.compile(
     r"^\s*(?:#\s*)?UVM_INFO\b[^\r\n]*\[UART_UVM_TEST_PASS\]", re.MULTILINE
 )
@@ -166,8 +176,11 @@ def find_source_uvm(explicit: Path | None) -> Path | None:
 
 
 def source_list(args: argparse.Namespace) -> Path:
-    if getattr(args, "suite", "uart") == "apb_protocol":
+    suite = getattr(args, "suite", "uart")
+    if suite == "apb_protocol":
         return ROOT / "sim" / "files_protocol.f"
+    if suite == "subsystem":
+        return ROOT / "sim" / "files_subsystem.f"
     return ROOT / "sim" / ("files_fixed.f" if args.rtl == "fixed" else "files.f")
 
 
@@ -182,21 +195,26 @@ def file_digest(path: Path) -> str:
 def capture_source_manifest(args: argparse.Namespace, uvm_src: Path | None) -> dict:
     """Capture the actual selected source contents immediately before compilation."""
     suite = getattr(args, "suite", "uart")
-    variant = args.rtl if suite == "uart" else None
+    variant = (args.rtl or "upstream") if suite == "uart" else "fixed" if suite == "subsystem" else None
     directories = [ROOT / "tb"]
-    if suite == "uart":
-        directories.append(ROOT / ("rtl_fixed" if args.rtl == "fixed" else "rtl"))
+    if variant:
+        directories.append(ROOT / ("rtl_fixed" if variant == "fixed" else "rtl"))
+    if suite == "subsystem":
+        directories.append(ROOT / "rtl_subsystem")
     sources = {source_list(args)}
     for directory in directories:
         if directory.is_dir():
             sources.update(path for path in directory.rglob("*") if path.is_file() and path.suffix in (".sv", ".svh"))
+    if suite != "subsystem":
+        # Keep the historical UART and discrete APB snapshots independent of this extension.
+        sources = {path for path in sources if not path.is_relative_to(ROOT / "tb" / "subsystem")}
     project_files = [{"path": path.relative_to(ROOT).as_posix(), "sha256": file_digest(path), "bytes": path.stat().st_size}
                      for path in sorted(sources)]
     snapshot = {"captured_utc": datetime.now(timezone.utc).isoformat(), "captured_before_compile": True,
                 "algorithm": "sha256", "suite": suite, "rtl_variant": variant, "project_files": project_files,
                 "uvm_files": [], "uvm_archives": [], "uvm_version": None}
     upstream = ROOT / "third_party" / "apb_uart_sv" / "manifest.json"
-    if suite == "uart" and upstream.is_file():
+    if variant and upstream.is_file():
         metadata = json.loads(read_log(upstream))
         snapshot["upstream"] = {"repository": metadata.get("repository"), "commit": metadata.get("commit"),
                                 "manifest_sha256": file_digest(upstream)}
@@ -280,7 +298,7 @@ def plans(args: argparse.Namespace, output: Path, uvm_src: Path | None) -> tuple
             *args.verilator_arg,
         ]]
     runs = []
-    defaults = DEFAULT_PROTOCOL_TESTS if getattr(args, "suite", "uart") == "apb_protocol" else DEFAULT_TESTS
+    defaults = SUITE_DEFAULT_TESTS[getattr(args, "suite", "uart")]
     for test in args.test or defaults:
         for seed in args.seeds:
             directory = output / f"{test}_seed_{seed}"
@@ -383,7 +401,7 @@ def write_reports(output: Path, report: dict) -> None:
     output.mkdir(parents=True, exist_ok=True)
     (output / "report.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     lines = [
-        "# " + ("APB agent protocol regression" if report.get("suite") == "apb_protocol" else "APB UART UVM regression"),
+        "# " + SUITE_TITLES[report.get("suite", "uart")],
         "", f"Status: **{report['status']}**", "",
         f"Simulator: {report['simulator']}", f"Started (UTC): {report['started_utc']}", "",
     ]
@@ -417,8 +435,8 @@ def write_reports(output: Path, report: dict) -> None:
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--sim", choices=("questa", "vcs", "verilator"), default="questa")
-    p.add_argument("--suite", choices=("uart", "apb_protocol"), default="uart", help="Select the UART DUT or independent APB agent protocol tests")
-    p.add_argument("--rtl", choices=("upstream", "fixed"), default="upstream", help="Select original RTL or the documented local bug fixes")
+    p.add_argument("--suite", choices=tuple(SUITE_DEFAULT_TESTS), default="uart", help="Select UART, independent APB protocol, or RAM/MBIST subsystem")
+    p.add_argument("--rtl", choices=("upstream", "fixed"), help="UART defaults to upstream RTL; subsystem uses fixed RTL")
     p.add_argument("--test", action="append", help="UVM test class; repeat to select several (default: suite's positive tests)")
     p.add_argument("--seeds", type=int, nargs="+", default=[1], help="Positive seeds, one run per test and seed")
     p.add_argument("--out", type=Path, help="Fresh output directory; defaults to results/<UTC timestamp>")
@@ -442,6 +460,9 @@ def parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     arg_parser = parser()
     args = arg_parser.parse_args(argv)
+    if args.suite == "subsystem" and args.rtl == "upstream":
+        arg_parser.error("--suite subsystem requires --rtl fixed")
+    args.rtl = args.rtl or ("fixed" if args.suite == "subsystem" else "upstream")
     if args.build_dir:
         args.build_dir = args.build_dir.resolve()
         if args.build_dir.exists() and not args.build_dir.is_dir():
@@ -466,7 +487,7 @@ def main(argv: list[str] | None = None) -> int:
         arg_parser.error("Questa coverage output paths cannot contain braces or newlines")
     output.mkdir(parents=True, exist_ok=True)
     report = {"status": "ERROR", "simulator": args.sim, "suite": args.suite,
-              "rtl_variant": args.rtl if args.suite == "uart" else None,
+              "rtl_variant": None if args.suite == "apb_protocol" else args.rtl,
               "completion_marker": SUITE_PASS_MARKERS[args.suite],
               "source_file_list": str(source_list(args)),
               "build_directory": str(args.build_dir or output / "build"),

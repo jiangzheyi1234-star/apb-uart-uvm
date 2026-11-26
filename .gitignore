@@ -17,6 +17,8 @@ dist/
 !docs/release/recovered-vcd/*.vcd
 !docs/protocol/inputs/*.vcd
 !docs/reproductions/runs/*/waves.vcd
+!docs/subsystem/*/waves.vcd
+!docs/frontend/inputs/gate_smoke.vcd
 *.ucdb
 *.vdb/
 transcript

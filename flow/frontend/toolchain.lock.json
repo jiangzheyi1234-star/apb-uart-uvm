@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "opensta_commit": "28d7a0b5123d59cbff8c1def4e3830c840fe5d50",
+  "cudd_commit": "f54f533303640afd5dbe47a05ebeabb3066f2a25",
+  "nangate_repository_commit": "7aee0ab06c2d77b794ed8ae8f21883af676ce8d0",
+  "artifacts": [
+    {"file":"opensta.tar.gz","url":"https://codeload.github.com/parallaxsw/OpenSTA/tar.gz/28d7a0b5123d59cbff8c1def4e3830c840fe5d50","sha256":"2451385cd051949bb8bd64244f2797447c7386897cefb5fa6468fd35c656e22c","bytes":13571570,"license":"GPL-3.0-or-later; source LICENSE retained"},
+    {"file":"cudd.tar.gz","url":"https://codeload.github.com/cuddorg/cudd/tar.gz/f54f533303640afd5dbe47a05ebeabb3066f2a25","sha256":"dbe6b90f8745bf1f755953b76f1c639e07f7ee079f4abf18c871ae878f47431d","bytes":1172209,"license":"BSD-style; source LICENSE retained"},
+    {"file":"NangateOpenCellLibrary_typical.lib","url":"https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD-flow-scripts/7aee0ab06c2d77b794ed8ae8f21883af676ce8d0/flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib","sha256":"8d540a4d4cf6d09d27c87ad067857a9c0c2eeb023ab7a56e058cd3113db4e9b1","bytes":6692032,"license":"Nangate Open Cell Library license in file header; preserve alongside platform Apache-2.0 LICENSE"},
+    {"file":"NANGATE_LICENSE","url":"https://raw.githubusercontent.com/The-OpenROAD-Project/OpenROAD-flow-scripts/7aee0ab06c2d77b794ed8ae8f21883af676ce8d0/flow/platforms/nangate45/LICENSE","sha256":"0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594","bytes":10174,"license":"Apache-2.0"}
+  ]
+}

@@ -7,7 +7,7 @@
   const nav = document.getElementById("workspace-nav");
   const raw = window.UART_DASHBOARD;
   const SVG = "http://www.w3.org/2000/svg";
-  const VIEWS = {overview:"验证总览",plan:"验证计划",regressions:"回归记录",coverage:"覆盖与缺口",waveforms:"波形与总线",architecture:"验证架构",defects:"缺陷对照"};
+  const VIEWS = {overview:"验证总览",plan:"验证计划",regressions:"回归记录",frontend:"实现与 DFT",coverage:"覆盖与缺口",waveforms:"波形与总线",architecture:"验证架构",defects:"缺陷对照"};
   const missing = "未记录";
   const list = value => Array.isArray(value) ? value : [];
   const finite = value => typeof value === "number" && Number.isFinite(value);
@@ -118,6 +118,7 @@
   const suites=list(data.suites);
   const coverage=list(data.coverage);
   const waves=list(data.waveforms);
+  const frontendChecks=list(data.frontend_checks).filter(check=>check&&hasId(check.id));
   const planGroups=list(data.verification_plan?.groups).filter(group=>group&&hasId(group.id)&&list(group.items).length);
   const planByRun = new Map();
   for (const group of planGroups) for (const item of list(group.items)) for (const id of list(item?.run_ids)) {
@@ -174,11 +175,11 @@
     title.textContent=VIEWS[name];
     document.title=`${VIEWS[name]} · ${text(data.project?.title || "APB UART")}`;
     nav.querySelectorAll("button[data-tab]").forEach(node=>{
-      if(node.dataset.tab===name||(node.dataset.tab==="plan"&&name==="regressions"))node.setAttribute("aria-current","page");else node.removeAttribute("aria-current");
+      if(node.dataset.tab===name||(node.dataset.tab==="plan"&&["regressions","frontend"].includes(name)))node.setAttribute("aria-current","page");else node.removeAttribute("aria-current");
     });
     try { if(location.hash!=="#"+name)history.replaceState(null,"","#"+name); } catch (_) { if(location.hash!=="#"+name)location.hash=name; }
     root.replaceChildren();
-    ({overview:renderOverview,plan:renderVerificationPlan,regressions:renderRegressions,coverage:renderCoverage,waveforms:renderWaveforms,architecture:renderArchitecture,defects:renderDefects})[name]();
+    ({overview:renderOverview,plan:renderVerificationPlan,regressions:renderRegressions,frontend:renderFrontend,coverage:renderCoverage,waveforms:renderWaveforms,architecture:renderArchitecture,defects:renderDefects})[name]();
     if(focus) {
       root.focus({preventScroll:true});
       window.scrollTo(0, 0);
@@ -450,7 +451,7 @@
     const chainLabels=chain.length?chain.map(item=>typeof item==="string"?item:[item?.name,item?.version].filter(Boolean).join(" ")):typeof project.toolchain==="string"?[project.toolchain]:project.toolchain&&typeof project.toolchain==="object"?Object.entries(project.toolchain).map(([key,value])=>`${key} ${text(value)}`):[];
     const provenance=panel("来源与实现边界",null,
       project.source_note?el("p",{className:"inline-note"},project.source_note):null,
-      project.commit?el("p",{className:"hash"},`实测提交 ${project.commit}`):null,
+      project.commit?el("p",{className:"hash"},`${suites.some(suite=>suite.id==="subsystem")?"UART 实测提交":"实测提交"} ${project.commit}`):null,
       chainLabels.length?el("div",{className:"toolchain"},chainLabels.map(value=>el("span",{},value))):null,
       list(data.limitations).length?el("ul",{},data.limitations.map(value=>el("li",{},value))):el("p",{className:"muted"},"数据未附加实现边界说明。"));
     const inputs=list(data.inputs),inputsKnown=Array.isArray(data.inputs);
@@ -489,14 +490,40 @@
   }
 
   function planNavigation() {
+    const views=[["plan","验证计划"],["regressions","全部运行"]];
+    if(frontendChecks.length)views.push(["frontend","实现与 DFT"]);
     return el("div", {className:"coverage-modes", role:"group", "aria-label":"计划与回归视图"},
-      [["plan","验证计划"],["regressions","全部运行"]].map(([view,label]) =>
+      views.map(([view,label]) =>
         button(label, () => setView(view, true), {className:"coverage-mode", "aria-pressed":String(state.tab===view)})));
+  }
+
+  function frontendStatus(check) {
+    return badge(check.status,check.status==="TIMING_VIOLATION"?"timing":undefined);
+  }
+  function renderFrontend() {
+    root.append(planNavigation());
+    intro("综合、STA、门级比较和扫描检查按实际执行分别记录，状态独立于 UVM 回归结果。");
+    if(!frontendChecks.length){root.append(empty("尚无实现检查记录","当前证据包未包含综合、时序或扫描检查报告。"));return;}
+    const rows=frontendChecks.map(check=>{
+      const waveform=hasId(check.waveform_id)?waves.find(wave=>wave.id===check.waveform_id):null;
+      const timing=check.status==="TIMING_VIOLATION";
+      return el("li",{className:`frontend-check${timing?" frontend-check--timing":""}`,"data-check-id":String(check.id)},
+        el("div",{className:"frontend-check-heading"},el("h2",{},text(check.title||check.id)),frontendStatus(check)),
+        check.summary?el("p",{className:"frontend-check-summary"},check.summary):null,
+        timing?el("p",{className:"frontend-timing-note"},"时序检查记录了 hold 违例。可用 SDC 和完整时序路径复核。" ):null,
+        el("div",{className:"frontend-check-artifacts"},
+          list(check.artifacts).map(item=>item?link(text(item.label),item.url):null),
+          waveform?button(waveform.kind==="scan"?"查看扫描波形":"查看同次波形",()=>showWave(waveform.id),{className:"link-button","data-waveform-id":String(waveform.id)}):null));
+    });
+    root.append(el("section",{className:"frontend-results","aria-label":"实现与 DFT 检查记录"},
+      el("ol",{className:"frontend-check-list"},rows),
+      el("p",{className:"inline-note frontend-boundary"},"扫描证据覆盖定向图样移位与功能捕获。面积和时序的测量范围见各项报告。")));
   }
 
   function renderPlanRun(run) {
     const waveform = originalWaveFor(run);
-    const diagnostics = list(run.failure_excerpt).filter(line => typeof line === "string" && line.trim());
+    const diagnostics = [...list(run.failure_excerpt), ...list(run.diagnostic_excerpt)]
+      .filter(line => typeof line === "string" && line.trim());
     const context = [suiteTitle(run.suite_id), variantName(run.variant), `seed ${text(run.seed)}`];
     if (run.phase) context.push(phaseName(run.phase));
     if (run.mutation) context.push(run.mutation);
@@ -858,8 +885,15 @@
   function eventHasWait(event) {return finite(event.wait_cycles)&&event.wait_cycles>0;}
   function eventHasIssue(event) {return event.slverr===true||(finite(event.slverr)&&event.slverr!==0)||(typeof event.status==="string"&&event.status.trim()!==""&&event.status.toUpperCase()!=="OK");}
   function validRange(range) {return Array.isArray(range)&&finite(range[0])&&finite(range[1])&&range[1]>range[0];}
-  function defaultWaveSignals(signals) {
+  function defaultWaveSignals(signals,kind) {
     const matches=(signal,name)=>[signal.id,signal.label].some(value=>typeof value==="string"&&(value===name||value.endsWith("."+name)||(name==="apb.rst_n"&&value==="rst_n")));
+    if(kind==="scan")return ["scan.clk","scan.en","scan.in","scan.out","scan.capture_checks"].map(name=>signals.find(signal=>matches(signal,name))).filter(Boolean);
+    if(kind==="gate")return ["apb.rst_n","apb.psel","apb.penable","apb.pready","apb.pwrite","apb.paddr","apb.prdata","gate.prdata","scan_gate.prdata"].map(name=>signals.find(signal=>matches(signal,name))).filter(Boolean);
+    if(signals.some(signal=>matches(signal,"control.fault_enable"))){
+      const diagnostic=["apb.rst_n","apb.paddr","apb.prdata","control.fault_enable","dut.memory_controller_i.busy_q",
+        "dut.memory_controller_i.step_q","control.ram_addr","dut.memory_controller_i.ram_rdata","dut.memory_controller_i.fail_q"];
+      return diagnostic.map(name=>signals.find(signal=>matches(signal,name))).filter(Boolean);
+    }
     const hasUART=signals.some(signal=>["uart.rx","uart.tx","uart.irq"].some(name=>matches(signal,name)));
     const priority=hasUART?["apb.rst_n","uart.rx","uart.tx","uart.irq","apb.psel","apb.penable","apb.pready","apb.pwrite","apb.prdata"]:
       ["apb.rst_n","apb.psel","apb.penable","apb.pready","apb.pwrite","apb.paddr","apb.pwdata","apb.prdata","apb.pslverr"];
@@ -869,18 +903,23 @@
     if(!waves.length){root.append(empty("没有波形记录","尚未提供 VCD 采样事件。可从回归日志继续核对运行结果。"));return;}
     const source=waves.find(wave=>String(wave.id)===String(state.waveId))||waves[0];state.waveId=source.id;
     const wave=prepareWave(source);
+    const scan=wave.kind==="scan",frontend=scan||wave.kind==="gate";
+    const frontendCheck=frontend?frontendChecks.find(check=>check.waveform_id===wave.id):null;
     const reproduced=isReproductionWave(wave),reproduction=reproductionInfo(wave);
     if(reproduced&&!reproduction){root.append(empty("复现来源无法核对","复现波形需要独立执行身份与对应原始运行的明确关联。请核对归档元数据。"));return;}
     const original=reproduction?runsById.get(reproduction.original_run_id):null;
     if(reproduced){
       title.textContent="波形与总线 · TRACE 复现";
       document.title=`${title.textContent} · ${text(data.project?.title||"APB UART")}`;
+    }else if(frontend){
+      title.textContent=scan?"实现波形 · 扫描检查":"实现波形 · 门级比较";
+      document.title=`${title.textContent} · ${text(data.project?.title||"APB UART")}`;
     }
     if(!validRange(wave.range)){root.append(empty("波形时间范围未记录","需要有效的 range:[start,end] 才能显示真实时间轴。"));return;}
     const domain=wave.range, domainSpan=domain[1]-domain[0], minSpan=Math.max(domainSpan/100000,0.001);
-    const defaults = defaultWaveSignals(wave.signals);
+    const defaults = defaultWaveSignals(wave.signals,wave.kind);
     const signalMatches=(signal,name)=>[signal.id,signal.label].some(value=>typeof value==="string"&&(value===name||value.endsWith("."+name)||(name==="apb.rst_n"&&value==="rst_n")));
-    const priority=["apb.rst_n","apb.psel","apb.penable","apb.pready","apb.pwrite","uart.rx","uart.tx","uart.irq"];
+    const priority=scan?["scan.clk","scan.en","scan.in","scan.out","scan.capture_checks"]:["apb.rst_n","apb.psel","apb.penable","apb.pready","apb.pwrite","uart.rx","uart.tx","uart.irq"];
     const firstSignals=priority.map(name=>wave.signals.find(signal=>signalMatches(signal,name))).filter(Boolean);
     const orderedSignals=firstSignals.concat(wave.signals.filter(signal=>!firstSignals.includes(signal)));
     let ws=state.waveState.get(wave.id);
@@ -891,12 +930,18 @@
       const record=reproductionInfo(item);
       const label=record?["TRACE 复现",text(record.test),`seed ${text(record.seed)}`,
         record.mutation||record.phase&&phaseName(record.phase)].filter(Boolean).join(" · "):
-        `${isReproductionWave(item)?"TRACE 复现 · ":""}${text(item.title)}`;
+        `${isReproductionWave(item)?"TRACE 复现 · ":item.kind==="scan"?"DFT 扫描 · ":item.kind==="gate"?"门级比较 · ":""}${text(item.title)}`;
       return {value:String(item.id),label};
     }),String(wave.id),id=>{state.waveId=id;setView("waveforms");},{"aria-label":"选择真实波形"});
     const controls=el("div",{className:"wave-controls"});
     waveformPanel.append(el("div",{className:"wave-select-bar wave-record-picker"},makeField("波形记录",picker)));
-    const related=!reproduced&&hasId(wave.run_id)?runsById.get(wave.run_id):null;
+    const related=!frontend&&!reproduced&&hasId(wave.run_id)?runsById.get(wave.run_id):null;
+    if(frontend){
+      waveformPanel.append(el("section",{className:"wave-frontend-context",role:"note","aria-label":"实现检查来源"},
+        el("div",{className:"frontend-check-heading"},el("strong",{},frontendCheck?text(frontendCheck.title):scan?"扫描检查":"门级比较"),frontendCheck?frontendStatus(frontendCheck):null),
+        frontendCheck?.summary?el("p",{},frontendCheck.summary):null,
+        scan?el("p",{className:"secondary"},"窗口聚焦同次仿真中功能捕获后的扫描移出区间。" ):null));
+    }
     if(reproduction){
       const context=[original?suiteTitle(original.suite_id):null,
         original?variantName(original.variant):null,`seed ${text(reproduction.seed)}`,
@@ -932,6 +977,7 @@
         original?.report_url||reproduction.original_report_url?link("原始运行报告",original?.report_url||reproduction.original_report_url):null,
         reproduction.source_snapshot_url?link("复现源码快照",reproduction.source_snapshot_url):null,
         reproduction.index_url?link("复现清单",reproduction.index_url):null)):
+      frontendCheck?el("div",{className:"wave-run-context"},evidenceLinks(frontendCheck.artifacts)):
       related?el("div",{className:"wave-run-context"},
       related?el("div",{className:"legend wave-run-identity"},el("span",{},el("code",{},text(related.test)),` · seed ${text(related.seed)} · ${variantName(related.variant)}`),resultBadges(related),el("span",{},suiteTitle(related.suite_id),related.phase?` · ${phaseName(related.phase)}`:"")):null,
       el("div",{className:"evidence-links wave-run-links"},related?.log_url?link("同次运行日志",related.log_url):null,related?.report_url?link("同次原始报告",related.report_url):null,
@@ -939,7 +985,7 @@
     const signalCount=el("span",{className:"wave-signal-count"});
     const signalPanel=el("section",{className:"signal-panel wave-signal-picker"},el("h3",{},"显示信号",signalCount));
     const signalList=el("div",{className:"signal-list"});
-    const svg=svgEl("svg",{class:"wave-chart",tabindex:"0",role:"group","aria-label":"真实波形与 APB 事务轨：左右键移动游标，加减键缩放，Shift 加左右键平移，Home 查看全程"});
+    const svg=svgEl("svg",{class:"wave-chart",tabindex:"0",role:"group","aria-label":`${scan?"真实扫描波形":"真实波形与 APB 事务轨"}：左右键移动游标，加减键缩放，Shift 加左右键平移，Home 查看全程`});
     const chartFrame=el("div",{className:"wave-chart-frame"},svg);
     const values=el("div",{className:"cursor-values"});
     const status=el("p",{className:"wave-status",role:"status"});
@@ -948,7 +994,7 @@
     const cursorInput=el("input",{type:"number",step:"any","aria-label":`时间游标 ${wave.unit||"ns"}`});
     const windowForm=el("form",{className:"wave-window-form",onSubmit:event=>{event.preventDefault();applyWindow();}},makeField(`窗口起点 (${wave.unit||"ns"})`,startInput),makeField(`窗口终点 (${wave.unit||"ns"})`,endInput),button("应用范围",applyWindow,{className:"button small"}),makeField(`游标 (${wave.unit||"ns"})`,cursorInput),button("定位",()=>{const t=inputNumber(cursorInput);if(!finite(t)||t<domain[0]||t>domain[1]){invalid("请输入记录范围内的游标时间。");return;}ws.cursor=t;centerCursor();},{className:"button small"}));
     const density=makeSelect([{value:"compact",label:"紧凑"},{value:"comfortable",label:"舒展"}],ws.density,value=>{ws.density=value;scheduleDraw();},{"aria-label":"波形行密度"});
-    const viewOptions=el("div",{className:"wave-view-options"},el("div",{className:"wave-chart-legend"},el("span",{},el("i",{className:"wave-key--transaction","aria-hidden":"true"}),"事务范围"),el("span",{},el("i",{className:"wave-key--cursor","aria-hidden":"true"}),"时间游标")),el("label",{className:"wave-density"},el("span",{},"行密度"),density));
+    const viewOptions=el("div",{className:"wave-view-options"},el("div",{className:"wave-chart-legend"},!scan?el("span",{},el("i",{className:"wave-key--transaction","aria-hidden":"true"}),"事务范围"):null,el("span",{},el("i",{className:"wave-key--cursor","aria-hidden":"true"}),"时间游标")),el("label",{className:"wave-density"},el("span",{},"行密度"),density));
     const transactionDetails=el("div",{className:"wave-transaction-details wave-selection-details"});
     // Only link the project's published archives; never forward arbitrary data URLs.
     const publishedArchives=new Set(["release/inputs/018_waves.vcd","release/inputs/024_waves.vcd","release/inputs/066_waves.vcd","release/inputs/116_waves.vcd","release/inputs/164_waves.vcd","protocol/inputs/008_waves.vcd","protocol/inputs/012_waves.vcd","protocol/inputs/025_waves.vcd"]);
@@ -969,9 +1015,9 @@
     const more=el("details",{className:"wave-more"},el("summary",{},"信号、缩放与运行证据"),el("div",{className:"wave-more-body"},
       el("section",{className:"wave-view-settings"},el("h3",{},"视图与时间范围"),controls,viewOptions,windowForm,status,transactionDetails),
       signalPanel,
-      el("section",{className:"wave-evidence"},el("h3",{},reproduced?"复现执行与文件":"同次运行与原始文件"),runContext,
+      el("section",{className:"wave-evidence"},el("h3",{},reproduced?"复现执行与文件":frontend?"实现检查与原始文件":"同次运行与原始文件"),runContext,
         wave.source?el("div",{className:"provenance"},el("div",{className:"evidence-links"},wave.source.url?link(reproduced?"打开复现 VCD":"打开原始 VCD",wave.source.url):el("span",{className:"secondary"},reproduced?"复现 VCD 链接未记录":"原始 VCD 链接未记录"),professionalLink),wave.source.sha256?el("p",{className:"hash",style:{marginTop:"8px"}},"SHA-256 ",wave.source.sha256):null,wave.source.note?el("p",{className:"secondary"},wave.source.note):null):null),
-      el("p",{className:"wave-help"},"点击事务轨选中事务；滚轮缩放、拖动平移。← → 移动游标，+ / − 缩放，Shift + ← → 平移，Home 全程。")));
+      el("p",{className:"wave-help"},`${scan?"":"点击事务轨选中事务；"}滚轮缩放、拖动平移。← → 移动游标，+ / − 缩放，Shift + ← → 平移，Home 全程。`)));
     const waveMain=el("div",{className:"wave-main"},chartFrame,more);
     waveformPanel.append(el("div",{className:"wave-layout wave-layout--full"},waveMain));
     root.append(waveformPanel);
@@ -980,7 +1026,7 @@
     const eventKind=makeSelect([{value:"all",label:`全部记录 (${allEvents.length})`},{value:"wait",label:`有等待 (${waitEvents.length})`},{value:"issue",label:`异常记录 (${issueEvents.length})`}],ws.eventKind,value=>{ws.eventKind=value;ws.eventPage=1;renderEvents();},{"aria-label":"APB 事件类型"});
     const inView=el("input",{type:"checkbox",checked:ws.eventsInView,onChange:event=>{ws.eventsInView=event.target.checked;ws.eventPage=1;renderEvents();}});
     const locatable=event=>finite(event.start)&&event.start>=domain[0]&&event.start<=domain[1];
-    root.append(el("details",{className:"wave-event-disclosure"},el("summary",{},"APB 事件记录"),el("div",{className:"wave-event-body"},
+    if(!scan||allEvents.length)root.append(el("details",{className:"wave-event-disclosure"},el("summary",{},"APB 事件记录"),el("div",{className:"wave-event-body"},
       el("div",{className:"toolbar wave-event-tools"},makeField("事件类型",eventKind),makeField("搜索事件",eventSearch),el("label",{className:"check-field"},inView,"仅当前窗口")),
       el("p",{className:"inline-note"},"点击事件时间定位到对应采样窗口。快捷定位扫描整份波形，并清除事件搜索条件。异常记录包括非 OK 状态或 PSLVERR；复位中止、未完成及未知记录需结合日志判断。"),eventResults)));
     eventSearch.addEventListener("input",()=>{ws.eventQuery=eventSearch.value;ws.eventPage=1;renderEvents();});
@@ -1012,7 +1058,7 @@
       issueEvents.some(locatable)?button("下一个异常", () => jumpEvent("issue"), {className:"button small"}):null);
     quickActions.append(jumpControls);
     const origin = state.waveReturn;
-    const returnLabel = {overview:"返回总览", plan:"返回验证计划", defects:"返回缺陷对照", regressions:"返回筛选结果"}[origin?.view];
+    const returnLabel = {overview:"返回总览", plan:"返回验证计划", frontend:"返回实现与 DFT", defects:"返回缺陷对照", regressions:"返回筛选结果"}[origin?.view];
     if (returnLabel) quickActions.append(button(returnLabel, () => {
       if (origin.filters) Object.assign(state.reg, origin.filters);
       setView(origin.view, true);
@@ -1044,7 +1090,7 @@
       if(activeEvent&&finite(activeEvent.start)&&finite(activeEvent.end)&&activeEvent.end>=ws.start&&activeEvent.start<=ws.end){const a=x(Math.max(ws.start,activeEvent.start)),b=x(Math.min(ws.end,activeEvent.end));svg.append(svgEl("rect",{x:a,y:axis-3,width:Math.max(1,b-a),height:height-axis-9,fill:"#0c8b88","fill-opacity":.09,class:"wave-selected-range"}));for(const t of [activeEvent.start,activeEvent.end])if(t>=ws.start&&t<=ws.end)svg.append(svgEl("line",{x1:x(t),y1:70,x2:x(t),y2:height-12,stroke:"#087f83","stroke-width":1.5,"stroke-dasharray":"3 3",class:"wave-selected-boundary"}));}
       let previousLabelRight=-Infinity;
       for(const tick of axisTicks(ws.start,ws.end,d.plot)){const px=x(tick.value),labelWidth=tick.label.length*8.5,anchor=px-d.left<labelWidth/2?"start":d.width-d.right-px<labelWidth/2?"end":"middle",labelLeft=px-(anchor==="end"?labelWidth:anchor==="middle"?labelWidth/2:0);svg.append(svgEl("line",{x1:px,y1:24,x2:px,y2:height-12,stroke:"#d9e5ed","stroke-width":1,class:"wave-time-grid"}));if(labelLeft>=previousLabelRight+12){const label=svgEl("text",{x:px,y:18,"text-anchor":anchor,class:"wave-axis wave-time-tick","data-time":String(tick.value)},tick.label);label.append(svgEl("title",{},`绝对时间 ${absoluteTime(tick.value)} ${wave.unit||"ns"}`));svg.append(label);previousLabelRight=labelLeft+labelWidth;}}
-      svg.append(svgEl("text",{x:12,y:18,class:"wave-axis"},"信号 / 游标值"),svgEl("text",{x:12,y:38,class:"wave-axis"},`绝对时间 ${wave.unit||"ns"}`),svgEl("text",{x:12,y:65,class:"wave-axis"},"APB 事务"));
+      svg.append(svgEl("text",{x:12,y:18,class:"wave-axis"},"信号 / 游标值"),svgEl("text",{x:12,y:38,class:"wave-axis"},`绝对时间 ${wave.unit||"ns"}`),svgEl("text",{x:12,y:65,class:"wave-axis"},scan&&!allEvents.length?"扫描时序":"APB 事务"));
       for(const event of allEvents){if(!finite(event.start)||!finite(event.end)||event.end<ws.start||event.start>ws.end)continue;const a=x(Math.max(ws.start,event.start)),b=x(Math.min(ws.end,event.end)),isSelected=event.id===ws.eventId,issue=eventHasIssue(event),direction=event.write===true?"W":event.write===false?"R":"?",label=`${direction} ${formatBus(event.address)}`,description=`${label} · ${text(event.status)} · 等待 ${number(event.wait_cycles)} 周期 · ${time(event.start)}–${time(event.end)} ${wave.unit||"ns"}`;
         const group=svgEl("g",{class:"wave-event-track",tabindex:"0",role:"button","aria-label":description,"aria-pressed":isSelected?"true":"false","data-apb-event-id":String(event.id),style:"cursor:pointer"});
         group.append(svgEl("rect",{x:a,y:51,width:Math.max(1,b-a),height:20,rx:3,fill:isSelected?"#0a7c80":issue?"#f5e3bd":event.write===true?"#d7eceb":"#dce9f7",stroke:isSelected?"#075d60":issue?"#a97727":event.write===true?"#71aaa6":"#87a8c7","stroke-width":isSelected?2:1,class:`wave-event-band wave-event-band--${issue?"issue":event.write===true?"write":"read"}${isSelected?" wave-event-band--selected":""}`}));

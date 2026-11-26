@@ -18,9 +18,11 @@ import shutil
 import sys
 
 from build_evidence import read_json, validate_transcript
+from frontend_evidence import frontend_data
 from report_coverage import native_summary, parse_records, lcov_summary, lcov_file_details, source_scope
 from recovered_waveforms import recovered_wave_links
 from reproduced_waveforms import reproduction_evidence
+from run_regression import SUITE_PASS_MARKERS, classify_log
 from waveform_data import waveform
 
 
@@ -464,7 +466,101 @@ def append_reproductions(root: Path, rows: list[dict], waves: list[dict], inputs
     return records
 
 
-def build(root: Path, output: Path, template: Path, version: str, repository: str, commit: str | None = None) -> dict:
+def subsystem_data(report_path: Path, output: Path, *, published: bool = False) -> tuple[list[dict], list[dict], list[dict]]:
+    """Embed the new suite without altering measurements from published UART runs."""
+    report_path = report_path.resolve()
+    report = read_json(report_path)
+    require(report.get("suite") == "subsystem" and report.get("rtl_variant") == "fixed",
+            "Expected a fixed UART / RAM / MBIST subsystem report")
+    require(report.get("status") in ("PASS", "FAIL") and bool(report.get("runs")),
+            "Expected a completed subsystem regression with real runs")
+    base = report_path.parent
+    destination = output / "subsystem"
+    if published:
+        declared = {item["path"]: item for item in verify_bundle(base, base)}
+    else:
+        declared = None
+        require(not destination.resolve().is_relative_to(base), "Dashboard evidence cannot overwrite its source runs")
+        require(not (destination / "inputs.json").exists(), "Use a separate output directory for a local subsystem run")
+    rows, waves, inputs = [], [], []
+    archived = set()
+
+    def archive(path: Path, relative: Path) -> Path:
+        target = destination / relative
+        checksum = digest(path)
+        name = relative.as_posix()
+        if declared is not None:
+            require(name in declared and declared[name]["sha256"] == checksum,
+                    f"Subsystem artifact is not in the verified manifest: {name}")
+        if target.resolve() != path:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(path, target)
+            require(digest(target) == checksum, f"Subsystem artifact changed during copy: {relative}")
+        inputs.append({"path": href(target, output), "sha256": checksum, "bytes": target.stat().st_size})
+        archived.add(name)
+        return target
+
+    report_url = href(archive(report_path, Path("report.json")), output)
+    archive(inside(base, "source_snapshot.json"), Path("source_snapshot.json"))
+    for run in report["runs"]:
+        test, seed = run["test"], run["seed"]
+        require(isinstance(test, str) and re.fullmatch(r"[A-Za-z_][A-Za-z_0-9]*", test) is not None
+                and type(seed) is int and seed > 0, "Invalid subsystem run identity")
+        directory = Path(f"{test}_seed_{seed}")
+        run_id = f"subsystem:{test}:{seed}"
+        require(all(row["id"] != run_id for row in rows), f"Duplicate subsystem run: {run_id}")
+        log = inside(base, (directory / "simulation.log").as_posix())
+        transcript = log.read_text(encoding="utf-8", errors="replace")
+        outcome = classify_log(transcript, run["returncode"], run["timed_out"], SUITE_PASS_MARKERS["subsystem"])
+        missing_artifact = (outcome.status == "PASS" and run["status"] == "FAIL"
+                            and run["reason"].startswith("Missing requested artifact(s):"))
+        require(outcome.status == run["status"] or missing_artifact, f"Subsystem run status does not match its log: {run_id}")
+        row = {"id": run_id, "suite_id": "subsystem", "test": test, "seed": seed, "variant": "fixed",
+               "phase": "regression", "raw_status": run["status"], "classification": run["status"],
+               "expected": False, "metrics": {"errors": outcome.uvm_errors, "fatals": outcome.uvm_fatals,
+                                              "duration_s": run["elapsed_seconds"]},
+               "report_url": report_url, "log_url": href(archive(log, directory / "simulation.log"), output)}
+        if outcome.status == "FAIL":
+            row["failure_excerpt"] = failure_excerpt(transcript)
+        if missing_artifact:
+            row["failure_excerpt"] = [run["reason"]]
+        if outcome.status == "PASS":
+            summaries = re.findall(r"(?m)^\s*(?:#\s*)?UVM_INFO\b[^\r\n]*\[SUBSYSTEM_STATS\] ([^\r\n]+)", transcript)
+            require(len(summaries) == 1, f"Missing unique subsystem monitor stats: {run_id}")
+            stats = dict(re.findall(r"\b([a-z]\w*)=(\w+)", summaries[0]))
+            require(stats.get("test") == test, f"Subsystem stats describe a different test: {run_id}")
+            row["metrics"].update(apb_completed=int(stats["apb_completed"]), apb_reads=int(stats["reads"]),
+                                  apb_writes=int(stats["writes"]), max_wait=int(int(stats["wait1"]) > 0))
+            row["diagnostic_excerpt"] = re.findall(r"(?m)^\s*(?:#\s*)?UVM_INFO\b[^\r\n]*\[SUBSYSTEM_FAULT_CHECK\][^\r\n]*", transcript)
+        rows.append(row)
+        if run.get("waveform_file"):
+            relative = directory / "waves.vcd"
+            path = archive(inside(base, relative.as_posix()), relative)
+            decoded = waveform(path, id=run_id, title=f"RAM / MBIST · {test} · seed {seed}",
+                               run_id=run_id, url=href(path, output), uart_registers=False, subsystem=True)
+            if outcome.status == "PASS":
+                apb = [event for event in decoded["apb_events"] if event["status"] in ("OK", "SLVERR")]
+                require(len(apb) == int(stats["apb_completed"]) and
+                        sum(event["wait_cycles"] == 1 for event in apb) == int(stats["wait1"]),
+                        f"Subsystem APB monitor and VCD disagree: {run_id}")
+                mbist = decoded["mbist_runs"]
+                require(len(mbist) == int(stats["mbist_starts"]) and
+                        all(event["march_sequence_matches"] for event in mbist),
+                        f"MBIST native requests disagree with the verification plan: {run_id}")
+                for status, key in (("PASS", "mbist_passes"), ("FAIL", "mbist_faults"), ("RESET_ABORT", "reset_aborts")):
+                    require(sum(event["status"] == status for event in mbist) == int(stats[key]),
+                            f"MBIST terminal status differs between the log and VCD: {run_id}")
+            waves.append(decoded)
+    if declared is not None:
+        for name in sorted(declared.keys() - archived):
+            archive(inside(base, name), Path(name))
+        if destination.resolve() != base:
+            shutil.copyfile(base / "inputs.json", destination / "inputs.json")
+    return rows, waves, inputs
+
+
+def build(root: Path, output: Path, template: Path, version: str, repository: str, commit: str | None = None,
+          subsystem_report: Path | None = None) -> dict:
     root, output = root.resolve(), output.resolve()
     ref = commit or "main"
     # Preserve legacy repository/ref handling. New drilldown links must name a
@@ -509,10 +605,37 @@ def build(root: Path, output: Path, template: Path, version: str, repository: st
             "limitations": ["Verilator 动态结果不能代替四态 / X 传播签核。", "UART DUT 的 PREADY 恒为 1；等待状态、超时和取消在独立 APB 测试从设备中验证。",
                             "协议资格验证覆盖选定的 0/1/3/7 等待、复位和超时场景，不宣称穷举所有仲裁与时序组合。",
                             "不包含完整 16550 兼容、任意波特率失配、传输中配置热切换、活跃 TX 清 FIFO或持续 RX 超载。"]}
+    extra_plan = []
+    bundled_subsystem = subsystem_report is None and (root / "subsystem" / "inputs.json").is_file()
+    if subsystem_report is not None or bundled_subsystem:
+        report = root / "subsystem" / "report.json" if bundled_subsystem else subsystem_report
+        subsystem_rows, subsystem_waves, subsystem_inputs = subsystem_data(report, output, published=bundled_subsystem)
+        rows.extend(subsystem_rows)
+        waves.extend(subsystem_waves)
+        inputs.extend(subsystem_inputs)
+        data["suites"].append({"id": "subsystem", "title": "APB 外设子系统 · RAM / MBIST", "kind": "protocol",
+                               "scope": "独立 UVM 回归", "note": "故障用例检查首错诊断及恢复。历史 UART 回归单独统计。"})
+        data["project"]["source_note"] += " RAM / MBIST 子系统结果以独立回归报告和源码快照为准。"
+        extra_plan = read_json(template / "subsystem-verification-plan.json")["groups"]
+    frontend_base = root / "frontend"
+    if (frontend_base / "inputs.json").is_file():
+        checks, frontend_waves, frontend_inputs = frontend_data(frontend_base, root)
+        data["frontend_checks"] = checks
+        waves.extend(frontend_waves)
+        inputs.extend(frontend_inputs)
+        if output != root:
+            shutil.copytree(frontend_base, output / "frontend", dirs_exist_ok=True)
+    if output != root and (subsystem_report is not None or bundled_subsystem or "frontend_checks" in data):
+        # Supply every historical artifact referenced by the combined view.
+        for directory in ("release", "features", "protocol", "reproductions", "ci"):
+            if (root / directory).is_dir():
+                shutil.copytree(root / directory, output / directory, dirs_exist_ok=True)
     plan_path = template / "verification-plan.json"
     if plan_path.exists():
         require(plan_path.is_file(), "Verification plan mapping must be a file")
-        data["verification_plan"] = bind_verification_plan(read_json(plan_path), rows)
+        plan = read_json(plan_path)
+        plan["groups"].extend(extra_plan)
+        data["verification_plan"] = bind_verification_plan(plan, rows)
     output.mkdir(parents=True, exist_ok=True)
     (output / "assets").mkdir(exist_ok=True)
     (output / "data").mkdir(exist_ok=True)
@@ -532,18 +655,22 @@ def build(root: Path, output: Path, template: Path, version: str, repository: st
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--evidence-root", type=Path, default=ROOT / "docs")
-    parser.add_argument("--out", type=Path, default=ROOT / "docs")
+    parser.add_argument("--out", type=Path)
     parser.add_argument("--template", type=Path, default=ROOT / "web/dashboard")
     parser.add_argument("--version", default="1.2.0")
     parser.add_argument("--repository", default="jiangzheyi1234-star/apb-uart-uvm")
     parser.add_argument("--commit", help="Optional source commit associated with this report")
+    parser.add_argument("--subsystem-report", type=Path, help="Optional real subsystem report.json for the combined local workbench")
     args = parser.parse_args()
     try:
-        data = build(args.evidence_root, args.out, args.template, args.version, args.repository, args.commit)
+        output = args.out or (ROOT / "results" / "subsystem_workbench" if args.subsystem_report else ROOT / "docs")
+        data = build(args.evidence_root, output, args.template, args.version, args.repository, args.commit, args.subsystem_report)
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(f"DASHBOARD_ERROR: {error}", file=sys.stderr)
         return 1
-    print(f"DASHBOARD_BUILT: {len(data['runs'])} measured runs; {len(data['waveforms'])} actual VCDs; {len(data['inputs'])} hash-checked inputs")
+    trace_files = {wave["source"]["url"] for wave in data["waveforms"]}
+    print(f"DASHBOARD_BUILT: {len(data['runs'])} measured runs; {len(data['waveforms'])} waveform views "
+          f"from {len(trace_files)} VCDs; {len(data['inputs'])} hash-checked inputs")
     return 0
 
 

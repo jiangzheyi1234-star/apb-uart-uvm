@@ -6,8 +6,9 @@ The UART design is derived from [PULP Platform apb_uart_sv](https://github.com/p
 | --- | --- | --- |
 | `rtl/` | Unmodified PULP Platform import | Solderpad Hardware License 0.51 |
 | `rtl_fixed/` | Local modifications to that PULP RTL; changes identified in source headers and `docs/rtl_fixes.md` | Solderpad Hardware License 0.51 |
+| `rtl_subsystem/` | Original APB address router, native RAM and MBIST controller | MIT, see `LICENSE` |
 | `third_party/apb_uart_sv/` | Upstream license, documentation and provenance manifest | Upstream terms retained |
-| `tb/`, `py/`, `tests/`, `scripts/`, `.github/`, original documentation | Original verification-project implementation | MIT, see `LICENSE` |
+| `tb/`, `py/`, `tests/`, `scripts/`, `flow/`, `.github/`, original documentation | Original verification and tool-flow implementation | MIT, see `LICENSE` |
 | `web/dashboard/`, excluding `vendor/` | Original workbench UI and chart integration | MIT, see `LICENSE` |
 | `web/dashboard/vendor/echarts.min.js` and generated `docs/assets/vendor/` copy | Custom Apache ECharts 6.1.0 browser subset, including zrender 6.1.0 and tslib 2.3.0 | Apache-2.0; dependency terms listed below |
 

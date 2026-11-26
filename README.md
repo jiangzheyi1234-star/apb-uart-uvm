@@ -17,6 +17,12 @@
 - 离线交互工作台：筛选回归、查看覆盖缺口、缩放真实 VCD、定位 APB 事件，并链接原始日志与源码。
 - 固定工具版本、seed、源码快照及原生覆盖数据库；GitHub Actions 执行真实 UVM 仿真。
 
+### RAM / MBIST 子系统
+
+独立的外设顶层把修复版 UART 和自研 64 × 32 位 RAM / MBIST 控制器连接到同一 APB 地址空间。控制器负责单端口 RAM 的访问仲裁、March C− 序列和首错诊断。运行 `--suite subsystem` 可复用 APB/UART Agent，验证地址边界、自检期间的访问、故障诊断和复位恢复。接口、验证计划和复跑方法见[子系统说明](docs/subsystem.md)。
+
+四个子系统用例各跑三个 seed，**12/12 PASS**。在线工作台的「计划与回归」关联每次运行的日志、报告和同次 VCD。「实现与 DFT」归档了控制器的标准单元映射、布图前 STA、门级仿真以及 58 级扫描链检查。10 ns 约束下的 hold 最差余量为 **−0.00636 ns**，时序报告保留完整违例路径。[子系统验证计划](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#plan) · [实现与 DFT](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#frontend)
+
 ## 运行环境
 
 工具链为 Python 3.12、Verilator 5.054、Accellera UVM 2020.3.1，工具下载固定 SHA-256。[完整 CI 45321619200](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45321619200) 已在 GitHub Ubuntu 24.04 runner 完成 UART、RAL、原版对照及独立 APB 协议验收，实测源码提交为 `127f21e0d695cd0e6aa32b46541b158196058679`。Questa/VCS 入口已提供，尚无商业仿真器动态验收记录。

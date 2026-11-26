@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add an original APB RAM/MBIST subsystem, a March C− controller, shared UART/RAM addressing, and UVM checks for arbitration, reset, first-failure diagnostics and recovery.
+- Publish all twelve subsystem runs with their corresponding logs and VCDs under a separate verification-plan group. Keep the historical UART run identities and coverage scope.
+- Archive controller standard-cell mapping, pre-layout STA, gate simulation and scan checks in the implementation view. Show the measured hold violation and link to the constraints, full timing paths, chain order and gate/scan VCD.
 - Link six newly executed TRACE reproductions to the original failures lacking VCDs. Record the exact test, seed, runtime configuration, verified source snapshot and new binary identity, with separate reproduction logs, reports and waveforms.
 - Add a machine-readable verification plan linking six groups and fifteen items to all 118 archived run identities. Navigate from a verification item or raw FAIL count to an exact run, its diagnostic excerpt, full log, report and available same-run waveform; retain the full regression filter view.
 - Restore eleven original UART failure VCDs as a separate supplement checked against the original CI SHA-256 values and byte counts. Thirteen of nineteen raw FAIL records now have verified same-run waveform bytes; explain the six missing traces and preserve the sealed original manifests, reports and raw statuses.

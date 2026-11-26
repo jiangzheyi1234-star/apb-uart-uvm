@@ -1,0 +1,34 @@
+{
+  "groups": [
+    {
+      "id": "ram-mbist-subsystem",
+      "title": "APB 外设子系统 · RAM / MBIST",
+      "items": [
+        {
+          "id": "subsystem-apb-ram",
+          "title": "RAM 读写、地址边界与等待",
+          "summary": "验证 APB 地址译码、首末字读回、同步读等待和非法访问响应。",
+          "checks": [{"suite_id": "subsystem", "tests": ["subsystem_apb_test"]}]
+        },
+        {
+          "id": "subsystem-mbist-ownership",
+          "title": "正常自检与 RAM 所有权",
+          "summary": "检查自检期间 RAM 与 UART 的访问行为，以及结束后恢复。",
+          "checks": [{"suite_id": "subsystem", "tests": ["subsystem_mbist_test"]}]
+        },
+        {
+          "id": "subsystem-mbist-fault",
+          "title": "首错地址、数据与恢复",
+          "summary": "末地址 bit 3 读故障应产生指定诊断。清除故障后复跑并验证通过。",
+          "checks": [{"suite_id": "subsystem", "tests": ["subsystem_mbist_fault_test"]}]
+        },
+        {
+          "id": "subsystem-mbist-reset",
+          "title": "自检中止与复位恢复",
+          "summary": "自检期间复位应清除状态、释放 RAM 所有权，并允许再次启动。",
+          "checks": [{"suite_id": "subsystem", "tests": ["subsystem_mbist_reset_test"]}]
+        }
+      ]
+    }
+  ]
+}

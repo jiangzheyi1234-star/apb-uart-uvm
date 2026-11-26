@@ -17,6 +17,12 @@ A SystemVerilog/UVM verification environment for a pinned PULP APB UART, with in
 - An offline diagnostic workbench with run filters, coverage gaps, interactive real VCD traces, APB-event navigation and original log/source links.
 - Pinned tools, seeds, source snapshots, native coverage databases and real UVM simulation in GitHub Actions.
 
+### APB peripheral subsystem
+
+The subsystem places the fixed PULP UART and an original 64 × 32-bit RAM / MBIST controller in one APB address space. The controller owns single-port RAM arbitration, the March C− sequence, and first-failure diagnostics. The `subsystem` UVM suite reuses the APB and UART agents for address, fault, recovery and reset checks. See the [subsystem specification and verification plan](docs/subsystem.md).
+
+The subsystem passed **12/12 runs** across four tests and three seeds. The workbench links each run to its log, report and same-run VCD. Its implementation view records standard-cell mapping, pre-layout STA, gate-level comparisons and the 58-cell scan chain experiment. The timing report retains the hold violation with **−0.00636 ns** worst slack under a 10 ns clock constraint. [Verification plan](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#plan) · [Implementation and DFT](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#frontend)
+
 ## Requirements and setup
 
 The toolchain uses Python 3.12, Verilator 5.054 and Accellera UVM 2020.3.1 with SHA-256-pinned source archives. [Full CI run 45321619200](https://github.com/jiangzheyi1234-star/apb-uart-uvm/actions/runs/45321619200) completed UART, RAL, upstream-baseline and independent APB protocol verification on GitHub Ubuntu 24.04 at source revision `127f21e0d695cd0e6aa32b46541b158196058679`. Questa/VCS entry points are provided; dynamic commercial-simulator results are not available.

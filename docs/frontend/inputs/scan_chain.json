@@ -1,0 +1,413 @@
+{
+  "chains": 1,
+  "length": 58,
+  "cells": [
+    {
+      "instance": "_0982_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[0]",
+      "index": 0
+    },
+    {
+      "instance": "_0983_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[1]",
+      "index": 1
+    },
+    {
+      "instance": "_0984_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[2]",
+      "index": 2
+    },
+    {
+      "instance": "_0985_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[3]",
+      "index": 3
+    },
+    {
+      "instance": "_0986_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[4]",
+      "index": 4
+    },
+    {
+      "instance": "_0987_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[5]",
+      "index": 5
+    },
+    {
+      "instance": "_0988_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[6]",
+      "index": 6
+    },
+    {
+      "instance": "_0989_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[7]",
+      "index": 7
+    },
+    {
+      "instance": "_0990_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[8]",
+      "index": 8
+    },
+    {
+      "instance": "_0991_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[9]",
+      "index": 9
+    },
+    {
+      "instance": "_0992_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[10]",
+      "index": 10
+    },
+    {
+      "instance": "_0993_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[11]",
+      "index": 11
+    },
+    {
+      "instance": "_0994_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[12]",
+      "index": 12
+    },
+    {
+      "instance": "_0995_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[13]",
+      "index": 13
+    },
+    {
+      "instance": "_0996_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[14]",
+      "index": 14
+    },
+    {
+      "instance": "_0997_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[15]",
+      "index": 15
+    },
+    {
+      "instance": "_0998_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[16]",
+      "index": 16
+    },
+    {
+      "instance": "_0999_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[17]",
+      "index": 17
+    },
+    {
+      "instance": "_1000_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[18]",
+      "index": 18
+    },
+    {
+      "instance": "_1001_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[19]",
+      "index": 19
+    },
+    {
+      "instance": "_1002_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[20]",
+      "index": 20
+    },
+    {
+      "instance": "_1003_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[21]",
+      "index": 21
+    },
+    {
+      "instance": "_1004_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[22]",
+      "index": 22
+    },
+    {
+      "instance": "_1005_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[23]",
+      "index": 23
+    },
+    {
+      "instance": "_1006_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[24]",
+      "index": 24
+    },
+    {
+      "instance": "_1007_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[25]",
+      "index": 25
+    },
+    {
+      "instance": "_1008_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[26]",
+      "index": 26
+    },
+    {
+      "instance": "_1009_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[27]",
+      "index": 27
+    },
+    {
+      "instance": "_1010_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[28]",
+      "index": 28
+    },
+    {
+      "instance": "_1011_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[29]",
+      "index": 29
+    },
+    {
+      "instance": "_1012_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[30]",
+      "index": 30
+    },
+    {
+      "instance": "_1013_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "actual_q[31]",
+      "index": 31
+    },
+    {
+      "instance": "_1014_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "state_q[0]",
+      "index": 32
+    },
+    {
+      "instance": "_1015_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "state_q[1]",
+      "index": 33
+    },
+    {
+      "instance": "_1016_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "state_q[2]",
+      "index": 34
+    },
+    {
+      "instance": "_1017_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "step_q[0]",
+      "index": 35
+    },
+    {
+      "instance": "_1018_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "step_q[1]",
+      "index": 36
+    },
+    {
+      "instance": "_1019_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "step_q[2]",
+      "index": 37
+    },
+    {
+      "instance": "_1020_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "address_q[0]",
+      "index": 38
+    },
+    {
+      "instance": "_1021_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "address_q[1]",
+      "index": 39
+    },
+    {
+      "instance": "_1022_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "address_q[2]",
+      "index": 40
+    },
+    {
+      "instance": "_1023_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "address_q[3]",
+      "index": 41
+    },
+    {
+      "instance": "_1024_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "address_q[4]",
+      "index": 42
+    },
+    {
+      "instance": "_1025_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "address_q[5]",
+      "index": 43
+    },
+    {
+      "instance": "_1026_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "busy_q",
+      "index": 44
+    },
+    {
+      "instance": "_1027_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "done_q",
+      "index": 45
+    },
+    {
+      "instance": "_1028_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "fail_q",
+      "index": 46
+    },
+    {
+      "instance": "_1029_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "fail_address_q[0]",
+      "index": 47
+    },
+    {
+      "instance": "_1030_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "fail_address_q[1]",
+      "index": 48
+    },
+    {
+      "instance": "_1031_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "fail_address_q[2]",
+      "index": 49
+    },
+    {
+      "instance": "_1032_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "fail_address_q[3]",
+      "index": 50
+    },
+    {
+      "instance": "_1033_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "fail_address_q[4]",
+      "index": 51
+    },
+    {
+      "instance": "_1034_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "fail_address_q[5]",
+      "index": 52
+    },
+    {
+      "instance": "_1035_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "fail_step_q[0]",
+      "index": 53
+    },
+    {
+      "instance": "_1036_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "fail_step_q[1]",
+      "index": 54
+    },
+    {
+      "instance": "_1037_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "fail_step_q[2]",
+      "index": 55
+    },
+    {
+      "instance": "_1038_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "expected_q[30]",
+      "index": 56
+    },
+    {
+      "instance": "_1039_",
+      "original_cell": "DFFR_X1",
+      "scan_cell": "SDFFR_X1",
+      "q": "apb_read_pending_q",
+      "index": 57
+    }
+  ],
+  "scope": "Deterministic logical gate-level scan substitution; actual Nangate scan cells, no placement-aware stitching or ATPG"
+}

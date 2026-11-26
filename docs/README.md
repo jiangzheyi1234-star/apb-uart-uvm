@@ -14,6 +14,8 @@
 | [RAL 实现](../tb/ral/README.md) | 四寄存器双 map、互斥 frontdoor 与观察式预测 |
 | [检查器敏感性](checker_sensitivity.md) | 受控故障、指定错误 ID、正常对照与判定条件 |
 | [独立 APB 协议验证](apb_protocol.md) | 可编程从设备、等待/错误响应、复位中止、超时与恢复要求 |
+| [APB RAM / MBIST 子系统](subsystem.md) | 自研控制器、March C−、复位和访问仲裁、独立故障验证和证据 |
+| [控制器综合、STA 与扫描链](../flow/frontend/README.md) | 标准单元映射、时序约束、门级比较与扫描验证流程 |
 | [离线交互工作台](dashboard.md) | 数据生成、真实 VCD 解码、游标/缩放和证据分发 |
 
 ## 结果与证据
@@ -29,6 +31,8 @@
 | [核心与 RAL 报告](release/index.html) | 双 RTL 核心矩阵、RAL、原始日志、数据库和代表性波形 |
 | [RAL 与检查器报告](features/index.html) | RAL 访问计数、四类故障检出与六次正常对照 |
 | [独立 APB 协议报告](protocol/index.html) | 正向、超时负向及恢复对照的原始状态、审计分类和代表性 VCD |
+| [RAM / MBIST 子系统报告](subsystem/report.json) | 12 次独立 UVM 运行及同次日志和 VCD，通过工作台验证计划导航 |
+| [综合、STA 与扫描链报告](frontend/report.json) | 控制器综合、布图前 hold 违例、门级对比和扫描检查，通过工作台「实现与 DFT」导航 |
 | [GitHub CI 记录](ci/README.md) | 远端运行的提交身份、步骤状态与原始验收报告 |
 
 生成的 [工作台首页](index.html) 可 [在线查看](https://jiangzheyi1234-star.github.io/apb-uart-uvm/)。**源码 ZIP 不包含生成证据**，其中 `web/dashboard/` 是源模板；离线阅读前，按 [发布说明](../RELEASE.md) 下载匹配版本的证据 ZIP 并叠加解压到源码项目根目录，保留 `docs/assets/`、`docs/data/`、`docs/release/`、`docs/features/`、`docs/protocol/` 的相对目录结构。各报告的 SHA-256 清单用于核对原始输入，不能将其他版本的证据视为当前源码的运行结果。

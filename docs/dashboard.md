@@ -12,6 +12,10 @@
 
 ## 计划与回归
 
+在「验证范围」选择「APB 外设子系统 · RAM / MBIST」，展开验证项并选择具体 seed，即可打开同次日志、回归报告与 VCD。故障用例同时展示首错诊断摘录，波形默认定位到 `MBIST fail` 上升沿。子系统的 12 次 UVM 执行有独立的报告和源文件快照。
+
+「实现与 DFT」提供控制器综合、STA、门级仿真以及逻辑扫描链的四个检查记录。STA 入口包含 SDC、完整 min/max 路径和 hold 违例状态。门级对照和扫描链提供同次仿真的 VCD，可分别检查 APB 信号和扫描时钟、使能、输入与输出。[在线实现与 DFT](https://jiangzheyi1234-star.github.io/apb-uart-uvm/#frontend)
+
 侧栏“计划与回归”默认打开“验证计划”，可切换到“全部运行”使用原有筛选和 CSV 导出。计划由 [`verification-plan.json`](../web/dashboard/verification-plan.json) 声明，通过套件、UVM 测试、RTL 版本和阶段绑定到精确归档运行；当前为 **6 组、15 个验证项、118 个独立运行身份**。
 
 1. 在“验证范围”选择 APB/寄存器、UART 数据流与 FIFO、错误状态/中断/复位、RAL、独立 APB 或检查器对照。
